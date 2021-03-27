@@ -16,7 +16,7 @@ license = "MPL-2.0"
 maintenance = { status = "actively-developed" }
 
 [lib]
-name = "primitives"
+name = "dx"
 
 [features]
 canvas = ["euclid", "lyon_geom", "lyon_path"]
