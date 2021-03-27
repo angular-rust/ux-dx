@@ -1,0 +1,35 @@
+[package]
+name = "ux-dx"
+version = "0.1.0"
+authors = ["Victor Dudochkin <dudochkin.victor@gmail.com>"]
+readme = "README.md"
+homepage = "https://angular-rust.github.io/ux-dx"
+repository = "https://github.com/angular-rust/ux-dx"
+documentation = "https://docs.rs/ux-dx"
+description = "3D Graphics Primitives for Angular Rust"
+keywords = ["canvas", "webgl", "opengl", "opengles", "vulkan"]
+categories = ["data-structures"]
+edition = "2018"
+license = "MPL-2.0"
+
+[badges]
+maintenance = { status = "actively-developed" }
+
+[lib]
+name = "primitives"
+
+[features]
+canvas = ["euclid", "lyon_geom", "lyon_path"]
+geom = ["euclid", "lyon_geom", "lyon_path"]
+color_from_css = []
+color_quantization = []
+
+[dependencies]
+intmap = "0.7"
+lyon_geom = { version = "0.17", optional = true }
+lyon_path = { version = "0.17", optional = true }
+euclid = { version = "0.22", optional = true }
+lazy_static = "1.4.0"
+
+[dev-dependencies]
+libmath = "0.2.1"
