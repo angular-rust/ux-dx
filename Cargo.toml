@@ -18,18 +18,18 @@ maintenance = { status = "actively-developed" }
 [lib]
 name = "dx"
 
-[features]
-canvas = ["euclid", "lyon_geom", "lyon_path"]
-geom = ["euclid", "lyon_geom", "lyon_path"]
-color_from_css = []
-color_quantization = []
+[package.metadata.docs.rs]
+features = ["dox"]
 
-[dependencies]
-intmap = "0.7"
-lyon_geom = { version = "0.17", optional = true }
-lyon_path = { version = "0.17", optional = true }
-euclid = { version = "0.22", optional = true }
-lazy_static = "1.4.0"
+[features]
+dox = ["ffi/dox", "glib/dox", "glib-sys/dox", "gobject-sys/dox"]
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+libc = "0.2"
+bitflags = "1.0"
+gobject-sys = "0.10"
+glib = "0.10"
+glib-sys = "0.10"
+ffi = { package = "cogl-sys-rs", version="0.1.3" }
 
 [dev-dependencies]
-libmath = "0.2.1"
