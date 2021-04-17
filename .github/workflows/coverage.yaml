@@ -27,13 +27,16 @@ jobs:
           profile: minimal
           default: true
 
+      - name: Install Cogl
+        run: sudo apt-get install libcogl-dev
+
       - name: Restore cache
         uses: Swatinem/rust-cache@v1
 
       - name: Run cargo-tarpaulin
         uses: actions-rs/tarpaulin@v0.1
         with:
-          args: '--all-features --run-types Doctests,Tests'
+          args: '--run-types Doctests,Tests'
           timeout: 120
 
       - name: Upload to codecov.io

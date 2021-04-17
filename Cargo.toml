@@ -22,7 +22,7 @@ name = "dx"
 features = ["dox"]
 
 [features]
-dox = ["ffi/dox", "glib/dox", "glib-sys/dox", "gobject-sys/dox"]
+dox = ["ffi/dox", "glib/dox", "glib-sys/dox", "gobject-sys/dox", "cogl-sys-rs/dox"]
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 libc = "0.2"
