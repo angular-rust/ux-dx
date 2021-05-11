@@ -12,6 +12,8 @@ extern crate bitflags;
 mod legacy;
 pub use legacy::*;
 
+pub mod pure;
+
 #[cfg(test)]
 mod tests {
     #[test]
