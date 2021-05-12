@@ -6,19 +6,19 @@ pub type MetaTexture = ();
 
 // * SECTION:cogl-primitive-texture
 // * @short_description: Interface for low-level textures like
-// *                     #CoglTexture2D and #CoglTexture3D.
+// *                     #Texture2D and #Texture3D.
 // *
-// * A #CoglPrimitiveTexture is a texture that is directly represented
+// * A #PrimitiveTexture is a texture that is directly represented
 // * by a single texture on the GPU. For example these could be a
-// * #CoglTexture2D, #CoglTexture3D or #CoglTextureRectangle. This is
+// * #Texture2D, #Texture3D or #TextureRectangle. This is
 // * opposed to high level meta textures which may be composed of
 // * multiple primitive textures or a sub-region of another texture such
-// * as #CoglAtlasTexture and #CoglTexture2DSliced.
+// * as #AtlasTexture and #Texture2DSliced.
 // *
 // * A texture that implements this interface can be directly used with
-// * the low level cogl_primitive_draw() API. Other types of textures
+// * the low level primitive_draw() API. Other types of textures
 // * need to be first resolved to primitive textures using the
-// * #CoglMetaTexture interface.
+// * #MetaTexture interface.
 // *
 // * <note>Most developers won't need to use this interface directly but
 // * still it is worth understanding the distinction between high-level

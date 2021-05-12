@@ -4,31 +4,31 @@ use std::{fmt};
 
 // * @short_description: Functions for loading images
 // *
-// * Cogl allows loading image data into memory as CoglBitmaps without
+// *  allows loading image data into memory as Bitmaps without
 // * loading them immediately into GPU textures.
 pub struct Bitmap {
-    // CoglObject _parent;
+    // Object _parent;
 
     // /* Pointer back to the context that this bitmap was created with */
-    // CoglContext *context;
+    // Context *context;
   
-    // CoglPixelFormat format;
+    // PixelFormat format;
     // int width;
     // int height;
     // int rowstride;
   
     // uint8_t *data;
   
-    // CoglBool mapped;
-    // CoglBool bound;
+    // Bool mapped;
+    // Bool bound;
   
     // /* If this is non-null then 'data' is ignored and instead it is
     //    fetched from this shared bitmap. */
-    // CoglBitmap *shared_bmp;
+    // Bitmap *shared_bmp;
   
     // /* If this is non-null then 'data' is treated as an offset into the
     //    buffer and map will divert to mapping the buffer */
-    // CoglBuffer *buffer;
+    // Buffer *buffer;
 }
 
 impl Bitmap {
@@ -62,15 +62,15 @@ impl Bitmap {
         rowstride: i32,
         data: &[u8],
     ) -> Bitmap {
-        // CoglBitmap *bmp;
+        // Bitmap *bmp;
 
-        // g_return_val_if_fail (cogl_is_context (context), NULL);
+        // g_return_val_if_fail (is_context (context), NULL);
 
         // /* Rowstride from width if not given */
         // if (rowstride == 0)
-        //     rowstride = width * _cogl_pixel_format_get_bytes_per_pixel (format);
+        //     rowstride = width * _pixel_format_get_bytes_per_pixel (format);
 
-        // bmp = g_slice_new (CoglBitmap);
+        // bmp = g_slice_new (Bitmap);
         // bmp->context = context;
         // bmp->format = format;
         // bmp->width = width;
@@ -82,53 +82,53 @@ impl Bitmap {
         // bmp->shared_bmp = NULL;
         // bmp->buffer = NULL;
 
-        // return _cogl_bitmap_object_new (bmp);
+        // return _bitmap_object_new (bmp);
         unimplemented!()
     }
 
-    // * cogl_bitmap_new_from_buffer:
-    // * @buffer: A #CoglBuffer containing image data
-    // * @format: The #CoglPixelFormat defining the format of the image data
+    // * bitmap_new_from_buffer:
+    // * @buffer: A #Buffer containing image data
+    // * @format: The #PixelFormat defining the format of the image data
     // *          in the given @buffer.
     // * @width: The width of the image data in the given @buffer.
     // * @height: The height of the image data in the given @buffer.
     // * @rowstride: The rowstride in bytes of the image data in the given @buffer.
     // * @offset: The offset into the given @buffer to the first pixel that
-    // *          should be considered part of the #CoglBitmap.
+    // *          should be considered part of the #Bitmap.
     // *
-    // * Wraps some image data that has been uploaded into a #CoglBuffer as
-    // * a #CoglBitmap. The data is not copied in this process.
+    // * Wraps some image data that has been uploaded into a #Buffer as
+    // * a #Bitmap. The data is not copied in this process.
     // *
-    // * Return value: (transfer full): a #CoglBitmap encapsulating the given @buffer.
+    // * Return value: (transfer full): a #Bitmap encapsulating the given @buffer.
     // *
     // * Since: 1.8
     // * Stability: unstable
     pub fn from_buffer(buffer: Bytes, format: PixelFormat, width: i32, height: i32, rowstride: i32, offset: i32) -> Bitmap {
-        // CoglBitmap *bmp;
+        // Bitmap *bmp;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_buffer (buffer), NULL);
+        // _COGL_RETURN_VAL_IF_FAIL (is_buffer (buffer), NULL);
       
-        // bmp = cogl_bitmap_new_for_data (buffer->context,
+        // bmp = bitmap_new_for_data (buffer->context,
         //                                 width, height,
         //                                 format,
         //                                 rowstride,
         //                                 NULL /* data */);
       
-        // bmp->buffer = cogl_object_ref (buffer);
+        // bmp->buffer = object_ref (buffer);
         // bmp->data = GINT_TO_POINTER (offset);
       
         // return bmp;
         unimplemented!()
     }
 
-    // * cogl_bitmap_new_from_file:
+    // * bitmap_new_from_file:
     // * @filename: the file to load.
-    // * @error: a #CoglError or %NULL.
+    // * @error: a #Error or %NULL.
     // *
     // * Loads an image file from disk. This function can be safely called from
     // * within a thread.
     // *
-    // * Return value: (transfer full): a #CoglBitmap to the new loaded
+    // * Return value: (transfer full): a #Bitmap to the new loaded
     // *               image data, or %NULL if loading the image failed.
     pub fn from_file(filename: &str) -> Bitmap {
         // _COGL_GET_CONTEXT (ctx, NULL);
@@ -136,63 +136,63 @@ impl Bitmap {
         // _COGL_RETURN_VAL_IF_FAIL (filename != NULL, NULL);
         // _COGL_RETURN_VAL_IF_FAIL (error == NULL || *error == NULL, NULL);
 
-        // return _cogl_bitmap_from_file (ctx, filename, error);
+        // return _bitmap_from_file (ctx, filename, error);
         unimplemented!()
     }
 
-    // * cogl_bitmap_new_with_size:
-    // * @context: A #CoglContext
+    // * bitmap_new_with_size:
+    // * @context: A #Context
     // * @width: width of the bitmap in pixels
     // * @height: height of the bitmap in pixels
     // * @format: the format of the pixels the array will store
     // *
-    // * Creates a new #CoglBitmap with the given width, height and format.
+    // * Creates a new #Bitmap with the given width, height and format.
     // * The initial contents of the bitmap are undefined.
     // *
     // * The data for the bitmap will be stored in a newly created
-    // * #CoglPixelBuffer. You can get a pointer to the pixel buffer using
-    // * cogl_bitmap_get_buffer(). The #CoglBuffer API can then be
+    // * #PixelBuffer. You can get a pointer to the pixel buffer using
+    // * bitmap_get_buffer(). The #Buffer API can then be
     // * used to fill the bitmap with data.
     // *
-    // * <note>Cogl will try its best to provide a hardware array you can
+    // * <note> will try its best to provide a hardware array you can
     // * map, write into and effectively do a zero copy upload when creating
-    // * a texture from it with cogl_texture_new_from_bitmap(). For various
+    // * a texture from it with texture_new_from_bitmap(). For various
     // * reasons, such arrays are likely to have a stride larger than width
     // * * bytes_per_pixel. The user must take the stride into account when
     // * writing into it. The stride can be retrieved with
-    // * cogl_bitmap_get_rowstride().</note>
+    // * bitmap_get_rowstride().</note>
     // *
-    // * Return value: (transfer full): a #CoglPixelBuffer representing the
+    // * Return value: (transfer full): a #PixelBuffer representing the
     // *               newly created array or %NULL on failure
     // *
     // * Since: 1.10
     // * Stability: Unstable
     pub fn with_size(context: &Context, width: u32, height: u32, format: PixelFormat) -> Bitmap {
-        // CoglPixelBuffer *pixel_buffer;
-        // CoglBitmap *bitmap;
+        // PixelBuffer *pixel_buffer;
+        // Bitmap *bitmap;
         // unsigned int rowstride;
 
         // /* creating a buffer to store "any" format does not make sense */
         // _COGL_RETURN_VAL_IF_FAIL (format != COGL_PIXEL_FORMAT_ANY, NULL);
 
-        // /* for now we fallback to cogl_pixel_buffer_new, later, we could ask
+        // /* for now we fallback to pixel_buffer_new, later, we could ask
         // * libdrm a tiled buffer for instance */
-        // rowstride = width * _cogl_pixel_format_get_bytes_per_pixel (format);
+        // rowstride = width * _pixel_format_get_bytes_per_pixel (format);
 
         // pixel_buffer =
-        //     cogl_pixel_buffer_new (context,
+        //     pixel_buffer_new (context,
         //                         height * rowstride,
         //                         NULL); /* data */
 
         // _COGL_RETURN_VAL_IF_FAIL (pixel_buffer != NULL, NULL);
 
-        // bitmap = cogl_bitmap_new_from_buffer (COGL_BUFFER (pixel_buffer),
+        // bitmap = bitmap_new_from_buffer (COGL_BUFFER (pixel_buffer),
         //                                         format,
         //                                         width, height,
         //                                         rowstride,
         //                                         0 /* offset */);
 
-        // cogl_object_unref (pixel_buffer);
+        // object_unref (pixel_buffer);
 
         // return bitmap;
         unimplemented!()
@@ -264,7 +264,7 @@ impl Bitmap {
     ///
     /// `true` if the image was successfully parsed
     pub fn get_size_from_file(filename: &str) -> (bool, i32, i32) {
-        // return _cogl_bitmap_get_size_from_file (filename, width, height);
+        // return _bitmap_get_size_from_file (filename, width, height);
         unimplemented!()
     }
 }

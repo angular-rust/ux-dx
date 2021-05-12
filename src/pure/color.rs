@@ -4,16 +4,16 @@ use std::mem;
 // * SECTION:cogl-color
 // * @short_description: A generic color definition
 // *
-// * #CoglColor is a simple structure holding the definition of a color such
+// * #Color is a simple structure holding the definition of a color such
 // * that it can be efficiently used by GL
-// * CoglColor:
+// * Color:
 // * @red: amount of red
 // * @green: amount of green
 // * @blue: amount of green
 // * @alpha: alpha
 // *
 // * A structure for holding a color definition. The contents of
-// * the CoglColor structure are private and should never by accessed
+// * the Color structure are private and should never by accessed
 // * directly.
 // *
 // * Since: 1.0
@@ -457,7 +457,7 @@ impl Color {
 
         // if (saturation == 0)
         //     {
-        //     cogl_color_init_from_4f (color, luminance, luminance, luminance, 1.0f);
+        //     color_init_from_4f (color, luminance, luminance, luminance, 1.0f);
         //     return;
         //     }
 
@@ -490,7 +490,7 @@ impl Color {
         //         clr[i] = tmp1;
         //     }
 
-        // cogl_color_init_from_4f (color, clr[0], clr[1], clr[2], 1.0f);
+        // color_init_from_4f (color, clr[0], clr[1], clr[2], 1.0f);
         unimplemented!()
     }
 }

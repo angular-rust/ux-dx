@@ -7,7 +7,7 @@ pub struct TextureGLVertex {
 //   GLubyte c[4];
 }
 
-// * CoglFeatureID:
+// * FeatureID:
 // * @TEXTURE_NPOT_BASIC: The hardware supports non power
 // *     of two textures, but you also need to check the
 // *     %TEXTURE_NPOT_MIPMAP and %TEXTURE_NPOT_REPEAT
@@ -38,34 +38,34 @@ pub struct TextureGLVertex {
 // * @ARBFP: ARBFP support
 // * @UNSIGNED_INT_INDICES: Set if
 // *     %COGL_INDICES_TYPE_UNSIGNED_INT is supported in
-// *     cogl_indices_new().
-// * @DEPTH_RANGE: cogl_pipeline_set_depth_range() support
+// *     indices_new().
+// * @DEPTH_RANGE: pipeline_set_depth_range() support
 // * @POINT_SPRITE: Whether
-// *     cogl_pipeline_set_layer_point_sprite_coords_enabled() is supported.
-// * @PER_VERTEX_POINT_SIZE: Whether cogl_point_size_in
+// *     pipeline_set_layer_point_sprite_coords_enabled() is supported.
+// * @PER_VERTEX_POINT_SIZE: Whether point_size_in
 // *     can be used as an attribute to set a per-vertex point size.
-// * @MAP_BUFFER_FOR_READ: Whether cogl_buffer_map() is
-// *     supported with CoglBufferAccess including read support.
-// * @MAP_BUFFER_FOR_WRITE: Whether cogl_buffer_map() is
-// *     supported with CoglBufferAccess including write support.
+// * @MAP_BUFFER_FOR_READ: Whether buffer_map() is
+// *     supported with BufferAccess including read support.
+// * @MAP_BUFFER_FOR_WRITE: Whether buffer_map() is
+// *     supported with BufferAccess including write support.
 // * @MIRRORED_REPEAT: Whether
 // *    %COGL_PIPELINE_WRAP_MODE_MIRRORED_REPEAT is supported.
 // * @SWAP_BUFFERS_EVENT:
 // *     Available if the window system supports reporting an event
 // *     for swap buffer completions.
-// * @BUFFER_AGE: Available if the age of #CoglOnscreen back
-// *    buffers are tracked and so cogl_onscreen_get_buffer_age() can be
+// * @BUFFER_AGE: Available if the age of #Onscreen back
+// *    buffers are tracked and so onscreen_get_buffer_age() can be
 // *    expected to return age values other than 0.
 // * @GLES2_CONTEXT: Whether creating new GLES2 contexts is
 // *    suported.
-// * @DEPTH_TEXTURE: Whether #CoglFramebuffer support rendering
+// * @DEPTH_TEXTURE: Whether #Framebuffer support rendering
 // *     the depth buffer to a texture.
 // * @PRESENTATION_TIME: Whether frame presentation
-// *    time stamps will be recorded in #CoglFrameInfo objects.
+// *    time stamps will be recorded in #FrameInfo objects.
 // *
 // * All the capabilities that can vary between different GPUs supported
-// * by Cogl. Applications that depend on any of these features should explicitly
-// * check for them using cogl_has_feature() or cogl_has_features().
+// * by . Applications that depend on any of these features should explicitly
+// * check for them using has_feature() or has_features().
 // *
 // * Since: 1.10
 
@@ -103,25 +103,25 @@ pub enum FeatureID {
 // * SECTION:cogl-context
 // * @short_description: The top level application context.
 // *
-// * A #CoglContext is the top most sandbox of Cogl state for an
+// * A #Context is the top most sandbox of  state for an
 // * application or toolkit. Its main purpose is to act as a sandbox
 // * for the memory management of state objects. Normally an application
 // * will only create a single context since there is no way to share
 // * resources between contexts.
 // *
 // * For those familiar with OpenGL or perhaps Cairo it should be
-// * understood that unlike these APIs a Cogl context isn't a rendering
-// * context as such. In other words Cogl doesn't aim to provide a state
+// * understood that unlike these APIs a  context isn't a rendering
+// * context as such. In other words  doesn't aim to provide a state
 // * machine style model for configuring rendering parameters. Most
-// * rendering state in Cogl is directly associated with user managed
+// * rendering state in  is directly associated with user managed
 // * objects called pipelines and geometry is drawn with a specific
 // * pipeline object to a framebuffer object and those 3 things fully
-// * define the state for drawing. This is an important part of Cogl's
+// * define the state for drawing. This is an important part of 's
 // * design since it helps you write orthogonal rendering components
 // * that can all access the same GPU without having to worry about
 // * what state other components have left you with.
 // *
-// * <note><para>Cogl does not maintain internal references to the context for
+// * <note><para> does not maintain internal references to the context for
 // * resources that depend on the context so applications. This is to
 // * help applications control the lifetime a context without us needing to
 // * introduce special api to handle the breakup of internal circular
@@ -134,25 +134,25 @@ pub enum FeatureID {
 // *
 // * For applications that rely on the operating system to clean up
 // * resources this policy shouldn't affect them, but for applications
-// * that need to carefully destroy and re-create Cogl contexts multiple
+// * that need to carefully destroy and re-create  contexts multiple
 // * times throughout their lifetime (such as Android applications) they
 // * should be careful to destroy all context dependant resources, such as
 // * framebuffers or textures etc before unrefing and destroying the
 // * context.</para></note>
 pub struct Context {
-    //     CoglObject _parent;
+    //     Object _parent;
 
-//     CoglDisplay *display;
+//     Display *display;
 
-//     CoglDriver driver;
+//     Driver driver;
 
 //     /* Information about the GPU and driver which we can use to
 //        determine certain workarounds */
-//     CoglGpuInfo gpu;
+//     GpuInfo gpu;
 
 //     /* vtables for the driver functions */
-//     const CoglDriverVtable *driver_vtable;
-//     const CoglTextureDriver *texture_driver;
+//     const DriverVtable *driver_vtable;
+//     const TextureDriver *texture_driver;
 
 //     int glsl_major;
 //     int glsl_minor;
@@ -167,65 +167,65 @@ pub struct Context {
 
 //     /* Features cache */
 //     unsigned long features[COGL_FLAGS_N_LONGS_FOR_SIZE (_COGL_N_FEATURE_IDS)];
-//     CoglFeatureFlags feature_flags; /* legacy/deprecated feature flags */
+//     FeatureFlags feature_flags; /* legacy/deprecated feature flags */
 //     unsigned long private_features
 //       [COGL_FLAGS_N_LONGS_FOR_SIZE (COGL_N_PRIVATE_FEATURES)];
 
-//     CoglBool needs_viewport_scissor_workaround;
-//     CoglFramebuffer *viewport_scissor_workaround_framebuffer;
+//     Bool needs_viewport_scissor_workaround;
+//     Framebuffer *viewport_scissor_workaround_framebuffer;
 
-//     CoglPipeline *default_pipeline;
-//     CoglPipelineLayer *default_layer_0;
-//     CoglPipelineLayer *default_layer_n;
-//     CoglPipelineLayer *dummy_layer_dependant;
+//     Pipeline *default_pipeline;
+//     PipelineLayer *default_layer_0;
+//     PipelineLayer *default_layer_n;
+//     PipelineLayer *dummy_layer_dependant;
 
 //     GHashTable *attribute_name_states_hash;
 //     GArray *attribute_name_index_map;
 //     int n_attribute_names;
 
-//     CoglBitmask       enabled_builtin_attributes;
-//     CoglBitmask       enabled_texcoord_attributes;
-//     CoglBitmask       enabled_custom_attributes;
+//     Bitmask       enabled_builtin_attributes;
+//     Bitmask       enabled_texcoord_attributes;
+//     Bitmask       enabled_custom_attributes;
 
 //     /* These are temporary bitmasks that are used when disabling
 //      * builtin,texcoord and custom attribute arrays. They are here just
 //      * to avoid allocating new ones each time */
-//     CoglBitmask       enable_builtin_attributes_tmp;
-//     CoglBitmask       enable_texcoord_attributes_tmp;
-//     CoglBitmask       enable_custom_attributes_tmp;
-//     CoglBitmask       changed_bits_tmp;
+//     Bitmask       enable_builtin_attributes_tmp;
+//     Bitmask       enable_texcoord_attributes_tmp;
+//     Bitmask       enable_custom_attributes_tmp;
+//     Bitmask       changed_bits_tmp;
 
-//     CoglBool          legacy_backface_culling_enabled;
+//     Bool          legacy_backface_culling_enabled;
 
 //     /* A few handy matrix constants */
-//     CoglMatrix        identity_matrix;
-//     CoglMatrix        y_flip_matrix;
+//     Matrix        identity_matrix;
+//     Matrix        y_flip_matrix;
 
 //     /* Value that was last used when calling glMatrixMode to avoid
 //        calling it multiple times */
-//     CoglMatrixMode    flushed_matrix_mode;
+//     MatrixMode    flushed_matrix_mode;
 
 //     /* The matrix stack entries that should be flushed during the next
 //      * pipeline state flush */
-//     CoglMatrixEntry *current_projection_entry;
-//     CoglMatrixEntry *current_modelview_entry;
+//     MatrixEntry *current_projection_entry;
+//     MatrixEntry *current_modelview_entry;
 
-//     CoglMatrixEntry identity_entry;
+//     MatrixEntry identity_entry;
 
 //     /* A cache of the last (immutable) matrix stack entries that were
 //      * flushed to the GL matrix builtins */
-//     CoglMatrixEntryCache builtin_flushed_projection;
-//     CoglMatrixEntryCache builtin_flushed_modelview;
+//     MatrixEntryCache builtin_flushed_projection;
+//     MatrixEntryCache builtin_flushed_modelview;
 
 //     GArray           *texture_units;
 //     int               active_texture_unit;
 
-//     CoglPipelineFogState legacy_fog_state;
+//     PipelineFogState legacy_fog_state;
 
 //     /* Pipelines */
-//     CoglPipeline     *opaque_color_pipeline; /* used for set_source_color */
-//     CoglPipeline     *blended_color_pipeline; /* used for set_source_color */
-//     CoglPipeline     *texture_pipeline; /* used for set_source_texture */
+//     Pipeline     *opaque_color_pipeline; /* used for set_source_color */
+//     Pipeline     *blended_color_pipeline; /* used for set_source_color */
+//     Pipeline     *texture_pipeline; /* used for set_source_texture */
 //     GString          *codegen_header_buffer;
 //     GString          *codegen_source_buffer;
 //     GString          *codegen_boilerplate_buffer;
@@ -233,12 +233,12 @@ pub struct Context {
 
 //     int               legacy_state_set;
 
-//     CoglPipelineCache *pipeline_cache;
+//     PipelineCache *pipeline_cache;
 
 //     /* Textures */
-//     CoglTexture2D *default_gl_texture_2d_tex;
-//     CoglTexture3D *default_gl_texture_3d_tex;
-//     CoglTextureRectangle *default_gl_texture_rect_tex;
+//     Texture2D *default_gl_texture_2d_tex;
+//     Texture3D *default_gl_texture_3d_tex;
+//     TextureRectangle *default_gl_texture_rect_tex;
 
 //     /* Central list of all framebuffers so all journals can be flushed
 //      * at any time. */
@@ -251,75 +251,75 @@ pub struct Context {
 //     GArray           *polygon_vertices;
 
 //     /* Some simple caching, to minimize state changes... */
-//     CoglPipeline     *current_pipeline;
+//     Pipeline     *current_pipeline;
 //     unsigned long     current_pipeline_changes_since_flush;
-//     CoglBool          current_pipeline_with_color_attrib;
-//     CoglBool          current_pipeline_unknown_color_alpha;
+//     Bool          current_pipeline_with_color_attrib;
+//     Bool          current_pipeline_unknown_color_alpha;
 //     unsigned long     current_pipeline_age;
 
-//     CoglBool          gl_blend_enable_cache;
+//     Bool          gl_blend_enable_cache;
 
-//     CoglBool              depth_test_enabled_cache;
-//     CoglDepthTestFunction depth_test_function_cache;
-//     CoglBool              depth_writing_enabled_cache;
+//     Bool              depth_test_enabled_cache;
+//     DepthTestFunction depth_test_function_cache;
+//     Bool              depth_writing_enabled_cache;
 //     float                 depth_range_near_cache;
 //     float                 depth_range_far_cache;
 
-//     CoglBool              legacy_depth_test_enabled;
+//     Bool              legacy_depth_test_enabled;
 
-//     CoglBuffer       *current_buffer[COGL_BUFFER_BIND_TARGET_COUNT];
+//     Buffer       *current_buffer[COGL_BUFFER_BIND_TARGET_COUNT];
 
 //     /* Framebuffers */
 //     GSList           *framebuffer_stack;
-//     CoglFramebuffer  *window_buffer;
+//     Framebuffer  *window_buffer;
 //     unsigned long     current_draw_buffer_state_flushed;
 //     unsigned long     current_draw_buffer_changes;
-//     CoglFramebuffer  *current_draw_buffer;
-//     CoglFramebuffer  *current_read_buffer;
+//     Framebuffer  *current_draw_buffer;
+//     Framebuffer  *current_read_buffer;
 
 //     gboolean have_last_offscreen_allocate_flags;
-//     CoglOffscreenAllocateFlags last_offscreen_allocate_flags;
+//     OffscreenAllocateFlags last_offscreen_allocate_flags;
 
 //     GHashTable *swap_callback_closures;
 //     int next_swap_callback_id;
 
-//     CoglList onscreen_events_queue;
-//     CoglList onscreen_dirty_queue;
-//     CoglClosure *onscreen_dispatch_idle;
+//     List onscreen_events_queue;
+//     List onscreen_dirty_queue;
+//     Closure *onscreen_dispatch_idle;
 
-//     CoglGLES2Context *current_gles2_context;
+//     GLES2Context *current_gles2_context;
 //     GQueue gles2_context_stack;
 
 //     /* This becomes TRUE the first time the context is bound to an
 //      * onscreen buffer. This is used by cogl-framebuffer-gl to determine
 //      * when to initialise the glDrawBuffer state */
-//     CoglBool was_bound_to_onscreen;
+//     Bool was_bound_to_onscreen;
 
 //     /* Primitives */
-//     CoglPath         *current_path;
-//     CoglPipeline     *stencil_pipeline;
+//     Path         *current_path;
+//     Pipeline     *stencil_pipeline;
 
 //     /* Pre-generated VBOs containing indices to generate GL_TRIANGLES
 //        out of a vertex array of quads */
-//     CoglIndices      *quad_buffer_indices_byte;
+//     Indices      *quad_buffer_indices_byte;
 //     unsigned int      quad_buffer_indices_len;
-//     CoglIndices      *quad_buffer_indices;
+//     Indices      *quad_buffer_indices;
 
-//     CoglIndices      *rectangle_byte_indices;
-//     CoglIndices      *rectangle_short_indices;
+//     Indices      *rectangle_byte_indices;
+//     Indices      *rectangle_short_indices;
 //     int               rectangle_short_indices_len;
 
-//     CoglBool          in_begin_gl_block;
+//     Bool          in_begin_gl_block;
 
-//     CoglPipeline     *texture_download_pipeline;
-//     CoglPipeline     *blit_texture_pipeline;
+//     Pipeline     *texture_download_pipeline;
+//     Pipeline     *blit_texture_pipeline;
 
 //     GSList           *atlases;
 //     GHookList         atlas_reorganize_callbacks;
 
 //     /* This debugging variable is used to pick a colour for visually
 //        displaying the quad batches. It needs to be global so that it can
-//        be reset by cogl_clear. It needs to be reset to increase the
+//        be reset by clear. It needs to be reset to increase the
 //        chances of getting the same colour during an animation */
 //     uint8_t            journal_rectangles_color;
 
@@ -330,14 +330,14 @@ pub struct Context {
 //     GLint             max_activateable_texture_units;
 
 //     /* Fragment processing programs */
-//     CoglHandle              current_program;
+//     Handle              current_program;
 
-//     CoglPipelineProgramType current_fragment_program_type;
-//     CoglPipelineProgramType current_vertex_program_type;
+//     PipelineProgramType current_fragment_program_type;
+//     PipelineProgramType current_vertex_program_type;
 //     GLuint                  current_gl_program;
 
-//     CoglBool current_gl_dither_enabled;
-//     CoglColorMask current_gl_color_mask;
+//     Bool current_gl_dither_enabled;
+//     ColorMask current_gl_color_mask;
 //     GLenum current_gl_draw_buffer;
 
 //     /* Clipping */
@@ -348,34 +348,34 @@ pub struct Context {
 //        doesn't need to be a valid pointer. We can't just use NULL in
 //        current_clip_stack to mark a dirty state because NULL is a valid
 //        stack (meaning no clipping) */
-//     CoglBool          current_clip_stack_valid;
+//     Bool          current_clip_stack_valid;
 //     /* The clip state that was flushed. This isn't intended to be used
 //        as a stack to push and pop new entries. Instead the current stack
 //        that the user wants is part of the framebuffer state. This is
 //        just used to record the flush state so we can avoid flushing the
 //        same state multiple times. When the clip state is flushed this
 //        will hold a reference */
-//     CoglClipStack    *current_clip_stack;
+//     ClipStack    *current_clip_stack;
 //     /* Whether the stencil buffer was used as part of the current clip
 //        state. If TRUE then any further use of the stencil buffer (such
 //        as for drawing paths) would need to be merged with the existing
 //        stencil buffer */
-//     CoglBool          current_clip_stack_uses_stencil;
+//     Bool          current_clip_stack_uses_stencil;
 
-//     /* This is used as a temporary buffer to fill a CoglBuffer when
-//        cogl_buffer_map fails and we only want to map to fill it with new
+//     /* This is used as a temporary buffer to fill a Buffer when
+//        buffer_map fails and we only want to map to fill it with new
 //        data */
 //     GByteArray       *buffer_map_fallback_array;
-//     CoglBool          buffer_map_fallback_in_use;
+//     Bool          buffer_map_fallback_in_use;
 //     size_t            buffer_map_fallback_offset;
 
-//     CoglWinsysRectangleState rectangle_state;
+//     WinsysRectangleState rectangle_state;
 
-//     CoglSamplerCache *sampler_cache;
+//     SamplerCache *sampler_cache;
 
 //     /* FIXME: remove these when we remove the last xlib based clutter
 //      * backend. they should be tracked as part of the renderer but e.g.
-//      * the eglx backend doesn't yet have a corresponding Cogl winsys
+//      * the eglx backend doesn't yet have a corresponding  winsys
 //      * and so we wont have a renderer in that case. */
 //   #ifdef COGL_HAS_XLIB_SUPPORT
 //     int damage_base;
@@ -383,7 +383,7 @@ pub struct Context {
 //     GSList *event_filters;
 //     /* Current top of the XError trap state stack. The actual memory for
 //        these is expected to be allocated on the stack by the caller */
-//     CoglXlibTrapState *trap_state;
+//     XlibTrapState *trap_state;
 //   #endif
 
 //     unsigned long winsys_features
@@ -402,10 +402,10 @@ pub struct Context {
 //     GHashTable *uniform_name_hash;
 //     int n_uniform_names;
 
-//     CoglPollSource *fences_poll_source;
-//     CoglList fences;
+//     PollSource *fences_poll_source;
+//     List fences;
 
-//     /* This defines a list of function pointers that Cogl uses from
+//     /* This defines a list of function pointers that  uses from
 //        either GL or GLES. All functions are accessed indirectly through
 //        these pointers rather than linking to them directly */
 //   #ifndef APIENTRY
@@ -437,18 +437,18 @@ impl Context {
     ///
     /// A newly allocated `Context`
     pub fn new(display: Option<&Display>) -> Context {
-        // CoglContext *context;
+        // Context *context;
         // uint8_t white_pixel[] = { 0xff, 0xff, 0xff, 0xff };
-        // CoglBitmap *white_pixel_bitmap;
-        // const CoglWinsysVtable *winsys;
+        // Bitmap *white_pixel_bitmap;
+        // const WinsysVtable *winsys;
         // int i;
-        // CoglError *internal_error = NULL;
+        // Error *internal_error = NULL;
 
-        // _cogl_init ();
+        // _init ();
 
         // #ifdef COGL_ENABLE_PROFILE
         // /* We need to be absolutely sure that uprof has been initialized
-        // * before calling _cogl_uprof_init. uprof_init (NULL, NULL)
+        // * before calling _uprof_init. uprof_init (NULL, NULL)
         // * will be a NOP if it has been initialized but it will also
         // * mean subsequent parsing of the UProf GOptionGroup will have no
         // * affect.
@@ -459,25 +459,25 @@ impl Context {
         // * currently under tight control.
         // */
         // uprof_init (NULL, NULL);
-        // _cogl_uprof_init ();
+        // _uprof_init ();
         // #endif
 
         // /* Allocate context memory */
-        // context = g_malloc0 (sizeof (CoglContext));
+        // context = g_malloc0 (sizeof (Context));
 
         // /* Convert the context into an object immediately in case any of the
         //     code below wants to verify that the context pointer is a valid
         //     object */
-        // _cogl_context_object_new (context);
+        // _context_object_new (context);
 
         // /* XXX: Gross hack!
-        // * Currently everything in Cogl just assumes there is a default
+        // * Currently everything in  just assumes there is a default
         // * context which it can access via _COGL_GET_CONTEXT() including
-        // * code used to construct a CoglContext. Until all of that code
+        // * code used to construct a Context. Until all of that code
         // * has been updated to take an explicit context argument we have
         // * to immediately make our pointer the default context.
         // */
-        // _cogl_context = context;
+        // _context = context;
 
         // /* Init default values */
         // memset (context->features, 0, sizeof (context->features));
@@ -490,22 +490,22 @@ impl Context {
 
         // if (!display)
         //     {
-        //     CoglRenderer *renderer = cogl_renderer_new ();
-        //     if (!cogl_renderer_connect (renderer, error))
+        //     Renderer *renderer = renderer_new ();
+        //     if (!renderer_connect (renderer, error))
         //         {
         //         g_free (context);
         //         return NULL;
         //         }
 
-        //     display = cogl_display_new (renderer, NULL);
-        //     cogl_object_unref(renderer);
+        //     display = display_new (renderer, NULL);
+        //     object_unref(renderer);
         //     }
         // else
-        //     cogl_object_ref (display);
+        //     object_ref (display);
 
-        // if (!cogl_display_setup (display, error))
+        // if (!display_setup (display, error))
         //     {
-        //     cogl_object_unref (display);
+        //     object_unref (display);
         //     g_free (context);
         //     return NULL;
         //     }
@@ -514,7 +514,7 @@ impl Context {
 
         // /* This is duplicated data, but it's much more convenient to have
         //     the driver attached to the context and the value is accessed a
-        //     lot throughout Cogl */
+        //     lot throughout  */
         // context->driver = display->renderer->driver;
 
         // /* Again this is duplicated data, but it convenient to be able
@@ -525,10 +525,10 @@ impl Context {
         // for (i = 0; i < G_N_ELEMENTS (context->private_features); i++)
         //     context->private_features[i] |= display->renderer->private_features[i];
 
-        // winsys = _cogl_context_get_winsys (context);
+        // winsys = _context_get_winsys (context);
         // if (!winsys->context_init (context, error))
         //     {
-        //     cogl_object_unref (display);
+        //     object_unref (display);
         //     g_free (context);
         //     return NULL;
         //     }
@@ -538,9 +538,9 @@ impl Context {
         // context->attribute_name_index_map = NULL;
         // context->n_attribute_names = 0;
 
-        // /* The "cogl_color_in" attribute needs a deterministic name_index
+        // /* The "color_in" attribute needs a deterministic name_index
         // * so we make sure it's the first attribute name we register */
-        // _cogl_attribute_register_attribute_name (context, "cogl_color_in");
+        // _attribute_register_attribute_name (context, "color_in");
 
 
         // context->uniform_names =
@@ -549,7 +549,7 @@ impl Context {
         // context->n_uniform_names = 0;
 
         // /* Initialise the driver specific state */
-        // _cogl_init_feature_overrides (context);
+        // _init_feature_overrides (context);
 
         // /* XXX: ONGOING BUG: Intel viewport scissor
         // *
@@ -567,28 +567,28 @@ impl Context {
         // else
         //     context->needs_viewport_scissor_workaround = FALSE;
 
-        // context->sampler_cache = _cogl_sampler_cache_new (context);
+        // context->sampler_cache = _sampler_cache_new (context);
 
-        // _cogl_pipeline_init_default_pipeline ();
-        // _cogl_pipeline_init_default_layers ();
-        // _cogl_pipeline_init_state_hash_functions ();
-        // _cogl_pipeline_init_layer_state_hash_functions ();
+        // _pipeline_init_default_pipeline ();
+        // _pipeline_init_default_layers ();
+        // _pipeline_init_state_hash_functions ();
+        // _pipeline_init_layer_state_hash_functions ();
 
         // context->current_clip_stack_valid = FALSE;
         // context->current_clip_stack = NULL;
 
         // context->legacy_backface_culling_enabled = FALSE;
 
-        // cogl_matrix_init_identity (&context->identity_matrix);
-        // cogl_matrix_init_identity (&context->y_flip_matrix);
-        // cogl_matrix_scale (&context->y_flip_matrix, 1, -1, 1);
+        // matrix_init_identity (&context->identity_matrix);
+        // matrix_init_identity (&context->y_flip_matrix);
+        // matrix_scale (&context->y_flip_matrix, 1, -1, 1);
 
         // context->flushed_matrix_mode = COGL_MATRIX_MODELVIEW;
 
         // context->texture_units =
-        //     g_array_new (FALSE, FALSE, sizeof (CoglTextureUnit));
+        //     g_array_new (FALSE, FALSE, sizeof (TextureUnit));
 
-        // if (_cogl_has_private_feature (context, COGL_PRIVATE_FEATURE_ANY_GL))
+        // if (_has_private_feature (context, COGL_PRIVATE_FEATURE_ANY_GL))
         //     {
         //     /* See cogl-pipeline.c for more details about why we leave texture unit 1
         //     * active by default... */
@@ -598,9 +598,9 @@ impl Context {
 
         // context->legacy_fog_state.enabled = FALSE;
 
-        // context->opaque_color_pipeline = cogl_pipeline_new (context);
-        // context->blended_color_pipeline = cogl_pipeline_new (context);
-        // context->texture_pipeline = cogl_pipeline_new (context);
+        // context->opaque_color_pipeline = pipeline_new (context);
+        // context->blended_color_pipeline = pipeline_new (context);
+        // context->texture_pipeline = pipeline_new (context);
         // context->codegen_header_buffer = g_string_new ("");
         // context->codegen_source_buffer = g_string_new ("");
         // context->codegen_boilerplate_buffer = g_string_new ("");
@@ -621,13 +621,13 @@ impl Context {
         // context->swap_callback_closures =
         //     g_hash_table_new (g_direct_hash, g_direct_equal);
 
-        // _cogl_list_init (&context->onscreen_events_queue);
-        // _cogl_list_init (&context->onscreen_dirty_queue);
+        // _list_init (&context->onscreen_events_queue);
+        // _list_init (&context->onscreen_dirty_queue);
 
         // g_queue_init (&context->gles2_context_stack);
 
         // context->journal_flush_attributes_array =
-        //     g_array_new (TRUE, FALSE, sizeof (CoglAttribute *));
+        //     g_array_new (TRUE, FALSE, sizeof (Attribute *));
         // context->journal_clip_bounds = NULL;
 
         // context->polygon_vertices = g_array_new (FALSE, FALSE, sizeof (float));
@@ -636,13 +636,13 @@ impl Context {
         // context->current_pipeline_changes_since_flush = 0;
         // context->current_pipeline_with_color_attrib = FALSE;
 
-        // _cogl_bitmask_init (&context->enabled_builtin_attributes);
-        // _cogl_bitmask_init (&context->enable_builtin_attributes_tmp);
-        // _cogl_bitmask_init (&context->enabled_texcoord_attributes);
-        // _cogl_bitmask_init (&context->enable_texcoord_attributes_tmp);
-        // _cogl_bitmask_init (&context->enabled_custom_attributes);
-        // _cogl_bitmask_init (&context->enable_custom_attributes_tmp);
-        // _cogl_bitmask_init (&context->changed_bits_tmp);
+        // _bitmask_init (&context->enabled_builtin_attributes);
+        // _bitmask_init (&context->enable_builtin_attributes_tmp);
+        // _bitmask_init (&context->enabled_texcoord_attributes);
+        // _bitmask_init (&context->enable_texcoord_attributes_tmp);
+        // _bitmask_init (&context->enabled_custom_attributes);
+        // _bitmask_init (&context->enable_custom_attributes_tmp);
+        // _bitmask_init (&context->changed_bits_tmp);
 
         // context->max_texture_units = -1;
         // context->max_activateable_texture_units = -1;
@@ -664,27 +664,27 @@ impl Context {
 
         // context->legacy_depth_test_enabled = FALSE;
 
-        // context->pipeline_cache = _cogl_pipeline_cache_new ();
+        // context->pipeline_cache = _pipeline_cache_new ();
 
         // for (i = 0; i < COGL_BUFFER_BIND_TARGET_COUNT; i++)
         //     context->current_buffer[i] = NULL;
 
         // context->window_buffer = NULL;
-        // context->framebuffer_stack = _cogl_create_framebuffer_stack ();
+        // context->framebuffer_stack = _create_framebuffer_stack ();
 
         // /* XXX: In this case the Clutter backend is still responsible for
         // * the OpenGL binding API and for creating onscreen framebuffers and
         // * so we have to add a dummy framebuffer to represent the backend
         // * owned window... */
-        // if (_cogl_context_get_winsys (context) == _cogl_winsys_stub_get_vtable ())
+        // if (_context_get_winsys (context) == _winsys_stub_get_vtable ())
         //     {
-        //     CoglOnscreen *window = _cogl_onscreen_new ();
-        //     cogl_set_framebuffer (COGL_FRAMEBUFFER (window));
-        //     cogl_object_unref (COGL_FRAMEBUFFER (window));
+        //     Onscreen *window = _onscreen_new ();
+        //     set_framebuffer (COGL_FRAMEBUFFER (window));
+        //     object_unref (COGL_FRAMEBUFFER (window));
         //     }
 
         // context->current_path = NULL;
-        // context->stencil_pipeline = cogl_pipeline_new (context);
+        // context->stencil_pipeline = pipeline_new (context);
 
         // context->in_begin_gl_block = FALSE;
 
@@ -700,7 +700,7 @@ impl Context {
         // context->blit_texture_pipeline = NULL;
 
         // #if defined (HAVE_COGL_GL) || defined (HAVE_COGL_GLES)
-        // if (_cogl_has_private_feature (context, COGL_PRIVATE_FEATURE_ALPHA_TEST))
+        // if (_has_private_feature (context, COGL_PRIVATE_FEATURE_ALPHA_TEST))
         //     /* The default for GL_ALPHA_TEST is to always pass which is equivalent to
         //     * the test being disabled therefore we assume that for all drivers there
         //     * will be no performance impact if we always leave the test enabled which
@@ -716,11 +716,11 @@ impl Context {
         //     GLuint vertex_array;
 
         //     /* In a forward compatible context, GL 3 doesn't support rendering
-        //     * using the default vertex array object. Cogl doesn't use vertex
+        //     * using the default vertex array object.  doesn't use vertex
         //     * array objects yet so for now we just create a dummy array
         //     * object that we will use as our own default object. Eventually
         //     * it could be good to attach the vertex array objects to
-        //     * CoglPrimitives */
+        //     * Primitives */
         //     context->glGenVertexArrays (1, &vertex_array);
         //     context->glBindVertexArray (vertex_array);
         //     }
@@ -728,13 +728,13 @@ impl Context {
 
         // context->current_modelview_entry = NULL;
         // context->current_projection_entry = NULL;
-        // _cogl_matrix_entry_identity_init (&context->identity_entry);
-        // _cogl_matrix_entry_cache_init (&context->builtin_flushed_projection);
-        // _cogl_matrix_entry_cache_init (&context->builtin_flushed_modelview);
+        // _matrix_entry_identity_init (&context->identity_entry);
+        // _matrix_entry_cache_init (&context->builtin_flushed_projection);
+        // _matrix_entry_cache_init (&context->builtin_flushed_modelview);
 
         // /* Create default textures used for fall backs */
         // context->default_gl_texture_2d_tex =
-        //     cogl_texture_2d_new_from_data (context,
+        //     texture_2d_new_from_data (context,
         //                                 1, 1,
         //                                 COGL_PIXEL_FORMAT_RGBA_8888_PRE,
         //                                 0, /* rowstride */
@@ -745,7 +745,7 @@ impl Context {
         // * return errors that we can simply ignore. */
         // internal_error = NULL;
         // context->default_gl_texture_3d_tex =
-        //     cogl_texture_3d_new_from_data (context,
+        //     texture_3d_new_from_data (context,
         //                                 1, 1, 1, /* width, height, depth */
         //                                 COGL_PIXEL_FORMAT_RGBA_8888_PRE,
         //                                 0, /* rowstride */
@@ -753,11 +753,11 @@ impl Context {
         //                                 white_pixel,
         //                                 &internal_error);
         // if (internal_error)
-        //     cogl_error_free (internal_error);
+        //     error_free (internal_error);
 
-        // /* TODO: add cogl_texture_rectangle_new_from_data() */
+        // /* TODO: add texture_rectangle_new_from_data() */
         // white_pixel_bitmap =
-        //     cogl_bitmap_new_for_data (context,
+        //     bitmap_new_for_data (context,
         //                             1, 1, /* width/height */
         //                             COGL_PIXEL_FORMAT_RGBA_8888_PRE,
         //                             4, /* rowstride */
@@ -765,18 +765,18 @@ impl Context {
 
         // internal_error = NULL;
         // context->default_gl_texture_rect_tex =
-        //     cogl_texture_rectangle_new_from_bitmap (white_pixel_bitmap);
+        //     texture_rectangle_new_from_bitmap (white_pixel_bitmap);
 
         // /* XXX: we need to allocate the texture now because the white_pixel
         // * data is on the stack */
-        // cogl_texture_allocate (COGL_TEXTURE (context->default_gl_texture_rect_tex),
+        // texture_allocate (COGL_TEXTURE (context->default_gl_texture_rect_tex),
         //                         &internal_error);
         // if (internal_error)
-        //     cogl_error_free (internal_error);
+        //     error_free (internal_error);
 
-        // cogl_object_unref (white_pixel_bitmap);
+        // object_unref (white_pixel_bitmap);
 
-        // cogl_push_source (context->opaque_color_pipeline);
+        // push_source (context->opaque_color_pipeline);
 
         // context->atlases = NULL;
         // g_hook_list_init (&context->atlas_reorganize_callbacks, sizeof (GHook));
@@ -791,11 +791,11 @@ impl Context {
         //     pipeline to track whether any layers have point sprite coords
         //     enabled. We don't need to do this for GL3 or GLES2 because point
         //     sprites are handled using a builtin varying in the shader. */
-        // if (_cogl_has_private_feature (context, COGL_PRIVATE_FEATURE_GL_FIXED) &&
-        //     cogl_has_feature (context, COGL_FEATURE_ID_POINT_SPRITE))
+        // if (_has_private_feature (context, COGL_PRIVATE_FEATURE_GL_FIXED) &&
+        //     has_feature (context, COGL_FEATURE_ID_POINT_SPRITE))
         //     GE (context, glEnable (GL_POINT_SPRITE));
 
-        // _cogl_list_init (&context->fences);
+        // _list_init (&context->fences);
 
         // return context;
         unimplemented!()

@@ -3,15 +3,15 @@ use std::{fmt, ptr};
 
 // @extends Object, @implements Texture;
 pub struct Texture2D {
-    // CoglTexture _parent;
+    // Texture _parent;
 
     // /* The internal format of the GL texture represented as a
-    //     CoglPixelFormat */
-    // CoglPixelFormat internal_format;
+    //     PixelFormat */
+    // PixelFormat internal_format;
 
-    // CoglBool auto_mipmap;
-    // CoglBool mipmaps_dirty;
-    // CoglBool is_foreign;
+    // Bool auto_mipmap;
+    // Bool mipmaps_dirty;
+    // Bool is_foreign;
 
     // /* TODO: factor out these OpenGL specific members into some form
     // * of driver private state. */
@@ -24,12 +24,12 @@ pub struct Texture2D {
     // GLenum gl_legacy_texobj_mag_filter;
     // GLint gl_legacy_texobj_wrap_mode_s;
     // GLint gl_legacy_texobj_wrap_mode_t;
-    // CoglTexturePixel first_pixel;
+    // TexturePixel first_pixel;
 }
 
 impl Texture2D {
     /// Wraps an existing GL_TEXTURE_2D texture object as a `Texture2D`.
-    /// This can be used for integrating Cogl with software using OpenGL
+    /// This can be used for integrating  with software using OpenGL
     /// directly.
     ///
     /// The texture is still configurable until it has been allocated so
@@ -61,24 +61,24 @@ impl Texture2D {
         height: i32,
         format: PixelFormat,
     ) -> Texture2D {
-        // ffi::cogl_texture_2d_gl_new_from_foreign
+        // ffi::texture_2d_gl_new_from_foreign
         unimplemented!()
     }
 
     pub fn from_bitmap(bitmap: &Bitmap) -> Texture2D {
-        // CoglTextureLoader *loader;
+        // TextureLoader *loader;
 
         // _COGL_RETURN_VAL_IF_FAIL (bmp != NULL, NULL);
       
-        // loader = _cogl_texture_create_loader ();
+        // loader = _texture_create_loader ();
         // loader->src_type = COGL_TEXTURE_SOURCE_TYPE_BITMAP;
-        // loader->src.bitmap.bitmap = cogl_object_ref (bmp);
+        // loader->src.bitmap.bitmap = object_ref (bmp);
         // loader->src.bitmap.can_convert_in_place = can_convert_in_place;
       
-        // return  _cogl_texture_2d_create_base (_cogl_bitmap_get_context (bmp),
-        //                                       cogl_bitmap_get_width (bmp),
-        //                                       cogl_bitmap_get_height (bmp),
-        //                                       cogl_bitmap_get_format (bmp),
+        // return  _texture_2d_create_base (_bitmap_get_context (bmp),
+        //                                       bitmap_get_width (bmp),
+        //                                       bitmap_get_height (bmp),
+        //                                       bitmap_get_format (bmp),
         //                                       loader);
         unimplemented!()
     }
@@ -91,31 +91,31 @@ impl Texture2D {
         rowstride: i32,
         data: &[u8],
     ) -> Texture2D {
-        // CoglBitmap *bmp;
-        // CoglTexture2D *tex_2d;
+        // Bitmap *bmp;
+        // Texture2D *tex_2d;
 
         // _COGL_RETURN_VAL_IF_FAIL (format != COGL_PIXEL_FORMAT_ANY, NULL);
         // _COGL_RETURN_VAL_IF_FAIL (data != NULL, NULL);
 
         // /* Rowstride from width if not given */
         // if (rowstride == 0)
-        //     rowstride = width * _cogl_pixel_format_get_bytes_per_pixel (format);
+        //     rowstride = width * _pixel_format_get_bytes_per_pixel (format);
 
         // /* Wrap the data into a bitmap */
-        // bmp = cogl_bitmap_new_for_data (ctx,
+        // bmp = bitmap_new_for_data (ctx,
         //                                 width, height,
         //                                 format,
         //                                 rowstride,
         //                                 (uint8_t *) data);
 
-        // tex_2d = cogl_texture_2d_new_from_bitmap (bmp);
+        // tex_2d = texture_2d_new_from_bitmap (bmp);
 
-        // cogl_object_unref (bmp);
+        // object_unref (bmp);
 
         // if (tex_2d &&
-        //     !cogl_texture_allocate (COGL_TEXTURE (tex_2d), error))
+        //     !texture_allocate (COGL_TEXTURE (tex_2d), error))
         //     {
-        //     cogl_object_unref (tex_2d);
+        //     object_unref (tex_2d);
         //     return NULL;
         //     }
 
@@ -124,33 +124,33 @@ impl Texture2D {
     }
 
     pub fn from_file(ctx: &Context, filename: &str) -> Texture2D {
-        // CoglBitmap *bmp;
-        // CoglTexture2D *tex_2d = NULL;
+        // Bitmap *bmp;
+        // Texture2D *tex_2d = NULL;
 
         // _COGL_RETURN_VAL_IF_FAIL (error == NULL || *error == NULL, NULL);
 
-        // bmp = _cogl_bitmap_from_file (ctx, filename, error);
+        // bmp = _bitmap_from_file (ctx, filename, error);
         // if (bmp == NULL)
         //     return NULL;
 
-        // tex_2d = _cogl_texture_2d_new_from_bitmap (bmp,
+        // tex_2d = _texture_2d_new_from_bitmap (bmp,
         //                                             TRUE); /* can convert in-place */
 
-        // cogl_object_unref (bmp);
+        // object_unref (bmp);
 
         // return tex_2d;
         unimplemented!()
     }
 
     pub fn with_size(ctx: &Context, width: i32, height: i32) -> Texture2D {
-        // CoglTextureLoader *loader;
+        // TextureLoader *loader;
 
-        // loader = _cogl_texture_create_loader ();
+        // loader = _texture_create_loader ();
         // loader->src_type = COGL_TEXTURE_SOURCE_TYPE_SIZED;
         // loader->src.sized.width = width;
         // loader->src.sized.height = height;
 
-        // return _cogl_texture_2d_create_base (ctx, width, height,
+        // return _texture_2d_create_base (ctx, width, height,
         //                                     COGL_PIXEL_FORMAT_RGBA_8888_PRE, loader);
         unimplemented!()
     }

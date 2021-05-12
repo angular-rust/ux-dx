@@ -30,11 +30,11 @@ use std::boxed::Box as Box_;
 // * <listitem>
 // * Efficient storage, needing only 3 components any rotation can be
 // * represented.
-// * <note>Actually the #CoglEuler type isn't optimized for size because
-// * we may cache the equivalent #CoglQuaternion along with a euler
+// * <note>Actually the #Euler type isn't optimized for size because
+// * we may cache the equivalent #Quaternion along with a euler
 // * rotation, but it would be trivial for an application to track the
 // * components of euler rotations in a packed float array if optimizing
-// * for size was important. The values could be passed to Cogl only when
+// * for size was important. The values could be passed to  only when
 // * manipulation is necessary.</note>
 // * </listitem>
 // * </itemizedlist>
@@ -61,7 +61,7 @@ use std::boxed::Box as Box_;
 // * </listitem>
 // * <listitem>
 // * There's no standard to what order the component axis rotations are
-// * applied. The most common convention seems to be what we do in Cogl
+// * applied. The most common convention seems to be what we do in 
 // * with heading (y-axis), pitch (x-axis) and then roll (z-axis), but
 // * other software might apply x-axis, y-axis then z-axis or any other
 // * order so you need to consider this if you are accepting euler
@@ -81,11 +81,11 @@ use std::boxed::Box as Box_;
 // *
 // * A common practice is to accept angles in the intuitive Euler form
 // * and convert them to quaternions internally to avoid Gimbal Lock and
-// * handle interpolations. See cogl_quaternion_init_from_euler().
+// * handle interpolations. See quaternion_init_from_euler().
 
 
 
-// * CoglEuler:
+// * Euler:
 // * @heading: Angle to rotate around an object's y axis
 // * @pitch: Angle to rotate around an object's x axis
 // * @roll: Angle to rotate around an object's z axis
@@ -98,10 +98,10 @@ use std::boxed::Box as Box_;
 // * with the object being rotated, so the axis also rotate in sequence
 // * with the rotations being applied.</note>
 // *
-// * The members of a #CoglEuler can be initialized, for example, with
-// * cogl_euler_init() and cogl_euler_init_from_quaternion ().
+// * The members of a #Euler can be initialized, for example, with
+// * euler_init() and euler_init_from_quaternion ().
 // *
-// * You may also want to look at cogl_quaternion_init_from_euler() if
+// * You may also want to look at quaternion_init_from_euler() if
 // * you want to do interpolation between 3d rotations.
 #[derive(Debug, PartialOrd, Ord)] // Hash
 pub struct Euler {
@@ -212,7 +212,7 @@ impl Euler {
         // float P; /* pitch */
         // float R; /* roll */
 
-        // /* NB: CoglMatrix provides struct members named according to the
+        // /* NB: Matrix provides struct members named according to the
         // * [row][column] indexed. So matrix->zx is row 3 column 1. */
         // sinP = -matrix->zy;
 
@@ -251,7 +251,7 @@ impl Euler {
     // /// A `Euler` with the rotation to initialize with
     // pub fn init_from_quaternion(&mut self, quaternion: &Quaternion) {
     //     unsafe {
-    //         ffi::cogl_euler_init_from_quaternion(
+    //         ffi::euler_init_from_quaternion(
     //             self.to_glib_none_mut().0,
     //             quaternion.to_glib_none().0,
     //         );
@@ -259,8 +259,8 @@ impl Euler {
     // }
 
     fn equal(v1: &Self, v2: &Self) -> bool {
-        // const CoglEuler *a = v1;
-        // const CoglEuler *b = v2;
+        // const Euler *a = v1;
+        // const Euler *b = v2;
 
         // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, FALSE);
         // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, FALSE);

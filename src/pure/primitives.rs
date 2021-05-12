@@ -4,14 +4,14 @@ use super::TextureVertex;
 // * @short_description: Functions that draw various primitive 3D shapes
 // *
 // * The primitives API provides utilities for drawing some
-// * common 3D shapes in a more convenient way than the CoglVertexBuffer
+// * common 3D shapes in a more convenient way than the VertexBuffer
 // * API provides.
 
 // typedef struct _TextureSlicedQuadState
 // {
-//   CoglFramebuffer *framebuffer;
-//   CoglPipeline *pipeline;
-//   CoglTexture *main_texture;
+//   Framebuffer *framebuffer;
+//   Pipeline *pipeline;
+//   Texture *main_texture;
 //   float tex_virtual_origin_x;
 //   float tex_virtual_origin_y;
 //   float quad_origin_x;
@@ -20,24 +20,24 @@ use super::TextureVertex;
 //   float v_to_q_scale_y;
 //   float quad_len_x;
 //   float quad_len_y;
-//   CoglBool flipped_x;
-//   CoglBool flipped_y;
+//   Bool flipped_x;
+//   Bool flipped_y;
 // } TextureSlicedQuadState;
 
 // typedef struct _TextureSlicedPolygonState
 // {
-//   const CoglTextureVertex *vertices;
+//   const TextureVertex *vertices;
 //   int n_vertices;
 //   int stride;
-//   CoglAttribute **attributes;
+//   Attribute **attributes;
 // } TextureSlicedPolygonState;
 
 // typedef struct _ValidateFirstLayerState
 // {
-//   CoglPipeline *override_pipeline;
+//   Pipeline *override_pipeline;
 // } ValidateFirstLayerState;
 
-// * cogl_rectangle:
+// * rectangle:
 // * @x_1: X coordinate of the top-left corner
 // * @y_1: Y coordinate of the top-left corner
 // * @x_2: X coordinate of the bottom-right corner
@@ -47,21 +47,21 @@ use super::TextureVertex;
 
 pub fn rectangle(x_1: f32, y_1: f32, x_2: f32, y_2: f32) {
     // const float position[4] = {x_1, y_1, x_2, y_2};
-    // CoglMultiTexturedRect rect;
+    // MultiTexturedRect rect;
   
-    // /* XXX: All the cogl_rectangle* APIs normalize their input into an array of
-    //  * CoglMultiTexturedRect rectangles and pass these on to our work horse;
-    //  * _cogl_rectangles_with_multitexture_coords.
+    // /* XXX: All the rectangle* APIs normalize their input into an array of
+    //  * MultiTexturedRect rectangles and pass these on to our work horse;
+    //  * _rectangles_with_multitexture_coords.
     //  */
   
     // rect.position = position;
     // rect.tex_coords = NULL;
     // rect.tex_coords_len = 0;
   
-    // _cogl_rectangles_with_multitexture_coords (&rect, 1);
+    // _rectangles_with_multitexture_coords (&rect, 1);
 }
 
-// * cogl_rectangle_with_texture_coords:
+// * rectangle_with_texture_coords:
 // * @x1: x coordinate upper left on screen.
 // * @y1: y coordinate upper left on screen.
 // * @x2: x coordinate lower right on screen.
@@ -89,21 +89,21 @@ pub fn rectangle_with_texture_coords(
 ) {
     // const float position[4] = {x_1, y_1, x_2, y_2};
     // const float tex_coords[4] = {tx_1, ty_1, tx_2, ty_2};
-    // CoglMultiTexturedRect rect;
+    // MultiTexturedRect rect;
 
-    // /* XXX: All the cogl_rectangle* APIs normalize their input into an array of
-    // * CoglMultiTexturedRect rectangles and pass these on to our work horse;
-    // * _cogl_rectangles_with_multitexture_coords.
+    // /* XXX: All the rectangle* APIs normalize their input into an array of
+    // * MultiTexturedRect rectangles and pass these on to our work horse;
+    // * _rectangles_with_multitexture_coords.
     // */
 
     // rect.position = position;
     // rect.tex_coords = tex_coords;
     // rect.tex_coords_len = 4;
 
-    // _cogl_rectangles_with_multitexture_coords (&rect, 1);
+    // _rectangles_with_multitexture_coords (&rect, 1);
 }
 
-// * cogl_rectangle_with_multitexture_coords:
+// * rectangle_with_multitexture_coords:
 // * @x1: x coordinate upper left on screen.
 // * @y1: y coordinate upper left on screen.
 // * @x2: x coordinate lower right on screen.
@@ -130,44 +130,44 @@ pub fn rectangle_with_texture_coords(
 // * Since: 1.0
 pub fn rectangle_with_multitexture_coords(x1: f32, y1: f32, x2: f32, y2: f32, tex_coords: &[f32]) {
     // const float position[4] = {x_1, y_1, x_2, y_2};
-    // CoglMultiTexturedRect rect;
+    // MultiTexturedRect rect;
 
-    // /* XXX: All the cogl_rectangle* APIs normalize their input into an array of
-    // * CoglMultiTexturedRect rectangles and pass these on to our work horse;
-    // * _cogl_rectangles_with_multitexture_coords.
+    // /* XXX: All the rectangle* APIs normalize their input into an array of
+    // * MultiTexturedRect rectangles and pass these on to our work horse;
+    // * _rectangles_with_multitexture_coords.
     // */
 
     // rect.position = position;
     // rect.tex_coords = user_tex_coords;
     // rect.tex_coords_len = user_tex_coords_len;
 
-    // _cogl_rectangles_with_multitexture_coords (&rect, 1);
+    // _rectangles_with_multitexture_coords (&rect, 1);
 }
 
-// * cogl_rectangles_with_texture_coords:
+// * rectangles_with_texture_coords:
 // * @verts: (in) (array) (transfer none): an array of vertices
 // * @n_rects: number of rectangles to draw
 // *
 // * Draws a series of rectangles in the same way that
-// * cogl_rectangle_with_texture_coords() does. In some situations it can give a
+// * rectangle_with_texture_coords() does. In some situations it can give a
 // * significant performance boost to use this function rather than
-// * calling cogl_rectangle_with_texture_coords() separately for each rectangle.
+// * calling rectangle_with_texture_coords() separately for each rectangle.
 // *
 // * @verts should point to an array of #float<!-- -->s with
 // * @n_rects * 8 elements. Each group of 8 values corresponds to the
 // * parameters x1, y1, x2, y2, tx1, ty1, tx2 and ty2 and have the same
-// * meaning as in cogl_rectangle_with_texture_coords().
+// * meaning as in rectangle_with_texture_coords().
 // *
 // * Since: 0.8.6
 pub fn rectangles_with_texture_coords(verts: &[f32]) {
-    // CoglMultiTexturedRect *rects;
+    // MultiTexturedRect *rects;
     // int i;
 
-    // /* XXX: All the cogl_rectangle* APIs normalize their input into an array of
-    //  * CoglMultiTexturedRect rectangles and pass these on to our work horse;
-    //  * _cogl_rectangles_with_multitexture_coords.
+    // /* XXX: All the rectangle* APIs normalize their input into an array of
+    //  * MultiTexturedRect rectangles and pass these on to our work horse;
+    //  * _rectangles_with_multitexture_coords.
     //  */
-    // rects = g_alloca (n_rects * sizeof (CoglMultiTexturedRect));
+    // rects = g_alloca (n_rects * sizeof (MultiTexturedRect));
 
     // for (i = 0; i < n_rects; i++)
     //   {
@@ -176,35 +176,35 @@ pub fn rectangles_with_texture_coords(verts: &[f32]) {
     //     rects[i].tex_coords_len = 4;
     //   }
 
-    // _cogl_rectangles_with_multitexture_coords (rects, n_rects);
+    // _rectangles_with_multitexture_coords (rects, n_rects);
     unimplemented!()
 }
 
-// * cogl_rectangles:
+// * rectangles:
 // * @verts: (in) (array) (transfer none): an array of vertices
 // * @n_rects: number of rectangles to draw
 // *
 // * Draws a series of rectangles in the same way that
-// * cogl_rectangle() does. In some situations it can give a
+// * rectangle() does. In some situations it can give a
 // * significant performance boost to use this function rather than
-// * calling cogl_rectangle() separately for each rectangle.
+// * calling rectangle() separately for each rectangle.
 // *
 // * @verts should point to an array of #float<!-- -->s with
 // * @n_rects * 4 elements. Each group of 4 values corresponds to the
 // * parameters x1, y1, x2, and y2, and have the same
-// * meaning as in cogl_rectangle().
+// * meaning as in rectangle().
 // *
 // * Since: 1.0
 
 pub fn rectangles(verts: &[f32]) {
-    // CoglMultiTexturedRect *rects;
+    // MultiTexturedRect *rects;
     // int i;
 
-    // /* XXX: All the cogl_rectangle* APIs normalize their input into an array of
-    //  * CoglMultiTexturedRect rectangles and pass these on to our work horse;
-    //  * _cogl_rectangles_with_multitexture_coords.
+    // /* XXX: All the rectangle* APIs normalize their input into an array of
+    //  * MultiTexturedRect rectangles and pass these on to our work horse;
+    //  * _rectangles_with_multitexture_coords.
     //  */
-    // rects = g_alloca (n_rects * sizeof (CoglMultiTexturedRect));
+    // rects = g_alloca (n_rects * sizeof (MultiTexturedRect));
 
     // for (i = 0; i < n_rects; i++)
     //   {
@@ -213,20 +213,20 @@ pub fn rectangles(verts: &[f32]) {
     //     rects[i].tex_coords_len = 0;
     //   }
 
-    // _cogl_rectangles_with_multitexture_coords (rects, n_rects);
+    // _rectangles_with_multitexture_coords (rects, n_rects);
     unimplemented!()
 }
 
-// * cogl_polygon:
-// * @vertices: An array of #CoglTextureVertex structs
+// * polygon:
+// * @vertices: An array of #TextureVertex structs
 // * @n_vertices: The length of the vertices array
-// * @use_color: %TRUE if the color member of #CoglTextureVertex should be used
+// * @use_color: %TRUE if the color member of #TextureVertex should be used
 // *
 // * Draws a convex polygon using the current source material to fill / texture
 // * with according to the texture coordinates passed.
 // *
 // * If @use_color is %TRUE then the color will be changed for each vertex using
-// * the value specified in the color member of #CoglTextureVertex. This can be
+// * the value specified in the color member of #TextureVertex. This can be
 // * used for example to make the texture fade out by setting the alpha value of
 // * the color.
 // *
@@ -240,32 +240,32 @@ pub fn rectangles(verts: &[f32]) {
 // *
 // * Since: 1.0
 pub fn polygon(vertices: &[TextureVertex], use_color: bool) {
-    // CoglPipeline *pipeline;
+    // Pipeline *pipeline;
     // ValidateState validate_state;
     // int n_layers;
     // int n_attributes;
-    // CoglAttribute **attributes;
+    // Attribute **attributes;
     // int i;
     // unsigned int stride;
     // size_t stride_bytes;
-    // CoglAttributeBuffer *attribute_buffer;
+    // AttributeBuffer *attribute_buffer;
     // float *v;
 
     // _COGL_GET_CONTEXT (ctx, NO_RETVAL);
 
-    // pipeline = cogl_get_source ();
+    // pipeline = get_source ();
 
     // validate_state.original_pipeline = pipeline;
     // validate_state.pipeline = pipeline;
-    // cogl_pipeline_foreach_layer (pipeline,
-    //                             _cogl_polygon_validate_layer_cb,
+    // pipeline_foreach_layer (pipeline,
+    //                             _polygon_validate_layer_cb,
     //                             &validate_state);
     // pipeline = validate_state.pipeline;
 
-    // n_layers = cogl_pipeline_get_n_layers (pipeline);
+    // n_layers = pipeline_get_n_layers (pipeline);
 
     // n_attributes = 1 + n_layers + (use_color ? 1 : 0);
-    // attributes = g_alloca (sizeof (CoglAttribute *) * n_attributes);
+    // attributes = g_alloca (sizeof (Attribute *) * n_attributes);
 
     // /* Our data is arranged like:
     // * [X, Y, Z, TX0, TY0, TX1, TY1..., R, G, B, A,...] */
@@ -278,10 +278,10 @@ pub fn polygon(vertices: &[TextureVertex], use_color: bool) {
     // g_array_set_size (ctx->polygon_vertices, n_vertices * stride);
 
     // attribute_buffer =
-    //     cogl_attribute_buffer_new (ctx, n_vertices * stride_bytes, NULL);
+    //     attribute_buffer_new (ctx, n_vertices * stride_bytes, NULL);
 
-    // attributes[0] = cogl_attribute_new (attribute_buffer,
-    //                                     "cogl_position_in",
+    // attributes[0] = attribute_new (attribute_buffer,
+    //                                     "position_in",
     //                                     stride_bytes,
     //                                     0,
     //                                     3,
@@ -290,14 +290,14 @@ pub fn polygon(vertices: &[TextureVertex], use_color: bool) {
     // for (i = 0; i < n_layers; i++)
     //     {
     //     static const char *names[] = {
-    //         "cogl_tex_coord0_in",
-    //         "cogl_tex_coord1_in",
-    //         "cogl_tex_coord2_in",
-    //         "cogl_tex_coord3_in",
-    //         "cogl_tex_coord4_in",
-    //         "cogl_tex_coord5_in",
-    //         "cogl_tex_coord6_in",
-    //         "cogl_tex_coord7_in"
+    //         "tex_coord0_in",
+    //         "tex_coord1_in",
+    //         "tex_coord2_in",
+    //         "tex_coord3_in",
+    //         "tex_coord4_in",
+    //         "tex_coord5_in",
+    //         "tex_coord6_in",
+    //         "tex_coord7_in"
     //     };
     //     char *allocated_name = NULL;
     //     const char *name;
@@ -305,9 +305,9 @@ pub fn polygon(vertices: &[TextureVertex], use_color: bool) {
     //     if (i < 8)
     //         name = names[i];
     //     else
-    //         name = allocated_name = g_strdup_printf ("cogl_tex_coord%d_in", i);
+    //         name = allocated_name = g_strdup_printf ("tex_coord%d_in", i);
 
-    //     attributes[i + 1] = cogl_attribute_new (attribute_buffer,
+    //     attributes[i + 1] = attribute_new (attribute_buffer,
     //                                             name,
     //                                             stride_bytes,
     //                                             /* NB: [X,Y,Z,TX,TY...,R,G,B,A,...] */
@@ -321,8 +321,8 @@ pub fn polygon(vertices: &[TextureVertex], use_color: bool) {
     // if (use_color)
     //     {
     //     attributes[n_attributes - 1] =
-    //         cogl_attribute_new (attribute_buffer,
-    //                             "cogl_color_in",
+    //         attribute_new (attribute_buffer,
+    //                             "color_in",
     //                             stride_bytes,
     //                             /* NB: [X,Y,Z,TX,TY...,R,G,B,A,...] */
     //                             12 + 8 * n_layers,
@@ -346,7 +346,7 @@ pub fn polygon(vertices: &[TextureVertex], use_color: bool) {
     //     append_tex_coords_state.vertex = i;
     //     append_tex_coords_state.layer = 0;
     //     append_tex_coords_state.vertices_out = v;
-    //     cogl_pipeline_foreach_layer (pipeline,
+    //     pipeline_foreach_layer (pipeline,
     //                                 append_tex_coord_attributes_cb,
     //                                 &append_tex_coords_state);
 
@@ -354,30 +354,30 @@ pub fn polygon(vertices: &[TextureVertex], use_color: bool) {
     //         {
     //         /* NB: [X,Y,Z,TX,TY...,R,G,B,A,...] */
     //         c = (uint8_t *) (v + 3 + 2 * n_layers);
-    //         c[0] = cogl_color_get_red_byte (&vertices[i].color);
-    //         c[1] = cogl_color_get_green_byte (&vertices[i].color);
-    //         c[2] = cogl_color_get_blue_byte (&vertices[i].color);
-    //         c[3] = cogl_color_get_alpha_byte (&vertices[i].color);
+    //         c[0] = color_get_red_byte (&vertices[i].color);
+    //         c[1] = color_get_green_byte (&vertices[i].color);
+    //         c[2] = color_get_blue_byte (&vertices[i].color);
+    //         c[3] = color_get_alpha_byte (&vertices[i].color);
     //         }
 
     //     v += stride;
     //     }
 
     // v = (float *)ctx->polygon_vertices->data;
-    // cogl_buffer_set_data (COGL_BUFFER (attribute_buffer),
+    // buffer_set_data (COGL_BUFFER (attribute_buffer),
     //                         0,
     //                         v,
     //                         ctx->polygon_vertices->len * sizeof (float));
 
     // /* XXX: although this may seem redundant, we need to do this since
-    // * cogl_polygon() can be used with legacy state and its the source stack
+    // * polygon() can be used with legacy state and its the source stack
     // * which track whether legacy state is enabled.
     // *
-    // * (We only have a CoglDrawFlag to disable legacy state not one
+    // * (We only have a DrawFlag to disable legacy state not one
     // *  to enable it) */
-    // cogl_push_source (pipeline);
+    // push_source (pipeline);
 
-    // _cogl_framebuffer_draw_attributes (cogl_get_draw_framebuffer (),
+    // _framebuffer_draw_attributes (get_draw_framebuffer (),
     //                                     pipeline,
     //                                     COGL_VERTICES_MODE_TRIANGLE_FAN,
     //                                     0, n_vertices,
@@ -385,13 +385,13 @@ pub fn polygon(vertices: &[TextureVertex], use_color: bool) {
     //                                     n_attributes,
     //                                     0 /* no draw flags */);
 
-    // cogl_pop_source ();
+    // pop_source ();
 
     // if (pipeline != validate_state.original_pipeline)
-    //     cogl_object_unref (pipeline);
+    //     object_unref (pipeline);
 
-    // cogl_object_unref (attribute_buffer);
+    // object_unref (attribute_buffer);
 
     // for (i = 0; i < n_attributes; i++)
-    //     cogl_object_unref (attributes[i]);
+    //     object_unref (attributes[i]);
 }

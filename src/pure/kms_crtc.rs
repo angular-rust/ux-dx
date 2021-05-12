@@ -10,6 +10,6 @@ pub struct KmsCrtc {
     // uint32_t *connectors;
     // uint32_t  count;
     
-    // CoglBool  ignore;
+    // Bool  ignore;
 }
 

@@ -1,11 +1,11 @@
 use std::mem;
 
-// * CoglVertexP2:
+// * VertexP2:
 // * @x: The x component of a position attribute
 // * @y: The y component of a position attribute
 // *
 // * A convenience vertex definition that can be used with
-// * cogl_primitive_new_p2().
+// * primitive_new_p2().
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct VertexP2 {

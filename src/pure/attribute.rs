@@ -12,9 +12,9 @@ pub enum AttributeNameID {
 
 pub struct AttributeNameState {
 //   char *name;
-//   CoglAttributeNameID name_id;
+//   AttributeNameID name_id;
 //   int name_index;
-//   CoglBool normalized_default;
+//   Bool normalized_default;
 //   int layer_number;
 }
 
@@ -36,24 +36,24 @@ pub enum DrawFlags {
 }
 
 pub struct Attribute {
-    // CoglObject _parent;
+    // Object _parent;
 
-    // const CoglAttributeNameState *name_state;
-    // CoglBool normalized;
+    // const AttributeNameState *name_state;
+    // Bool normalized;
 
-    // CoglBool is_buffered;
+    // Bool is_buffered;
 
     // union {
     //     struct {
-    //     CoglAttributeBuffer *attribute_buffer;
+    //     AttributeBuffer *attribute_buffer;
     //     size_t stride;
     //     size_t offset;
     //     int n_components;
-    //     CoglAttributeType type;
+    //     AttributeType type;
     //     } buffered;
     //     struct {
-    //     CoglContext *context;
-    //     CoglBoxedValue boxed;
+    //     Context *context;
+    //     BoxedValue boxed;
     //     } constant;
     // } d;
 
@@ -61,8 +61,8 @@ pub struct Attribute {
 }
 
 impl Attribute {
-    // * cogl_attribute_new: (constructor)
-    // * @attribute_buffer: The #CoglAttributeBuffer containing the actual
+    // * attribute_new: (constructor)
+    // * @attribute_buffer: The #AttributeBuffer containing the actual
     // *                    attribute data
     // * @name: The name of the attribute (used to reference it from GLSL)
     // * @stride: The number of bytes to jump to get to the next attribute
@@ -173,9 +173,9 @@ impl Attribute {
         components: i32,
         type_: AttributeType,
     ) -> Attribute {
-        // CoglAttribute *attribute = g_slice_new (CoglAttribute);
-        // CoglBuffer *buffer = COGL_BUFFER (attribute_buffer);
-        // CoglContext *ctx = buffer->context;
+        // Attribute *attribute = g_slice_new (Attribute);
+        // Buffer *buffer = COGL_BUFFER (attribute_buffer);
+        // Context *ctx = buffer->context;
 
         // attribute->is_buffered = TRUE;
 
@@ -183,14 +183,14 @@ impl Attribute {
         //     g_hash_table_lookup (ctx->attribute_name_states_hash, name);
         // if (!attribute->name_state)
         //     {
-        //     CoglAttributeNameState *name_state =
-        //         _cogl_attribute_register_attribute_name (ctx, name);
+        //     AttributeNameState *name_state =
+        //         _attribute_register_attribute_name (ctx, name);
         //     if (!name_state)
         //         goto error;
         //     attribute->name_state = name_state;
         //     }
 
-        // attribute->d.buffered.attribute_buffer = cogl_object_ref (attribute_buffer);
+        // attribute->d.buffered.attribute_buffer = object_ref (attribute_buffer);
         // attribute->d.buffered.stride = stride;
         // attribute->d.buffered.offset = offset;
         // attribute->d.buffered.n_components = n_components;
@@ -208,16 +208,16 @@ impl Attribute {
         // else
         //     attribute->normalized = FALSE;
 
-        // return _cogl_attribute_object_new (attribute);
+        // return _attribute_object_new (attribute);
 
         // error:
-        // _cogl_attribute_free (attribute);
+        // _attribute_free (attribute);
         // return NULL;
         unimplemented!()
     }
 
-    // * cogl_attribute_new_const_1f:
-    // * @context: A #CoglContext
+    // * attribute_new_const_1f:
+    // * @context: A #Context
     // * @name: The name of the attribute (used to reference it from GLSL)
     // * @value: The constant value for the attribute
     /// Creates a new, single component, attribute whose value remains
@@ -242,7 +242,7 @@ impl Attribute {
     /// A newly allocated `Attribute`
     ///  representing the given constant `value`.
     pub fn new_const_1f(context: &Context, name: &str, value: f32) -> Attribute {
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //     name,
         //     1, /* n_components */
         //     1, /* 1 column vector */
@@ -282,7 +282,7 @@ impl Attribute {
         component1: f32,
     ) -> Attribute {
         // float vec2[2] = { component0, component1 };
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //                                   name,
         //                                   2, /* n_components */
         //                                   1, /* 1 column vector */
@@ -314,7 +314,7 @@ impl Attribute {
     /// A newly allocated `Attribute`
     ///  representing the given constant vector.
     pub fn new_const_2fv(context: &Context, name: &str, value: &[f32; 2]) -> Attribute {
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //     name,
         //     2, /* n_components */
         //     1, /* 1 column vector */
@@ -359,7 +359,7 @@ impl Attribute {
         matrix2x2: &[f32; 4],
         transpose: bool,
     ) -> Attribute {
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //     name,
         //     2, /* n_components */
         //     2, /* 2 column vector */
@@ -405,7 +405,7 @@ impl Attribute {
         component2: f32,
     ) -> Attribute {
         // float vec3[3] = { component0, component1, component2 };
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //                                   name,
         //                                   3, /* n_components */
         //                                   1, /* 1 column vector */
@@ -440,7 +440,7 @@ impl Attribute {
     /// A newly allocated `Attribute`
     ///  representing the given constant vector.
     pub fn new_const_3fv(context: &Context, name: &str, value: &[f32; 3]) -> Attribute {
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //     name,
         //     3, /* n_components */
         //     1, /* 1 column vector */
@@ -486,7 +486,7 @@ impl Attribute {
         matrix3x3: &[f32; 9],
         transpose: bool,
     ) -> Attribute {
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //     name,
         //     3, /* n_components */
         //     3, /* 3 column vector */
@@ -536,7 +536,7 @@ impl Attribute {
         component3: f32,
     ) -> Attribute {
         // float vec4[4] = { component0, component1, component2, component3 };
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //                                   name,
         //                                   4, /* n_components */
         //                                   1, /* 1 column vector */
@@ -572,7 +572,7 @@ impl Attribute {
     /// A newly allocated `Attribute`
     ///  representing the given constant vector.
     pub fn new_const_4fv(context: &Context, name: &str, value: &[f32; 4]) -> Attribute {
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //     name,
         //     4, /* n_components */
         //     1, /* 1 column vector */
@@ -618,7 +618,7 @@ impl Attribute {
         matrix4x4: &[f32; 16],
         transpose: bool,
     ) -> Attribute {
-        // return _cogl_attribute_new_const (context,
+        // return _attribute_new_const (context,
         //     name,
         //     4, /* n_components */
         //     4, /* 4 column vector */
@@ -633,7 +633,7 @@ impl Attribute {
     /// the `AttributeBuffer` that was
     ///  set with `Attribute::set_buffer` or `Attribute::new`.
     pub fn get_buffer(&self) -> Option<AttributeBuffer> {
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_attribute (attribute), NULL);
+        // _COGL_RETURN_VAL_IF_FAIL (is_attribute (attribute), NULL);
         // _COGL_RETURN_VAL_IF_FAIL (attribute->is_buffered, NULL);
       
         // return attribute->d.buffered.attribute_buffer;
@@ -646,7 +646,7 @@ impl Attribute {
     /// the value of the normalized property set with
     /// `Attribute::set_normalized`.
     pub fn get_normalized(&self) -> bool {
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_attribute (attribute), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_attribute (attribute), FALSE);
 
         // return attribute->normalized;
         unimplemented!()
@@ -656,15 +656,15 @@ impl Attribute {
     /// ## `attribute_buffer`
     /// A `AttributeBuffer`
     pub fn set_buffer(&self, attribute_buffer: &AttributeBuffer) {
-        // _COGL_RETURN_IF_FAIL (cogl_is_attribute (attribute));
+        // _COGL_RETURN_IF_FAIL (is_attribute (attribute));
         // _COGL_RETURN_IF_FAIL (attribute->is_buffered);
       
         // if (G_UNLIKELY (attribute->immutable_ref))
         //   warn_about_midscene_changes ();
       
-        // cogl_object_ref (attribute_buffer);
+        // object_ref (attribute_buffer);
       
-        // cogl_object_unref (attribute->d.buffered.attribute_buffer);
+        // object_unref (attribute->d.buffered.attribute_buffer);
         // attribute->d.buffered.attribute_buffer = attribute_buffer;
         unimplemented!()
     }
@@ -681,7 +681,7 @@ impl Attribute {
     /// ## `normalized`
     /// The new value for the normalized property.
     pub fn set_normalized(&self, normalized: bool) {
-        // _COGL_RETURN_IF_FAIL (cogl_is_attribute (attribute));
+        // _COGL_RETURN_IF_FAIL (is_attribute (attribute));
 
         // if (G_UNLIKELY (attribute->immutable_ref))
         //   warn_about_midscene_changes ();

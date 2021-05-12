@@ -2,7 +2,7 @@ use crate::{Context, Object};
 use std::fmt;
 
 pub struct IndexBuffer {
-    // CoglBuffer _parent;
+    // Buffer _parent;
 }
 
 impl IndexBuffer {
@@ -19,17 +19,17 @@ impl IndexBuffer {
     ///
     /// A newly allocated `IndexBuffer`
     pub fn new(context: &Context, bytes: usize) -> IndexBuffer {
-        // CoglIndexBuffer *indices = g_slice_new (CoglIndexBuffer);
+        // IndexBuffer *indices = g_slice_new (IndexBuffer);
 
         // /* parent's constructor */
-        // _cogl_buffer_initialize (COGL_BUFFER (indices),
+        // _buffer_initialize (COGL_BUFFER (indices),
         //                         context,
         //                         bytes,
         //                         COGL_BUFFER_BIND_TARGET_INDEX_BUFFER,
         //                         COGL_BUFFER_USAGE_HINT_INDEX_BUFFER,
         //                         COGL_BUFFER_UPDATE_HINT_STATIC);
 
-        // return _cogl_index_buffer_object_new (indices);
+        // return _index_buffer_object_new (indices);
         unimplemented!()
     }
 }

@@ -2,37 +2,37 @@ use crate::{Context, Object};
 use std::fmt;
 
 pub struct PixelBuffer {
-    // CoglBuffer            _parent;
+    // Buffer            _parent;
 }
 
-// static CoglPixelBuffer *
-// _cogl_pixel_buffer_new (CoglContext *context,
+// static PixelBuffer *
+// _pixel_buffer_new (Context *context,
 //                         size_t size,
 //                         const void *data,
-//                         CoglError **error)
+//                         Error **error)
 // {
-//   CoglPixelBuffer *pixel_buffer = g_slice_new0 (CoglPixelBuffer);
-//   CoglBuffer *buffer = COGL_BUFFER (pixel_buffer);
+//   PixelBuffer *pixel_buffer = g_slice_new0 (PixelBuffer);
+//   Buffer *buffer = COGL_BUFFER (pixel_buffer);
 
 //   /* parent's constructor */
-//   _cogl_buffer_initialize (buffer,
+//   _buffer_initialize (buffer,
 //                            context,
 //                            size,
 //                            COGL_BUFFER_BIND_TARGET_PIXEL_UNPACK,
 //                            COGL_BUFFER_USAGE_HINT_TEXTURE,
 //                            COGL_BUFFER_UPDATE_HINT_STATIC);
 
-//   _cogl_pixel_buffer_object_new (pixel_buffer);
+//   _pixel_buffer_object_new (pixel_buffer);
 
 //   if (data)
 //     {
-//       if (!_cogl_buffer_set_data (COGL_BUFFER (pixel_buffer),
+//       if (!_buffer_set_data (COGL_BUFFER (pixel_buffer),
 //                                   0,
 //                                   data,
 //                                   size,
 //                                   error))
 //         {
-//           cogl_object_unref (pixel_buffer);
+//           object_unref (pixel_buffer);
 //           return NULL;
 //         }
 //     }
@@ -41,29 +41,29 @@ pub struct PixelBuffer {
 // }
 
 impl PixelBuffer {
-    // * cogl_pixel_buffer_new:
-    // * @context: A #CoglContext
+    // * pixel_buffer_new:
+    // * @context: A #Context
     // * @size: The number of bytes to allocate for the pixel data.
     // * @data: An optional pointer to vertex data to upload immediately
     // *
-    // * Declares a new #CoglPixelBuffer of @size bytes to contain arrays of
-    // * pixels. Once declared, data can be set using cogl_buffer_set_data()
+    // * Declares a new #PixelBuffer of @size bytes to contain arrays of
+    // * pixels. Once declared, data can be set using buffer_set_data()
     // * or by mapping it into the application's address space using
-    // * cogl_buffer_map().
+    // * buffer_map().
     // *
     // * If @data isn't %NULL then @size bytes will be read from @data and
     // * immediately copied into the new buffer.
     // *
-    // * Return value: (transfer full): a newly allocated #CoglPixelBuffer
+    // * Return value: (transfer full): a newly allocated #PixelBuffer
     // *
     // * Since: 1.10
     // * Stability: unstable
     pub fn new(context: &Context, size: usize, data: &[u8]) -> PixelBuffer {
-        // CoglError *ignore_error = NULL;
-        // CoglPixelBuffer *buffer =
-        //   _cogl_pixel_buffer_new (context, size, data, &ignore_error);
+        // Error *ignore_error = NULL;
+        // PixelBuffer *buffer =
+        //   _pixel_buffer_new (context, size, data, &ignore_error);
         // if (!buffer)
-        //   cogl_error_free (ignore_error);
+        //   error_free (ignore_error);
         // return buffer;
         unimplemented!()
     }

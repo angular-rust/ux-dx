@@ -5,8 +5,8 @@ pub struct Offscreen {
 }
 
 impl Offscreen {
-    // // * cogl_offscreen_new_with_texture:
-    // // * @texture: A #CoglTexture pointer
+    // // * offscreen_new_with_texture:
+    // // * @texture: A #Texture pointer
     // // *
     // // * This creates an offscreen framebuffer object using the given
     // // * @texture as the primary color buffer. It doesn't just initialize
@@ -15,9 +15,9 @@ impl Offscreen {
     // // * updates the contents of the given texture. You don't need to
     // // * destroy the offscreen buffer before you can use the @texture again.
     // // *
-    // // * <note>This api only works with low-level #CoglTexture types such as
-    // // * #CoglTexture2D, #CoglTexture3D and #CoglTextureRectangle, and not
-    // // * with meta-texture types such as #CoglTexture2DSliced.</note>
+    // // * <note>This api only works with low-level #Texture types such as
+    // // * #Texture2D, #Texture3D and #TextureRectangle, and not
+    // // * with meta-texture types such as #Texture2DSliced.</note>
     // // *
     // // * The storage for the framebuffer is actually allocated lazily
     // // * so this function will never return %NULL to indicate a runtime
@@ -25,19 +25,19 @@ impl Offscreen {
     // // * before it is really allocated.
     // // *
     // // * Simple applications without full error handling can simply rely on
-    // // * Cogl to lazily allocate the storage of framebuffers but you should
-    // // * be aware that if Cogl encounters an error (such as running out of
+    // // *  to lazily allocate the storage of framebuffers but you should
+    // // * be aware that if  encounters an error (such as running out of
     // // * GPU memory) then your application will simply abort with an error
     // // * message. If you need to be able to catch such exceptions at runtime
     // // * then you can explicitly allocate your framebuffer when you have
-    // // * finished configuring it by calling cogl_framebuffer_allocate() and
-    // // * passing in a #CoglError argument to catch any exceptions.
+    // // * finished configuring it by calling framebuffer_allocate() and
+    // // * passing in a #Error argument to catch any exceptions.
     // // *
-    // // * Return value: (transfer full): a newly instantiated #CoglOffscreen
+    // // * Return value: (transfer full): a newly instantiated #Offscreen
     // // *   framebuffer.
     // pub fn with_texture<P: IsA<Texture>>(texture: &P) -> Offscreen {
     //     unsafe {
-    //         ffi::cogl_offscreen_new_with_texture
+    //         ffi::offscreen_new_with_texture
     //     }
     // }
 }

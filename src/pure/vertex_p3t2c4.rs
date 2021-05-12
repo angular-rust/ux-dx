@@ -1,6 +1,6 @@
 use std::mem;
 
-// * CoglVertexP3T2C4:
+// * VertexP3T2C4:
 // * @x: The x component of a position attribute
 // * @y: The y component of a position attribute
 // * @z: The z component of a position attribute
@@ -12,7 +12,7 @@ use std::mem;
 // * @a: The alpha component of a color attribute
 // *
 // * A convenience vertex definition that can be used with
-// * cogl_primitive_new_p3t2c4().
+// * primitive_new_p3t2c4().
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct VertexP3T2C4 {

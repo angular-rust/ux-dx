@@ -21,7 +21,7 @@ pub trait TextureExt: 'static {
     ///
     /// `<note>`Normally applications don't need to use this api directly
     /// since the texture will be implicitly allocated when data is set on
-    /// the texture, or if the texture is attached to a `CoglOffscreen`
+    /// the texture, or if the texture is attached to a `Offscreen`
     /// framebuffer and rendered too.`</note>`
     ///
     /// # Returns
@@ -210,14 +210,14 @@ pub trait TextureExt: 'static {
     /// whether red, green and blue color components should be stored as
     /// pre-multiplied alpha values.
     ///
-    /// This api affects how data is uploaded to the GPU since Cogl will
+    /// This api affects how data is uploaded to the GPU since  will
     /// convert source data to have premultiplied or unpremultiplied
     /// components according to this state.
     ///
     /// For example if you create a texture via
     /// `Texture2D::new_with_size` and then upload data via
     /// `Texture::set_data` passing a source format of
-    /// `PixelFormat::Rgba8888` then Cogl will internally multiply the
+    /// `PixelFormat::Rgba8888` then  will internally multiply the
     /// red, green and blue components of the source data by the alpha
     /// component, for each pixel so that the internally stored data has
     /// pre-multiplied alpha components. If you instead upload data that
@@ -326,8 +326,8 @@ pub trait TextureExt: 'static {
 //         //     return TRUE;
 
 //         // if (texture->components == COGL_TEXTURE_COMPONENTS_RG &&
-//         //     !cogl_has_feature (texture->context, COGL_FEATURE_ID_TEXTURE_RG))
-//         //     _cogl_set_error (error,
+//         //     !has_feature (texture->context, COGL_FEATURE_ID_TEXTURE_RG))
+//         //     _set_error (error,
 //         //                     COGL_TEXTURE_ERROR,
 //         //                     COGL_TEXTURE_ERROR_FORMAT,
 //         //                     "A red-green texture was requested but the driver "
@@ -345,31 +345,31 @@ pub trait TextureExt: 'static {
 //     }
 
 //     fn get_data(&self, format: PixelFormat, rowstride: u32, data: &[u8]) -> i32 {
-//         // CoglContext *ctx = texture->context;
+//         // Context *ctx = texture->context;
 //         // int bpp;
 //         // int byte_size;
-//         // CoglPixelFormat closest_format;
+//         // PixelFormat closest_format;
 //         // GLenum closest_gl_format;
 //         // GLenum closest_gl_type;
-//         // CoglBitmap *target_bmp;
+//         // Bitmap *target_bmp;
 //         // int tex_width;
 //         // int tex_height;
-//         // CoglPixelFormat texture_format;
-//         // CoglError *ignore_error = NULL;
+//         // PixelFormat texture_format;
+//         // Error *ignore_error = NULL;
 
-//         // CoglTextureGetData tg_data;
+//         // TextureGetData tg_data;
 
-//         // texture_format = _cogl_texture_get_format (texture);
+//         // texture_format = _texture_get_format (texture);
 
 //         // /* Default to internal format if none specified */
 //         // if (format == COGL_PIXEL_FORMAT_ANY)
 //         //     format = texture_format;
 
-//         // tex_width = cogl_texture_get_width (texture);
-//         // tex_height = cogl_texture_get_height (texture);
+//         // tex_width = texture_get_width (texture);
+//         // tex_height = texture_get_height (texture);
 
 //         // /* Rowstride from texture width if none specified */
-//         // bpp = _cogl_pixel_format_get_bytes_per_pixel (format);
+//         // bpp = _pixel_format_get_bytes_per_pixel (format);
 //         // if (rowstride == 0)
 //         //     rowstride = tex_width * bpp;
 
@@ -396,7 +396,7 @@ pub trait TextureExt: 'static {
 //         // * this case the driver will be faking the alpha textures with a
 //         // * red-component texture and it won't swizzle to the correct format
 //         // * while reading */
-//         // if (!_cogl_has_private_feature (ctx, COGL_PRIVATE_FEATURE_ALPHA_TEXTURES))
+//         // if (!_has_private_feature (ctx, COGL_PRIVATE_FEATURE_ALPHA_TEXTURES))
 //         //     {
 //         //     if (texture_format == COGL_PIXEL_FORMAT_A_8)
 //         //         {
@@ -421,7 +421,7 @@ pub trait TextureExt: 'static {
 //         // /* Is the requested format supported? */
 //         // if (closest_format == format)
 //         //     /* Target user data directly */
-//         //     target_bmp = cogl_bitmap_new_for_data (ctx,
+//         //     target_bmp = bitmap_new_for_data (ctx,
 //         //                                         tex_width,
 //         //                                         tex_height,
 //         //                                         format,
@@ -429,18 +429,18 @@ pub trait TextureExt: 'static {
 //         //                                         data);
 //         // else
 //         //     {
-//         //     target_bmp = _cogl_bitmap_new_with_malloc_buffer (ctx,
+//         //     target_bmp = _bitmap_new_with_malloc_buffer (ctx,
 //         //                                                         tex_width, tex_height,
 //         //                                                         closest_format,
 //         //                                                         &ignore_error);
 //         //     if (!target_bmp)
 //         //         {
-//         //         cogl_error_free (ignore_error);
+//         //         error_free (ignore_error);
 //         //         return 0;
 //         //         }
 //         //     }
 
-//         // tg_data.target_bits = _cogl_bitmap_map (target_bmp, COGL_BUFFER_ACCESS_WRITE,
+//         // tg_data.target_bits = _bitmap_map (target_bmp, COGL_BUFFER_ACCESS_WRITE,
 //         //                                         COGL_BUFFER_MAP_HINT_DISCARD,
 //         //                                         &ignore_error);
 //         // if (tg_data.target_bits)
@@ -455,34 +455,34 @@ pub trait TextureExt: 'static {
 //         //     /* If there are any dependent framebuffers on the texture then we
 //         //         need to flush their journals so the texture contents will be
 //         //         up-to-date */
-//         //     _cogl_texture_flush_journal_rendering (texture);
+//         //     _texture_flush_journal_rendering (texture);
 
 //         //     /* Iterating through the subtextures allows piecing together
 //         //     * the data for a sliced texture, and allows us to do the
 //         //     * read-from-framebuffer logic here in a simple fashion rather than
 //         //     * passing offsets down through the code. */
-//         //     cogl_meta_texture_foreach_in_region (COGL_META_TEXTURE (texture),
+//         //     meta_texture_foreach_in_region (COGL_META_TEXTURE (texture),
 //         //                                         0, 0, 1, 1,
 //         //                                         COGL_PIPELINE_WRAP_MODE_REPEAT,
 //         //                                         COGL_PIPELINE_WRAP_MODE_REPEAT,
 //         //                                         texture_get_cb,
 //         //                                         &tg_data);
 
-//         //     _cogl_bitmap_unmap (target_bmp);
+//         //     _bitmap_unmap (target_bmp);
 //         //     }
 //         // else
 //         //     {
-//         //     cogl_error_free (ignore_error);
+//         //     error_free (ignore_error);
 //         //     tg_data.success = FALSE;
 //         //     }
 
-//         // /* XXX: In some cases _cogl_texture_2d_download_from_gl may fail
+//         // /* XXX: In some cases _texture_2d_download_from_gl may fail
 //         // * to read back the texture data; such as for GLES which doesn't
 //         // * support glGetTexImage, so here we fallback to drawing the
 //         // * texture and reading the pixels from the framebuffer. */
 //         // if (!tg_data.success)
 //         //     {
-//         //     if (!_cogl_texture_draw_and_read (texture, target_bmp,
+//         //     if (!_texture_draw_and_read (texture, target_bmp,
 //         //                                         closest_gl_format,
 //         //                                         closest_gl_type,
 //         //                                         &ignore_error))
@@ -491,8 +491,8 @@ pub trait TextureExt: 'static {
 //         //         * hope for the best */
 //         //         g_warning ("Failed to read texture since draw-and-read "
 //         //                     "fallback failed: %s", ignore_error->message);
-//         //         cogl_error_free (ignore_error);
-//         //         cogl_object_unref (target_bmp);
+//         //         error_free (ignore_error);
+//         //         object_unref (target_bmp);
 //         //         return 0;
 //         //         }
 //         //     }
@@ -500,29 +500,29 @@ pub trait TextureExt: 'static {
 //         // /* Was intermediate used? */
 //         // if (closest_format != format)
 //         //     {
-//         //     CoglBitmap *new_bmp;
-//         //     CoglBool result;
-//         //     CoglError *error = NULL;
+//         //     Bitmap *new_bmp;
+//         //     Bool result;
+//         //     Error *error = NULL;
 
 //         //     /* Convert to requested format directly into the user's buffer */
-//         //     new_bmp = cogl_bitmap_new_for_data (ctx,
+//         //     new_bmp = bitmap_new_for_data (ctx,
 //         //                                         tex_width, tex_height,
 //         //                                         format,
 //         //                                         rowstride,
 //         //                                         data);
-//         //     result = _cogl_bitmap_convert_into_bitmap (target_bmp, new_bmp, &error);
+//         //     result = _bitmap_convert_into_bitmap (target_bmp, new_bmp, &error);
 
 //         //     if (!result)
 //         //         {
-//         //         cogl_error_free (error);
+//         //         error_free (error);
 //         //         /* Return failure after cleaning up */
 //         //         byte_size = 0;
 //         //         }
 
-//         //     cogl_object_unref (new_bmp);
+//         //     object_unref (new_bmp);
 //         //     }
 
-//         // cogl_object_unref (target_bmp);
+//         // object_unref (target_bmp);
 
 //         // return byte_size;
 //         unimplemented!()
@@ -530,7 +530,7 @@ pub trait TextureExt: 'static {
 
 //     fn get_gl_texture(&self) -> (bool, u32, u32) {
 //         // if (!texture->allocated)
-//         //     cogl_texture_allocate (texture, NULL);
+//         //     texture_allocate (texture, NULL);
 
 //         // return texture->vtable->get_gl_texture (texture,
 //         //                                         out_gl_handle, out_gl_target);
@@ -559,7 +559,7 @@ pub trait TextureExt: 'static {
 
 //     fn is_sliced(&self) -> bool {
 //         // if (!texture->allocated)
-//         //     cogl_texture_allocate (texture, NULL);
+//         //     texture_allocate (texture, NULL);
 //         // return texture->vtable->is_sliced (texture);
 //         unimplemented!()
 //     }
@@ -584,13 +584,13 @@ pub trait TextureExt: 'static {
 //         // int level_width;
 //         // int level_height;
 
-//         // _cogl_texture_get_level_size (texture,
+//         // _texture_get_level_size (texture,
 //         //                                 level,
 //         //                                 &level_width,
 //         //                                 &level_height,
 //         //                                 NULL);
 
-//         // return _cogl_texture_set_region (texture,
+//         // return _texture_set_region (texture,
 //         //                                 level_width,
 //         //                                 level_height,
 //         //                                 format,
@@ -628,10 +628,10 @@ pub trait TextureExt: 'static {
 //         rowstride: u32,
 //         data: &[u8],
 //     ) -> bool {
-//         // CoglError *ignore_error = NULL;
+//         // Error *ignore_error = NULL;
 //         // const uint8_t *first_pixel;
-//         // int bytes_per_pixel = _cogl_pixel_format_get_bytes_per_pixel (format);
-//         // CoglBool status;
+//         // int bytes_per_pixel = _pixel_format_get_bytes_per_pixel (format);
+//         // Bool status;
 
 //         // /* Rowstride from width if none specified */
 //         // if (rowstride == 0)
@@ -639,7 +639,7 @@ pub trait TextureExt: 'static {
 
 //         // first_pixel = data + rowstride * src_y + bytes_per_pixel * src_x;
 
-//         // status = _cogl_texture_set_region (texture,
+//         // status = _texture_set_region (texture,
 //         //                                     dst_width,
 //         //                                     dst_height,
 //         //                                     format,
@@ -650,7 +650,7 @@ pub trait TextureExt: 'static {
 //         //                                     0,
 //         //                                     &ignore_error);
 //         // if (!status)
-//         //     cogl_error_free (ignore_error);
+//         //     error_free (ignore_error);
 //         // return status;
 //         unimplemented!()
 //     }
@@ -665,9 +665,9 @@ pub trait TextureExt: 'static {
 //         dst_height: u32,
 //         bitmap: &Bitmap,
 //     ) -> bool {
-//         // CoglError *ignore_error = NULL;
-//         // CoglBool status =
-//         //     _cogl_texture_set_region_from_bitmap (texture,
+//         // Error *ignore_error = NULL;
+//         // Bool status =
+//         //     _texture_set_region_from_bitmap (texture,
 //         //                                         src_x, src_y,
 //         //                                         dst_width, dst_height,
 //         //                                         bitmap,
@@ -676,7 +676,7 @@ pub trait TextureExt: 'static {
 //         //                                         &ignore_error);
 
 //         // if (!status)
-//         //     cogl_error_free (ignore_error);
+//         //     error_free (ignore_error);
 //         // return status;
 //         unimplemented!()
 //     }

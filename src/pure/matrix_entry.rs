@@ -1,7 +1,7 @@
 use crate::Matrix;
 use std::mem;
 
-// typedef enum _CoglMatrixOp
+// typedef enum _MatrixOp
 // {
 //   COGL_MATRIX_OP_LOAD_IDENTITY,
 //   COGL_MATRIX_OP_TRANSLATE,
@@ -12,149 +12,149 @@ use std::mem;
 //   COGL_MATRIX_OP_MULTIPLY,
 //   COGL_MATRIX_OP_LOAD,
 //   COGL_MATRIX_OP_SAVE,
-// } CoglMatrixOp;
+// } MatrixOp;
 
-// typedef struct _CoglMatrixEntryTranslate
+// typedef struct _MatrixEntryTranslate
 // {
-//   CoglMatrixEntry _parent_data;
+//   MatrixEntry _parent_data;
 
 //   float x;
 //   float y;
 //   float z;
 
-// } CoglMatrixEntryTranslate;
+// } MatrixEntryTranslate;
 
-// typedef struct _CoglMatrixEntryRotate
+// typedef struct _MatrixEntryRotate
 // {
-//   CoglMatrixEntry _parent_data;
+//   MatrixEntry _parent_data;
 
 //   float angle;
 //   float x;
 //   float y;
 //   float z;
 
-// } CoglMatrixEntryRotate;
+// } MatrixEntryRotate;
 
-// typedef struct _CoglMatrixEntryRotateEuler
+// typedef struct _MatrixEntryRotateEuler
 // {
-//   CoglMatrixEntry _parent_data;
+//   MatrixEntry _parent_data;
 
-//   /* This doesn't store an actual CoglEuler in order to avoid the
+//   /* This doesn't store an actual Euler in order to avoid the
 //    * padding */
 //   float heading;
 //   float pitch;
 //   float roll;
-// } CoglMatrixEntryRotateEuler;
+// } MatrixEntryRotateEuler;
 
-// typedef struct _CoglMatrixEntryRotateQuaternion
+// typedef struct _MatrixEntryRotateQuaternion
 // {
-//   CoglMatrixEntry _parent_data;
+//   MatrixEntry _parent_data;
 
-//   /* This doesn't store an actual CoglQuaternion in order to avoid the
+//   /* This doesn't store an actual Quaternion in order to avoid the
 //    * padding */
 //   float values[4];
-// } CoglMatrixEntryRotateQuaternion;
+// } MatrixEntryRotateQuaternion;
 
-// typedef struct _CoglMatrixEntryScale
+// typedef struct _MatrixEntryScale
 // {
-//   CoglMatrixEntry _parent_data;
+//   MatrixEntry _parent_data;
 
 //   float x;
 //   float y;
 //   float z;
 
-// } CoglMatrixEntryScale;
+// } MatrixEntryScale;
 
-// typedef struct _CoglMatrixEntryMultiply
+// typedef struct _MatrixEntryMultiply
 // {
-//   CoglMatrixEntry _parent_data;
+//   MatrixEntry _parent_data;
 
-//   CoglMatrix *matrix;
+//   Matrix *matrix;
 
-// } CoglMatrixEntryMultiply;
+// } MatrixEntryMultiply;
 
-// typedef struct _CoglMatrixEntryLoad
+// typedef struct _MatrixEntryLoad
 // {
-//   CoglMatrixEntry _parent_data;
+//   MatrixEntry _parent_data;
 
-//   CoglMatrix *matrix;
+//   Matrix *matrix;
 
-// } CoglMatrixEntryLoad;
+// } MatrixEntryLoad;
 
-// typedef struct _CoglMatrixEntrySave
+// typedef struct _MatrixEntrySave
 // {
-//   CoglMatrixEntry _parent_data;
+//   MatrixEntry _parent_data;
 
-//   CoglMatrix *cache;
-//   CoglBool cache_valid;
+//   Matrix *cache;
+//   Bool cache_valid;
 
-// } CoglMatrixEntrySave;
+// } MatrixEntrySave;
 
-// typedef union _CoglMatrixEntryFull
+// typedef union _MatrixEntryFull
 // {
-//   CoglMatrixEntry any;
-//   CoglMatrixEntryTranslate translate;
-//   CoglMatrixEntryRotate rotate;
-//   CoglMatrixEntryRotateEuler rotate_euler;
-//   CoglMatrixEntryRotateQuaternion rotate_quaternion;
-//   CoglMatrixEntryScale scale;
-//   CoglMatrixEntryMultiply multiply;
-//   CoglMatrixEntryLoad load;
-//   CoglMatrixEntrySave save;
-// } CoglMatrixEntryFull;
+//   MatrixEntry any;
+//   MatrixEntryTranslate translate;
+//   MatrixEntryRotate rotate;
+//   MatrixEntryRotateEuler rotate_euler;
+//   MatrixEntryRotateQuaternion rotate_quaternion;
+//   MatrixEntryScale scale;
+//   MatrixEntryMultiply multiply;
+//   MatrixEntryLoad load;
+//   MatrixEntrySave save;
+// } MatrixEntryFull;
 
-// typedef struct _CoglMatrixEntryCache
+// typedef struct _MatrixEntryCache
 // {
-//   CoglMatrixEntry *entry;
-//   CoglBool flushed_identity;
-//   CoglBool flipped;
-// } CoglMatrixEntryCache;
+//   MatrixEntry *entry;
+//   Bool flushed_identity;
+//   Bool flipped;
+// } MatrixEntryCache;
 
 // void
-// _cogl_matrix_entry_identity_init (CoglMatrixEntry *entry);
+// _matrix_entry_identity_init (MatrixEntry *entry);
 
 // typedef enum {
 //   COGL_MATRIX_MODELVIEW,
 //   COGL_MATRIX_PROJECTION,
 //   COGL_MATRIX_TEXTURE
-// } CoglMatrixMode;
+// } MatrixMode;
 
-// * CoglMatrixEntry:
+// * MatrixEntry:
 // *
 // * Represents a single immutable transformation that was retrieved
-// * from a #CoglMatrixStack using cogl_matrix_stack_get_entry().
+// * from a #MatrixStack using matrix_stack_get_entry().
 // *
-// * Internally a #CoglMatrixEntry represents a single matrix
+// * Internally a #MatrixEntry represents a single matrix
 // * operation (such as "rotate", "scale", "translate") which is applied
 // * to the transform of a single parent entry.
 // *
-// * Using the #CoglMatrixStack api effectively builds up a graph of
-// * these immutable #CoglMatrixEntry structures whereby operations
+// * Using the #MatrixStack api effectively builds up a graph of
+// * these immutable #MatrixEntry structures whereby operations
 // * that can be shared between multiple transformations will result
-// * in shared #CoglMatrixEntry nodes in the graph.
+// * in shared #MatrixEntry nodes in the graph.
 // *
-// * When a #CoglMatrixStack is first created it references one
-// * #CoglMatrixEntry that represents a single "load identity"
+// * When a #MatrixStack is first created it references one
+// * #MatrixEntry that represents a single "load identity"
 // * operation. This serves as the root entry and all operations
 // * that are then applied to the stack will extend the graph
 // * starting from this root "load identity" entry.
 // *
-// * Given the typical usage model for a #CoglMatrixStack and the way
+// * Given the typical usage model for a #MatrixStack and the way
 // * the entries are built up while traversing a scenegraph then in most
 // * cases where an application is interested in comparing two
 // * transformations for equality then it is enough to simply compare
-// * two #CoglMatrixEntry pointers directly. Technically this can lead
+// * two #MatrixEntry pointers directly. Technically this can lead
 // * to false negatives that could be identified with a deeper
 // * comparison but often these false negatives are unlikely and
 // * don't matter anyway so this enables extremely cheap comparisons.
 // *
-// * <note>#CoglMatrixEntry<!-- -->s are reference counted using
-// * cogl_matrix_entry_ref() and cogl_matrix_entry_unref() not with
-// * cogl_object_ref() and cogl_object_unref().</note>
+// * <note>#MatrixEntry<!-- -->s are reference counted using
+// * matrix_entry_ref() and matrix_entry_unref() not with
+// * object_ref() and object_unref().</note>
 #[derive(Debug, PartialOrd, Ord)] // Hash
 pub struct MatrixEntry {
-//     CoglMatrixEntry *parent;
-//     CoglMatrixOp op;
+//     MatrixEntry *parent;
+//     MatrixOp op;
 //     unsigned int ref_count;
   
 //   #ifdef COGL_DEBUG_ENABLED
@@ -187,8 +187,8 @@ impl MatrixEntry {
     pub fn calculate_translation(&self, other: &MatrixEntry) -> (bool, f32, f32, f32) {
         // GSList *head0 = NULL;
         // GSList *head1 = NULL;
-        // CoglMatrixEntry *node0;
-        // CoglMatrixEntry *node1;
+        // MatrixEntry *node0;
+        // MatrixEntry *node1;
         // int len0 = 0;
         // int len1 = 0;
         // int count;
@@ -273,14 +273,14 @@ impl MatrixEntry {
 
         // for (head0 = common_ancestor0->next; head0; head0 = head0->next)
         //     {
-        //     CoglMatrixEntryTranslate *translate;
+        //     MatrixEntryTranslate *translate;
 
         //     node0 = head0->data;
 
         //     if (node0->op != COGL_MATRIX_OP_TRANSLATE)
         //         return FALSE;
 
-        //     translate = (CoglMatrixEntryTranslate *)node0;
+        //     translate = (MatrixEntryTranslate *)node0;
 
         //     *x = *x - translate->x;
         //     *y = *y - translate->y;
@@ -288,14 +288,14 @@ impl MatrixEntry {
         //     }
         // for (head1 = common_ancestor1->next; head1; head1 = head1->next)
         //     {
-        //     CoglMatrixEntryTranslate *translate;
+        //     MatrixEntryTranslate *translate;
 
         //     node1 = head1->data;
 
         //     if (node1->op != COGL_MATRIX_OP_TRANSLATE)
         //         return FALSE;
 
-        //     translate = (CoglMatrixEntryTranslate *)node1;
+        //     translate = (MatrixEntryTranslate *)node1;
 
         //     *x = *x + translate->x;
         //     *y = *y + translate->y;
@@ -322,8 +322,8 @@ impl MatrixEntry {
     fn equal(&self, other: &Self) -> bool {
         // for (; entry0 && entry1; entry0 = entry0->parent, entry1 = entry1->parent)
         //  {
-        //    entry0 = _cogl_matrix_entry_skip_saves (entry0);
-        //    entry1 = _cogl_matrix_entry_skip_saves (entry1);
+        //    entry0 = _matrix_entry_skip_saves (entry0);
+        //    entry1 = _matrix_entry_skip_saves (entry1);
      
         //    if (entry0 == entry1)
         //      return TRUE;
@@ -337,10 +337,10 @@ impl MatrixEntry {
         //        return TRUE;
         //      case COGL_MATRIX_OP_TRANSLATE:
         //        {
-        //          CoglMatrixEntryTranslate *translate0 =
-        //            (CoglMatrixEntryTranslate *)entry0;
-        //          CoglMatrixEntryTranslate *translate1 =
-        //            (CoglMatrixEntryTranslate *)entry1;
+        //          MatrixEntryTranslate *translate0 =
+        //            (MatrixEntryTranslate *)entry0;
+        //          MatrixEntryTranslate *translate1 =
+        //            (MatrixEntryTranslate *)entry1;
         //          /* We could perhaps use an epsilon to compare here?
         //           * I expect the false negatives are probaly never going to
         //           * be a problem and this is a bit cheaper. */
@@ -352,10 +352,10 @@ impl MatrixEntry {
         //        break;
         //      case COGL_MATRIX_OP_ROTATE:
         //        {
-        //          CoglMatrixEntryRotate *rotate0 =
-        //            (CoglMatrixEntryRotate *)entry0;
-        //          CoglMatrixEntryRotate *rotate1 =
-        //            (CoglMatrixEntryRotate *)entry1;
+        //          MatrixEntryRotate *rotate0 =
+        //            (MatrixEntryRotate *)entry0;
+        //          MatrixEntryRotate *rotate1 =
+        //            (MatrixEntryRotate *)entry1;
         //          if (rotate0->angle != rotate1->angle ||
         //              rotate0->x != rotate1->x ||
         //              rotate0->y != rotate1->y ||
@@ -365,10 +365,10 @@ impl MatrixEntry {
         //        break;
         //      case COGL_MATRIX_OP_ROTATE_QUATERNION:
         //        {
-        //          CoglMatrixEntryRotateQuaternion *rotate0 =
-        //            (CoglMatrixEntryRotateQuaternion *)entry0;
-        //          CoglMatrixEntryRotateQuaternion *rotate1 =
-        //            (CoglMatrixEntryRotateQuaternion *)entry1;
+        //          MatrixEntryRotateQuaternion *rotate0 =
+        //            (MatrixEntryRotateQuaternion *)entry0;
+        //          MatrixEntryRotateQuaternion *rotate1 =
+        //            (MatrixEntryRotateQuaternion *)entry1;
         //          int i;
         //          for (i = 0; i < 4; i++)
         //            if (rotate0->values[i] != rotate1->values[i])
@@ -377,10 +377,10 @@ impl MatrixEntry {
         //        break;
         //      case COGL_MATRIX_OP_ROTATE_EULER:
         //        {
-        //          CoglMatrixEntryRotateEuler *rotate0 =
-        //            (CoglMatrixEntryRotateEuler *)entry0;
-        //          CoglMatrixEntryRotateEuler *rotate1 =
-        //            (CoglMatrixEntryRotateEuler *)entry1;
+        //          MatrixEntryRotateEuler *rotate0 =
+        //            (MatrixEntryRotateEuler *)entry0;
+        //          MatrixEntryRotateEuler *rotate1 =
+        //            (MatrixEntryRotateEuler *)entry1;
      
         //          if (rotate0->heading != rotate1->heading ||
         //              rotate0->pitch != rotate1->pitch ||
@@ -390,8 +390,8 @@ impl MatrixEntry {
         //        break;
         //      case COGL_MATRIX_OP_SCALE:
         //        {
-        //          CoglMatrixEntryScale *scale0 = (CoglMatrixEntryScale *)entry0;
-        //          CoglMatrixEntryScale *scale1 = (CoglMatrixEntryScale *)entry1;
+        //          MatrixEntryScale *scale0 = (MatrixEntryScale *)entry0;
+        //          MatrixEntryScale *scale1 = (MatrixEntryScale *)entry1;
         //          if (scale0->x != scale1->x ||
         //              scale0->y != scale1->y ||
         //              scale0->z != scale1->z)
@@ -400,20 +400,20 @@ impl MatrixEntry {
         //        break;
         //      case COGL_MATRIX_OP_MULTIPLY:
         //        {
-        //          CoglMatrixEntryMultiply *mult0 = (CoglMatrixEntryMultiply *)entry0;
-        //          CoglMatrixEntryMultiply *mult1 = (CoglMatrixEntryMultiply *)entry1;
-        //          if (!cogl_matrix_equal (mult0->matrix, mult1->matrix))
+        //          MatrixEntryMultiply *mult0 = (MatrixEntryMultiply *)entry0;
+        //          MatrixEntryMultiply *mult1 = (MatrixEntryMultiply *)entry1;
+        //          if (!matrix_equal (mult0->matrix, mult1->matrix))
         //            return FALSE;
         //        }
         //        break;
         //      case COGL_MATRIX_OP_LOAD:
         //        {
-        //          CoglMatrixEntryLoad *load0 = (CoglMatrixEntryLoad *)entry0;
-        //          CoglMatrixEntryLoad *load1 = (CoglMatrixEntryLoad *)entry1;
+        //          MatrixEntryLoad *load0 = (MatrixEntryLoad *)entry0;
+        //          MatrixEntryLoad *load1 = (MatrixEntryLoad *)entry1;
         //          /* There's no need to check any further since an
         //           * _OP_LOAD makes all the ancestors redundant as far as
         //           * the final matrix value is concerned. */
-        //          return cogl_matrix_equal (load0->matrix, load1->matrix);
+        //          return matrix_equal (load0->matrix, load1->matrix);
         //        }
         //      case COGL_MATRIX_OP_SAVE:
         //        /* We skip over saves above so we shouldn't see save entries */
@@ -452,8 +452,8 @@ impl MatrixEntry {
     ///  the effective transform represented by `self`.
     pub fn get(&self) -> (Matrix, Matrix) {
         // int depth;
-        // CoglMatrixEntry *current;
-        // CoglMatrixEntry **children;
+        // MatrixEntry *current;
+        // MatrixEntry **children;
         // int i;
 
         // for (depth = 0, current = entry;
@@ -463,27 +463,27 @@ impl MatrixEntry {
         //     switch (current->op)
         //         {
         //         case COGL_MATRIX_OP_LOAD_IDENTITY:
-        //         cogl_matrix_init_identity (matrix);
+        //         matrix_init_identity (matrix);
         //         goto initialized;
         //         case COGL_MATRIX_OP_LOAD:
         //         {
-        //             CoglMatrixEntryLoad *load = (CoglMatrixEntryLoad *)current;
-        //             _cogl_matrix_init_from_matrix_without_inverse (matrix,
+        //             MatrixEntryLoad *load = (MatrixEntryLoad *)current;
+        //             _matrix_init_from_matrix_without_inverse (matrix,
         //                                                         load->matrix);
         //             goto initialized;
         //         }
         //         case COGL_MATRIX_OP_SAVE:
         //         {
-        //             CoglMatrixEntrySave *save = (CoglMatrixEntrySave *)current;
+        //             MatrixEntrySave *save = (MatrixEntrySave *)current;
         //             if (!save->cache_valid)
         //             {
-        //                 CoglMagazine *matrices_magazine =
-        //                 cogl_matrix_stack_matrices_magazine;
-        //                 save->cache = _cogl_magazine_chunk_alloc (matrices_magazine);
-        //                 cogl_matrix_entry_get (current->parent, save->cache);
+        //                 Magazine *matrices_magazine =
+        //                 matrix_stack_matrices_magazine;
+        //                 save->cache = _magazine_chunk_alloc (matrices_magazine);
+        //                 matrix_entry_get (current->parent, save->cache);
         //                 save->cache_valid = TRUE;
         //             }
-        //             _cogl_matrix_init_from_matrix_without_inverse (matrix, save->cache);
+        //             _matrix_init_from_matrix_without_inverse (matrix, save->cache);
         //             goto initialized;
         //         }
         //         default:
@@ -508,12 +508,12 @@ impl MatrixEntry {
 
         //         case COGL_MATRIX_OP_LOAD:
         //         {
-        //             CoglMatrixEntryLoad *load = (CoglMatrixEntryLoad *)entry;
+        //             MatrixEntryLoad *load = (MatrixEntryLoad *)entry;
         //             return load->matrix;
         //         }
         //         case COGL_MATRIX_OP_SAVE:
         //         {
-        //             CoglMatrixEntrySave *save = (CoglMatrixEntrySave *)entry;
+        //             MatrixEntrySave *save = (MatrixEntrySave *)entry;
         //             return save->cache;
         //         }
         //         }
@@ -531,7 +531,7 @@ impl MatrixEntry {
         // entry->composite_gets++;
         // #endif
 
-        // children = g_alloca (sizeof (CoglMatrixEntry) * depth);
+        // children = g_alloca (sizeof (MatrixEntry) * depth);
 
         // /* We need walk the list of entries from the init/load/save entry
         // * back towards the leaf node but the nodes don't link to their
@@ -559,9 +559,9 @@ impl MatrixEntry {
         //         {
         //         case COGL_MATRIX_OP_TRANSLATE:
         //         {
-        //             CoglMatrixEntryTranslate *translate =
-        //             (CoglMatrixEntryTranslate *)children[i];
-        //             cogl_matrix_translate (matrix,
+        //             MatrixEntryTranslate *translate =
+        //             (MatrixEntryTranslate *)children[i];
+        //             matrix_translate (matrix,
         //                                 translate->x,
         //                                 translate->y,
         //                                 translate->z);
@@ -569,9 +569,9 @@ impl MatrixEntry {
         //         }
         //         case COGL_MATRIX_OP_ROTATE:
         //         {
-        //             CoglMatrixEntryRotate *rotate=
-        //             (CoglMatrixEntryRotate *)children[i];
-        //             cogl_matrix_rotate (matrix,
+        //             MatrixEntryRotate *rotate=
+        //             (MatrixEntryRotate *)children[i];
+        //             matrix_rotate (matrix,
         //                                 rotate->angle,
         //                                 rotate->x,
         //                                 rotate->y,
@@ -580,31 +580,31 @@ impl MatrixEntry {
         //         }
         //         case COGL_MATRIX_OP_ROTATE_EULER:
         //         {
-        //             CoglMatrixEntryRotateEuler *rotate =
-        //             (CoglMatrixEntryRotateEuler *)children[i];
-        //             CoglEuler euler;
-        //             cogl_euler_init (&euler,
+        //             MatrixEntryRotateEuler *rotate =
+        //             (MatrixEntryRotateEuler *)children[i];
+        //             Euler euler;
+        //             euler_init (&euler,
         //                             rotate->heading,
         //                             rotate->pitch,
         //                             rotate->roll);
-        //             cogl_matrix_rotate_euler (matrix,
+        //             matrix_rotate_euler (matrix,
         //                                     &euler);
         //             continue;
         //         }
         //         case COGL_MATRIX_OP_ROTATE_QUATERNION:
         //         {
-        //             CoglMatrixEntryRotateQuaternion *rotate =
-        //             (CoglMatrixEntryRotateQuaternion *)children[i];
-        //             CoglQuaternion quaternion;
-        //             cogl_quaternion_init_from_array (&quaternion, rotate->values);
-        //             cogl_matrix_rotate_quaternion (matrix, &quaternion);
+        //             MatrixEntryRotateQuaternion *rotate =
+        //             (MatrixEntryRotateQuaternion *)children[i];
+        //             Quaternion quaternion;
+        //             quaternion_init_from_array (&quaternion, rotate->values);
+        //             matrix_rotate_quaternion (matrix, &quaternion);
         //             continue;
         //         }
         //         case COGL_MATRIX_OP_SCALE:
         //         {
-        //             CoglMatrixEntryScale *scale =
-        //             (CoglMatrixEntryScale *)children[i];
-        //             cogl_matrix_scale (matrix,
+        //             MatrixEntryScale *scale =
+        //             (MatrixEntryScale *)children[i];
+        //             matrix_scale (matrix,
         //                             scale->x,
         //                             scale->y,
         //                             scale->z);
@@ -612,9 +612,9 @@ impl MatrixEntry {
         //         }
         //         case COGL_MATRIX_OP_MULTIPLY:
         //         {
-        //             CoglMatrixEntryMultiply *multiply =
-        //             (CoglMatrixEntryMultiply *)children[i];
-        //             cogl_matrix_multiply (matrix, matrix, multiply->matrix);
+        //             MatrixEntryMultiply *multiply =
+        //             (MatrixEntryMultiply *)children[i];
+        //             matrix_multiply (matrix, matrix, multiply->matrix);
         //             continue;
         //         }
 

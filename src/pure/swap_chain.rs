@@ -8,20 +8,20 @@ use crate::Object;
 use std::fmt;
 
 pub struct SwapChain {
-    // CoglObject _parent;
+    // Object _parent;
 
-    // CoglBool has_alpha;
+    // Bool has_alpha;
   
     // int length;
 }
 
 impl SwapChain {
     pub fn new() -> SwapChain {
-        // CoglSwapChain *swap_chain = g_slice_new0 (CoglSwapChain);
+        // SwapChain *swap_chain = g_slice_new0 (SwapChain);
 
         // swap_chain->length = -1; /* no preference */
       
-        // return _cogl_swap_chain_object_new (swap_chain);
+        // return _swap_chain_object_new (swap_chain);
         unimplemented!()
     }
 

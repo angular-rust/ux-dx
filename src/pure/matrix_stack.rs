@@ -9,13 +9,13 @@ use std::fmt;
 // * transforms of objects, texture transforms, and projective
 // * transforms.
 // *
-// * The #CoglMatrix api provides a good way to manipulate individual
+// * The #Matrix api provides a good way to manipulate individual
 // * matrices representing a single transformation but if you need to
 // * track many-many such transformations for many objects that are
 // * organized in a scenegraph for example then using a separate
-// * #CoglMatrix for each object may not be the most efficient way.
+// * #Matrix for each object may not be the most efficient way.
 // *
-// * A #CoglMatrixStack enables applications to track lots of
+// * A #MatrixStack enables applications to track lots of
 // * transformations that are related to each other in some kind of
 // * hierarchy.  In a scenegraph for example if you want to know how to
 // * transform a particular node then you usually have to walk up
@@ -23,12 +23,12 @@ use std::fmt;
 // * finally applying the transform of the node itself. In this model
 // * things are grouped together spatially according to their ancestry
 // * and all siblings with the same parent share the same initial
-// * transformation. The #CoglMatrixStack API is suited to tracking lots
+// * transformation. The #MatrixStack API is suited to tracking lots
 // * of transformations that fit this kind of model.
 // *
-// * Compared to using the #CoglMatrix api directly to track many
+// * Compared to using the #Matrix api directly to track many
 // * related transforms, these can be some advantages to using a
-// * #CoglMatrixStack:
+// * #MatrixStack:
 // * <itemizedlist>
 // *   <listitem>Faster equality comparisons of transformations</listitem>
 // *   <listitem>Efficient comparisons of the differences between arbitrary
@@ -38,15 +38,15 @@ use std::fmt;
 // *   <listitem>Can be more space efficient (not always though)</listitem>
 // * </itemizedlist>
 // *
-// * For reference (to give an idea of when a #CoglMatrixStack can
-// * provide a space saving) a #CoglMatrix can be expected to take 72
-// * bytes whereas a single #CoglMatrixEntry in a #CoglMatrixStack is
+// * For reference (to give an idea of when a #MatrixStack can
+// * provide a space saving) a #Matrix can be expected to take 72
+// * bytes whereas a single #MatrixEntry in a #MatrixStack is
 // * currently around 32 bytes on a 32bit CPU or 36 bytes on a 64bit
 // * CPU. An entry is needed for each individual operation applied to
 // * the stack (such as rotate, scale, translate) so if most of your
 // * leaf node transformations only need one or two simple operations
 // * relative to their parent then a matrix stack will likely take less
-// * space than having a #CoglMatrix for each node.
+// * space than having a #Matrix for each node.
 // *
 // * Even without any space saving though the ability to perform fast
 // * comparisons and avoid redundant arithmetic (especially sine and
@@ -54,45 +54,45 @@ use std::fmt;
 // * worthwhile.
 
 
-// * CoglMatrixStack:
+// * MatrixStack:
 // *
 // * Tracks your current position within a hierarchy and lets you build
 // * up a graph of transformations as you traverse through a hierarchy
 // * such as a scenegraph.
 // *
-// * A #CoglMatrixStack always maintains a reference to a single
+// * A #MatrixStack always maintains a reference to a single
 // * transformation at any point in time, representing the
 // * transformation at the current position in the hierarchy. You can
 // * get a reference to the current transformation by calling
-// * cogl_matrix_stack_get_entry().
+// * matrix_stack_get_entry().
 // *
-// * When a #CoglMatrixStack is first created with
-// * cogl_matrix_stack_new() then it is conceptually positioned at the
+// * When a #MatrixStack is first created with
+// * matrix_stack_new() then it is conceptually positioned at the
 // * root of your hierarchy and the current transformation simply
 // * represents an identity transformation.
 // *
 // * As you traverse your object hierarchy (your scenegraph) then you
-// * should call cogl_matrix_stack_push() whenever you move down one
-// * level and call cogl_matrix_stack_pop() whenever you move back up
+// * should call matrix_stack_push() whenever you move down one
+// * level and call matrix_stack_pop() whenever you move back up
 // * one level towards the root.
 // *
 // * At any time you can apply a set of operations, such as "rotate",
 // * "scale", "translate" on top of the current transformation of a
-// * #CoglMatrixStack using functions such as
-// * cogl_matrix_stack_rotate(), cogl_matrix_stack_scale() and
-// * cogl_matrix_stack_translate(). These operations will derive a new
+// * #MatrixStack using functions such as
+// * matrix_stack_rotate(), matrix_stack_scale() and
+// * matrix_stack_translate(). These operations will derive a new
 // * current transformation and will never affect a transformation
-// * that you have referenced using cogl_matrix_stack_get_entry().
+// * that you have referenced using matrix_stack_get_entry().
 // *
-// * Internally applying operations to a #CoglMatrixStack builds up a
-// * graph of #CoglMatrixEntry structures which each represent a single
+// * Internally applying operations to a #MatrixStack builds up a
+// * graph of #MatrixEntry structures which each represent a single
 // * immutable transform.
 pub struct MatrixStack {
-    // CoglObject _parent;
+    // Object _parent;
 
-    // CoglContext *context;
+    // Context *context;
   
-    // CoglMatrixEntry *last_entry;
+    // MatrixEntry *last_entry;
 }
 
 impl MatrixStack {
@@ -124,23 +124,23 @@ impl MatrixStack {
     ///
     /// A newly allocated `MatrixStack`
     pub fn new(ctx: &Context) -> MatrixStack {
-        // CoglMatrixStack *stack = g_slice_new (CoglMatrixStack);
+        // MatrixStack *stack = g_slice_new (MatrixStack);
 
-        // if (G_UNLIKELY (cogl_matrix_stack_magazine == NULL))
+        // if (G_UNLIKELY (matrix_stack_magazine == NULL))
         //     {
-        //     cogl_matrix_stack_magazine =
-        //         _cogl_magazine_new (sizeof (CoglMatrixEntryFull), 20);
-        //     cogl_matrix_stack_matrices_magazine =
-        //         _cogl_magazine_new (sizeof (CoglMatrix), 20);
+        //     matrix_stack_magazine =
+        //         _magazine_new (sizeof (MatrixEntryFull), 20);
+        //     matrix_stack_matrices_magazine =
+        //         _magazine_new (sizeof (Matrix), 20);
         //     }
 
         // stack->context = ctx;
         // stack->last_entry = NULL;
 
-        // cogl_matrix_entry_ref (&ctx->identity_entry);
-        // _cogl_matrix_stack_push_entry (stack, &ctx->identity_entry);
+        // matrix_entry_ref (&ctx->identity_entry);
+        // _matrix_stack_push_entry (stack, &ctx->identity_entry);
 
-        // return _cogl_matrix_stack_object_new (stack);
+        // return _matrix_stack_object_new (stack);
         unimplemented!()
     }
 
@@ -164,17 +164,17 @@ impl MatrixStack {
     /// ## `z_far`
     /// The distance to the far clipping plane (Must be positive)
     pub fn frustum(&self, left: f32, right: f32, bottom: f32, top: f32, z_near: f32, z_far: f32) {
-        // CoglMatrixEntryLoad *entry;
+        // MatrixEntryLoad *entry;
 
         // entry =
-        //     _cogl_matrix_stack_push_replacement_entry (stack,
+        //     _matrix_stack_push_replacement_entry (stack,
         //                                             COGL_MATRIX_OP_LOAD);
 
         // entry->matrix =
-        //     _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+        //     _magazine_chunk_alloc (matrix_stack_matrices_magazine);
 
-        // cogl_matrix_init_identity (entry->matrix);
-        // cogl_matrix_frustum (entry->matrix,
+        // matrix_init_identity (entry->matrix);
+        // matrix_frustum (entry->matrix,
         //                     left, right, bottom, top,
         //                     z_near, z_far);
     }
@@ -204,7 +204,7 @@ impl MatrixStack {
     ///  and in that case `matrix` will be initialized with
     ///  the value of the current transform.
     pub fn get(&self) -> (Matrix, Matrix) {
-        // return cogl_matrix_entry_get (stack->last_entry, matrix);
+        // return matrix_entry_get (stack->last_entry, matrix);
         unimplemented!()
     }
 
@@ -239,19 +239,19 @@ impl MatrixStack {
     ///  for degenerate transformations that can't be inverted (in this case the
     ///  `inverse` matrix will simply be initialized with the identity matrix)
     pub fn get_inverse(&self) -> (bool, Matrix) {
-        // CoglMatrix matrix;
-        // CoglMatrix *internal = cogl_matrix_stack_get (stack, &matrix);
+        // Matrix matrix;
+        // Matrix *internal = matrix_stack_get (stack, &matrix);
 
         // if (internal)
-        //     return cogl_matrix_get_inverse (internal, inverse);
+        //     return matrix_get_inverse (internal, inverse);
         // else
-        //     return cogl_matrix_get_inverse (&matrix, inverse);
+        //     return matrix_get_inverse (&matrix, inverse);
         unimplemented!()
     }
 
     /// Resets the current matrix to the identity matrix.
     pub fn load_identity(&self) {
-        // _cogl_matrix_stack_push_replacement_entry (stack,
+        // _matrix_stack_push_replacement_entry (stack,
         //     COGL_MATRIX_OP_LOAD_IDENTITY);
         unimplemented!()
     }
@@ -260,14 +260,14 @@ impl MatrixStack {
     /// ## `matrix`
     /// the matrix to multiply with the current model-view
     pub fn multiply(&self, matrix: &Matrix) {
-        // CoglMatrixEntryMultiply *entry;
+        // MatrixEntryMultiply *entry;
 
-        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_MULTIPLY);
+        // entry = _matrix_stack_push_operation (stack, COGL_MATRIX_OP_MULTIPLY);
 
         // entry->matrix =
-        //     _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+        //     _magazine_chunk_alloc (matrix_stack_matrices_magazine);
 
-        // cogl_matrix_init_from_array (entry->matrix, (float *)matrix);
+        // matrix_init_from_array (entry->matrix, (float *)matrix);
         unimplemented!()
     }
 
@@ -289,17 +289,17 @@ impl MatrixStack {
     ///  plane (will be `<emphasis>`negative`</emphasis>` if the plane is
     ///  behind the viewer)
     pub fn orthographic(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32, near: f32, far: f32) {
-        // CoglMatrixEntryLoad *entry;
+        // MatrixEntryLoad *entry;
 
         // entry =
-        //     _cogl_matrix_stack_push_replacement_entry (stack,
+        //     _matrix_stack_push_replacement_entry (stack,
         //                                             COGL_MATRIX_OP_LOAD);
 
         // entry->matrix =
-        //     _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+        //     _magazine_chunk_alloc (matrix_stack_matrices_magazine);
 
-        // cogl_matrix_init_identity (entry->matrix);
-        // cogl_matrix_orthographic (entry->matrix,
+        // matrix_init_identity (entry->matrix);
+        // matrix_orthographic (entry->matrix,
         //                             x_1, y_1, x_2, y_2, near, far);
         unimplemented!()
     }
@@ -321,17 +321,17 @@ impl MatrixStack {
     /// ## `z_far`
     /// The distance to the far clipping plane (Must be positive)
     pub fn perspective(&self, fov_y: f32, aspect: f32, z_near: f32, z_far: f32) {
-        // CoglMatrixEntryLoad *entry;
+        // MatrixEntryLoad *entry;
 
         // entry =
-        //     _cogl_matrix_stack_push_replacement_entry (stack,
+        //     _matrix_stack_push_replacement_entry (stack,
         //                                             COGL_MATRIX_OP_LOAD);
 
         // entry->matrix =
-        //     _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+        //     _magazine_chunk_alloc (matrix_stack_matrices_magazine);
 
-        // cogl_matrix_init_identity (entry->matrix);
-        // cogl_matrix_perspective (entry->matrix,
+        // matrix_init_identity (entry->matrix);
+        // matrix_perspective (entry->matrix,
         //                         fov_y, aspect, z_near, z_far);
         unimplemented!()
     }
@@ -342,8 +342,8 @@ impl MatrixStack {
     /// This is usually called while traversing a scenegraph whenever you
     /// return up one level in the graph towards the root node.
     pub fn pop(&self) {
-        // CoglMatrixEntry *old_top;
-        // CoglMatrixEntry *new_top;
+        // MatrixEntry *old_top;
+        // MatrixEntry *new_top;
 
         // _COGL_RETURN_IF_FAIL (stack != NULL);
 
@@ -356,7 +356,7 @@ impl MatrixStack {
         // * previously had a reference to the old top so we need to decrease
         // * the ref count on that. We need to ref the new head first in case
         // * this stack was the only thing referencing the old top. In that
-        // * case the call to cogl_matrix_entry_unref will unref the parent.
+        // * case the call to matrix_entry_unref will unref the parent.
         // */
 
         // /* Find the last save operation and remove it */
@@ -369,9 +369,9 @@ impl MatrixStack {
         //     ;
 
         // new_top = new_top->parent;
-        // cogl_matrix_entry_ref (new_top);
+        // matrix_entry_ref (new_top);
 
-        // cogl_matrix_entry_unref (old_top);
+        // matrix_entry_unref (old_top);
 
         // stack->last_entry = new_top;
     }
@@ -384,9 +384,9 @@ impl MatrixStack {
     /// called when going back up one layer to restore the previous
     /// transform of an ancestor.
     pub fn push(&self) {
-        // CoglMatrixEntrySave *entry;
+        // MatrixEntrySave *entry;
 
-        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_SAVE);
+        // entry = _matrix_stack_push_operation (stack, COGL_MATRIX_OP_SAVE);
 
         // entry->cache_valid = FALSE;
     }
@@ -405,9 +405,9 @@ impl MatrixStack {
     /// ## `z`
     /// Z-component of vertex to rotate around.
     pub fn rotate(&self, angle: f32, x: f32, y: f32, z: f32) {
-        // CoglMatrixEntryRotate *entry;
+        // MatrixEntryRotate *entry;
 
-        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_ROTATE);
+        // entry = _matrix_stack_push_operation (stack, COGL_MATRIX_OP_ROTATE);
       
         // entry->angle = angle;
         // entry->x = x;
@@ -422,9 +422,9 @@ impl MatrixStack {
     /// ## `euler`
     /// A `Euler`
     pub fn rotate_euler(&self, euler: &Euler) {
-        // CoglMatrixEntryRotateEuler *entry;
+        // MatrixEntryRotateEuler *entry;
 
-        // entry = _cogl_matrix_stack_push_operation (stack,
+        // entry = _matrix_stack_push_operation (stack,
         //                                            COGL_MATRIX_OP_ROTATE_EULER);
       
         // entry->heading = euler->heading;
@@ -438,9 +438,9 @@ impl MatrixStack {
     /// ## `quaternion`
     /// A `Quaternion`
     pub fn rotate_quaternion(&self, quaternion: &Quaternion) {
-        // CoglMatrixEntryRotateQuaternion *entry;
+        // MatrixEntryRotateQuaternion *entry;
 
-        // entry = _cogl_matrix_stack_push_operation (stack,
+        // entry = _matrix_stack_push_operation (stack,
         //                                            COGL_MATRIX_OP_ROTATE_QUATERNION);
       
         // entry->values[0] = quaternion->w;
@@ -459,9 +459,9 @@ impl MatrixStack {
     /// ## `z`
     /// Amount to scale along the z-axis
     pub fn scale(&self, x: f32, y: f32, z: f32) {
-        // CoglMatrixEntryScale *entry;
+        // MatrixEntryScale *entry;
 
-        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_SCALE);
+        // entry = _matrix_stack_push_operation (stack, COGL_MATRIX_OP_SCALE);
       
         // entry->x = x;
         // entry->y = y;
@@ -476,16 +476,16 @@ impl MatrixStack {
     /// ## `matrix`
     /// A `Matrix` replace the current matrix value with
     pub fn set(&self, matrix: &Matrix) {
-        // CoglMatrixEntryLoad *entry;
+        // MatrixEntryLoad *entry;
 
         // entry =
-        //   _cogl_matrix_stack_push_replacement_entry (stack,
+        //   _matrix_stack_push_replacement_entry (stack,
         //                                              COGL_MATRIX_OP_LOAD);
       
         // entry->matrix =
-        //   _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+        //   _magazine_chunk_alloc (matrix_stack_matrices_magazine);
       
-        // cogl_matrix_init_from_array (entry->matrix, (float *)matrix);
+        // matrix_init_from_array (entry->matrix, (float *)matrix);
         unimplemented!()
     }
 
@@ -498,9 +498,9 @@ impl MatrixStack {
     /// ## `z`
     /// Distance to translate along the z-axis
     pub fn translate(&self, x: f32, y: f32, z: f32) {
-        // CoglMatrixEntryTranslate *entry;
+        // MatrixEntryTranslate *entry;
 
-        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_TRANSLATE);
+        // entry = _matrix_stack_push_operation (stack, COGL_MATRIX_OP_TRANSLATE);
       
         // entry->x = x;
         // entry->y = y;

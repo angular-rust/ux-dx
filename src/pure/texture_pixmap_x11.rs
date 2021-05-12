@@ -12,7 +12,7 @@ pub struct TexturePixmapX11 {
 
 impl TexturePixmapX11 {
     /// Creates a texture that contains the contents of `pixmap`. If
-    /// `automatic_updates` is `true` then Cogl will attempt to listen for
+    /// `automatic_updates` is `true` then  will attempt to listen for
     /// damage events on the pixmap and automatically update the texture
     /// when it changes.
     /// ## `context`
@@ -31,7 +31,7 @@ impl TexturePixmapX11 {
         pixmap: u32,
         automatic_updates: bool,
     ) -> TexturePixmapX11 {
-        // let ret = ffi::cogl_texture_pixmap_x11_new(   
+        // let ret = ffi::texture_pixmap_x11_new(   
         unimplemented!()     
     }
 
@@ -70,7 +70,7 @@ impl TexturePixmapX11 {
         pixmap: u32,
         automatic_updates: bool,
     ) -> TexturePixmapX11 {
-        // ffi::cogl_texture_pixmap_x11_new_left
+        // ffi::texture_pixmap_x11_new_left
         unimplemented!()
     }
 
@@ -85,7 +85,7 @@ impl TexturePixmapX11 {
     /// `true` if the texture is using an efficient extension
     ///  and `false` otherwise
     pub fn is_using_tfp_extension(&self) -> bool {
-        // ffi::cogl_texture_pixmap_x11_is_using_tfp_extension
+        // ffi::texture_pixmap_x11_is_using_tfp_extension
         unimplemented!()
     }
 
@@ -97,7 +97,7 @@ impl TexturePixmapX11 {
     ///
     /// a new `TexturePixmapX11` instance
     pub fn new_right(&self) -> Option<TexturePixmapX11> {
-        // ffi::cogl_texture_pixmap_x11_new_right
+        // ffi::texture_pixmap_x11_new_right
         unimplemented!()
     }
 
@@ -106,7 +106,7 @@ impl TexturePixmapX11 {
     /// `damage`. Otherwise this damage will replace the one used if `true`
     /// was passed for automatic_updates to `TexturePixmapX11::new`.
     ///
-    /// Note that Cogl will subtract from the damage region as it processes
+    /// Note that  will subtract from the damage region as it processes
     /// damage events.
     /// ## `damage`
     /// A X11 Damage object or 0
@@ -115,7 +115,7 @@ impl TexturePixmapX11 {
     ///  the damage events. This should match the level that the damage
     ///  object was created with.
     pub fn set_damage_object(&self, damage: u32, report_level: TexturePixmapX11ReportLevel) {
-        // ffi::cogl_texture_pixmap_x11_set_damage_object
+        // ffi::texture_pixmap_x11_set_damage_object
         unimplemented!()
     }
 
@@ -131,12 +131,13 @@ impl TexturePixmapX11 {
     /// ## `height`
     /// height of the area to update
     pub fn update_area(&self, x: i32, y: i32, width: i32, height: i32) {
-        // ffi::cogl_texture_pixmap_x11_update_area
+        // ffi::texture_pixmap_x11_update_area
         unimplemented!()
     }
 
     pub fn error_quark() -> u32 {
-        unsafe { ffi::cogl_texture_pixmap_x11_error_quark() }
+        // unsafe { ffi::texture_pixmap_x11_error_quark() }
+        unimplemented!()
     }
 }
 

@@ -10,7 +10,7 @@ pub enum FenceType {
 //   FENCE_TYPE_ERROR
 }
 
-// * CoglFenceClosure:
+// * FenceClosure:
 // *
 // * An opaque type representing one future callback to be made when the
 // * GPU command stream has passed a certain point.
@@ -20,40 +20,40 @@ pub enum FenceType {
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct FenceClosure {
-    // CoglList link;
-    // CoglFramebuffer *framebuffer;
+    // List link;
+    // Framebuffer *framebuffer;
   
-    // CoglFenceType type;
+    // FenceType type;
     // void *fence_obj;
   
-    // CoglFenceCallback callback;
+    // FenceCallback callback;
     // void *user_data;
 }
 
 // /**
-//  * cogl_frame_closure_get_user_data:
-//  * @closure: A #CoglFenceClosure returned from cogl_framebuffer_add_fence()
+//  * frame_closure_get_user_data:
+//  * @closure: A #FenceClosure returned from framebuffer_add_fence()
 //  *
-//  * Returns the user_data submitted to cogl_framebuffer_add_fence() which
-//  * returned a given #CoglFenceClosure.
+//  * Returns the user_data submitted to framebuffer_add_fence() which
+//  * returned a given #FenceClosure.
 //  *
 //  * Since: 2.0
 //  * Stability: Unstable
 //  */
 //  void *
-//  cogl_fence_closure_get_user_data (CoglFenceClosure *closure);
+//  fence_closure_get_user_data (FenceClosure *closure);
 
 // void *
-// cogl_fence_closure_get_user_data (CoglFenceClosure *closure)
+// fence_closure_get_user_data (FenceClosure *closure)
 // {
 //   return closure->user_data;
 // }
 
 //  /**
-//   * cogl_framebuffer_add_fence_callback:
-//   * @framebuffer: The #CoglFramebuffer the commands have been submitted to
-//   * @callback: (scope notified): A #CoglFenceCallback to be called when
-//   *            all commands submitted to Cogl have been executed
+//   * framebuffer_add_fence_callback:
+//   * @framebuffer: The #Framebuffer the commands have been submitted to
+//   * @callback: (scope notified): A #FenceCallback to be called when
+//   *            all commands submitted to  have been executed
 //   * @user_data: (closure): Private data that will be passed to the callback
 //   *
 //   * Calls the provided callback when all previously-submitted commands have
@@ -67,41 +67,41 @@ pub struct FenceClosure {
 //   * Since: 2.0
 //   * Stability: Unstable
 //   */
-//  CoglFenceClosure *
-//  cogl_framebuffer_add_fence_callback (CoglFramebuffer *framebuffer,
-//                                       CoglFenceCallback callback,
+//  FenceClosure *
+//  framebuffer_add_fence_callback (Framebuffer *framebuffer,
+//                                       FenceCallback callback,
 //                                       void *user_data);
  
 //  /**
-//   * cogl_framebuffer_cancel_fence_callback:
-//   * @framebuffer: The #CoglFramebuffer the commands were submitted to
-//   * @closure: The #CoglFenceClosure returned from
-//   *           cogl_framebuffer_add_fence_callback()
+//   * framebuffer_cancel_fence_callback:
+//   * @framebuffer: The #Framebuffer the commands were submitted to
+//   * @closure: The #FenceClosure returned from
+//   *           framebuffer_add_fence_callback()
 //   *
 //   * Removes a fence previously submitted with
-//   * cogl_framebuffer_add_fence_callback(); the callback will not be
+//   * framebuffer_add_fence_callback(); the callback will not be
 //   * called.
 //   *
 //   * Since: 2.0
 //   * Stability: Unstable
 //   */
 //  void
-//  cogl_framebuffer_cancel_fence_callback (CoglFramebuffer *framebuffer,
-//                                          CoglFenceClosure *closure);
+//  framebuffer_cancel_fence_callback (Framebuffer *framebuffer,
+//                                          FenceClosure *closure);
 
-// CoglFenceClosure *
-// cogl_framebuffer_add_fence_callback (CoglFramebuffer *framebuffer,
-//                                      CoglFenceCallback callback,
+// FenceClosure *
+// framebuffer_add_fence_callback (Framebuffer *framebuffer,
+//                                      FenceCallback callback,
 //                                      void *user_data)
 // {
-//   CoglContext *context = framebuffer->context;
-//   CoglJournal *journal = framebuffer->journal;
-//   CoglFenceClosure *fence;
+//   Context *context = framebuffer->context;
+//   Journal *journal = framebuffer->journal;
+//   FenceClosure *fence;
 
 //   if (!COGL_FLAGS_GET (context->features, COGL_FEATURE_ID_FENCE))
 //     return NULL;
 
-//   fence = g_slice_new (CoglFenceClosure);
+//   fence = g_slice_new (FenceClosure);
 //   fence->framebuffer = framebuffer;
 //   fence->callback = callback;
 //   fence->user_data = user_data;
@@ -109,32 +109,32 @@ pub struct FenceClosure {
 
 //   if (journal->entries->len)
 //     {
-//       _cogl_list_insert (journal->pending_fences.prev, &fence->link);
+//       _list_insert (journal->pending_fences.prev, &fence->link);
 //       fence->type = FENCE_TYPE_PENDING;
 //     }
 //   else
-//     _cogl_fence_submit (fence);
+//     _fence_submit (fence);
 
 //   return fence;
 // }
 
 // void
-// cogl_framebuffer_cancel_fence_callback (CoglFramebuffer *framebuffer,
-//                                         CoglFenceClosure *fence)
+// framebuffer_cancel_fence_callback (Framebuffer *framebuffer,
+//                                         FenceClosure *fence)
 // {
-//   CoglContext *context = framebuffer->context;
+//   Context *context = framebuffer->context;
 
 //   if (fence->type == FENCE_TYPE_PENDING)
 //     {
-//       _cogl_list_remove (&fence->link);
+//       _list_remove (&fence->link);
 //     }
 //   else
 //     {
-//       _cogl_list_remove (&fence->link);
+//       _list_remove (&fence->link);
 
 //       if (fence->type == FENCE_TYPE_WINSYS)
 //         {
-//           const CoglWinsysVtable *winsys = _cogl_context_get_winsys (context);
+//           const WinsysVtable *winsys = _context_get_winsys (context);
 
 //           winsys->fence_destroy (context, fence->fence_obj);
 //         }
@@ -146,5 +146,5 @@ pub struct FenceClosure {
 // #endif
 //     }
 
-//   g_slice_free (CoglFenceClosure, fence);
+//   g_slice_free (FenceClosure, fence);
 // }

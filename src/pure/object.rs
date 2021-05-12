@@ -1,9 +1,9 @@
 use std::fmt;
 
 pub struct Object {
-    // CoglObjectClass  *klass; /* equivalent to GTypeInstance */
+    // ObjectClass  *klass; /* equivalent to GTypeInstance */
 
-    // CoglUserDataEntry user_data_entry[
+    // UserDataEntry user_data_entry[
     //   COGL_OBJECT_N_PRE_ALLOCATED_USER_DATA_ENTRIES];
     // GArray           *user_data_array;
     // int               n_user_data_entries;
@@ -42,11 +42,11 @@ pub trait ObjectExt: 'static {
 
 // impl<O: Is<Object>> ObjectExt for O {
 //     //fn get_user_data(&self, key: &mut UserDataKey) -> /*Unimplemented*/Option<Fundamental: Pointer> {
-//     //    unsafe { TODO: call cogl_sys:cogl_object_get_user_data() }
+//     //    unsafe { TODO: call sys:object_get_user_data() }
 //     //}
 
 //     //fn set_user_data(&self, key: &mut UserDataKey, user_data: /*Unimplemented*/Option<Fundamental: Pointer>, destroy: UserDataDestroyCallback) {
-//     //    unsafe { TODO: call cogl_sys:cogl_object_set_user_data() }
+//     //    unsafe { TODO: call sys:object_set_user_data() }
 //     //}
 // }
 

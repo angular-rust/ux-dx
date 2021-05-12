@@ -8,27 +8,27 @@
 // * as whether the framebuffer supports multi-sampling (an anti-aliasing
 // * technique) or dithering.
 // *
-// * There are two kinds of framebuffer in Cogl, #CoglOnscreen
-// * framebuffers and #CoglOffscreen framebuffers. As the names imply
+// * There are two kinds of framebuffer in , #Onscreen
+// * framebuffers and #Offscreen framebuffers. As the names imply
 // * offscreen framebuffers are for rendering something offscreen
 // * (perhaps to a texture which is bound as one of the color buffers).
 // * The exact semantics of onscreen framebuffers depends on the window
 // * system backend that you are using, but typically you can expect
-// * rendering to a #CoglOnscreen framebuffer will be immediately
+// * rendering to a #Onscreen framebuffer will be immediately
 // * visible to the user.
 // *
 // * If you want to create a new framebuffer then you should start by
-// * looking at the #CoglOnscreen and #CoglOffscreen constructor
-// * functions, such as cogl_offscreen_new_with_texture() or
-// * cogl_onscreen_new(). The #CoglFramebuffer interface deals with
+// * looking at the #Onscreen and #Offscreen constructor
+// * functions, such as offscreen_new_with_texture() or
+// * onscreen_new(). The #Framebuffer interface deals with
 // * all aspects that are common between those two types of framebuffer.
 // *
-// * Setup of a new CoglFramebuffer happens in two stages. There is a
+// * Setup of a new Framebuffer happens in two stages. There is a
 // * configuration stage where you specify all the options and ancillary
 // * buffers you want associated with your framebuffer and then when you
 // * are happy with the configuration you can "allocate" the framebuffer
-// * using cogl_framebuffer_allocate(). Technically explicitly calling
-// * cogl_framebuffer_allocate() is optional for convenience and the
+// * using framebuffer_allocate(). Technically explicitly calling
+// * framebuffer_allocate() is optional for convenience and the
 // * framebuffer will automatically be allocated when you first try to
 // * draw to it, but if you do the allocation manually then you can
 // * also catch any possible errors that may arise from your
@@ -42,26 +42,26 @@ use super::Quaternion;
 use std::boxed::Box as Box_;
 use std::{fmt, ptr};
 
-// typedef enum _CoglFramebufferType {
+// typedef enum _FramebufferType {
 //     COGL_FRAMEBUFFER_TYPE_ONSCREEN,
 //     COGL_FRAMEBUFFER_TYPE_OFFSCREEN
-// } CoglFramebufferType;
+// } FramebufferType;
 
 // typedef struct
 // {
-//     CoglSwapChain *swap_chain;
-//     CoglBool need_stencil;
+//     SwapChain *swap_chain;
+//     Bool need_stencil;
 //     int samples_per_pixel;
-//     CoglBool swap_throttled;
-//     CoglBool depth_texture_enabled;
-//     CoglBool stereo_enabled;
-// } CoglFramebufferConfig;
+//     Bool swap_throttled;
+//     Bool depth_texture_enabled;
+//     Bool stereo_enabled;
+// } FramebufferConfig;
 
-// /* Flags to pass to _cogl_offscreen_new_with_texture_full */
+// /* Flags to pass to _offscreen_new_with_texture_full */
 // typedef enum
 // {
 //     COGL_OFFSCREEN_DISABLE_DEPTH_AND_STENCIL = 1
-// } CoglOffscreenFlags;
+// } OffscreenFlags;
 
 // /* XXX: The order of these indices determines the order they are
 // * flushed.
@@ -69,7 +69,7 @@ use std::{fmt, ptr};
 // * Flushing clip state may trash the modelview and projection matrices
 // * so we must do it before flushing the matrices.
 // */
-// typedef enum _CoglFramebufferStateIndex
+// typedef enum _FramebufferStateIndex
 // {
 //     COGL_FRAMEBUFFER_STATE_INDEX_BIND               = 0,
 //     COGL_FRAMEBUFFER_STATE_INDEX_VIEWPORT           = 1,
@@ -82,9 +82,9 @@ use std::{fmt, ptr};
 //     COGL_FRAMEBUFFER_STATE_INDEX_DEPTH_WRITE        = 8,
 //     COGL_FRAMEBUFFER_STATE_INDEX_STEREO_MODE        = 9,
 //     COGL_FRAMEBUFFER_STATE_INDEX_MAX                = 10
-// } CoglFramebufferStateIndex;
+// } FramebufferStateIndex;
 
-// typedef enum _CoglFramebufferState
+// typedef enum _FramebufferState
 // {
 //     COGL_FRAMEBUFFER_STATE_BIND               = 1<<0,
 //     COGL_FRAMEBUFFER_STATE_VIEWPORT           = 1<<1,
@@ -96,11 +96,11 @@ use std::{fmt, ptr};
 //     COGL_FRAMEBUFFER_STATE_FRONT_FACE_WINDING = 1<<7,
 //     COGL_FRAMEBUFFER_STATE_DEPTH_WRITE        = 1<<8,
 //     COGL_FRAMEBUFFER_STATE_STEREO_MODE        = 1<<9
-// } CoglFramebufferState;
+// } FramebufferState;
 
 // #define COGL_FRAMEBUFFER_STATE_ALL ((1<<COGL_FRAMEBUFFER_STATE_INDEX_MAX) - 1)
 
-// /* Private flags that can internally be added to CoglReadPixelsFlags */
+// /* Private flags that can internally be added to ReadPixelsFlags */
 // typedef enum
 // {
 //     /* If this is set then the data will not be flipped to compensate
@@ -108,7 +108,7 @@ use std::{fmt, ptr};
 //         in whatever order GL gives us (which will depend on whether the
 //         framebuffer is offscreen or not) */
 //     COGL_READ_PIXELS_NO_FLIP = 1L << 30
-// } CoglPrivateReadPixelsFlags;
+// } PrivateReadPixelsFlags;
 
 // typedef struct
 // {
@@ -118,57 +118,57 @@ use std::{fmt, ptr};
 //     int alpha;
 //     int depth;
 //     int stencil;
-// } CoglFramebufferBits;
+// } FramebufferBits;
 
 // typedef enum {
 //     COGL_OFFSCREEN_ALLOCATE_FLAG_DEPTH_STENCIL    = 1L<<0,
 //     COGL_OFFSCREEN_ALLOCATE_FLAG_DEPTH            = 1L<<1,
 //     COGL_OFFSCREEN_ALLOCATE_FLAG_STENCIL          = 1L<<2
-// } CoglOffscreenAllocateFlags;
+// } OffscreenAllocateFlags;
 
-// typedef struct _CoglGLFramebuffer
+// typedef struct _GLFramebuffer
 // {
 //     GLuint fbo_handle;
 //     GList *renderbuffers;
 //     int samples_per_pixel;
-// } CoglGLFramebuffer;
+// } GLFramebuffer;
 
-// struct _CoglOffscreen
+// struct _Offscreen
 // {
-//     CoglFramebuffer  _parent;
+//     Framebuffer  _parent;
 
-//     CoglGLFramebuffer gl_framebuffer;
+//     GLFramebuffer gl_framebuffer;
 
-//     CoglTexture    *texture;
+//     Texture    *texture;
 //     int             texture_level;
 
-//     CoglTexture *depth_texture;
+//     Texture *depth_texture;
 
-//     CoglOffscreenAllocateFlags allocation_flags;
+//     OffscreenAllocateFlags allocation_flags;
 
-//     /* FIXME: _cogl_offscreen_new_with_texture_full should be made to use
+//     /* FIXME: _offscreen_new_with_texture_full should be made to use
 //         * fb->config to configure if we want a depth or stencil buffer so
 //         * we can get rid of these flags */
-//     CoglOffscreenFlags create_flags;
+//     OffscreenFlags create_flags;
 // };
 
 pub struct Framebuffer {
-    // CoglObject          _parent;
-    // CoglContext        *context;
-    // CoglFramebufferType  type;
+    // Object          _parent;
+    // Context        *context;
+    // FramebufferType  type;
   
     // /* The user configuration before allocation... */
-    // CoglFramebufferConfig config;
+    // FramebufferConfig config;
   
     // int                 width;
     // int                 height;
     // /* Format of the pixels in the framebuffer (including the expected
     //    premult state) */
-    // CoglPixelFormat     internal_format;
-    // CoglBool            allocated;
+    // PixelFormat     internal_format;
+    // Bool            allocated;
   
-    // CoglMatrixStack    *modelview_stack;
-    // CoglMatrixStack    *projection_stack;
+    // MatrixStack    *modelview_stack;
+    // MatrixStack    *projection_stack;
     // float               viewport_x;
     // float               viewport_y;
     // float               viewport_width;
@@ -176,17 +176,17 @@ pub struct Framebuffer {
     // int                 viewport_age;
     // int                 viewport_age_for_scissor_workaround;
   
-    // CoglClipStack      *clip_stack;
+    // ClipStack      *clip_stack;
   
-    // CoglBool            dither_enabled;
-    // CoglBool            depth_writing_enabled;
-    // CoglColorMask       color_mask;
-    // CoglStereoMode      stereo_mode;
+    // Bool            dither_enabled;
+    // Bool            depth_writing_enabled;
+    // ColorMask       color_mask;
+    // StereoMode      stereo_mode;
   
     // /* We journal the textured rectangles we want to submit to OpenGL so
     //  * we have an oppertunity to batch them together into less draw
     //  * calls. */
-    // CoglJournal        *journal;
+    // Journal        *journal;
   
     // /* The scene of a given framebuffer may depend on images in other
     //  * framebuffers... */
@@ -206,23 +206,23 @@ pub struct Framebuffer {
     // int                 clear_clip_y0;
     // int                 clear_clip_x1;
     // int                 clear_clip_y1;
-    // CoglBool            clear_clip_dirty;
+    // Bool            clear_clip_dirty;
   
     // /* Whether something has been drawn to the buffer since the last
     //  * swap buffers or swap region. */
-    // CoglBool            mid_scene;
+    // Bool            mid_scene;
   
     // /* driver specific */
-    // CoglBool            dirty_bitmasks;
-    // CoglFramebufferBits bits;
+    // Bool            dirty_bitmasks;
+    // FramebufferBits bits;
   
     // int                 samples_per_pixel;
 }
 
 impl Framebuffer {
-    pub fn error_quark() -> u32 {
-        unsafe { ffi::cogl_framebuffer_error_quark() }
-    }
+    // pub fn error_quark() -> u32 {
+    //     unsafe { ffi::framebuffer_error_quark() }
+    // }
 }
 
 /// Trait containing all `Framebuffer` methods.
@@ -240,8 +240,8 @@ pub trait FramebufferExt: 'static {
     /// callback is called, or cancelled.
     ///
     /// ## `callback`
-    /// A `CoglFenceCallback` to be called when
-    ///  all commands submitted to Cogl have been executed
+    /// A `FenceCallback` to be called when
+    ///  all commands submitted to  have been executed
     /// ## `user_data`
     /// Private data that will be passed to the callback
     fn add_fence_callback<P: Fn(&Fence) + 'static>(&self, callback: P) -> Option<FenceClosure>;
@@ -252,7 +252,7 @@ pub trait FramebufferExt: 'static {
     ///
     /// `<note>`Many applications don't support any fallback options at least when
     /// they are initially developed and in that case the don't need to use this API
-    /// since Cogl will automatically allocate a framebuffer when it first gets
+    /// since  will automatically allocate a framebuffer when it first gets
     /// used. The disadvantage of relying on automatic allocation is that the
     /// program will abort with an error message if there is an error during
     /// automatic allocation.`</note>`
@@ -315,7 +315,7 @@ pub trait FramebufferExt: 'static {
     /// buffer by passing `BufferBit::Color`. This is because the color buffer is
     /// already implicitly discard when you finish rendering to a `Onscreen`
     /// framebuffer, and it's not meaningful to try and discard the color buffer of
-    /// a `CoglOffscreen` framebuffer since they are single-buffered.
+    /// a `Offscreen` framebuffer since they are single-buffered.
     /// ## `buffers`
     /// A `BufferBit` mask of which ancillary buffers you want
     ///  to discard.
@@ -882,7 +882,7 @@ pub trait FramebufferExt: 'static {
     /// read, and a rectangle of pixels with the same size as the bitmap is
     /// read right and downwards from that point.
     ///
-    /// Currently Cogl assumes that the framebuffer is in a premultiplied
+    /// Currently  assumes that the framebuffer is in a premultiplied
     /// format so if the format of `bitmap` is non-premultiplied it will
     /// convert it. To read the pixel values without any conversion you
     /// should either specify a format that doesn't use an alpha channel or
@@ -921,7 +921,7 @@ pub trait FramebufferExt: 'static {
     /// architectures it is desirable to defer the resolve step until the
     /// end of the frame.
     ///
-    /// Since Cogl will automatically ensure samples are resolved if the
+    /// Since  will automatically ensure samples are resolved if the
     /// target color buffer is used as a source this API only needs to be
     /// used if explicit control is desired - perhaps because you want to
     /// ensure that the resolve is completed in advance to avoid later
@@ -944,7 +944,7 @@ pub trait FramebufferExt: 'static {
     /// end of the frame.
     ///
     /// Use of this API is recommended if incremental, small updates to
-    /// a framebuffer are being made because by default Cogl will
+    /// a framebuffer are being made because by default  will
     /// implicitly resolve all the point samples of the framebuffer which
     /// can result in redundant work if only a small number of samples have
     /// changed.
@@ -1089,7 +1089,7 @@ pub trait FramebufferExt: 'static {
     /// `<note>`It's recommended that
     /// `Framebuffer::resolve_samples_region` be explicitly used at the
     /// end of rendering to a point sample buffer to minimize the number of
-    /// samples that get resolved. By default Cogl will implicitly resolve
+    /// samples that get resolved. By default  will implicitly resolve
     /// all framebuffer samples but if only a small region of a
     /// framebuffer has changed this can lead to redundant work being
     /// done.`</note>`
@@ -1156,7 +1156,7 @@ pub trait FramebufferExt: 'static {
 //     fn add_fence_callback<P: Fn(&Fence) + 'static>(&self, callback: P) -> Option<FenceClosure> {
 //         let callback_data: Box_<P> = Box_::new(callback);
 //         unsafe extern "C" fn callback_func<P: Fn(&Fence) + 'static>(
-//             fence: *mut ffi::CoglFence,
+//             fence: *mut ffi::Fence,
 //             user_data: glib_sys::gpointer,
 //         ) {
 //             let fence = from_glib_borrow(fence);
@@ -1166,7 +1166,7 @@ pub trait FramebufferExt: 'static {
 //         let callback = Some(callback_func::<P> as _);
 //         let super_callback0: Box_<P> = callback_data;
 //         unsafe {
-//             from_glib_none(ffi::cogl_framebuffer_add_fence_callback(
+//             from_glib_none(ffi::framebuffer_add_fence_callback(
 //                 self.as_ref().to_glib_none().0,
 //                 callback,
 //                 Box_::into_raw(super_callback0) as *mut _,
@@ -1177,7 +1177,7 @@ pub trait FramebufferExt: 'static {
 //     fn allocate(&self) -> bool {
 //         unsafe {
 //             let mut error = ptr::null_mut();
-//             let ret = ffi::cogl_framebuffer_allocate(self.as_ref().to_glib_none().0, &mut error);
+//             let ret = ffi::framebuffer_allocate(self.as_ref().to_glib_none().0, &mut error);
 //             if error.is_null() {
 //                 Ok(ret == crate::TRUE)
 //             } else {
@@ -1188,7 +1188,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn cancel_fence_callback(&self, closure: &mut FenceClosure) {
 //         unsafe {
-//             ffi::cogl_framebuffer_cancel_fence_callback(
+//             ffi::framebuffer_cancel_fence_callback(
 //                 self.as_ref().to_glib_none().0,
 //                 closure.to_glib_none_mut().0,
 //             );
@@ -1197,7 +1197,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn clear(&self, buffers: libc::c_ulong, color: &Color) {
 //         unsafe {
-//             ffi::cogl_framebuffer_clear(
+//             ffi::framebuffer_clear(
 //                 self.as_ref().to_glib_none().0,
 //                 buffers,
 //                 color.to_glib_none().0,
@@ -1207,7 +1207,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn clear4f(&self, buffers: libc::c_ulong, red: f32, green: f32, blue: f32, alpha: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_clear4f(
+//             ffi::framebuffer_clear4f(
 //                 self.as_ref().to_glib_none().0,
 //                 buffers,
 //                 red,
@@ -1220,7 +1220,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn discard_buffers(&self, buffers: libc::c_ulong) {
 //         unsafe {
-//             ffi::cogl_framebuffer_discard_buffers(self.as_ref().to_glib_none().0, buffers);
+//             ffi::framebuffer_discard_buffers(self.as_ref().to_glib_none().0, buffers);
 //         }
 //     }
 
@@ -1235,7 +1235,7 @@ pub trait FramebufferExt: 'static {
 //     ) {
 //         let tex_coords_len = tex_coords.len() as i32;
 //         unsafe {
-//             ffi::cogl_framebuffer_draw_multitextured_rectangle(
+//             ffi::framebuffer_draw_multitextured_rectangle(
 //                 self.as_ref().to_glib_none().0,
 //                 pipeline.to_glib_none().0,
 //                 x_1,
@@ -1250,7 +1250,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn draw_rectangle(&self, pipeline: &Pipeline, x_1: f32, y_1: f32, x_2: f32, y_2: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_draw_rectangle(
+//             ffi::framebuffer_draw_rectangle(
 //                 self.as_ref().to_glib_none().0,
 //                 pipeline.to_glib_none().0,
 //                 x_1,
@@ -1262,7 +1262,7 @@ pub trait FramebufferExt: 'static {
 //     }
 
 //     //fn draw_rectangles(&self, pipeline: &Pipeline, coordinates: &[f32], n_rectangles: u32) {
-//     //    unsafe { TODO: call cogl_sys:cogl_framebuffer_draw_rectangles() }
+//     //    unsafe { TODO: call sys:framebuffer_draw_rectangles() }
 //     //}
 
 //     fn draw_textured_rectangle(
@@ -1278,7 +1278,7 @@ pub trait FramebufferExt: 'static {
 //         t_2: f32,
 //     ) {
 //         unsafe {
-//             ffi::cogl_framebuffer_draw_textured_rectangle(
+//             ffi::framebuffer_draw_textured_rectangle(
 //                 self.as_ref().to_glib_none().0,
 //                 pipeline.to_glib_none().0,
 //                 x_1,
@@ -1294,18 +1294,18 @@ pub trait FramebufferExt: 'static {
 //     }
 
 //     //fn draw_textured_rectangles(&self, pipeline: &Pipeline, coordinates: &[f32], n_rectangles: u32) {
-//     //    unsafe { TODO: call cogl_sys:cogl_framebuffer_draw_textured_rectangles() }
+//     //    unsafe { TODO: call sys:framebuffer_draw_textured_rectangles() }
 //     //}
 
 //     fn finish(&self) {
 //         unsafe {
-//             ffi::cogl_framebuffer_finish(self.as_ref().to_glib_none().0);
+//             ffi::framebuffer_finish(self.as_ref().to_glib_none().0);
 //         }
 //     }
 
 //     fn frustum(&self, left: f32, right: f32, bottom: f32, top: f32, z_near: f32, z_far: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_frustum(
+//             ffi::framebuffer_frustum(
 //                 self.as_ref().to_glib_none().0,
 //                 left,
 //                 right,
@@ -1318,16 +1318,16 @@ pub trait FramebufferExt: 'static {
 //     }
 
 //     fn get_alpha_bits(&self) -> i32 {
-//         unsafe { ffi::cogl_framebuffer_get_alpha_bits(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_alpha_bits(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_blue_bits(&self) -> i32 {
-//         unsafe { ffi::cogl_framebuffer_get_blue_bits(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_blue_bits(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_color_mask(&self) -> ColorMask {
 //         unsafe {
-//             from_glib(ffi::cogl_framebuffer_get_color_mask(
+//             from_glib(ffi::framebuffer_get_color_mask(
 //                 self.as_ref().to_glib_none().0,
 //             ))
 //         }
@@ -1335,19 +1335,19 @@ pub trait FramebufferExt: 'static {
 
 //     fn get_context(&self) -> Option<Context> {
 //         unsafe {
-//             from_glib_none(ffi::cogl_framebuffer_get_context(
+//             from_glib_none(ffi::framebuffer_get_context(
 //                 self.as_ref().to_glib_none().0,
 //             ))
 //         }
 //     }
 
 //     fn get_depth_bits(&self) -> i32 {
-//         unsafe { ffi::cogl_framebuffer_get_depth_bits(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_depth_bits(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_depth_texture(&self) -> Option<Texture> {
 //         unsafe {
-//             from_glib_none(ffi::cogl_framebuffer_get_depth_texture(
+//             from_glib_none(ffi::framebuffer_get_depth_texture(
 //                 self.as_ref().to_glib_none().0,
 //             ))
 //         }
@@ -1355,42 +1355,42 @@ pub trait FramebufferExt: 'static {
 
 //     fn get_depth_texture_enabled(&self) -> bool {
 //         unsafe {
-//             ffi::cogl_framebuffer_get_depth_texture_enabled(self.as_ref().to_glib_none().0)
+//             ffi::framebuffer_get_depth_texture_enabled(self.as_ref().to_glib_none().0)
 //                 == crate::TRUE
 //         }
 //     }
 
 //     fn get_depth_write_enabled(&self) -> bool {
 //         unsafe {
-//             ffi::cogl_framebuffer_get_depth_write_enabled(self.as_ref().to_glib_none().0)
+//             ffi::framebuffer_get_depth_write_enabled(self.as_ref().to_glib_none().0)
 //                 == crate::TRUE
 //         }
 //     }
 
 //     fn get_dither_enabled(&self) -> bool {
 //         unsafe {
-//             ffi::cogl_framebuffer_get_dither_enabled(self.as_ref().to_glib_none().0) == crate::TRUE
+//             ffi::framebuffer_get_dither_enabled(self.as_ref().to_glib_none().0) == crate::TRUE
 //         }
 //     }
 
 //     fn get_green_bits(&self) -> i32 {
-//         unsafe { ffi::cogl_framebuffer_get_green_bits(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_green_bits(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_height(&self) -> i32 {
-//         unsafe { ffi::cogl_framebuffer_get_height(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_height(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_is_stereo(&self) -> bool {
 //         unsafe {
-//             ffi::cogl_framebuffer_get_is_stereo(self.as_ref().to_glib_none().0) == crate::TRUE
+//             ffi::framebuffer_get_is_stereo(self.as_ref().to_glib_none().0) == crate::TRUE
 //         }
 //     }
 
 //     fn get_modelview_matrix(&self) -> Matrix {
 //         unsafe {
 //             let mut matrix = Matrix::uninitialized();
-//             ffi::cogl_framebuffer_get_modelview_matrix(
+//             ffi::framebuffer_get_modelview_matrix(
 //                 self.as_ref().to_glib_none().0,
 //                 matrix.to_glib_none_mut().0,
 //             );
@@ -1401,7 +1401,7 @@ pub trait FramebufferExt: 'static {
 //     fn get_projection_matrix(&self) -> Matrix {
 //         unsafe {
 //             let mut matrix = Matrix::uninitialized();
-//             ffi::cogl_framebuffer_get_projection_matrix(
+//             ffi::framebuffer_get_projection_matrix(
 //                 self.as_ref().to_glib_none().0,
 //                 matrix.to_glib_none_mut().0,
 //             );
@@ -1410,54 +1410,54 @@ pub trait FramebufferExt: 'static {
 //     }
 
 //     fn get_red_bits(&self) -> i32 {
-//         unsafe { ffi::cogl_framebuffer_get_red_bits(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_red_bits(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_samples_per_pixel(&self) -> i32 {
-//         unsafe { ffi::cogl_framebuffer_get_samples_per_pixel(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_samples_per_pixel(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_stereo_mode(&self) -> StereoMode {
 //         unsafe {
-//             from_glib(ffi::cogl_framebuffer_get_stereo_mode(
+//             from_glib(ffi::framebuffer_get_stereo_mode(
 //                 self.as_ref().to_glib_none().0,
 //             ))
 //         }
 //     }
 
 //     //fn get_viewport4fv(&self, viewport: /*Unimplemented*/FixedArray TypeId { ns_id: 0, id: 20 }; 4) {
-//     //    unsafe { TODO: call cogl_sys:cogl_framebuffer_get_viewport4fv() }
+//     //    unsafe { TODO: call sys:framebuffer_get_viewport4fv() }
 //     //}
 
 //     fn get_viewport_height(&self) -> f32 {
-//         unsafe { ffi::cogl_framebuffer_get_viewport_height(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_viewport_height(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_viewport_width(&self) -> f32 {
-//         unsafe { ffi::cogl_framebuffer_get_viewport_width(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_viewport_width(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_viewport_x(&self) -> f32 {
-//         unsafe { ffi::cogl_framebuffer_get_viewport_x(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_viewport_x(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_viewport_y(&self) -> f32 {
-//         unsafe { ffi::cogl_framebuffer_get_viewport_y(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_viewport_y(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn get_width(&self) -> i32 {
-//         unsafe { ffi::cogl_framebuffer_get_width(self.as_ref().to_glib_none().0) }
+//         unsafe { ffi::framebuffer_get_width(self.as_ref().to_glib_none().0) }
 //     }
 
 //     fn identity_matrix(&self) {
 //         unsafe {
-//             ffi::cogl_framebuffer_identity_matrix(self.as_ref().to_glib_none().0);
+//             ffi::framebuffer_identity_matrix(self.as_ref().to_glib_none().0);
 //         }
 //     }
 
 //     fn orthographic(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32, near: f32, far: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_orthographic(
+//             ffi::framebuffer_orthographic(
 //                 self.as_ref().to_glib_none().0,
 //                 x_1,
 //                 y_1,
@@ -1471,7 +1471,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn perspective(&self, fov_y: f32, aspect: f32, z_near: f32, z_far: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_perspective(
+//             ffi::framebuffer_perspective(
 //                 self.as_ref().to_glib_none().0,
 //                 fov_y,
 //                 aspect,
@@ -1483,19 +1483,19 @@ pub trait FramebufferExt: 'static {
 
 //     fn pop_clip(&self) {
 //         unsafe {
-//             ffi::cogl_framebuffer_pop_clip(self.as_ref().to_glib_none().0);
+//             ffi::framebuffer_pop_clip(self.as_ref().to_glib_none().0);
 //         }
 //     }
 
 //     fn pop_matrix(&self) {
 //         unsafe {
-//             ffi::cogl_framebuffer_pop_matrix(self.as_ref().to_glib_none().0);
+//             ffi::framebuffer_pop_matrix(self.as_ref().to_glib_none().0);
 //         }
 //     }
 
 //     fn push_matrix(&self) {
 //         unsafe {
-//             ffi::cogl_framebuffer_push_matrix(self.as_ref().to_glib_none().0);
+//             ffi::framebuffer_push_matrix(self.as_ref().to_glib_none().0);
 //         }
 //     }
 
@@ -1508,7 +1508,7 @@ pub trait FramebufferExt: 'static {
 //         bounds_y2: f32,
 //     ) {
 //         unsafe {
-//             ffi::cogl_framebuffer_push_primitive_clip(
+//             ffi::framebuffer_push_primitive_clip(
 //                 self.as_ref().to_glib_none().0,
 //                 primitive.to_glib_none().0,
 //                 bounds_x1,
@@ -1521,7 +1521,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn push_rectangle_clip(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_push_rectangle_clip(
+//             ffi::framebuffer_push_rectangle_clip(
 //                 self.as_ref().to_glib_none().0,
 //                 x_1,
 //                 y_1,
@@ -1533,7 +1533,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn push_scissor_clip(&self, x: i32, y: i32, width: i32, height: i32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_push_scissor_clip(
+//             ffi::framebuffer_push_scissor_clip(
 //                 self.as_ref().to_glib_none().0,
 //                 x,
 //                 y,
@@ -1553,7 +1553,7 @@ pub trait FramebufferExt: 'static {
 //         pixels: &[u8],
 //     ) -> bool {
 //         unsafe {
-//             ffi::cogl_framebuffer_read_pixels(
+//             ffi::framebuffer_read_pixels(
 //                 self.as_ref().to_glib_none().0,
 //                 x,
 //                 y,
@@ -1573,7 +1573,7 @@ pub trait FramebufferExt: 'static {
 //         bitmap: &Bitmap,
 //     ) -> bool {
 //         unsafe {
-//             ffi::cogl_framebuffer_read_pixels_into_bitmap(
+//             ffi::framebuffer_read_pixels_into_bitmap(
 //                 self.as_ref().to_glib_none().0,
 //                 x,
 //                 y,
@@ -1585,13 +1585,13 @@ pub trait FramebufferExt: 'static {
 
 //     fn resolve_samples(&self) {
 //         unsafe {
-//             ffi::cogl_framebuffer_resolve_samples(self.as_ref().to_glib_none().0);
+//             ffi::framebuffer_resolve_samples(self.as_ref().to_glib_none().0);
 //         }
 //     }
 
 //     fn resolve_samples_region(&self, x: i32, y: i32, width: i32, height: i32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_resolve_samples_region(
+//             ffi::framebuffer_resolve_samples_region(
 //                 self.as_ref().to_glib_none().0,
 //                 x,
 //                 y,
@@ -1603,13 +1603,13 @@ pub trait FramebufferExt: 'static {
 
 //     fn rotate(&self, angle: f32, x: f32, y: f32, z: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_rotate(self.as_ref().to_glib_none().0, angle, x, y, z);
+//             ffi::framebuffer_rotate(self.as_ref().to_glib_none().0, angle, x, y, z);
 //         }
 //     }
 
 //     fn rotate_euler(&self, euler: &Euler) {
 //         unsafe {
-//             ffi::cogl_framebuffer_rotate_euler(
+//             ffi::framebuffer_rotate_euler(
 //                 self.as_ref().to_glib_none().0,
 //                 euler.to_glib_none().0,
 //             );
@@ -1618,7 +1618,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn rotate_quaternion(&self, quaternion: &Quaternion) {
 //         unsafe {
-//             ffi::cogl_framebuffer_rotate_quaternion(
+//             ffi::framebuffer_rotate_quaternion(
 //                 self.as_ref().to_glib_none().0,
 //                 quaternion.to_glib_none().0,
 //             );
@@ -1627,13 +1627,13 @@ pub trait FramebufferExt: 'static {
 
 //     fn scale(&self, x: f32, y: f32, z: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_scale(self.as_ref().to_glib_none().0, x, y, z);
+//             ffi::framebuffer_scale(self.as_ref().to_glib_none().0, x, y, z);
 //         }
 //     }
 
 //     fn set_color_mask(&self, color_mask: ColorMask) {
 //         unsafe {
-//             ffi::cogl_framebuffer_set_color_mask(
+//             ffi::framebuffer_set_color_mask(
 //                 self.as_ref().to_glib_none().0,
 //                 color_mask.to_glib(),
 //             );
@@ -1642,7 +1642,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn set_depth_texture_enabled(&self, enabled: bool) {
 //         unsafe {
-//             ffi::cogl_framebuffer_set_depth_texture_enabled(
+//             ffi::framebuffer_set_depth_texture_enabled(
 //                 self.as_ref().to_glib_none().0,
 //                 enabled as i32,
 //             );
@@ -1651,7 +1651,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn set_depth_write_enabled(&self, depth_write_enabled: bool) {
 //         unsafe {
-//             ffi::cogl_framebuffer_set_depth_write_enabled(
+//             ffi::framebuffer_set_depth_write_enabled(
 //                 self.as_ref().to_glib_none().0,
 //                 depth_write_enabled as i32,
 //             );
@@ -1660,7 +1660,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn set_dither_enabled(&self, dither_enabled: bool) {
 //         unsafe {
-//             ffi::cogl_framebuffer_set_dither_enabled(
+//             ffi::framebuffer_set_dither_enabled(
 //                 self.as_ref().to_glib_none().0,
 //                 dither_enabled as i32,
 //             );
@@ -1669,7 +1669,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn set_modelview_matrix(&self, matrix: &Matrix) {
 //         unsafe {
-//             ffi::cogl_framebuffer_set_modelview_matrix(
+//             ffi::framebuffer_set_modelview_matrix(
 //                 self.as_ref().to_glib_none().0,
 //                 matrix.to_glib_none().0,
 //             );
@@ -1678,7 +1678,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn set_projection_matrix(&self, matrix: &Matrix) {
 //         unsafe {
-//             ffi::cogl_framebuffer_set_projection_matrix(
+//             ffi::framebuffer_set_projection_matrix(
 //                 self.as_ref().to_glib_none().0,
 //                 matrix.to_glib_none().0,
 //             );
@@ -1687,7 +1687,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn set_samples_per_pixel(&self, samples_per_pixel: i32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_set_samples_per_pixel(
+//             ffi::framebuffer_set_samples_per_pixel(
 //                 self.as_ref().to_glib_none().0,
 //                 samples_per_pixel,
 //             );
@@ -1696,7 +1696,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn set_stereo_mode(&self, stereo_mode: StereoMode) {
 //         unsafe {
-//             ffi::cogl_framebuffer_set_stereo_mode(
+//             ffi::framebuffer_set_stereo_mode(
 //                 self.as_ref().to_glib_none().0,
 //                 stereo_mode.to_glib(),
 //             );
@@ -1705,13 +1705,13 @@ pub trait FramebufferExt: 'static {
 
 //     fn set_viewport(&self, x: f32, y: f32, width: f32, height: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_set_viewport(self.as_ref().to_glib_none().0, x, y, width, height);
+//             ffi::framebuffer_set_viewport(self.as_ref().to_glib_none().0, x, y, width, height);
 //         }
 //     }
 
 //     fn transform(&self, matrix: &Matrix) {
 //         unsafe {
-//             ffi::cogl_framebuffer_transform(
+//             ffi::framebuffer_transform(
 //                 self.as_ref().to_glib_none().0,
 //                 matrix.to_glib_none().0,
 //             );
@@ -1720,7 +1720,7 @@ pub trait FramebufferExt: 'static {
 
 //     fn translate(&self, x: f32, y: f32, z: f32) {
 //         unsafe {
-//             ffi::cogl_framebuffer_translate(self.as_ref().to_glib_none().0, x, y, z);
+//             ffi::framebuffer_translate(self.as_ref().to_glib_none().0, x, y, z);
 //         }
 //     }
 // }

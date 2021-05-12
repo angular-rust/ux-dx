@@ -4,9 +4,9 @@ use std::mem;
 #[derive(Clone, Copy, Debug)] // PartialEq, Eq, Hash
 pub struct DepthState {
     pub private_member_magic: u32,
-    pub private_member_test_enabled: bool,  // CoglBool
-    pub private_member_test_function: i32, // CoglDepthTestFunction, // TODO: possible should be enum
-    pub private_member_write_enabled: bool, // CoglBool
+    pub private_member_test_enabled: bool,  // Bool
+    pub private_member_test_function: i32, // DepthTestFunction, // TODO: possible should be enum
+    pub private_member_write_enabled: bool, // Bool
     pub private_member_range_near: f32,
     pub private_member_range_far: f32,
     pub private_member_padding0: u32,
@@ -21,23 +21,23 @@ pub struct DepthState {
     pub private_member_padding9: u32,
 }
 
-//pub const COGL_DEPTH_TEST_FUNCTION_NEVER: CoglDepthTestFunction = 512;
-//pub const COGL_DEPTH_TEST_FUNCTION_LESS: CoglDepthTestFunction = 513;
-//pub const COGL_DEPTH_TEST_FUNCTION_EQUAL: CoglDepthTestFunction = 514;
-//pub const COGL_DEPTH_TEST_FUNCTION_LEQUAL: CoglDepthTestFunction = 515;
-//pub const COGL_DEPTH_TEST_FUNCTION_GREATER: CoglDepthTestFunction = 516;
-//pub const COGL_DEPTH_TEST_FUNCTION_NOTEQUAL: CoglDepthTestFunction = 517;
-//pub const COGL_DEPTH_TEST_FUNCTION_GEQUAL: CoglDepthTestFunction = 518;
-//pub const COGL_DEPTH_TEST_FUNCTION_ALWAYS: CoglDepthTestFunction = 519;
+//pub const COGL_DEPTH_TEST_FUNCTION_NEVER: DepthTestFunction = 512;
+//pub const COGL_DEPTH_TEST_FUNCTION_LESS: DepthTestFunction = 513;
+//pub const COGL_DEPTH_TEST_FUNCTION_EQUAL: DepthTestFunction = 514;
+//pub const COGL_DEPTH_TEST_FUNCTION_LEQUAL: DepthTestFunction = 515;
+//pub const COGL_DEPTH_TEST_FUNCTION_GREATER: DepthTestFunction = 516;
+//pub const COGL_DEPTH_TEST_FUNCTION_NOTEQUAL: DepthTestFunction = 517;
+//pub const COGL_DEPTH_TEST_FUNCTION_GEQUAL: DepthTestFunction = 518;
+//pub const COGL_DEPTH_TEST_FUNCTION_ALWAYS: DepthTestFunction = 519;
 
 impl DepthState {
-    // * cogl_depth_state_init:
-    // * @state: A #CoglDepthState struct
+    // * depth_state_init:
+    // * @state: A #DepthState struct
     // *
     // * Initializes the members of @state to their default values.
     // *
-    // * You should never pass an un initialized #CoglDepthState structure
-    // * to cogl_pipeline_set_depth_state().
+    // * You should never pass an un initialized #DepthState structure
+    // * to pipeline_set_depth_state().
     // *
     // * Since: 2.0
     // * Stability: Unstable
@@ -52,26 +52,26 @@ impl DepthState {
         // state->range_far = 1;
     }
 
-    // * cogl_depth_state_set_test_enabled:
-    // * @state: A #CoglDepthState struct
+    // * depth_state_set_test_enabled:
+    // * @state: A #DepthState struct
     // * @enable: The enable state you want
     // *
     // * Enables or disables depth testing according to the value of
     // * @enable.
     // *
-    // * If depth testing is enable then the #CoglDepthTestFunction set
-    // * using cogl_depth_state_set_test_function() us used to evaluate
+    // * If depth testing is enable then the #DepthTestFunction set
+    // * using depth_state_set_test_function() us used to evaluate
     // * the depth value of incoming fragments against the corresponding
     // * value stored in the current depth buffer, and if the test passes
     // * then the fragments depth value is used to update the depth buffer.
     // * (unless you have disabled depth writing via
-    // * cogl_depth_state_set_write_enabled())
+    // * depth_state_set_write_enabled())
     // *
     // * By default depth testing is disabled.
     // *
     // * NB: this won't directly affect the state of the GPU. You have
-    // * to then set the state on a #CoglPipeline using
-    // * cogl_pipeline_set_depth_state()
+    // * to then set the state on a #Pipeline using
+    // * pipeline_set_depth_state()
     // *
     // * Since: 2.0
     // * Stability: Unstable
@@ -80,11 +80,11 @@ impl DepthState {
         // state->test_enabled = enabled;
     }
 
-    // * cogl_depth_state_get_test_enabled:
-    // * @state: A #CoglDepthState struct
+    // * depth_state_get_test_enabled:
+    // * @state: A #DepthState struct
     // *
     // * Gets the current depth test enabled state as previously set by
-    // * cogl_depth_state_set_test_enabled().
+    // * depth_state_set_test_enabled().
     // *
     // * Returns: The pipeline's current depth test enabled state.
     // * Since: 2.0
@@ -95,8 +95,8 @@ impl DepthState {
         unimplemented!()
     }
 
-    // * cogl_depth_state_set_write_enabled:
-    // * @state: A #CoglDepthState struct
+    // * depth_state_set_write_enabled:
+    // * @state: A #DepthState struct
     // * @enable: The enable state you want
     // *
     // * Enables or disables depth buffer writing according to the value of
@@ -108,8 +108,8 @@ impl DepthState {
     // * By default depth writing is enabled
     // *
     // * NB: this won't directly affect the state of the GPU. You have
-    // * to then set the state on a #CoglPipeline using
-    // * cogl_pipeline_set_depth_state()
+    // * to then set the state on a #Pipeline using
+    // * pipeline_set_depth_state()
     // *
     // * Since: 2.0
     // * Stability: Unstable
@@ -119,11 +119,11 @@ impl DepthState {
         unimplemented!()
     }
 
-    // * cogl_depth_state_get_write_enabled:
-    // * @state: A #CoglDepthState struct
+    // * depth_state_get_write_enabled:
+    // * @state: A #DepthState struct
     // *
     // * Gets the depth writing enable state as set by the corresponding
-    // * cogl_depth_state_set_write_enabled().
+    // * depth_state_set_write_enabled().
     // *
     // * Returns: The current depth writing enable state
     // * Since: 2.0
@@ -134,30 +134,30 @@ impl DepthState {
         unimplemented!()
     }
 
-    // // * cogl_depth_state_set_test_function:
-    // // * @state: A #CoglDepthState struct
-    // // * @function: The #CoglDepthTestFunction to set
+    // // * depth_state_set_test_function:
+    // // * @state: A #DepthState struct
+    // // * @function: The #DepthTestFunction to set
     // // *
-    // // * Sets the #CoglDepthTestFunction used to compare the depth value of
+    // // * Sets the #DepthTestFunction used to compare the depth value of
     // // * an incoming fragment against the corresponding value in the current
     // // * depth buffer.
     // // *
     // // * By default the depth test function is %COGL_DEPTH_TEST_FUNCTION_LESS
     // // *
     // // * NB: this won't directly affect the state of the GPU. You have
-    // // * to then set the state on a #CoglPipeline using
-    // // * cogl_pipeline_set_depth_state()
+    // // * to then set the state on a #Pipeline using
+    // // * pipeline_set_depth_state()
     // // *
     // // * Since: 2.0
     // // * Stability: Unstable
-    // pub fn set_test_function (&self, CoglDepthTestFunction function);
+    // pub fn set_test_function (&self, DepthTestFunction function);
 
 
-    // // * cogl_depth_state_get_test_function:
-    // // * @state: A #CoglDepthState struct
+    // // * depth_state_get_test_function:
+    // // * @state: A #DepthState struct
     // // *
     // // * Gets the current depth test enable state as previously set via
-    // // * cogl_depth_state_set_test_enabled().
+    // // * depth_state_set_test_enabled().
     // // *
     // // * Returns: The current depth test enable state.
     // // * Since: 2.0
@@ -166,8 +166,8 @@ impl DepthState {
 
     // }
 
-    // * cogl_depth_state_set_range:
-    // * @state: A #CoglDepthState object
+    // * depth_state_set_range:
+    // * @state: A #DepthState object
     // * @near_val: The near component of the desired depth range which will be
     // * clamped to the range [0, 1]
     // * @far_val: The far component of the desired depth range which will be
@@ -189,16 +189,16 @@ impl DepthState {
     // * If your driver does not support this feature (for example you are
     // * using GLES 1 drivers) then if you don't use the default range
     // * values you will get an error reported when calling
-    // * cogl_pipeline_set_depth_state (). You can check ahead of time for
+    // * pipeline_set_depth_state (). You can check ahead of time for
     // * the %COGL_FEATURE_ID_DEPTH_RANGE feature with
-    // * cogl_has_feature() to know if this function will succeed.
+    // * has_feature() to know if this function will succeed.
     // *
     // * By default normalized device coordinate depth values are mapped to
     // * the full range of depth buffer values, [0, 1].
     // *
     // * NB: this won't directly affect the state of the GPU. You have
-    // * to then set the state on a #CoglPipeline using
-    // * cogl_pipeline_set_depth_state().
+    // * to then set the state on a #Pipeline using
+    // * pipeline_set_depth_state().
     // *
     // * Since: 2.0
     // * Stability: Unstable
@@ -209,14 +209,14 @@ impl DepthState {
         unimplemented!()
     }
 
-    // * cogl_depth_state_get_range:
-    // * @state: A #CoglDepthState object
+    // * depth_state_get_range:
+    // * @state: A #DepthState object
     // * @near_val: A pointer to store the near component of the depth range
     // * @far_val: A pointer to store the far component of the depth range
     // *
     // * Gets the current range to which normalized depth values are mapped
     // * before writing to the depth buffer. This corresponds to the range
-    // * set with cogl_depth_state_set_range().
+    // * set with depth_state_set_range().
     // *
     // * Since: 2.0
     // * Stability: Unstable

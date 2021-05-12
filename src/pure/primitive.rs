@@ -6,66 +6,66 @@ use std::{fmt,ffi::c_void};
 
 pub struct PrimitiveTexture(c_void);
 
-// typedef struct _CoglMultiTexturedRect
+// typedef struct _MultiTexturedRect
 // {
 //   const float *position; /* x0,y0,x1,y1 */
 //   const float *tex_coords; /* (tx0,ty0,tx1,ty1)(tx0,ty0,tx1,ty1)(... */
 //   int tex_coords_len; /* number of floats in tex_coords? */
-// } CoglMultiTexturedRect;
+// } MultiTexturedRect;
 
 pub struct Primitive {
-    // CoglObject _parent;
+    // Object _parent;
 
-    // CoglIndices *indices;
-    // CoglVerticesMode mode;
+    // Indices *indices;
+    // VerticesMode mode;
     // int first_vertex;
     // int n_vertices;
   
     // int immutable_ref;
   
-    // CoglAttribute **attributes;
+    // Attribute **attributes;
     // int n_attributes;
   
     // int n_embedded_attributes;
-    // CoglAttribute *embedded_attribute;
+    // Attribute *embedded_attribute;
 }
 
 impl Primitive {
-    // * cogl_primitive_new:
-    // * @mode: A #CoglVerticesMode defining how to draw the vertices
+    // * primitive_new:
+    // * @mode: A #VerticesMode defining how to draw the vertices
     // * @n_vertices: The number of vertices to process when drawing
     // * @...: A %NULL terminated list of attributes
     // *
-    // * Combines a set of #CoglAttribute<!-- -->s with a specific draw @mode
-    // * and defines a vertex count so a #CoglPrimitive object can be retained and
+    // * Combines a set of #Attribute<!-- -->s with a specific draw @mode
+    // * and defines a vertex count so a #Primitive object can be retained and
     // * drawn later with no addition information required.
     // *
     // * The value passed as @n_vertices will simply update the
-    // * #CoglPrimitive <structfield>n_vertices</structfield> property as if
-    // * cogl_primitive_set_n_vertices() were called. This property defines
+    // * #Primitive <structfield>n_vertices</structfield> property as if
+    // * primitive_set_n_vertices() were called. This property defines
     // * the number of vertices to read when drawing.
     // *
-    // * Return value: (transfer full): A newly allocated #CoglPrimitive object
+    // * Return value: (transfer full): A newly allocated #Primitive object
     pub fn new(mode: VerticesMode, n_vertices: i32, args: &[f64]) -> Primitive {
         // va_list ap;
         // int n_attributes;
-        // CoglAttribute **attributes;
+        // Attribute **attributes;
         // int i;
-        // CoglAttribute *attribute;
+        // Attribute *attribute;
       
         // va_start (ap, n_vertices);
-        // for (n_attributes = 0; va_arg (ap, CoglAttribute *); n_attributes++)
+        // for (n_attributes = 0; va_arg (ap, Attribute *); n_attributes++)
         //   ;
         // va_end (ap);
       
-        // attributes = g_alloca (sizeof (CoglAttribute *) * n_attributes);
+        // attributes = g_alloca (sizeof (Attribute *) * n_attributes);
       
         // va_start (ap, n_vertices);
-        // for (i = 0; (attribute = va_arg (ap, CoglAttribute *)); i++)
+        // for (i = 0; (attribute = va_arg (ap, Attribute *)); i++)
         //   attributes[i] = attribute;
         // va_end (ap);
       
-        // return cogl_primitive_new_with_attributes (mode, n_vertices,
+        // return primitive_new_with_attributes (mode, n_vertices,
         //                                            attributes,
         //                                            i);
         unimplemented!()
@@ -79,7 +79,7 @@ impl Primitive {
     /// For example to draw a convex polygon you can do:
     ///
     /// ```text
-    /// CoglVertexP2 triangle[] =
+    /// VertexP2 triangle[] =
     /// {
     ///   { 0,   300 },
     ///   { 150, 0,  },
@@ -120,20 +120,20 @@ impl Primitive {
     /// A newly allocated `Primitive`
     /// with a reference of 1. This can be freed using `Object::unref`.
     pub fn new_p2(context: &Context, mode: VerticesMode, data: &[&VertexP2]) -> Primitive {
-        // CoglAttributeBuffer *attribute_buffer =
-        //     cogl_attribute_buffer_new (ctx, n_vertices * sizeof (CoglVertexP2), data);
-        // CoglAttribute *attributes[1];
+        // AttributeBuffer *attribute_buffer =
+        //     attribute_buffer_new (ctx, n_vertices * sizeof (VertexP2), data);
+        // Attribute *attributes[1];
 
-        // attributes[0] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_position_in",
-        //                                     sizeof (CoglVertexP2),
-        //                                     offsetof (CoglVertexP2, x),
+        // attributes[0] = attribute_new (attribute_buffer,
+        //                                     "position_in",
+        //                                     sizeof (VertexP2),
+        //                                     offsetof (VertexP2, x),
         //                                     2,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
 
-        // cogl_object_unref (attribute_buffer);
+        // object_unref (attribute_buffer);
 
-        // return _cogl_primitive_new_with_attributes_unref (mode, n_vertices,
+        // return _primitive_new_with_attributes_unref (mode, n_vertices,
         //                                                     attributes,
         //                                                     1);
         unimplemented!()
@@ -149,7 +149,7 @@ impl Primitive {
     /// can do:
     ///
     /// ```text
-    /// CoglVertexP2C4 triangle[] =
+    /// VertexP2C4 triangle[] =
     /// {
     ///   { 0,   300,  0xff, 0x00, 0x00, 0xff },
     ///   { 150, 0,    0x00, 0xff, 0x00, 0xff },
@@ -190,26 +190,26 @@ impl Primitive {
     /// A newly allocated `Primitive`
     /// with a reference of 1. This can be freed using `Object::unref`.
     pub fn new_p2c4(context: &Context, mode: VerticesMode, data: &[&VertexP2C4]) -> Primitive {
-        // CoglAttributeBuffer *attribute_buffer =
-        //     cogl_attribute_buffer_new (ctx, n_vertices * sizeof (CoglVertexP2C4), data);
-        // CoglAttribute *attributes[2];
+        // AttributeBuffer *attribute_buffer =
+        //     attribute_buffer_new (ctx, n_vertices * sizeof (VertexP2C4), data);
+        // Attribute *attributes[2];
 
-        // attributes[0] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_position_in",
-        //                                     sizeof (CoglVertexP2C4),
-        //                                     offsetof (CoglVertexP2C4, x),
+        // attributes[0] = attribute_new (attribute_buffer,
+        //                                     "position_in",
+        //                                     sizeof (VertexP2C4),
+        //                                     offsetof (VertexP2C4, x),
         //                                     2,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
-        // attributes[1] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_color_in",
-        //                                     sizeof (CoglVertexP2C4),
-        //                                     offsetof (CoglVertexP2C4, r),
+        // attributes[1] = attribute_new (attribute_buffer,
+        //                                     "color_in",
+        //                                     sizeof (VertexP2C4),
+        //                                     offsetof (VertexP2C4, r),
         //                                     4,
         //                                     COGL_ATTRIBUTE_TYPE_UNSIGNED_BYTE);
 
-        // cogl_object_unref (attribute_buffer);
+        // object_unref (attribute_buffer);
 
-        // return _cogl_primitive_new_with_attributes_unref (mode, n_vertices,
+        // return _primitive_new_with_attributes_unref (mode, n_vertices,
         //                                                     attributes,
         //                                                     2);
         unimplemented!()
@@ -225,7 +225,7 @@ impl Primitive {
     /// do:
     ///
     /// ```text
-    /// CoglVertexP2T2 triangle[] =
+    /// VertexP2T2 triangle[] =
     /// {
     ///   { 0,   300,  0.0, 1.0},
     ///   { 150, 0,    0.5, 0.0},
@@ -266,26 +266,26 @@ impl Primitive {
     /// A newly allocated `Primitive`
     /// with a reference of 1. This can be freed using `Object::unref`.
     pub fn new_p2t2(context: &Context, mode: VerticesMode, data: &[&VertexP2T2]) -> Primitive {
-        // CoglAttributeBuffer *attribute_buffer =
-        //     cogl_attribute_buffer_new (ctx, n_vertices * sizeof (CoglVertexP2T2), data);
-        // CoglAttribute *attributes[2];
+        // AttributeBuffer *attribute_buffer =
+        //     attribute_buffer_new (ctx, n_vertices * sizeof (VertexP2T2), data);
+        // Attribute *attributes[2];
 
-        // attributes[0] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_position_in",
-        //                                     sizeof (CoglVertexP2T2),
-        //                                     offsetof (CoglVertexP2T2, x),
+        // attributes[0] = attribute_new (attribute_buffer,
+        //                                     "position_in",
+        //                                     sizeof (VertexP2T2),
+        //                                     offsetof (VertexP2T2, x),
         //                                     2,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
-        // attributes[1] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_tex_coord0_in",
-        //                                     sizeof (CoglVertexP2T2),
-        //                                     offsetof (CoglVertexP2T2, s),
+        // attributes[1] = attribute_new (attribute_buffer,
+        //                                     "tex_coord0_in",
+        //                                     sizeof (VertexP2T2),
+        //                                     offsetof (VertexP2T2, s),
         //                                     2,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
 
-        // cogl_object_unref (attribute_buffer);
+        // object_unref (attribute_buffer);
 
-        // return _cogl_primitive_new_with_attributes_unref (mode, n_vertices,
+        // return _primitive_new_with_attributes_unref (mode, n_vertices,
         //                                                     attributes,
         //                                                     2);
         unimplemented!()
@@ -301,7 +301,7 @@ impl Primitive {
     /// linear gradient you can do:
     ///
     /// ```text
-    /// CoglVertexP2T2C4 triangle[] =
+    /// VertexP2T2C4 triangle[] =
     /// {
     ///   { 0,   300,  0.0, 1.0,  0xff, 0x00, 0x00, 0xff},
     ///   { 150, 0,    0.5, 0.0,  0x00, 0xff, 0x00, 0xff},
@@ -342,33 +342,33 @@ impl Primitive {
     /// A newly allocated `Primitive`
     /// with a reference of 1. This can be freed using `Object::unref`.
     pub fn new_p2t2c4(context: &Context, mode: VerticesMode, data: &[&VertexP2T2C4]) -> Primitive {
-        // CoglAttributeBuffer *attribute_buffer =
-        //     cogl_attribute_buffer_new (ctx,
-        //                             n_vertices * sizeof (CoglVertexP2T2C4), data);
-        // CoglAttribute *attributes[3];
+        // AttributeBuffer *attribute_buffer =
+        //     attribute_buffer_new (ctx,
+        //                             n_vertices * sizeof (VertexP2T2C4), data);
+        // Attribute *attributes[3];
 
-        // attributes[0] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_position_in",
-        //                                     sizeof (CoglVertexP2T2C4),
-        //                                     offsetof (CoglVertexP2T2C4, x),
+        // attributes[0] = attribute_new (attribute_buffer,
+        //                                     "position_in",
+        //                                     sizeof (VertexP2T2C4),
+        //                                     offsetof (VertexP2T2C4, x),
         //                                     2,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
-        // attributes[1] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_tex_coord0_in",
-        //                                     sizeof (CoglVertexP2T2C4),
-        //                                     offsetof (CoglVertexP2T2C4, s),
+        // attributes[1] = attribute_new (attribute_buffer,
+        //                                     "tex_coord0_in",
+        //                                     sizeof (VertexP2T2C4),
+        //                                     offsetof (VertexP2T2C4, s),
         //                                     2,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
-        // attributes[2] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_color_in",
-        //                                     sizeof (CoglVertexP2T2C4),
-        //                                     offsetof (CoglVertexP2T2C4, r),
+        // attributes[2] = attribute_new (attribute_buffer,
+        //                                     "color_in",
+        //                                     sizeof (VertexP2T2C4),
+        //                                     offsetof (VertexP2T2C4, r),
         //                                     4,
         //                                     COGL_ATTRIBUTE_TYPE_UNSIGNED_BYTE);
 
-        // cogl_object_unref (attribute_buffer);
+        // object_unref (attribute_buffer);
 
-        // return _cogl_primitive_new_with_attributes_unref (mode, n_vertices,
+        // return _primitive_new_with_attributes_unref (mode, n_vertices,
         //                                                     attributes,
         //                                                     3);
         unimplemented!()
@@ -382,7 +382,7 @@ impl Primitive {
     /// For example to draw a convex polygon you can do:
     ///
     /// ```text
-    /// CoglVertexP3 triangle[] =
+    /// VertexP3 triangle[] =
     /// {
     ///   { 0,   300, 0 },
     ///   { 150, 0,   0 },
@@ -423,20 +423,20 @@ impl Primitive {
     /// A newly allocated `Primitive`
     /// with a reference of 1. This can be freed using `Object::unref`.
     pub fn new_p3(context: &Context, mode: VerticesMode, data: &[&VertexP3]) -> Primitive {
-        // CoglAttributeBuffer *attribute_buffer =
-        //     cogl_attribute_buffer_new (ctx, n_vertices * sizeof (CoglVertexP3), data);
-        // CoglAttribute *attributes[1];
+        // AttributeBuffer *attribute_buffer =
+        //     attribute_buffer_new (ctx, n_vertices * sizeof (VertexP3), data);
+        // Attribute *attributes[1];
 
-        // attributes[0] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_position_in",
-        //                                     sizeof (CoglVertexP3),
-        //                                     offsetof (CoglVertexP3, x),
+        // attributes[0] = attribute_new (attribute_buffer,
+        //                                     "position_in",
+        //                                     sizeof (VertexP3),
+        //                                     offsetof (VertexP3, x),
         //                                     3,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
 
-        // cogl_object_unref (attribute_buffer);
+        // object_unref (attribute_buffer);
 
-        // return _cogl_primitive_new_with_attributes_unref (mode, n_vertices,
+        // return _primitive_new_with_attributes_unref (mode, n_vertices,
         //                                                     attributes,
         //                                                     1);
         unimplemented!()
@@ -452,7 +452,7 @@ impl Primitive {
     /// can do:
     ///
     /// ```text
-    /// CoglVertexP3C4 triangle[] =
+    /// VertexP3C4 triangle[] =
     /// {
     ///   { 0,   300, 0,  0xff, 0x00, 0x00, 0xff },
     ///   { 150, 0,   0,  0x00, 0xff, 0x00, 0xff },
@@ -493,26 +493,26 @@ impl Primitive {
     /// A newly allocated `Primitive`
     /// with a reference of 1. This can be freed using `Object::unref`.
     pub fn new_p3c4(context: &Context, mode: VerticesMode, data: &[&VertexP3C4]) -> Primitive {
-        // CoglAttributeBuffer *attribute_buffer =
-        //     cogl_attribute_buffer_new (ctx, n_vertices * sizeof (CoglVertexP3C4), data);
-        // CoglAttribute *attributes[2];
+        // AttributeBuffer *attribute_buffer =
+        //     attribute_buffer_new (ctx, n_vertices * sizeof (VertexP3C4), data);
+        // Attribute *attributes[2];
 
-        // attributes[0] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_position_in",
-        //                                     sizeof (CoglVertexP3C4),
-        //                                     offsetof (CoglVertexP3C4, x),
+        // attributes[0] = attribute_new (attribute_buffer,
+        //                                     "position_in",
+        //                                     sizeof (VertexP3C4),
+        //                                     offsetof (VertexP3C4, x),
         //                                     3,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
-        // attributes[1] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_color_in",
-        //                                     sizeof (CoglVertexP3C4),
-        //                                     offsetof (CoglVertexP3C4, r),
+        // attributes[1] = attribute_new (attribute_buffer,
+        //                                     "color_in",
+        //                                     sizeof (VertexP3C4),
+        //                                     offsetof (VertexP3C4, r),
         //                                     4,
         //                                     COGL_ATTRIBUTE_TYPE_UNSIGNED_BYTE);
 
-        // cogl_object_unref (attribute_buffer);
+        // object_unref (attribute_buffer);
 
-        // return _cogl_primitive_new_with_attributes_unref (mode, n_vertices,
+        // return _primitive_new_with_attributes_unref (mode, n_vertices,
         //                                                     attributes,
         //                                                     2);
         unimplemented!()
@@ -528,7 +528,7 @@ impl Primitive {
     /// do:
     ///
     /// ```text
-    /// CoglVertexP3T2 triangle[] =
+    /// VertexP3T2 triangle[] =
     /// {
     ///   { 0,   300, 0,  0.0, 1.0},
     ///   { 150, 0,   0,  0.5, 0.0},
@@ -569,26 +569,26 @@ impl Primitive {
     /// A newly allocated `Primitive`
     /// with a reference of 1. This can be freed using `Object::unref`.
     pub fn new_p3t2(context: &Context, mode: VerticesMode, data: &[&VertexP3T2]) -> Primitive {
-        // CoglAttributeBuffer *attribute_buffer =
-        //     cogl_attribute_buffer_new (ctx, n_vertices * sizeof (CoglVertexP3T2), data);
-        // CoglAttribute *attributes[2];
+        // AttributeBuffer *attribute_buffer =
+        //     attribute_buffer_new (ctx, n_vertices * sizeof (VertexP3T2), data);
+        // Attribute *attributes[2];
 
-        // attributes[0] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_position_in",
-        //                                     sizeof (CoglVertexP3T2),
-        //                                     offsetof (CoglVertexP3T2, x),
+        // attributes[0] = attribute_new (attribute_buffer,
+        //                                     "position_in",
+        //                                     sizeof (VertexP3T2),
+        //                                     offsetof (VertexP3T2, x),
         //                                     3,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
-        // attributes[1] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_tex_coord0_in",
-        //                                     sizeof (CoglVertexP3T2),
-        //                                     offsetof (CoglVertexP3T2, s),
+        // attributes[1] = attribute_new (attribute_buffer,
+        //                                     "tex_coord0_in",
+        //                                     sizeof (VertexP3T2),
+        //                                     offsetof (VertexP3T2, s),
         //                                     2,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
 
-        // cogl_object_unref (attribute_buffer);
+        // object_unref (attribute_buffer);
 
-        // return _cogl_primitive_new_with_attributes_unref (mode, n_vertices,
+        // return _primitive_new_with_attributes_unref (mode, n_vertices,
         //                                                     attributes,
         //                                                     2);
         unimplemented!()
@@ -604,7 +604,7 @@ impl Primitive {
     /// linear gradient you can do:
     ///
     /// ```text
-    /// CoglVertexP3T2C4 triangle[] =
+    /// VertexP3T2C4 triangle[] =
     /// {
     ///   { 0,   300, 0,  0.0, 1.0,  0xff, 0x00, 0x00, 0xff},
     ///   { 150, 0,   0,  0.5, 0.0,  0x00, 0xff, 0x00, 0xff},
@@ -645,65 +645,65 @@ impl Primitive {
     /// A newly allocated `Primitive`
     /// with a reference of 1. This can be freed using `Object::unref`.
     pub fn new_p3t2c4(context: &Context, mode: VerticesMode, data: &[&VertexP3T2C4]) -> Primitive {
-        // CoglAttributeBuffer *attribute_buffer =
-        //     cogl_attribute_buffer_new (ctx,
-        //                             n_vertices * sizeof (CoglVertexP3T2C4), data);
-        // CoglAttribute *attributes[3];
+        // AttributeBuffer *attribute_buffer =
+        //     attribute_buffer_new (ctx,
+        //                             n_vertices * sizeof (VertexP3T2C4), data);
+        // Attribute *attributes[3];
 
-        // attributes[0] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_position_in",
-        //                                     sizeof (CoglVertexP3T2C4),
-        //                                     offsetof (CoglVertexP3T2C4, x),
+        // attributes[0] = attribute_new (attribute_buffer,
+        //                                     "position_in",
+        //                                     sizeof (VertexP3T2C4),
+        //                                     offsetof (VertexP3T2C4, x),
         //                                     3,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
-        // attributes[1] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_tex_coord0_in",
-        //                                     sizeof (CoglVertexP3T2C4),
-        //                                     offsetof (CoglVertexP3T2C4, s),
+        // attributes[1] = attribute_new (attribute_buffer,
+        //                                     "tex_coord0_in",
+        //                                     sizeof (VertexP3T2C4),
+        //                                     offsetof (VertexP3T2C4, s),
         //                                     2,
         //                                     COGL_ATTRIBUTE_TYPE_FLOAT);
-        // attributes[2] = cogl_attribute_new (attribute_buffer,
-        //                                     "cogl_color_in",
-        //                                     sizeof (CoglVertexP3T2C4),
-        //                                     offsetof (CoglVertexP3T2C4, r),
+        // attributes[2] = attribute_new (attribute_buffer,
+        //                                     "color_in",
+        //                                     sizeof (VertexP3T2C4),
+        //                                     offsetof (VertexP3T2C4, r),
         //                                     4,
         //                                     COGL_ATTRIBUTE_TYPE_UNSIGNED_BYTE);
 
-        // cogl_object_unref (attribute_buffer);
+        // object_unref (attribute_buffer);
 
-        // return _cogl_primitive_new_with_attributes_unref (mode, n_vertices,
+        // return _primitive_new_with_attributes_unref (mode, n_vertices,
         //                                                     attributes,
         //                                                     3);
         unimplemented!()
     }
 
-    // * cogl_primitive_new_with_attributes:
-    // * @mode: A #CoglVerticesMode defining how to draw the vertices
+    // * primitive_new_with_attributes:
+    // * @mode: A #VerticesMode defining how to draw the vertices
     // * @n_vertices: The number of vertices to process when drawing
-    // * @attributes: An array of CoglAttribute
+    // * @attributes: An array of Attribute
     // * @n_attributes: The number of attributes
     // *
-    // * Combines a set of #CoglAttribute<!-- -->s with a specific draw @mode
-    // * and defines a vertex count so a #CoglPrimitive object can be retained and
+    // * Combines a set of #Attribute<!-- -->s with a specific draw @mode
+    // * and defines a vertex count so a #Primitive object can be retained and
     // * drawn later with no addition information required.
     // *
     // * The value passed as @n_vertices will simply update the
-    // * #CoglPrimitive <structfield>n_vertices</structfield> property as if
-    // * cogl_primitive_set_n_vertices() were called. This property defines
+    // * #Primitive <structfield>n_vertices</structfield> property as if
+    // * primitive_set_n_vertices() were called. This property defines
     // * the number of vertices to read when drawing.
     // *
-    // * Return value: (transfer full): A newly allocated #CoglPrimitive object
+    // * Return value: (transfer full): A newly allocated #Primitive object
     pub fn with_attributes(
         mode: VerticesMode,
         n_vertices: i32,
         attributes: &[&Attribute],
         n_attributes: i32,
     ) -> Primitive {
-        // CoglPrimitive *primitive;
+        // Primitive *primitive;
         // int i;
 
-        // primitive = g_slice_alloc (sizeof (CoglPrimitive) +
-        //                             sizeof (CoglAttribute *) * (n_attributes - 1));
+        // primitive = g_slice_alloc (sizeof (Primitive) +
+        //                             sizeof (Attribute *) * (n_attributes - 1));
         // primitive->mode = mode;
         // primitive->first_vertex = 0;
         // primitive->n_vertices = n_vertices;
@@ -715,15 +715,15 @@ impl Primitive {
         // primitive->attributes = &primitive->embedded_attribute;
         // for (i = 0; i < n_attributes; i++)
         //     {
-        //     CoglAttribute *attribute = attributes[i];
-        //     cogl_object_ref (attribute);
+        //     Attribute *attribute = attributes[i];
+        //     object_ref (attribute);
 
-        //     _COGL_RETURN_VAL_IF_FAIL (cogl_is_attribute (attribute), NULL);
+        //     _COGL_RETURN_VAL_IF_FAIL (is_attribute (attribute), NULL);
 
         //     primitive->attributes[i] = attribute;
         //     }
 
-        // return _cogl_primitive_object_new (primitive);
+        // return _primitive_object_new (primitive);
         unimplemented!()
     }
 
@@ -735,15 +735,15 @@ impl Primitive {
     ///
     /// the new primitive
     pub fn copy(&self) -> Option<Primitive> {
-        // CoglPrimitive *copy;
+        // Primitive *copy;
 
-        // copy = cogl_primitive_new_with_attributes (primitive->mode,
+        // copy = primitive_new_with_attributes (primitive->mode,
         //                                             primitive->n_vertices,
         //                                             primitive->attributes,
         //                                             primitive->n_attributes);
 
-        // cogl_primitive_set_indices (copy, primitive->indices, primitive->n_vertices);
-        // cogl_primitive_set_first_vertex (copy, primitive->first_vertex);
+        // primitive_set_indices (copy, primitive->indices, primitive->n_vertices);
+        // primitive_set_first_vertex (copy, primitive->first_vertex);
 
         // return copy;
   
@@ -764,7 +764,7 @@ impl Primitive {
     // /// A `Pipeline` state object
     // pub fn draw<P: Is<Framebuffer>>(&self, framebuffer: &P, pipeline: &Pipeline) {
     //     if (primitive->indices)
-    //         _cogl_framebuffer_draw_indexed_attributes (framebuffer,
+    //         _framebuffer_draw_indexed_attributes (framebuffer,
     //                                                 pipeline,
     //                                                 primitive->mode,
     //                                                 primitive->first_vertex,
@@ -774,7 +774,7 @@ impl Primitive {
     //                                                 primitive->n_attributes,
     //                                                 0);
     //     else
-    //         _cogl_framebuffer_draw_attributes (framebuffer,
+    //         _framebuffer_draw_attributes (framebuffer,
     //                                         pipeline,
     //                                         primitive->mode,
     //                                         primitive->first_vertex,
@@ -786,7 +786,7 @@ impl Primitive {
 
     /// Iterates all the attributes of the given `Primitive`.
     /// ## `callback`
-    /// A `CoglPrimitiveAttributeCallback` to be
+    /// A `PrimitiveAttributeCallback` to be
     ///  called for each attribute
     /// ## `user_data`
     /// Private data that will be passed to the
@@ -801,7 +801,7 @@ impl Primitive {
     }
 
     pub fn get_first_vertex(&self) -> i32 {
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_primitive (primitive), 0);
+        // _COGL_RETURN_VAL_IF_FAIL (is_primitive (primitive), 0);
 
         // return primitive->first_vertex;
         unimplemented!()
@@ -818,7 +818,7 @@ impl Primitive {
     }
 
     pub fn get_mode(&self) -> VerticesMode {
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_primitive (primitive), 0);
+        // _COGL_RETURN_VAL_IF_FAIL (is_primitive (primitive), 0);
 
         // return primitive->mode;
         unimplemented!()
@@ -841,7 +841,7 @@ impl Primitive {
     ///
     /// The number of vertices to read when drawing.
     pub fn get_n_vertices(&self) -> i32 {
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_primitive (primitive), 0);
+        // _COGL_RETURN_VAL_IF_FAIL (is_primitive (primitive), 0);
 
         // return primitive->n_vertices;
         unimplemented!()
@@ -855,7 +855,7 @@ impl Primitive {
     pub fn set_attributes(&self, attributes: &[&Attribute], n_attributes: i32) {
         // int i;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_primitive (primitive));
+        // _COGL_RETURN_IF_FAIL (is_primitive (primitive));
 
         // if (G_UNLIKELY (primitive->immutable_ref))
         //     {
@@ -868,12 +868,12 @@ impl Primitive {
         // * attribute thats actually in the new list too. */
         // for (i = 0; i < n_attributes; i++)
         //     {
-        //     _COGL_RETURN_IF_FAIL (cogl_is_attribute (attributes[i]));
-        //     cogl_object_ref (attributes[i]);
+        //     _COGL_RETURN_IF_FAIL (is_attribute (attributes[i]));
+        //     object_ref (attributes[i]);
         //     }
 
         // for (i = 0; i < primitive->n_attributes; i++)
-        //     cogl_object_unref (primitive->attributes[i]);
+        //     object_unref (primitive->attributes[i]);
 
         // /* First try to use the embedded storage assocated with the
         // * primitive, else fallback to slice allocating separate storage for
@@ -882,28 +882,28 @@ impl Primitive {
         // if (n_attributes <= primitive->n_embedded_attributes)
         //     {
         //     if (primitive->attributes != &primitive->embedded_attribute)
-        //         g_slice_free1 (sizeof (CoglAttribute *) * primitive->n_attributes,
+        //         g_slice_free1 (sizeof (Attribute *) * primitive->n_attributes,
         //                     primitive->attributes);
         //     primitive->attributes = &primitive->embedded_attribute;
         //     }
         // else
         //     {
         //     if (primitive->attributes != &primitive->embedded_attribute)
-        //         g_slice_free1 (sizeof (CoglAttribute *) * primitive->n_attributes,
+        //         g_slice_free1 (sizeof (Attribute *) * primitive->n_attributes,
         //                     primitive->attributes);
         //     primitive->attributes =
-        //         g_slice_alloc (sizeof (CoglAttribute *) * n_attributes);
+        //         g_slice_alloc (sizeof (Attribute *) * n_attributes);
         //     }
 
         // memcpy (primitive->attributes, attributes,
-        //         sizeof (CoglAttribute *) * n_attributes);
+        //         sizeof (Attribute *) * n_attributes);
 
         // primitive->n_attributes = n_attributes;
         unimplemented!()
     }
 
     pub fn set_first_vertex(&self, first_vertex: i32) {
-        // _COGL_RETURN_IF_FAIL (cogl_is_primitive (primitive));
+        // _COGL_RETURN_IF_FAIL (is_primitive (primitive));
 
         // if (G_UNLIKELY (primitive->immutable_ref))
         //     {
@@ -938,7 +938,7 @@ impl Primitive {
     /// ## `n_indices`
     /// The number of indices to reference when drawing
     pub fn set_indices(&self, indices: &Indices, n_indices: i32) {
-        // _COGL_RETURN_IF_FAIL (cogl_is_primitive (primitive));
+        // _COGL_RETURN_IF_FAIL (is_primitive (primitive));
 
         // if (G_UNLIKELY (primitive->immutable_ref))
         //     {
@@ -947,16 +947,16 @@ impl Primitive {
         //     }
 
         // if (indices)
-        //     cogl_object_ref (indices);
+        //     object_ref (indices);
         // if (primitive->indices)
-        //     cogl_object_unref (primitive->indices);
+        //     object_unref (primitive->indices);
         // primitive->indices = indices;
         // primitive->n_vertices = n_indices;
         unimplemented!()
     }
 
     pub fn set_mode(&self, mode: VerticesMode) {
-        // _COGL_RETURN_IF_FAIL (cogl_is_primitive (primitive));
+        // _COGL_RETURN_IF_FAIL (is_primitive (primitive));
 
         // if (G_UNLIKELY (primitive->immutable_ref))
         //     {
@@ -980,16 +980,16 @@ impl Primitive {
     /// ## `n_vertices`
     /// The number of vertices to read when drawing.
     pub fn set_n_vertices(&self, n_vertices: i32) {
-        // _COGL_RETURN_IF_FAIL (cogl_is_primitive (primitive));
+        // _COGL_RETURN_IF_FAIL (is_primitive (primitive));
 
         // primitive->n_vertices = n_vertices;
         unimplemented!()
     }
 
     pub fn texture_set_auto_mipmap(primitive_texture: &PrimitiveTexture, value: bool) {
-        // CoglTexture *texture;
+        // Texture *texture;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_primitive_texture (primitive_texture));
+        // _COGL_RETURN_IF_FAIL (is_primitive_texture (primitive_texture));
       
         // texture = COGL_TEXTURE (primitive_texture);
       

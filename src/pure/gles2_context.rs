@@ -1,12 +1,12 @@
 use crate::{Context, Object};
 use std::{fmt, ptr};
 
-// typedef struct _CoglGLES2Offscreen
+// typedef struct _GLES2Offscreen
 // {
-//   CoglList link;
-//   CoglOffscreen *original_offscreen;
-//   CoglGLFramebuffer gl_framebuffer;
-// } CoglGLES2Offscreen;
+//   List link;
+//   Offscreen *original_offscreen;
+//   GLFramebuffer gl_framebuffer;
+// } GLES2Offscreen;
 
 // typedef struct
 // {
@@ -27,15 +27,15 @@ use std::{fmt, ptr};
 //   /* Set once this object has had glDeleteShader called on it. We need
 //    * to keep track of this so we don't deref the data twice if the
 //    * application calls glDeleteShader multiple times */
-//   CoglBool deleted;
-// } CoglGLES2ShaderData;
+//   Bool deleted;
+// } GLES2ShaderData;
 
 // typedef enum
 // {
 //   COGL_GLES2_FLIP_STATE_UNKNOWN,
 //   COGL_GLES2_FLIP_STATE_NORMAL,
 //   COGL_GLES2_FLIP_STATE_FLIPPED
-// } CoglGLES2FlipState;
+// } GLES2FlipState;
 
 // typedef struct
 // {
@@ -56,23 +56,23 @@ use std::{fmt, ptr};
 //   /* Set once this object has had glDeleteProgram called on it. We need
 //    * to keep track of this so we don't deref the data twice if the
 //    * application calls glDeleteProgram multiple times */
-//   CoglBool deleted;
+//   Bool deleted;
 
 //   GLuint flip_vector_location;
 
 //   /* A cache of what value we've put in the flip vector uniform so
 //    * that we don't flush unless it's changed */
-//   CoglGLES2FlipState flip_vector_state;
+//   GLES2FlipState flip_vector_state;
 
-//   CoglGLES2Context *context;
-// } CoglGLES2ProgramData;
+//   GLES2Context *context;
+// } GLES2ProgramData;
 
 // /* State tracked for each texture unit */
 // typedef struct
 // {
 //   /* The currently bound texture for the GL_TEXTURE_2D */
 //   GLuint current_texture_2d;
-// } CoglGLES2TextureUnitData;
+// } GLES2TextureUnitData;
 
 // /* State tracked for each texture object */
 // typedef struct
@@ -85,34 +85,34 @@ use std::{fmt, ptr};
 //   /* The details for texture when it has a 2D target */
 //   int width, height;
 //   GLenum format;
-// } CoglGLES2TextureObjectData;
+// } GLES2TextureObjectData;
 
 pub struct GLES2Context {
-    // CoglObject _parent;
+    // Object _parent;
 
-    // CoglContext *context;
+    // Context *context;
   
     // /* This is set to FALSE until the first time the GLES2 context is
     //  * bound to something. We need to keep track of this so we can set
     //  * the viewport and scissor the first time it is bound. */
-    // CoglBool has_been_bound;
+    // Bool has_been_bound;
   
-    // CoglFramebuffer *read_buffer;
-    // CoglGLES2Offscreen *gles2_read_buffer;
-    // CoglFramebuffer *write_buffer;
-    // CoglGLES2Offscreen *gles2_write_buffer;
+    // Framebuffer *read_buffer;
+    // GLES2Offscreen *gles2_read_buffer;
+    // Framebuffer *write_buffer;
+    // GLES2Offscreen *gles2_write_buffer;
   
     // GLuint current_fbo_handle;
   
-    // CoglList foreign_offscreens;
+    // List foreign_offscreens;
   
-    // CoglGLES2Vtable *vtable;
+    // GLES2Vtable *vtable;
   
     // /* Hash table mapping GL's IDs for shaders and objects to ShaderData
     //  * and ProgramData so that we can maintain extra data for these
     //  * objects. Although technically the IDs will end up global across
     //  * all GLES2 contexts because they will all be in the same share
-    //  * list, we don't really want to expose this outside of the Cogl API
+    //  * list, we don't really want to expose this outside of the  API
     //  * so we will assume it is undefined behaviour if an application
     //  * relies on this. */
     // GHashTable *shader_map;
@@ -121,32 +121,32 @@ pub struct GLES2Context {
     // /* Currently in use program. We need to keep track of this so that
     //  * we can keep a reference to the data for the program while it is
     //  * current */
-    // CoglGLES2ProgramData *current_program;
+    // GLES2ProgramData *current_program;
   
     // /* Whether the currently bound framebuffer needs flipping. This is
     //  * used to check for changes so that we can dirty the following
     //  * state flags */
-    // CoglGLES2FlipState current_flip_state;
+    // GLES2FlipState current_flip_state;
   
     // /* The following state is tracked separately from the GL context
     //  * because we need to modify it depending on whether we are flipping
     //  * the geometry. */
-    // CoglBool viewport_dirty;
+    // Bool viewport_dirty;
     // int viewport[4];
-    // CoglBool scissor_dirty;
+    // Bool scissor_dirty;
     // int scissor[4];
-    // CoglBool front_face_dirty;
+    // Bool front_face_dirty;
     // GLenum front_face;
   
     // /* We need to keep track of the pack alignment so we can flip the
-    //  * results of glReadPixels read from a CoglOffscreen */
+    //  * results of glReadPixels read from a Offscreen */
     // int pack_alignment;
   
-    // /* A hash table of CoglGLES2TextureObjects indexed by the texture
+    // /* A hash table of GLES2TextureObjects indexed by the texture
     //  * object ID so that we can track some state */
     // GHashTable *texture_object_map;
   
-    // /* Array of CoglGLES2TextureUnits to keep track of state for each
+    // /* Array of GLES2TextureUnits to keep track of state for each
     //  * texture unit */
     // GArray *texture_units;
   
@@ -159,7 +159,7 @@ pub struct GLES2Context {
 
 impl GLES2Context {
     /// Allocates a new OpenGLES 2.0 context that can be used to render to
-    /// `CoglOffscreen` framebuffers (Rendering to `Onscreen`
+    /// `Offscreen` framebuffers (Rendering to `Onscreen`
     /// framebuffers is not currently supported).
     ///
     /// To actually access the OpenGLES 2.0 api itself you need to use
@@ -168,12 +168,12 @@ impl GLES2Context {
     /// driver.
     ///
     /// Once you have allocated an OpenGLES 2.0 context you can make it
-    /// current using `cogl_push_gles2_context`. For those familiar with
+    /// current using `push_gles2_context`. For those familiar with
     /// using the EGL api, this serves a similar purpose to eglMakeCurrent.
     ///
     /// `<note>`Before using this api applications can check for OpenGLES 2.0
     /// api support by checking for `FeatureID::OglFeatureIdGles2Context` support
-    /// with `cogl_has_feature`. This function will return `false` and
+    /// with `has_feature`. This function will return `false` and
     /// return an `GLES2ContextError::Unsupported` error if the
     /// feature isn't available.`</note>`
     ///
@@ -185,23 +185,23 @@ impl GLES2Context {
     /// A newly allocated `GLES2Context` or `None` if there
     ///  was an error and `error` will be updated in that case.
     pub fn new(ctx: &Context) -> GLES2Context {
-        // CoglGLES2Context *gles2_ctx;
-        // const CoglWinsysVtable *winsys;
+        // GLES2Context *gles2_ctx;
+        // const WinsysVtable *winsys;
 
-        // if (!cogl_has_feature (ctx, COGL_FEATURE_ID_GLES2_CONTEXT))
+        // if (!has_feature (ctx, COGL_FEATURE_ID_GLES2_CONTEXT))
         //     {
-        //     _cogl_set_error (error, COGL_GLES2_CONTEXT_ERROR,
+        //     _set_error (error, COGL_GLES2_CONTEXT_ERROR,
         //                 COGL_GLES2_CONTEXT_ERROR_UNSUPPORTED,
         //                 "Backend doesn't support creating GLES2 contexts");
 
         //     return NULL;
         //     }
 
-        // gles2_ctx = g_malloc0 (sizeof (CoglGLES2Context));
+        // gles2_ctx = g_malloc0 (sizeof (GLES2Context));
 
         // gles2_ctx->context = ctx;
 
-        // _cogl_list_init (&gles2_ctx->foreign_offscreens);
+        // _list_init (&gles2_ctx->foreign_offscreens);
 
         // winsys = ctx->display->renderer->winsys_vtable;
         // gles2_ctx->winsys = winsys->context_create_gles2_context (ctx, error);
@@ -218,7 +218,7 @@ impl GLES2Context {
         // gles2_ctx->front_face = GL_CCW;
         // gles2_ctx->pack_alignment = 4;
 
-        // gles2_ctx->vtable = g_malloc0 (sizeof (CoglGLES2Vtable));
+        // gles2_ctx->vtable = g_malloc0 (sizeof (GLES2Vtable));
         // #define COGL_EXT_BEGIN(name, \
         //                     min_gl_major, min_gl_minor, \
         //                     gles_availability, \
@@ -291,11 +291,11 @@ impl GLES2Context {
 
         // gles2_ctx->texture_units = g_array_new (FALSE, /* not zero terminated */
         //                                         TRUE, /* clear */
-        //                                         sizeof (CoglGLES2TextureUnitData));
+        //                                         sizeof (GLES2TextureUnitData));
         // gles2_ctx->current_texture_unit = 0;
         // g_array_set_size (gles2_ctx->texture_units, 1);
 
-        // return _cogl_gles2_context_object_new (gles2_ctx);
+        // return _gles2_context_object_new (gles2_ctx);
         unimplemented!()
     }
 

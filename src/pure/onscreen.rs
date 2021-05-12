@@ -5,30 +5,30 @@ use crate::{
 use std::boxed::Box as Box_;
 use std::fmt;
 
-// typedef struct _CoglOnscreenEvent
+// typedef struct _OnscreenEvent
 // {
-//   CoglList link;
+//   List link;
 
-//   CoglOnscreen *onscreen;
-//   CoglFrameInfo *info;
-//   CoglFrameEvent type;
-// } CoglOnscreenEvent;
+//   Onscreen *onscreen;
+//   FrameInfo *info;
+//   FrameEvent type;
+// } OnscreenEvent;
 
-// typedef struct _CoglOnscreenQueuedDirty
+// typedef struct _OnscreenQueuedDirty
 // {
-//   CoglList link;
+//   List link;
 
-//   CoglOnscreen *onscreen;
-//   CoglOnscreenDirtyInfo info;
-// } CoglOnscreenQueuedDirty;
+//   Onscreen *onscreen;
+//   OnscreenDirtyInfo info;
+// } OnscreenQueuedDirty;
 
 // @extends Object, @implements Framebuffer;
 pub struct Onscreen {
-    // CoglFramebuffer  _parent;
+    // Framebuffer  _parent;
 
     // #ifdef COGL_HAS_X11_SUPPORT
     //   uint32_t foreign_xid;
-    //   CoglOnscreenX11MaskCallback foreign_update_mask_callback;
+    //   OnscreenX11MaskCallback foreign_update_mask_callback;
     //   void *foreign_update_mask_data;
     // #endif
     
@@ -44,19 +44,19 @@ pub struct Onscreen {
     //   struct MirSurface *foreign_surface;
     // #endif
     
-    //   CoglBool swap_throttled;
+    //   Bool swap_throttled;
     
-    //   CoglList frame_closures;
+    //   List frame_closures;
     
-    //   CoglBool resizable;
-    //   CoglList resize_closures;
+    //   Bool resizable;
+    //   List resize_closures;
     
-    //   CoglList dirty_closures;
+    //   List dirty_closures;
     
     //   int64_t frame_counter;
     //   int64_t swap_frame_counter; /* frame counter at last all to
-    //                                * cogl_onscreen_swap_region() or
-    //                                * cogl_onscreen_swap_buffers() */
+    //                                * onscreen_swap_region() or
+    //                                * onscreen_swap_buffers() */
     //   GQueue pending_frame_infos;
     
     //   void *winsys;
@@ -77,11 +77,11 @@ impl Onscreen {
     ///
     /// A newly instantiated `Onscreen` framebuffer
     pub fn new(context: &Context, width: i32, height: i32) -> Onscreen {
-        // CoglOnscreen *onscreen = g_new0 (CoglOnscreen, 1);
+        // Onscreen *onscreen = g_new0 (Onscreen, 1);
 
         // _COGL_GET_CONTEXT (ctx, NULL);
 
-        // _cogl_framebuffer_init (COGL_FRAMEBUFFER (onscreen),
+        // _framebuffer_init (COGL_FRAMEBUFFER (onscreen),
         //                         ctx,
         //                         COGL_FRAMEBUFFER_TYPE_ONSCREEN,
         //                         0x1eadbeef, /* width */
@@ -89,13 +89,13 @@ impl Onscreen {
         // /* NB: make sure to pass positive width/height numbers here
         // * because otherwise we'll hit input validation assertions!*/
 
-        // _cogl_onscreen_init_from_template (onscreen, ctx->display->onscreen_template);
+        // _onscreen_init_from_template (onscreen, ctx->display->onscreen_template);
 
         // COGL_FRAMEBUFFER (onscreen)->allocated = TRUE;
 
         // /* XXX: Note we don't initialize onscreen->winsys in this case. */
 
-        // return _cogl_onscreen_object_new (onscreen);
+        // return _onscreen_object_new (onscreen);
         unimplemented!()
     }
 
@@ -128,7 +128,7 @@ impl Onscreen {
         &self,
         callback: P,
     ) -> Option<OnscreenDirtyClosure> {
-        // return _cogl_closure_list_add (&onscreen->dirty_closures,
+        // return _closure_list_add (&onscreen->dirty_closures,
         //     callback,
         //     user_data,
         //     destroy);
@@ -171,7 +171,7 @@ impl Onscreen {
         &self,
         callback: P,
     ) -> Option<FrameClosure> {
-        // return _cogl_closure_list_add (&onscreen->frame_closures,
+        // return _closure_list_add (&onscreen->frame_closures,
         //     callback,
         //     user_data,
         //     destroy);
@@ -185,20 +185,20 @@ impl Onscreen {
     /// `Onscreen::remove_resize_callback` passing the returned closure
     /// pointer.
     ///
-    /// `<note>`Since Cogl automatically updates the viewport of an `self`
+    /// `<note>`Since  automatically updates the viewport of an `self`
     /// framebuffer that is resized, a resize callback can also be used to
-    /// track when the viewport has been changed automatically by Cogl in
+    /// track when the viewport has been changed automatically by  in
     /// case your application needs more specialized control over the
     /// viewport.`</note>`
     ///
     /// `<note>`A resize callback will only ever be called while dispatching
-    /// Cogl events from the system mainloop; so for example during
+    ///  events from the system mainloop; so for example during
     /// `poll_renderer_dispatch`. This is so that callbacks shouldn't
     /// occur while an application might have arbitrary locks held for
     /// example.`</note>`
     ///
     /// ## `callback`
-    /// A `CoglOnscreenResizeCallback` to call when
+    /// A `OnscreenResizeCallback` to call when
     ///  the `self` changes size.
     /// ## `user_data`
     /// Private data to be passed to `callback`.
@@ -212,7 +212,7 @@ impl Onscreen {
         &self,
         callback: P,
     ) -> Option<OnscreenResizeClosure> {
-        // return _cogl_closure_list_add (&onscreen->resize_closures,
+        // return _closure_list_add (&onscreen->resize_closures,
         //     callback,
         //     user_data,
         //     destroy);
@@ -226,7 +226,7 @@ impl Onscreen {
     /// elapsed since the contents were most recently defined.
     ///
     /// These age values exposes enough information to applications about
-    /// how Cogl internally manages back buffers to allow applications to
+    /// how  internally manages back buffers to allow applications to
     /// re-use the contents of old frames and minimize how much must be
     /// redrawn for the next frame.
     ///
@@ -254,7 +254,7 @@ impl Onscreen {
     /// implies that the contents are undefined.`</note>`
     ///
     /// `<note>`The `FeatureID::OglFeatureIdBufferAge` feature can optionally be
-    /// explicitly checked to determine if Cogl is currently tracking the
+    /// explicitly checked to determine if  is currently tracking the
     /// age of `Onscreen` back buffer contents. If this feature is
     /// missing then this function will always return 0.`</note>`
     ///
@@ -263,12 +263,12 @@ impl Onscreen {
     /// The age of the buffer contents or 0 when the buffer
     ///  contents are undefined.
     pub fn get_buffer_age(&self) -> i32 {
-        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
-        // const CoglWinsysVtable *winsys;
+        // Framebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // const WinsysVtable *winsys;
 
         // _COGL_RETURN_VAL_IF_FAIL  (framebuffer->type == COGL_FRAMEBUFFER_TYPE_ONSCREEN, 0);
 
-        // winsys = _cogl_framebuffer_get_winsys (framebuffer);
+        // winsys = _framebuffer_get_winsys (framebuffer);
 
         // if (!winsys->onscreen_get_buffer_age)
         //     return 0;
@@ -293,7 +293,7 @@ impl Onscreen {
     /// Lets you query whether `self` has been marked as resizable via
     /// the `Onscreen::set_resizable` api.
     ///
-    /// By default, if possible, a `self` will be created by Cogl
+    /// By default, if possible, a `self` will be created by 
     /// as non resizable, but it is not guaranteed that this is always
     /// possible for all window systems.
     ///
@@ -324,19 +324,19 @@ impl Onscreen {
     /// This function does not implicitly allocate the given `self`
     /// framebuffer before hiding it.
     ///
-    /// `<note>`Since Cogl doesn't explicitly track the visibility status of
+    /// `<note>`Since  doesn't explicitly track the visibility status of
     /// onscreen framebuffers it wont try to avoid redundant window system
     /// requests e.g. to show an already visible window. This also means
     /// that it's acceptable to alternatively use native APIs to show and
-    /// hide windows without confusing Cogl.`</note>`
+    /// hide windows without confusing .`</note>`
     ///
     pub fn hide(&self) {
-        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // Framebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
 
         // if (framebuffer->allocated)
         // {
-        // const CoglWinsysVtable *winsys =
-        //     _cogl_framebuffer_get_winsys (framebuffer);
+        // const WinsysVtable *winsys =
+        //     _framebuffer_get_winsys (framebuffer);
         // if (winsys->onscreen_set_visibility)
         //     winsys->onscreen_set_visibility (onscreen, FALSE);
         // }
@@ -355,7 +355,7 @@ impl Onscreen {
     pub fn remove_dirty_callback(&self, closure: &mut OnscreenDirtyClosure) {
         // _COGL_RETURN_IF_FAIL (closure);
 
-        // _cogl_closure_disconnect (closure);
+        // _closure_disconnect (closure);
         unimplemented!()
     }
 
@@ -371,7 +371,7 @@ impl Onscreen {
     pub fn remove_frame_callback(&self, closure: &mut FrameClosure) {
         // _COGL_RETURN_IF_FAIL (closure);
 
-        // _cogl_closure_disconnect (closure);
+        // _closure_disconnect (closure);
         unimplemented!()
     }
 
@@ -381,22 +381,22 @@ impl Onscreen {
     /// ## `closure`
     /// An identifier returned from `Onscreen::add_resize_callback`
     pub fn remove_resize_callback(&self, closure: &mut OnscreenResizeClosure) {
-        // _cogl_closure_disconnect (closure);
+        // _closure_disconnect (closure);
         unimplemented!()
     }
 
-    /// Lets you request Cogl to mark an `self` framebuffer as
+    /// Lets you request  to mark an `self` framebuffer as
     /// resizable or not.
     ///
-    /// By default, if possible, a `self` will be created by Cogl
+    /// By default, if possible, a `self` will be created by 
     /// as non resizable, but it is not guaranteed that this is always
     /// possible for all window systems.
     ///
-    /// `<note>`Cogl does not know whether marking the `self` framebuffer
+    /// `<note>` does not know whether marking the `self` framebuffer
     /// is truly meaningful for your current window system (consider
     /// applications being run fullscreen on a phone or TV) so this
     /// function may not have any useful effect. If you are running on a
-    /// multi windowing system such as X11 or Win32 or OSX then Cogl will
+    /// multi windowing system such as X11 or Win32 or OSX then  will
     /// request to the window system that users be allowed to resize the
     /// `self`, although it's still possible that some other window
     /// management policy will block this possibility.`</note>`
@@ -409,8 +409,8 @@ impl Onscreen {
     /// can track when the viewport has been changed automatically.`</note>`
     ///
     pub fn set_resizable(&self, resizable: bool) {
-        // CoglFramebuffer *framebuffer;
-        // const CoglWinsysVtable *winsys;
+        // Framebuffer *framebuffer;
+        // const WinsysVtable *winsys;
 
         // if (onscreen->resizable == resizable)
         //     return;
@@ -420,7 +420,7 @@ impl Onscreen {
         // framebuffer = COGL_FRAMEBUFFER (onscreen);
         // if (framebuffer->allocated)
         //     {
-        //     winsys = _cogl_framebuffer_get_winsys (COGL_FRAMEBUFFER (onscreen));
+        //     winsys = _framebuffer_get_winsys (COGL_FRAMEBUFFER (onscreen));
 
         //     if (winsys->onscreen_set_resizable)
         //         winsys->onscreen_set_resizable (onscreen, resizable);
@@ -435,12 +435,12 @@ impl Onscreen {
     /// ## `throttled`
     /// Whether swap throttling is wanted or not.
     pub fn set_swap_throttled(&self, throttled: bool) {
-        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // Framebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
         // framebuffer->config.swap_throttled = throttled;
         // if (framebuffer->allocated)
         // {
-        //     const CoglWinsysVtable *winsys =
-        //         _cogl_framebuffer_get_winsys (framebuffer);
+        //     const WinsysVtable *winsys =
+        //         _framebuffer_get_winsys (framebuffer);
         //     winsys->onscreen_update_swap_throttled (onscreen);
         // }
         unimplemented!()
@@ -461,23 +461,23 @@ impl Onscreen {
     /// `Onscreen::show` and set its own type directly with the Wayland
     /// client API via `wayland_onscreen_get_surface`.
     ///
-    /// `<note>`Since Cogl doesn't explicitly track the visibility status of
+    /// `<note>`Since  doesn't explicitly track the visibility status of
     /// onscreen framebuffers it wont try to avoid redundant window system
     /// requests e.g. to show an already visible window. This also means
     /// that it's acceptable to alternatively use native APIs to show and
-    /// hide windows without confusing Cogl.`</note>`
+    /// hide windows without confusing .`</note>`
     ///
     pub fn show(&self) {
-        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
-        // const CoglWinsysVtable *winsys;
+        // Framebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // const WinsysVtable *winsys;
 
         // if (!framebuffer->allocated)
         //     {
-        //     if (!cogl_framebuffer_allocate (framebuffer, NULL))
+        //     if (!framebuffer_allocate (framebuffer, NULL))
         //         return;
         //     }
 
-        // winsys = _cogl_framebuffer_get_winsys (framebuffer);
+        // winsys = _framebuffer_get_winsys (framebuffer);
         // if (winsys->onscreen_set_visibility)
         //     winsys->onscreen_set_visibility (onscreen, TRUE);
         unimplemented!()
@@ -497,7 +497,7 @@ impl Onscreen {
     /// perform incremental updates to older buffers instead of having to
     /// render a full buffer for every frame.`</note>`
     pub fn swap_buffers(&self) {
-        // cogl_onscreen_swap_buffers_with_damage (onscreen, NULL, 0);
+        // onscreen_swap_buffers_with_damage (onscreen, NULL, 0);
         unimplemented!()
     }
 
@@ -544,39 +544,39 @@ impl Onscreen {
     /// ## `n_rectangles`
     /// The number of 4-tuples to be read from `rectangles`
     pub fn swap_buffers_with_damage(&self, rectangles: &[i32], n_rectangles: i32) {
-        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
-        // const CoglWinsysVtable *winsys;
-        // CoglFrameInfo *info;
+        // Framebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // const WinsysVtable *winsys;
+        // FrameInfo *info;
 
         // _COGL_RETURN_IF_FAIL  (framebuffer->type == COGL_FRAMEBUFFER_TYPE_ONSCREEN);
 
-        // info = _cogl_frame_info_new ();
+        // info = _frame_info_new ();
         // info->frame_counter = onscreen->frame_counter;
         // g_queue_push_tail (&onscreen->pending_frame_infos, info);
 
         // /* FIXME: we shouldn't need to flush *all* journals here! */
-        // cogl_flush ();
+        // flush ();
 
-        // winsys = _cogl_framebuffer_get_winsys (framebuffer);
+        // winsys = _framebuffer_get_winsys (framebuffer);
         // winsys->onscreen_swap_buffers_with_damage (onscreen,
         //                                             rectangles, n_rectangles);
-        // cogl_framebuffer_discard_buffers (framebuffer,
+        // framebuffer_discard_buffers (framebuffer,
         //                                     COGL_BUFFER_BIT_COLOR |
         //                                     COGL_BUFFER_BIT_DEPTH |
         //                                     COGL_BUFFER_BIT_STENCIL);
 
-        // if (!_cogl_winsys_has_feature (COGL_WINSYS_FEATURE_SYNC_AND_COMPLETE_EVENT))
+        // if (!_winsys_has_feature (COGL_WINSYS_FEATURE_SYNC_AND_COMPLETE_EVENT))
         //     {
-        //     CoglFrameInfo *info;
+        //     FrameInfo *info;
 
         //     g_warn_if_fail (onscreen->pending_frame_infos.length == 1);
 
         //     info = g_queue_pop_tail (&onscreen->pending_frame_infos);
 
-        //     _cogl_onscreen_queue_event (onscreen, COGL_FRAME_EVENT_SYNC, info);
-        //     _cogl_onscreen_queue_event (onscreen, COGL_FRAME_EVENT_COMPLETE, info);
+        //     _onscreen_queue_event (onscreen, COGL_FRAME_EVENT_SYNC, info);
+        //     _onscreen_queue_event (onscreen, COGL_FRAME_EVENT_COMPLETE, info);
 
-        //     cogl_object_unref (info);
+        //     object_unref (info);
         //     }
 
         // onscreen->frame_counter++;
@@ -599,20 +599,20 @@ impl Onscreen {
     /// ## `n_rectangles`
     /// The number of 4-tuples to be read from `rectangles`
     pub fn swap_region(&self, rectangles: &[i32], n_rectangles: i32) {
-        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
-        // const CoglWinsysVtable *winsys;
-        // CoglFrameInfo *info;
+        // Framebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // const WinsysVtable *winsys;
+        // FrameInfo *info;
 
         // _COGL_RETURN_IF_FAIL  (framebuffer->type == COGL_FRAMEBUFFER_TYPE_ONSCREEN);
 
-        // info = _cogl_frame_info_new ();
+        // info = _frame_info_new ();
         // info->frame_counter = onscreen->frame_counter;
         // g_queue_push_tail (&onscreen->pending_frame_infos, info);
 
         // /* FIXME: we shouldn't need to flush *all* journals here! */
-        // cogl_flush ();
+        // flush ();
 
-        // winsys = _cogl_framebuffer_get_winsys (framebuffer);
+        // winsys = _framebuffer_get_winsys (framebuffer);
 
         // /* This should only be called if the winsys advertises
         //     COGL_WINSYS_FEATURE_SWAP_REGION */
@@ -622,23 +622,23 @@ impl Onscreen {
         //                                 rectangles,
         //                                 n_rectangles);
 
-        // cogl_framebuffer_discard_buffers (framebuffer,
+        // framebuffer_discard_buffers (framebuffer,
         //                                     COGL_BUFFER_BIT_COLOR |
         //                                     COGL_BUFFER_BIT_DEPTH |
         //                                     COGL_BUFFER_BIT_STENCIL);
 
-        // if (!_cogl_winsys_has_feature (COGL_WINSYS_FEATURE_SYNC_AND_COMPLETE_EVENT))
+        // if (!_winsys_has_feature (COGL_WINSYS_FEATURE_SYNC_AND_COMPLETE_EVENT))
         //     {
-        //     CoglFrameInfo *info;
+        //     FrameInfo *info;
 
         //     g_warn_if_fail (onscreen->pending_frame_infos.length == 1);
 
         //     info = g_queue_pop_tail (&onscreen->pending_frame_infos);
 
-        //     _cogl_onscreen_queue_event (onscreen, COGL_FRAME_EVENT_SYNC, info);
-        //     _cogl_onscreen_queue_event (onscreen, COGL_FRAME_EVENT_COMPLETE, info);
+        //     _onscreen_queue_event (onscreen, COGL_FRAME_EVENT_SYNC, info);
+        //     _onscreen_queue_event (onscreen, COGL_FRAME_EVENT_COMPLETE, info);
 
-        //     cogl_object_unref (info);
+        //     object_unref (info);
         //     }
 
         // onscreen->frame_counter++;

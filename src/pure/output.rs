@@ -2,7 +2,7 @@ use crate::{Object, SubpixelOrder};
 use std::fmt;
 
 // /**
-//  * CoglSubpixelOrder:
+//  * SubpixelOrder:
 //  * @COGL_SUBPIXEL_ORDER_UNKNOWN: the layout of subpixel
 //  *   components for the device is unknown.
 //  * @COGL_SUBPIXEL_ORDER_NONE: the device displays colors
@@ -39,12 +39,12 @@ use std::fmt;
 //     COGL_SUBPIXEL_ORDER_HORIZONTAL_BGR,
 //     COGL_SUBPIXEL_ORDER_VERTICAL_RGB,
 //     COGL_SUBPIXEL_ORDER_VERTICAL_BGR
-//   } CoglSubpixelOrder;
+//   } SubpixelOrder;
 
 // * SECTION:cogl-output
 // * @short_description: information about an output device
 // *
-// * The #CoglOutput object holds information about an output device
+// * The #Output object holds information about an output device
 // * such as a monitor or laptop display. It can be queried to find
 // * out the position of the output with respect to the screen
 // * coordinate system and other information such as the resolution
@@ -56,23 +56,23 @@ use std::fmt;
 // *
 // * XXX: though it's possible to query the position of the output
 // * with respect to screen coordinates, there is currently no way
-// * of finding out the position of a #CoglOnscreen in screen
+// * of finding out the position of a #Onscreen in screen
 // * coordinates, at least without using windowing-system specific
 // * API's, so it's not easy to get the output positions relative
-// * to the #CoglOnscreen.
+// * to the #Onscreen.
 pub struct Output {
-    // CoglObject _parent;
+    // Object _parent;
 
     // char *name;
 
-    // int x; /* Must be first field for _cogl_output_values_equal() */
+    // int x; /* Must be first field for _output_values_equal() */
     // int y;
     // int width;
     // int height;
     // int mm_width;
     // int mm_height;
     // float refresh_rate;
-    // CoglSubpixelOrder subpixel_order
+    // SubpixelOrder subpixel_order
 }
 
 impl Output {

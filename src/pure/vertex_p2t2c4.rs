@@ -1,6 +1,6 @@
 use std::mem;
 
-// * CoglVertexP2T2C4:
+// * VertexP2T2C4:
 // * @x: The x component of a position attribute
 // * @y: The y component of a position attribute
 // * @s: The s component of a texture coordinate attribute
@@ -11,7 +11,7 @@ use std::mem;
 // * @a: The alpha component of a color attribute
 // *
 // * A convenience vertex definition that can be used with
-// * cogl_primitive_new_p3t2c4().
+// * primitive_new_p3t2c4().
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct VertexP2T2C4 {

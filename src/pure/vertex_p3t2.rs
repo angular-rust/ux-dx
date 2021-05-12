@@ -1,6 +1,6 @@
 use std::mem;
 
-// * CoglVertexP3T2:
+// * VertexP3T2:
 // * @x: The x component of a position attribute
 // * @y: The y component of a position attribute
 // * @z: The z component of a position attribute
@@ -8,7 +8,7 @@ use std::mem;
 // * @t: The t component of a texture coordinate attribute
 // *
 // * A convenience vertex definition that can be used with
-// * cogl_primitive_new_p3t2().
+// * primitive_new_p3t2().
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct VertexP3T2 {

@@ -12,7 +12,7 @@ use std::mem;
 // * SECTION:cogl-matrix
 // * @short_description: Functions for initializing and manipulating 4x4 matrices
 // *
-// * Matrices are used in Cogl to describe affine model-view transforms, texture
+// * Matrices are used in  to describe affine model-view transforms, texture
 // * transforms, and projective transforms. This exposes a utility API that can
 // * be used for direct manipulation of these matrices.
 
@@ -20,7 +20,7 @@ use std::mem;
 //  * These identify different kinds of 4x4 transformation matrices and we use
 //  * this information to find fast-paths when available.
 //  */
-//  enum CoglMatrixType {
+//  enum MatrixType {
 //     COGL_MATRIX_TYPE_GENERAL,	/**< general 4x4 matrix */
 //     COGL_MATRIX_TYPE_IDENTITY,	/**< identity matrix */
 //     COGL_MATRIX_TYPE_3D_NO_ROT,	/**< orthogonal projection and others... */
@@ -31,17 +31,17 @@ use std::mem;
 //     COGL_MATRIX_N_TYPES
 //  } ;
 
-// * CoglMatrix:
+// * Matrix:
 // *
-// * A CoglMatrix holds a 4x4 transform matrix. This is a single precision,
+// * A Matrix holds a 4x4 transform matrix. This is a single precision,
 // * column-major matrix which means it is compatible with what OpenGL expects.
 // *
-// * A CoglMatrix can represent transforms such as, rotations, scaling,
+// * A Matrix can represent transforms such as, rotations, scaling,
 // * translation, sheering, and linear projections. You can combine these
 // * transforms by multiplying multiple matrices in the order you want them
 // * applied.
 // *
-// * The transformation of a vertex (x, y, z, w) by a CoglMatrix is given by:
+// * The transformation of a vertex (x, y, z, w) by a Matrix is given by:
 // *
 // * |[
 // *   x_new = xx * x + xy * y + xz * z + xw * w
@@ -52,11 +52,11 @@ use std::mem;
 // *
 // * Where w is normally 1
 // *
-// * <note>You must consider the members of the CoglMatrix structure read only,
-// * and all matrix modifications must be done via the cogl_matrix API. This
-// * allows Cogl to annotate the matrices internally. Violation of this will give
+// * <note>You must consider the members of the Matrix structure read only,
+// * and all matrix modifications must be done via the matrix API. This
+// * allows  to annotate the matrices internally. Violation of this will give
 // * undefined results. If you need to initialize a matrix with a constant other
-// * than the identity matrix you can use cogl_matrix_init_from_array().</note>
+// * than the identity matrix you can use matrix_init_from_array().</note>
 #[derive(Debug, PartialOrd, Ord)] // Hash
 pub struct Matrix {
     // /* column 0 */
@@ -168,14 +168,14 @@ impl Matrix {
     ///  for degenerate transformations that can't be inverted (in this case the
     ///  `inverse` matrix will simply be initialized with the identity matrix)
     pub fn get_inverse(&self) -> (bool, Matrix) {
-        // if (_cogl_matrix_update_inverse ((CoglMatrix *)matrix))
+        // if (_matrix_update_inverse ((Matrix *)matrix))
         // {
-        // cogl_matrix_init_from_array (inverse, matrix->inv);
+        // matrix_init_from_array (inverse, matrix->inv);
         // return TRUE;
         // }
         // else
         // {
-        // cogl_matrix_init_identity (inverse);
+        // matrix_init_identity (inverse);
         // return FALSE;
         // }
         unimplemented!()
@@ -418,28 +418,28 @@ impl Matrix {
         world_up_y: f32,
         world_up_z: f32,
     ) {
-        // CoglMatrix tmp;
+        // Matrix tmp;
         // float forward[3];
         // float side[3];
         // float up[3];
 
         // /* Get a unit viewing direction vector */
-        // cogl_vector3_init (forward,
+        // vector3_init (forward,
         //                     object_x - eye_position_x,
         //                     object_y - eye_position_y,
         //                     object_z - eye_position_z);
-        // cogl_vector3_normalize (forward);
+        // vector3_normalize (forward);
 
-        // cogl_vector3_init (up, world_up_x, world_up_y, world_up_z);
+        // vector3_init (up, world_up_x, world_up_y, world_up_z);
 
         // /* Take the sideways direction as being perpendicular to the viewing
         // * direction and the word up vector. */
-        // cogl_vector3_cross_product (side, forward, up);
-        // cogl_vector3_normalize (side);
+        // vector3_cross_product (side, forward, up);
+        // vector3_normalize (side);
 
         // /* Now we have unit sideways and forward-direction vectors calculate
         // * a new mutually perpendicular up vector. */
-        // cogl_vector3_cross_product (up, side, forward);
+        // vector3_cross_product (up, side, forward);
 
         // tmp.xx = side[0];
         // tmp.yx = side[1];
@@ -463,9 +463,9 @@ impl Matrix {
 
         // tmp.flags = (MAT_FLAG_GENERAL_3D | MAT_DIRTY_TYPE | MAT_DIRTY_INVERSE);
 
-        // cogl_matrix_translate (&tmp, -eye_position_x, -eye_position_y, -eye_position_z);
+        // matrix_translate (&tmp, -eye_position_x, -eye_position_y, -eye_position_z);
 
-        // cogl_matrix_multiply (matrix, matrix, &tmp);
+        // matrix_multiply (matrix, matrix, &tmp);
         unimplemented!()
     }
 
@@ -557,7 +557,7 @@ impl Matrix {
     pub fn perspective(&mut self, fov_y: f32, aspect: f32, z_near: f32, z_far: f32) {
         // float ymax = z_near * tan (fov_y * G_PI / 360.0);
 
-        // cogl_matrix_frustum (matrix,
+        // matrix_frustum (matrix,
         //                     -ymax * aspect,  /* left */
         //                     ymax * aspect,   /* right */
         //                     -ymax,           /* bottom */
@@ -570,12 +570,12 @@ impl Matrix {
 
     pub fn project_points(&self, n_components: i32, stride_in: usize, points_in: &[u8], stride_out: usize, points_out: &[u8], n_points: i32) {
         // if (n_components == 2)
-        //     _cogl_matrix_project_points_f2 (matrix,
+        //     _matrix_project_points_f2 (matrix,
         //                                     stride_in, points_in,
         //                                     stride_out, points_out,
         //                                     n_points);
         // else if (n_components == 3)
-        //     _cogl_matrix_project_points_f3 (matrix,
+        //     _matrix_project_points_f3 (matrix,
         //                                     stride_in, points_in,
         //                                     stride_out, points_out,
         //                                     n_points);
@@ -583,7 +583,7 @@ impl Matrix {
         //     {
         //     _COGL_RETURN_IF_FAIL (n_components == 4);
         
-        //     _cogl_matrix_project_points_f4 (matrix,
+        //     _matrix_project_points_f4 (matrix,
         //                                     stride_in, points_in,
         //                                     stride_out, points_out,
         //                                     n_points);
@@ -603,7 +603,7 @@ impl Matrix {
     pub fn rotate(&mut self, angle: f32, x: f32, y: f32, z: f32) {
         // float xx, yy, zz, xy, yz, zx, xs, ys, zs, one_c, s, c;
         // float m[16];
-        // CoglBool optimized;
+        // Bool optimized;
 
         // s = sinf (angle * DEG2RAD);
         // c = cosf (angle * DEG2RAD);
@@ -788,10 +788,10 @@ impl Matrix {
     /// ## `euler`
     /// A euler describing a rotation
     pub fn rotate_euler(&mut self, euler: &Euler) {
-        // CoglMatrix rotation_transform;
+        // Matrix rotation_transform;
 
-        // cogl_matrix_init_from_euler (&rotation_transform, euler);
-        // cogl_matrix_multiply (matrix, matrix, &rotation_transform);
+        // matrix_init_from_euler (&rotation_transform, euler);
+        // matrix_multiply (matrix, matrix, &rotation_transform);
         unimplemented!()
     }
 
@@ -801,10 +801,10 @@ impl Matrix {
     /// ## `quaternion`
     /// A quaternion describing a rotation
     pub fn rotate_quaternion(&mut self, quaternion: &Quaternion) {
-        // CoglMatrix rotation_transform;
+        // Matrix rotation_transform;
 
-        // cogl_matrix_init_from_quaternion (&rotation_transform, quaternion);
-        // cogl_matrix_multiply (matrix, matrix, &rotation_transform);
+        // matrix_init_from_quaternion (&rotation_transform, quaternion);
+        // matrix_multiply (matrix, matrix, &rotation_transform);
         unimplemented!()
     }
 
@@ -857,7 +857,7 @@ impl Matrix {
         // _COGL_RETURN_IF_FAIL (stride_out >= sizeof (Point3f));
 
         // if (n_components == 2)
-        //     _cogl_matrix_transform_points_f2 (matrix,
+        //     _matrix_transform_points_f2 (matrix,
         //                                     stride_in, points_in,
         //                                     stride_out, points_out,
         //                                     n_points);
@@ -865,7 +865,7 @@ impl Matrix {
         // {
         // _COGL_RETURN_IF_FAIL (n_components == 3);
 
-        // _cogl_matrix_transform_points_f3 (matrix,
+        // _matrix_transform_points_f3 (matrix,
         //                                     stride_in, points_in,
         //                                     stride_out, points_out,
         //                                     n_points);
@@ -904,9 +904,9 @@ impl Matrix {
         //     matrix->type == COGL_MATRIX_TYPE_IDENTITY)
         //     return;
 
-        // _cogl_matrix_util_transposef (new_values, cogl_matrix_get_array (matrix));
+        // _matrix_util_transposef (new_values, matrix_get_array (matrix));
 
-        // cogl_matrix_init_from_array (matrix, new_values);
+        // matrix_init_from_array (matrix, new_values);
         unimplemented!()
     }
 
@@ -964,10 +964,10 @@ impl Matrix {
         // float width_scale = width_2d_start / width_2d;
         // float height_scale = height_2d_start / height_2d;
 
-        // cogl_matrix_translate (matrix,
+        // matrix_translate (matrix,
         //                         left_2d_plane, top_2d_plane, -z_2d);
 
-        // cogl_matrix_scale (matrix, width_scale, -height_scale, width_scale);
+        // matrix_scale (matrix, width_scale, -height_scale, width_scale);
         unimplemented!()
     }
 
@@ -1008,7 +1008,7 @@ impl Matrix {
         height_2d: f32,
     ) {
         // float top = z_near * tan (fov_y * G_PI / 360.0);
-        // cogl_matrix_view_2d_in_frustum (matrix,
+        // matrix_view_2d_in_frustum (matrix,
         //                                 -top * aspect,
         //                                 top * aspect,
         //                                 -top,
@@ -1021,8 +1021,8 @@ impl Matrix {
     }
 
     fn equal(v1: &Self, v2: &Self) -> bool {
-        // const CoglMatrix *a = v1;
-        // const CoglMatrix *b = v2;
+        // const Matrix *a = v1;
+        // const Matrix *b = v2;
 
         // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, FALSE);
         // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, FALSE);

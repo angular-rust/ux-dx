@@ -7,34 +7,34 @@ pub struct AtlasRepositionData {
 //   // The current user data for this texture */
 //   void *user_data;
 //   // The old and new positions of the texture */
-//   CoglRectangleMapEntry old_position;
-//   CoglRectangleMapEntry new_position;
+//   RectangleMapEntry old_position;
+//   RectangleMapEntry new_position;
 }
 
 pub struct GetRectanglesData {
-//   CoglAtlasRepositionData *textures;
+//   AtlasRepositionData *textures;
 //   // Number of textures found so far */
 //   unsigned int n_textures;
 }
 
 pub struct Atlas {
-//   CoglObject _parent;
+//   Object _parent;
 
-//   CoglRectangleMap *map;
+//   RectangleMap *map;
 
-//   CoglTexture *texture;
-//   CoglPixelFormat texture_format;
-//   CoglAtlasFlags flags;
+//   Texture *texture;
+//   PixelFormat texture_format;
+//   AtlasFlags flags;
 
-//   CoglAtlasUpdatePositionCallback update_position_cb;
+//   AtlasUpdatePositionCallback update_position_cb;
 
 //   GHookList pre_reorganize_callbacks;
 //   GHookList post_reorganize_callbacks;
 }
 
 impl Atlas {
-    fn new(texture_format: PixelFormat, flags: AtlasFlags /* CoglAtlasUpdatePositionCallback update_position_cb */) -> Self {
-        // CoglAtlas *atlas = g_new (CoglAtlas, 1);
+    fn new(texture_format: PixelFormat, flags: AtlasFlags /* AtlasUpdatePositionCallback update_position_cb */) -> Self {
+        // Atlas *atlas = g_new (Atlas, 1);
 
         // atlas->update_position_cb = update_position_cb;
         // atlas->map = NULL;
@@ -44,6 +44,6 @@ impl Atlas {
         // g_hook_list_init (&atlas->pre_reorganize_callbacks, sizeof (GHook));
         // g_hook_list_init (&atlas->post_reorganize_callbacks, sizeof (GHook));
 
-        // return _cogl_atlas_object_new (atlas);
+        // return _atlas_object_new (atlas);
     }
 }

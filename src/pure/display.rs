@@ -22,11 +22,11 @@ use std::{fmt};
 // * create a GLContext.
 
 pub struct Display {
-//     CoglObject _parent;
+//     Object _parent;
 
-//     CoglBool setup;
-//     CoglRenderer *renderer;
-//     CoglOnscreenTemplate *onscreen_template;
+//     Bool setup;
+//     Renderer *renderer;
+//     OnscreenTemplate *onscreen_template;
   
 //   #ifdef COGL_HAS_WAYLAND_EGL_SERVER_SUPPORT
 //     struct wl_display *wayland_compositor_display;
@@ -46,7 +46,7 @@ impl Display {
     ///
     /// `<note>`Many applications don't need to explicitly use
     /// `Display::new` and can just jump straight to `Context::new`
-    /// and pass a `None` display argument so Cogl will automatically
+    /// and pass a `None` display argument so  will automatically
     /// connect and setup a renderer and display.`</note>`
     ///
     /// A `display` can only be made for a specific choice of renderer which
@@ -65,7 +65,7 @@ impl Display {
     /// When you have finished configuring a display object you can
     /// optionally call `Display::setup` to explicitly apply the
     /// configuration and check for errors. Alternaitvely you can pass the
-    /// display to `Context::new` and Cogl will implicitly apply your
+    /// display to `Context::new` and  will implicitly apply your
     /// configuration but if there are errors then the application will
     /// abort with a message. For simple applications with no fallback
     /// options then relying on the implicit setup can be fine.
@@ -79,18 +79,18 @@ impl Display {
     /// A newly allocated `Display`
     ///  object in a mutable configuration mode.
     pub fn new(renderer: &Renderer, onscreen_template: &OnscreenTemplate) -> Display {
-        // CoglDisplay *display = g_slice_new0 (CoglDisplay);
-        // CoglError *error = NULL;
+        // Display *display = g_slice_new0 (Display);
+        // Error *error = NULL;
 
-        // _cogl_init ();
+        // _init ();
 
         // display->renderer = renderer;
         // if (renderer)
-        //     cogl_object_ref (renderer);
+        //     object_ref (renderer);
         // else
-        //     display->renderer = cogl_renderer_new ();
+        //     display->renderer = renderer_new ();
 
-        // if (!cogl_renderer_connect (display->renderer, &error))
+        // if (!renderer_connect (display->renderer, &error))
         //     g_error ("Failed to connect to renderer: %s\n", error->message);
 
         // display->setup = FALSE;
@@ -99,9 +99,9 @@ impl Display {
         // display->gdl_plane = GDL_PLANE_ID_UPP_C;
         // #endif
 
-        // display = _cogl_display_object_new (display);
+        // display = _display_object_new (display);
 
-        // cogl_display_set_onscreen_template (display, onscreen_template);
+        // display_set_onscreen_template (display, onscreen_template);
 
         // return display;
         unimplemented!()
@@ -122,7 +122,7 @@ impl Display {
     /// Depending on the system, the constraints for creating `Onscreen`
     /// framebuffers need to be known before setting up a `Display` because the
     /// final setup of the display may constrain how onscreen framebuffers may be
-    /// allocated. If Cogl knows how an application wants to allocate onscreen
+    /// allocated. If  knows how an application wants to allocate onscreen
     /// framebuffers then it can try to make sure to setup the display accordingly.
     /// ## `onscreen_template`
     /// A template for creating `Onscreen` framebuffers
@@ -130,22 +130,22 @@ impl Display {
         // _COGL_RETURN_IF_FAIL (display->setup == FALSE);
 
         // if (onscreen_template)
-        //     cogl_object_ref (onscreen_template);
+        //     object_ref (onscreen_template);
 
         // if (display->onscreen_template)
-        //     cogl_object_unref (display->onscreen_template);
+        //     object_unref (display->onscreen_template);
 
         // display->onscreen_template = onscreen_template;
 
         // /* NB: we want to maintain the invariable that there is always an
-        // * onscreen template associated with a CoglDisplay... */
+        // * onscreen template associated with a Display... */
         // if (!onscreen_template)
-        //     display->onscreen_template = cogl_onscreen_template_new (NULL);
+        //     display->onscreen_template = onscreen_template_new (NULL);
         unimplemented!()
     }
 
     /// Explicitly sets up the given `self` object. Use of this api is
-    /// optional since Cogl will internally setup the display if not done
+    /// optional since  will internally setup the display if not done
     /// explicitly.
     ///
     /// When a display is first allocated via `Display::new` it is in a
@@ -159,7 +159,7 @@ impl Display {
     /// exception will be returned so you can handle the error gracefully
     /// and perhaps fall back to an alternative configuration.
     ///
-    /// If you instead rely on Cogl implicitly calling `Display::setup`
+    /// If you instead rely on  implicitly calling `Display::setup`
     /// for you then if there is an error with the configuration you won't
     /// get an opportunity to handle that and the application may abort
     /// with a message. For simple applications that don't have any
@@ -170,12 +170,12 @@ impl Display {
     /// Returns `true` if there was no error, else it returns
     ///  `false` and returns an exception via `error`.
     pub fn setup(&self) -> bool {
-        // const CoglWinsysVtable *winsys;
+        // const WinsysVtable *winsys;
 
         // if (display->setup)
         //     return TRUE;
 
-        // winsys = _cogl_display_get_winsys (display);
+        // winsys = _display_get_winsys (display);
         // if (!winsys->display_setup (display, error))
         //     return FALSE;
 

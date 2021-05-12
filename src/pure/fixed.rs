@@ -5,7 +5,7 @@ pub struct Fixed {
 
 impl Fixed {
     // TODO: remade all it here coz
-    // typedef int32_t CoglFixed;
+    // typedef int32_t Fixed;
 
     // /// Computes the arc tangent of `self`.
     // ///
@@ -13,9 +13,9 @@ impl Fixed {
     // ///
     // /// the arc tangent of the passed value, in fixed point notation
     // pub fn atan(&self) -> Option<Fixed> {
-    //     let a: ffi::CoglFixed = self.to_glib_none().0;
+    //     let a: ffi::Fixed = self.to_glib_none().0;
     //     unsafe {
-    //         from_glib_none(ffi::cogl_fixed_atan(self.to_glib_none().0))
+    //         from_glib_none(ffi::fixed_atan(self.to_glib_none().0))
     //     }
     // }
 
@@ -30,7 +30,7 @@ impl Fixed {
     // ///  notation
     // pub fn atan2(&self, b: &Fixed) -> Option<Fixed> {
     //     unsafe {
-    //         from_glib_none(ffi::cogl_fixed_atan2(self.to_glib_none().0, b.to_glib_none().0))
+    //         from_glib_none(ffi::fixed_atan2(self.to_glib_none().0, b.to_glib_none().0))
     //     }
     // }
 
@@ -41,7 +41,7 @@ impl Fixed {
     // /// the cosine of the passed angle, in fixed point notation
     // pub fn cos(&self) -> Option<Fixed> {
     //     unsafe {
-    //         from_glib_none(ffi::cogl_fixed_cos(self.to_glib_none().0))
+    //         from_glib_none(ffi::fixed_cos(self.to_glib_none().0))
     //     }
     // }
 
@@ -55,7 +55,7 @@ impl Fixed {
     // /// the power of 2 to the passed value
     // pub fn pow2(&self) -> u32 {
     //     unsafe {
-    //         ffi::cogl_fixed_pow2(self.to_glib_none().0)
+    //         ffi::fixed_pow2(self.to_glib_none().0)
     //     }
     // }
 
@@ -66,7 +66,7 @@ impl Fixed {
     // /// the sine of the passed angle, in fixed point notation
     // pub fn sin(&self) -> Option<Fixed> {
     //     unsafe {
-    //         from_glib_none(ffi::cogl_fixed_sin(self.to_glib_none().0))
+    //         from_glib_none(ffi::fixed_sin(self.to_glib_none().0))
     //     }
     // }
 
@@ -78,7 +78,7 @@ impl Fixed {
     // ///  notation
     // pub fn sqrt(&self) -> Option<Fixed> {
     //     unsafe {
-    //         from_glib_none(ffi::cogl_fixed_sqrt(self.to_glib_none().0))
+    //         from_glib_none(ffi::fixed_sqrt(self.to_glib_none().0))
     //     }
     // }
 
@@ -89,7 +89,7 @@ impl Fixed {
     // /// the tangent of the passed angle, in fixed point notation
     // pub fn tan(&self) -> Option<Fixed> {
     //     unsafe {
-    //         from_glib_none(ffi::cogl_fixed_tan(self.to_glib_none().0))
+    //         from_glib_none(ffi::fixed_tan(self.to_glib_none().0))
     //     }
     // }
 
@@ -105,7 +105,7 @@ impl Fixed {
     // /// base 2 logarithm.
     // pub fn log2(x: u32) -> Option<Fixed> {
     //     unsafe {
-    //         from_glib_none(ffi::cogl_fixed_log2(x))
+    //         from_glib_none(ffi::fixed_log2(x))
     //     }
     // }
 
@@ -120,7 +120,7 @@ impl Fixed {
     // /// the power of `x` to the `y`
     // pub fn pow(x: u32, y: &Fixed) -> u32 {
     //     unsafe {
-    //         ffi::cogl_fixed_pow(x, y.to_glib_none().0)
+    //         ffi::fixed_pow(x, y.to_glib_none().0)
     //     }
     // }
 }

@@ -2,13 +2,13 @@ use crate::{Object, Output};
 use std::fmt;
 
 pub struct FrameInfo {
-    // CoglObject _parent;
+    // Object _parent;
 
     // int64_t frame_counter;
     // int64_t presentation_time;
     // float refresh_rate;
   
-    // CoglOutput *output;
+    // Output *output;
 }
 
 impl FrameInfo {

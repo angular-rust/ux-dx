@@ -215,7 +215,7 @@ impl fmt::Display for DepthTestFunction {
 
 
 /// Identifiers for underlying hardware drivers that may be used by
-/// Cogl for rendering.
+///  for rendering.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum Driver {
@@ -256,7 +256,7 @@ impl fmt::Display for Driver {
 
 
 /// All the capabilities that can vary between different GPUs supported
-/// by Cogl. Applications that depend on any of these features should explicitly
+/// by . Applications that depend on any of these features should explicitly
 /// check for them using `has_feature` or `has_features`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -307,10 +307,10 @@ pub enum FeatureID {
     ///  `Pipeline::set_layer_point_sprite_coords_enabled` is supported.
     OglFeatureIdPointSprite,
     /// Whether `buffer_map` is
-    ///  supported with CoglBufferAccess including read support.
+    ///  supported with BufferAccess including read support.
     OglFeatureIdMapBufferForRead,
     /// Whether `buffer_map` is
-    ///  supported with CoglBufferAccess including write support.
+    ///  supported with BufferAccess including write support.
     OglFeatureIdMapBufferForWrite,
     /// Whether
     ///  `PipelineWrapMode::MirroredRepeat` is supported.
@@ -378,7 +378,7 @@ impl fmt::Display for FeatureID {
 }
 
 
-/// Return values for the `CoglXlibFilterFunc` and `CoglWin32FilterFunc` functions.
+/// Return values for the `XlibFilterFunc` and `Win32FilterFunc` functions.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum FilterReturn {
@@ -452,7 +452,7 @@ impl fmt::Display for FogMode {
 }
 
 
-/// Identifiers that are passed to `CoglFrameCallback` functions
+/// Identifiers that are passed to `FrameCallback` functions
 /// (registered using `Onscreen::add_frame_callback`) that
 /// mark the progression of a frame in some way which usually
 /// means that new information will have been accumulated in the
@@ -727,7 +727,7 @@ pub enum MaterialWrapMode {
     ///  texture. This is useful to avoid artifacts if only one copy of
     ///  the texture is being rendered.
     ClampToEdge,
-    /// Cogl will try to automatically
+    ///  will try to automatically
     ///  decide which of the above two to use. For `rectangle`, it
     ///  will use repeat mode if any of the texture coordinates are
     ///  outside the range 0→1, otherwise it will use clamp to edge. For
@@ -910,7 +910,7 @@ pub enum PipelineWrapMode {
     ///  texture. This is useful to avoid artifacts if only one copy of
     ///  the texture is being rendered.
     ClampToEdge,
-    /// Cogl will try to automatically
+    ///  will try to automatically
     ///  decide which of the above two to use. For `rectangle`, it
     ///  will use repeat mode if any of the texture coordinates are
     ///  outside the range 0→1, otherwise it will use clamp to edge. For
@@ -938,7 +938,7 @@ impl fmt::Display for PipelineWrapMode {
 }
 
 
-/// Pixel formats used by Cogl. For the formats with a byte per
+/// Pixel formats used by . For the formats with a byte per
 /// component, the order of the components specify the order in
 /// increasing memory addresses. So for example
 /// `PixelFormat::Rgb888` would have the red component in the
@@ -954,7 +954,7 @@ impl fmt::Display for PipelineWrapMode {
 /// endianness of the system.
 ///
 /// When uploading a texture `PixelFormat::Any` can be used as the
-/// internal format. Cogl will try to pick the best format to use
+/// internal format.  will try to pick the best format to use
 /// internally and convert the texture data if necessary.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -1066,7 +1066,7 @@ impl fmt::Display for PixelFormat {
 
 
 
-/// A bitmask of events that Cogl may need to wake on for a file
+/// A bitmask of events that  may need to wake on for a file
 /// descriptor. Note that these all have the same values as the
 /// corresponding defines for the poll function call on Unix so they
 /// may be directly passed to poll.
@@ -1204,7 +1204,7 @@ impl fmt::Display for ShaderType {
 /// The ‘replace’ string in `snippet` will be used instead of the
 /// generated vertex processing if it is present. This can be used if
 /// the application wants to provide a complete vertex shader and
-/// doesn't need the generated output from Cogl.
+/// doesn't need the generated output from .
 /// `</para>`
 /// `<para>`
 /// The ‘post’ string in `snippet` will be inserted after all of the
@@ -1299,7 +1299,7 @@ impl fmt::Display for ShaderType {
 /// The ‘replace’ string in `snippet` will be used instead of the
 /// generated fragment processing if it is present. This can be used if
 /// the application wants to provide a complete fragment shader and
-/// doesn't need the generated output from Cogl.
+/// doesn't need the generated output from .
 /// `</para>`
 /// `<para>`
 /// The ‘post’ string in `snippet` will be inserted after all of the
@@ -1570,9 +1570,9 @@ impl fmt::Display for SubpixelOrder {
 
 
 
-/// Error enumeration for Cogl
+/// Error enumeration for 
 ///
-/// The `SystemError::CoglSystemErrorUnsupported` error can be thrown for a
+/// The `SystemError::SystemErrorUnsupported` error can be thrown for a
 /// variety of reasons. For example:
 ///
 /// `<itemizedlist>`
@@ -1587,17 +1587,17 @@ impl fmt::Display for SubpixelOrder {
 ///  configuration.`</para>``</listiem>`
 /// `</itemizedlist>`
 ///
-/// Currently this is only used by Cogl API marked as experimental so
+/// Currently this is only used by  API marked as experimental so
 /// this enum should also be considered experimental.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SystemError {
     /// You tried to use a feature or
     ///  configuration not currently available.
-    CoglSystemErrorUnsupported,
+    SystemErrorUnsupported,
     /// You tried to allocate a resource
     ///  such as a texture and there wasn't enough memory.
-    CoglSystemErrorNoMemory,
+    SystemErrorNoMemory,
 }
 
 impl fmt::Display for SystemError {
@@ -1606,8 +1606,8 @@ impl fmt::Display for SystemError {
             f,
             "SystemError::{}",
             match *self {
-                SystemError::CoglSystemErrorUnsupported => "CoglSystemErrorUnsupported",
-                SystemError::CoglSystemErrorNoMemory => "CoglSystemErrorNoMemory",
+                SystemError::SystemErrorUnsupported => "SystemErrorUnsupported",
+                SystemError::SystemErrorNoMemory => "SystemErrorNoMemory",
             }
         )
     }
@@ -1871,9 +1871,9 @@ impl fmt::Display for WinsysFeature {
 
 
 
-/// Identifies specific window system backends that Cogl supports.
+/// Identifies specific window system backends that  supports.
 ///
-/// These can be used to query what backend Cogl is using or to try and
+/// These can be used to query what backend  is using or to try and
 /// explicitly select a backend to use.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]

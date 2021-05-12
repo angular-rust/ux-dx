@@ -1,9 +1,3 @@
-use glib::translate::*;
-use glib::{
-    value::{FromValue, FromValueOptional, SetValue, Value},
-    StaticType, Type,
-};
-
 bitflags! {
     pub struct BufferAccess: u32 {
         const READ = 1;
@@ -12,67 +6,12 @@ bitflags! {
     }
 }
 
-#[doc(hidden)]
-impl ToGlib for BufferAccess {
-    type GlibType = ffi::CoglBufferAccess;
-
-    fn to_glib(&self) -> ffi::CoglBufferAccess {
-        self.bits()
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::CoglBufferAccess> for BufferAccess {
-    fn from_glib(value: ffi::CoglBufferAccess) -> BufferAccess {
-        BufferAccess::from_bits_truncate(value)
-    }
-}
 
 bitflags! {
     pub struct BufferBit: u32 {
         const COLOR = 1;
         const DEPTH = 2;
         const STENCIL = 4;
-    }
-}
-
-#[doc(hidden)]
-impl ToGlib for BufferBit {
-    type GlibType = ffi::CoglBufferBit;
-
-    fn to_glib(&self) -> ffi::CoglBufferBit {
-        self.bits()
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::CoglBufferBit> for BufferBit {
-    fn from_glib(value: ffi::CoglBufferBit) -> BufferBit {
-        BufferBit::from_bits_truncate(value)
-    }
-}
-
-impl StaticType for BufferBit {
-    fn static_type() -> Type {
-        unsafe { from_glib(ffi::cogl_buffer_bit_get_type()) }
-    }
-}
-
-impl<'a> FromValueOptional<'a> for BufferBit {
-    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
-        Some(FromValue::from_value(value))
-    }
-}
-
-impl<'a> FromValue<'a> for BufferBit {
-    unsafe fn from_value(value: &Value) -> Self {
-        from_glib(gobject_sys::g_value_get_flags(value.to_glib_none().0))
-    }
-}
-
-impl SetValue for BufferBit {
-    unsafe fn set_value(value: &mut Value, this: &Self) {
-        gobject_sys::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
     }
 }
 
@@ -83,21 +22,6 @@ bitflags! {
     }
 }
 
-#[doc(hidden)]
-impl ToGlib for BufferMapHint {
-    type GlibType = ffi::CoglBufferMapHint;
-
-    fn to_glib(&self) -> ffi::CoglBufferMapHint {
-        self.bits()
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::CoglBufferMapHint> for BufferMapHint {
-    fn from_glib(value: ffi::CoglBufferMapHint) -> BufferMapHint {
-        BufferMapHint::from_bits_truncate(value)
-    }
-}
 
 bitflags! {
     pub struct BufferTarget: u32 {
@@ -106,45 +30,6 @@ bitflags! {
     }
 }
 
-#[doc(hidden)]
-impl ToGlib for BufferTarget {
-    type GlibType = ffi::CoglBufferTarget;
-
-    fn to_glib(&self) -> ffi::CoglBufferTarget {
-        self.bits()
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::CoglBufferTarget> for BufferTarget {
-    fn from_glib(value: ffi::CoglBufferTarget) -> BufferTarget {
-        BufferTarget::from_bits_truncate(value)
-    }
-}
-
-impl StaticType for BufferTarget {
-    fn static_type() -> Type {
-        unsafe { from_glib(ffi::cogl_buffer_target_get_type()) }
-    }
-}
-
-impl<'a> FromValueOptional<'a> for BufferTarget {
-    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
-        Some(FromValue::from_value(value))
-    }
-}
-
-impl<'a> FromValue<'a> for BufferTarget {
-    unsafe fn from_value(value: &Value) -> Self {
-        from_glib(gobject_sys::g_value_get_flags(value.to_glib_none().0))
-    }
-}
-
-impl SetValue for BufferTarget {
-    unsafe fn set_value(value: &mut Value, this: &Self) {
-        gobject_sys::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
-    }
-}
 
 bitflags! {
     pub struct ColorMask: u32 {
@@ -157,45 +42,6 @@ bitflags! {
     }
 }
 
-#[doc(hidden)]
-impl ToGlib for ColorMask {
-    type GlibType = ffi::CoglColorMask;
-
-    fn to_glib(&self) -> ffi::CoglColorMask {
-        self.bits()
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::CoglColorMask> for ColorMask {
-    fn from_glib(value: ffi::CoglColorMask) -> ColorMask {
-        ColorMask::from_bits_truncate(value)
-    }
-}
-
-impl StaticType for ColorMask {
-    fn static_type() -> Type {
-        unsafe { from_glib(ffi::cogl_color_mask_get_type()) }
-    }
-}
-
-impl<'a> FromValueOptional<'a> for ColorMask {
-    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
-        Some(FromValue::from_value(value))
-    }
-}
-
-impl<'a> FromValue<'a> for ColorMask {
-    unsafe fn from_value(value: &Value) -> Self {
-        from_glib(gobject_sys::g_value_get_flags(value.to_glib_none().0))
-    }
-}
-
-impl SetValue for ColorMask {
-    unsafe fn set_value(value: &mut Value, this: &Self) {
-        gobject_sys::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
-    }
-}
 
 bitflags! {
     pub struct FeatureFlags: u32 {
@@ -226,91 +72,12 @@ bitflags! {
     }
 }
 
-#[doc(hidden)]
-impl ToGlib for FeatureFlags {
-    type GlibType = ffi::CoglFeatureFlags;
-
-    fn to_glib(&self) -> ffi::CoglFeatureFlags {
-        self.bits()
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::CoglFeatureFlags> for FeatureFlags {
-    fn from_glib(value: ffi::CoglFeatureFlags) -> FeatureFlags {
-        FeatureFlags::from_bits_truncate(value)
-    }
-}
-
-impl StaticType for FeatureFlags {
-    fn static_type() -> Type {
-        unsafe { from_glib(ffi::cogl_feature_flags_get_type()) }
-    }
-}
-
-impl<'a> FromValueOptional<'a> for FeatureFlags {
-    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
-        Some(FromValue::from_value(value))
-    }
-}
-
-impl<'a> FromValue<'a> for FeatureFlags {
-    unsafe fn from_value(value: &Value) -> Self {
-        from_glib(gobject_sys::g_value_get_flags(value.to_glib_none().0))
-    }
-}
-
-impl SetValue for FeatureFlags {
-    unsafe fn set_value(value: &mut Value, this: &Self) {
-        gobject_sys::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
-    }
-}
-
 bitflags! {
     pub struct ReadPixelsFlags: u32 {
         const COLOR_BUFFER = 1;
     }
 }
 
-#[doc(hidden)]
-impl ToGlib for ReadPixelsFlags {
-    type GlibType = ffi::CoglReadPixelsFlags;
-
-    fn to_glib(&self) -> ffi::CoglReadPixelsFlags {
-        self.bits()
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::CoglReadPixelsFlags> for ReadPixelsFlags {
-    fn from_glib(value: ffi::CoglReadPixelsFlags) -> ReadPixelsFlags {
-        ReadPixelsFlags::from_bits_truncate(value)
-    }
-}
-
-impl StaticType for ReadPixelsFlags {
-    fn static_type() -> Type {
-        unsafe { from_glib(ffi::cogl_read_pixels_flags_get_type()) }
-    }
-}
-
-impl<'a> FromValueOptional<'a> for ReadPixelsFlags {
-    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
-        Some(FromValue::from_value(value))
-    }
-}
-
-impl<'a> FromValue<'a> for ReadPixelsFlags {
-    unsafe fn from_value(value: &Value) -> Self {
-        from_glib(gobject_sys::g_value_get_flags(value.to_glib_none().0))
-    }
-}
-
-impl SetValue for ReadPixelsFlags {
-    unsafe fn set_value(value: &mut Value, this: &Self) {
-        gobject_sys::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
-    }
-}
 
 bitflags! {
     pub struct RendererConstraint: u32 {
@@ -321,67 +88,11 @@ bitflags! {
     }
 }
 
-#[doc(hidden)]
-impl ToGlib for RendererConstraint {
-    type GlibType = ffi::CoglRendererConstraint;
-
-    fn to_glib(&self) -> ffi::CoglRendererConstraint {
-        self.bits()
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::CoglRendererConstraint> for RendererConstraint {
-    fn from_glib(value: ffi::CoglRendererConstraint) -> RendererConstraint {
-        RendererConstraint::from_bits_truncate(value)
-    }
-}
-
 bitflags! {
     pub struct TextureFlags: u32 {
         const NONE = 0;
         const NO_AUTO_MIPMAP = 1;
         const NO_SLICING = 2;
         const NO_ATLAS = 4;
-    }
-}
-
-#[doc(hidden)]
-impl ToGlib for TextureFlags {
-    type GlibType = ffi::CoglTextureFlags;
-
-    fn to_glib(&self) -> ffi::CoglTextureFlags {
-        self.bits()
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::CoglTextureFlags> for TextureFlags {
-    fn from_glib(value: ffi::CoglTextureFlags) -> TextureFlags {
-        TextureFlags::from_bits_truncate(value)
-    }
-}
-
-impl StaticType for TextureFlags {
-    fn static_type() -> Type {
-        unsafe { from_glib(ffi::cogl_texture_flags_get_type()) }
-    }
-}
-
-impl<'a> FromValueOptional<'a> for TextureFlags {
-    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
-        Some(FromValue::from_value(value))
-    }
-}
-
-impl<'a> FromValue<'a> for TextureFlags {
-    unsafe fn from_value(value: &Value) -> Self {
-        from_glib(gobject_sys::g_value_get_flags(value.to_glib_none().0))
-    }
-}
-
-impl SetValue for TextureFlags {
-    unsafe fn set_value(value: &mut Value, this: &Self) {
-        gobject_sys::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
     }
 }

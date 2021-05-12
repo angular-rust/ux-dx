@@ -8,15 +8,15 @@ use std::{fmt, ptr};
 // typedef struct
 // {
 //   GList *entries;
-// } CoglPipelineSnippetList;
+// } PipelineSnippetList;
 
-// /* Arguments to pass to _cogl_pipeline_snippet_generate_code() */
+// /* Arguments to pass to _pipeline_snippet_generate_code() */
 // typedef struct
 // {
-//   CoglPipelineSnippetList *snippets;
+//   PipelineSnippetList *snippets;
 
 //   /* Only snippets at this hook point will be used */
-//   CoglSnippetHook hook;
+//   SnippetHook hook;
 
 //   /* The final function to chain on to after all of the snippets code
 //      has been run */
@@ -40,7 +40,7 @@ use std::{fmt, ptr};
 //      the return value. Instead it is expected that the snippet will
 //      modify one of the argument variables directly and that will be
 //      returned */
-//   CoglBool return_variable_is_argument;
+//   Bool return_variable_is_argument;
 
 //   /* The argument names or NULL if there are none */
 //   const char *arguments;
@@ -50,7 +50,7 @@ use std::{fmt, ptr};
 
 //   /* The string to generate the source into */
 //   GString *source_buf;
-// } CoglPipelineSnippetData;
+// } PipelineSnippetData;
 
 // /* XXX: should I rename these as
 //  * COGL_PIPELINE_STATE_INDEX_XYZ... ?
@@ -81,7 +81,7 @@ use std::{fmt, ptr};
 //   COGL_PIPELINE_STATE_REAL_BLEND_ENABLE_INDEX,
 
 //   COGL_PIPELINE_STATE_COUNT
-// } CoglPipelineStateIndex;
+// } PipelineStateIndex;
 
 // /* Used in pipeline->differences masks and for notifying pipeline
 //  * state changes.
@@ -90,10 +90,10 @@ use std::{fmt, ptr};
 //  * some of the state masks following this enum too!
 //  *
 //  * FIXME: perhaps it would be better to rename this enum to
-//  * CoglPipelineStateGroup to better convey the fact that a single enum
+//  * PipelineStateGroup to better convey the fact that a single enum
 //  * here can map to multiple properties.
 //  */
-//  typedef enum _CoglPipelineState
+//  typedef enum _PipelineState
 //  {
 //    COGL_PIPELINE_STATE_COLOR =
 //      1L<<COGL_PIPELINE_STATE_COLOR_INDEX,
@@ -136,7 +136,7 @@ use std::{fmt, ptr};
 //    COGL_PIPELINE_STATE_REAL_BLEND_ENABLE =
 //      1L<<COGL_PIPELINE_STATE_REAL_BLEND_ENABLE_INDEX,
 
-//  } CoglPipelineState;
+//  } PipelineState;
 
 //  typedef enum
 // {
@@ -145,7 +145,7 @@ use std::{fmt, ptr};
 //   COGL_PIPELINE_LIGHTING_STATE_PROPERTY_SPECULAR,
 //   COGL_PIPELINE_LIGHTING_STATE_PROPERTY_EMISSION,
 //   COGL_PIPELINE_LIGHTING_STATE_PROPERTY_SHININESS
-// } CoglPipelineLightingStateProperty;
+// } PipelineLightingStateProperty;
 
 // typedef struct
 // {
@@ -155,23 +155,23 @@ use std::{fmt, ptr};
 //   float specular[4];
 //   float emission[4];
 //   float shininess;
-// } CoglPipelineLightingState;
+// } PipelineLightingState;
 
 // typedef struct
 // {
 //   /* Determines what fragments are discarded based on their alpha */
-//   CoglPipelineAlphaFunc alpha_func;
+//   PipelineAlphaFunc alpha_func;
 //   float		        alpha_func_reference;
-// } CoglPipelineAlphaFuncState;
+// } PipelineAlphaFuncState;
 
-// typedef enum _CoglPipelineBlendEnable
+// typedef enum _PipelineBlendEnable
 // {
 //   /* XXX: we want to detect users mistakenly using TRUE or FALSE
 //    * so start the enum at 2. */
 //   COGL_PIPELINE_BLEND_ENABLE_ENABLED = 2,
 //   COGL_PIPELINE_BLEND_ENABLE_DISABLED,
 //   COGL_PIPELINE_BLEND_ENABLE_AUTOMATIC
-// } CoglPipelineBlendEnable;
+// } PipelineBlendEnable;
 
 // typedef struct
 // {
@@ -181,152 +181,152 @@ use std::{fmt, ptr};
 //   GLenum    blend_equation_alpha;
 //   GLint     blend_src_factor_alpha;
 //   GLint     blend_dst_factor_alpha;
-//   CoglColor blend_constant;
+//   Color blend_constant;
 // #endif
 //   GLint     blend_src_factor_rgb;
 //   GLint     blend_dst_factor_rgb;
-// } CoglPipelineBlendState;
+// } PipelineBlendState;
 
 // typedef struct
 // {
-//   CoglBool        enabled;
-//   CoglColor       color;
-//   CoglFogMode     mode;
+//   Bool        enabled;
+//   Color       color;
+//   FogMode     mode;
 //   float           density;
 //   float           z_near;
 //   float           z_far;
-// } CoglPipelineFogState;
+// } PipelineFogState;
 
 // typedef struct
 // {
-//   CoglColorMask color_mask;
-// } CoglPipelineLogicOpsState;
+//   ColorMask color_mask;
+// } PipelineLogicOpsState;
 
 // typedef struct
 // {
-//   CoglPipelineCullFaceMode mode;
-//   CoglWinding front_winding;
-// } CoglPipelineCullFaceState;
+//   PipelineCullFaceMode mode;
+//   Winding front_winding;
+// } PipelineCullFaceState;
 
 // typedef struct
 // {
-//   CoglBitmask override_mask;
+//   Bitmask override_mask;
 
 //   /* This is an array of values. Only the uniforms that have a bit set
 //      in override_mask have a corresponding value here. The uniform's
 //      location is implicit from the order in this array */
-//   CoglBoxedValue *override_values;
+//   BoxedValue *override_values;
 
 //   /* Uniforms that have been modified since this pipeline was last
 //      flushed */
-//   CoglBitmask changed_mask;
-// } CoglPipelineUniformsState;
+//   Bitmask changed_mask;
+// } PipelineUniformsState;
 
 // typedef struct
 // {
-//   CoglPipelineLightingState lighting_state;
-//   CoglPipelineAlphaFuncState alpha_state;
-//   CoglPipelineBlendState blend_state;
-//   CoglHandle user_program;
-//   CoglDepthState depth_state;
-//   CoglPipelineFogState fog_state;
+//   PipelineLightingState lighting_state;
+//   PipelineAlphaFuncState alpha_state;
+//   PipelineBlendState blend_state;
+//   Handle user_program;
+//   DepthState depth_state;
+//   PipelineFogState fog_state;
 //   float point_size;
 //   unsigned int non_zero_point_size : 1;
 //   unsigned int per_vertex_point_size : 1;
-//   CoglPipelineLogicOpsState logic_ops_state;
-//   CoglPipelineCullFaceState cull_face_state;
-//   CoglPipelineUniformsState uniforms_state;
-//   CoglPipelineSnippetList vertex_snippets;
-//   CoglPipelineSnippetList fragment_snippets;
-// } CoglPipelineBigState;
+//   PipelineLogicOpsState logic_ops_state;
+//   PipelineCullFaceState cull_face_state;
+//   PipelineUniformsState uniforms_state;
+//   PipelineSnippetList vertex_snippets;
+//   PipelineSnippetList fragment_snippets;
+// } PipelineBigState;
 
 // typedef struct
 // {
-//   CoglPipeline *owner;
-//   CoglPipelineLayer *layer;
-// } CoglPipelineLayerCacheEntry;
+//   Pipeline *owner;
+//   PipelineLayer *layer;
+// } PipelineLayerCacheEntry;
 
-// typedef struct _CoglPipelineHashState
+// typedef struct _PipelineHashState
 // {
 //   unsigned long layer_differences;
-//   CoglPipelineEvalFlags flags;
+//   PipelineEvalFlags flags;
 //   unsigned int hash;
-// } CoglPipelineHashState;
+// } PipelineHashState;
 
-// typedef struct _CoglPipelineFragend
+// typedef struct _PipelineFragend
 // {
-//   void (*start) (CoglPipeline *pipeline,
+//   void (*start) (Pipeline *pipeline,
 //                  int n_layers,
 //                  unsigned long pipelines_difference);
-//   CoglBool (*add_layer) (CoglPipeline *pipeline,
-//                          CoglPipelineLayer *layer,
+//   Bool (*add_layer) (Pipeline *pipeline,
+//                          PipelineLayer *layer,
 //                          unsigned long layers_difference);
-//   CoglBool (*passthrough) (CoglPipeline *pipeline);
-//   CoglBool (*end) (CoglPipeline *pipeline,
+//   Bool (*passthrough) (Pipeline *pipeline);
+//   Bool (*end) (Pipeline *pipeline,
 //                    unsigned long pipelines_difference);
 
-//   void (*pipeline_pre_change_notify) (CoglPipeline *pipeline,
-//                                       CoglPipelineState change,
-//                                       const CoglColor *new_color);
-//   void (*pipeline_set_parent_notify) (CoglPipeline *pipeline);
-//   void (*layer_pre_change_notify) (CoglPipeline *owner,
-//                                    CoglPipelineLayer *layer,
-//                                    CoglPipelineLayerState change);
-// } CoglPipelineFragend;
+//   void (*pipeline_pre_change_notify) (Pipeline *pipeline,
+//                                       PipelineState change,
+//                                       const Color *new_color);
+//   void (*pipeline_set_parent_notify) (Pipeline *pipeline);
+//   void (*layer_pre_change_notify) (Pipeline *owner,
+//                                    PipelineLayer *layer,
+//                                    PipelineLayerState change);
+// } PipelineFragend;
 
-// typedef struct _CoglPipelineVertend
+// typedef struct _PipelineVertend
 // {
-//   void (*start) (CoglPipeline *pipeline,
+//   void (*start) (Pipeline *pipeline,
 //                  int n_layers,
 //                  unsigned long pipelines_difference);
-//   CoglBool (*add_layer) (CoglPipeline *pipeline,
-//                          CoglPipelineLayer *layer,
+//   Bool (*add_layer) (Pipeline *pipeline,
+//                          PipelineLayer *layer,
 //                          unsigned long layers_difference,
-//                          CoglFramebuffer *framebuffer);
-//   CoglBool (*end) (CoglPipeline *pipeline,
+//                          Framebuffer *framebuffer);
+//   Bool (*end) (Pipeline *pipeline,
 //                    unsigned long pipelines_difference);
 
-//   void (*pipeline_pre_change_notify) (CoglPipeline *pipeline,
-//                                       CoglPipelineState change,
-//                                       const CoglColor *new_color);
-//   void (*layer_pre_change_notify) (CoglPipeline *owner,
-//                                    CoglPipelineLayer *layer,
-//                                    CoglPipelineLayerState change);
-// } CoglPipelineVertend;
+//   void (*pipeline_pre_change_notify) (Pipeline *pipeline,
+//                                       PipelineState change,
+//                                       const Color *new_color);
+//   void (*layer_pre_change_notify) (Pipeline *owner,
+//                                    PipelineLayer *layer,
+//                                    PipelineLayerState change);
+// } PipelineVertend;
 
 // typedef struct
 // {
 //   int vertend;
 //   int fragend;
-//   CoglBool (*start) (CoglPipeline *pipeline);
-//   void (*end) (CoglPipeline *pipeline,
+//   Bool (*start) (Pipeline *pipeline);
+//   void (*end) (Pipeline *pipeline,
 //                unsigned long pipelines_difference);
-//   void (*pipeline_pre_change_notify) (CoglPipeline *pipeline,
-//                                       CoglPipelineState change,
-//                                       const CoglColor *new_color);
-//   void (*layer_pre_change_notify) (CoglPipeline *owner,
-//                                    CoglPipelineLayer *layer,
-//                                    CoglPipelineLayerState change);
+//   void (*pipeline_pre_change_notify) (Pipeline *pipeline,
+//                                       PipelineState change,
+//                                       const Color *new_color);
+//   void (*layer_pre_change_notify) (Pipeline *owner,
+//                                    PipelineLayer *layer,
+//                                    PipelineLayerState change);
 //   /* This is called after all of the other functions whenever the
 //      pipeline is flushed, even if the pipeline hasn't changed since
 //      the last flush */
-//   void (* pre_paint) (CoglPipeline *pipeline, CoglFramebuffer *framebuffer);
-// } CoglPipelineProgend;
+//   void (* pre_paint) (Pipeline *pipeline, Framebuffer *framebuffer);
+// } PipelineProgend;
 
 // typedef enum
 // {
 //   COGL_PIPELINE_PROGRAM_TYPE_GLSL = 1,
 //   COGL_PIPELINE_PROGRAM_TYPE_ARBFP,
 //   COGL_PIPELINE_PROGRAM_TYPE_FIXED
-// } CoglPipelineProgramType;
+// } PipelineProgramType;
 
 // typedef enum
 // {
 //   COGL_PIPELINE_GET_LAYER_NO_CREATE = 1<<0
-// } CoglPipelineGetLayerFlags;
+// } PipelineGetLayerFlags;
 
 // /*
-//  * CoglPipelineFlushFlag:
+//  * PipelineFlushFlag:
 //  * @COGL_PIPELINE_FLUSH_FALLBACK_MASK: The fallback_layers member is set to
 //  *      a uint32_t mask of the layers that can't be supported with the user
 //  *      supplied texture and need to be replaced with fallback textures. (1 =
@@ -343,26 +343,26 @@ use std::{fmt, ptr};
 //  * @COGL_PIPELINE_FLUSH_SKIP_GL_COLOR: When flushing the GL state for the
 //  *      pipeline don't call glColor.
 //  */
-//  typedef enum _CoglPipelineFlushFlag
+//  typedef enum _PipelineFlushFlag
 //  {
 //    COGL_PIPELINE_FLUSH_FALLBACK_MASK       = 1L<<0,
 //    COGL_PIPELINE_FLUSH_DISABLE_MASK        = 1L<<1,
 //    COGL_PIPELINE_FLUSH_LAYER0_OVERRIDE     = 1L<<2,
 //    COGL_PIPELINE_FLUSH_SKIP_GL_COLOR       = 1L<<3
-//  } CoglPipelineFlushFlag;
+//  } PipelineFlushFlag;
 
 //  /*
-//  * CoglPipelineFlushOptions:
+//  * PipelineFlushOptions:
 //  *
 //  */
-// typedef struct _CoglPipelineFlushOptions
+// typedef struct _PipelineFlushOptions
 // {
-//   CoglPipelineFlushFlag flags;
+//   PipelineFlushFlag flags;
 
 //   uint32_t fallback_layers;
 //   uint32_t disable_layers;
-//   CoglTexture *layer0_override_texture;
-// } CoglPipelineFlushOptions;
+//   Texture *layer0_override_texture;
+// } PipelineFlushOptions;
 
 // typedef struct
 // {
@@ -386,16 +386,16 @@ use std::{fmt, ptr};
 //   unsigned int layer_state;
 
 //   GHashTable *table;
-// } CoglPipelineHashTable;
+// } PipelineHashTable;
 
 // typedef struct
 // {
-//   CoglPipeline *pipeline;
+//   Pipeline *pipeline;
 
 //   /* Number of usages of this template. If this drops to zero then it
 //    * will be a candidate for removal from the cache */
 //   int usage_count;
-// } CoglPipelineCacheEntry;
+// } PipelineCacheEntry;
 
 // /* XXX: should I rename these as
 //  * COGL_PIPELINE_LAYER_STATE_INDEX_XYZ... ?
@@ -417,13 +417,13 @@ use std::{fmt, ptr};
 //    /* note: layers don't currently have any non-sparse state */
 //    COGL_PIPELINE_LAYER_STATE_SPARSE_COUNT,
 //    COGL_PIPELINE_LAYER_STATE_COUNT = COGL_PIPELINE_LAYER_STATE_SPARSE_COUNT
-//  } CoglPipelineLayerStateIndex;
+//  } PipelineLayerStateIndex;
 
 //  /* XXX: If you add or remove state groups here you may need to update
 //   * some of the state masks following this enum too!
 //   *
 //   * FIXME: perhaps it would be better to rename this enum to
-//   * CoglPipelineLayerStateGroup to better convey the fact that a single
+//   * PipelineLayerStateGroup to better convey the fact that a single
 //   * enum here can map to multiple properties.
 //   */
 //  typedef enum
@@ -453,7 +453,7 @@ use std::{fmt, ptr};
 //      1L<<COGL_PIPELINE_LAYER_STATE_FRAGMENT_SNIPPETS_INDEX,
 
 //    /* COGL_PIPELINE_LAYER_STATE_TEXTURE_INTERN   = 1L<<8, */
-//  } CoglPipelineLayerState;
+//  } PipelineLayerState;
 
 //  typedef enum
 // {
@@ -466,7 +466,7 @@ use std::{fmt, ptr};
 //   COGL_PIPELINE_COMBINE_FUNC_MODULATE    = 0x2100,
 //   COGL_PIPELINE_COMBINE_FUNC_DOT3_RGB    = 0x86AE,
 //   COGL_PIPELINE_COMBINE_FUNC_DOT3_RGBA   = 0x86AF
-// } CoglPipelineCombineFunc;
+// } PipelineCombineFunc;
 
 // typedef enum
 // {
@@ -478,7 +478,7 @@ use std::{fmt, ptr};
 //   COGL_PIPELINE_COMBINE_SOURCE_PRIMARY_COLOR,
 //   COGL_PIPELINE_COMBINE_SOURCE_PREVIOUS,
 //   COGL_PIPELINE_COMBINE_SOURCE_TEXTURE0
-// } CoglPipelineCombineSource;
+// } PipelineCombineSource;
 
 // typedef enum
 // {
@@ -487,35 +487,35 @@ use std::{fmt, ptr};
 //   COGL_PIPELINE_COMBINE_OP_ONE_MINUS_SRC_COLOR = 0x0301,
 //   COGL_PIPELINE_COMBINE_OP_SRC_ALPHA           = 0x0302,
 //   COGL_PIPELINE_COMBINE_OP_ONE_MINUS_SRC_ALPHA = 0x0303
-// } CoglPipelineCombineOp;
+// } PipelineCombineOp;
 
 // typedef struct
 // {
 //   /* The texture combine state determines how the color of individual
 //    * texture fragments are calculated. */
-//   CoglPipelineCombineFunc texture_combine_rgb_func;
-//   CoglPipelineCombineSource texture_combine_rgb_src[3];
-//   CoglPipelineCombineOp texture_combine_rgb_op[3];
+//   PipelineCombineFunc texture_combine_rgb_func;
+//   PipelineCombineSource texture_combine_rgb_src[3];
+//   PipelineCombineOp texture_combine_rgb_op[3];
 
-//   CoglPipelineCombineFunc texture_combine_alpha_func;
-//   CoglPipelineCombineSource texture_combine_alpha_src[3];
-//   CoglPipelineCombineOp texture_combine_alpha_op[3];
+//   PipelineCombineFunc texture_combine_alpha_func;
+//   PipelineCombineSource texture_combine_alpha_src[3];
+//   PipelineCombineOp texture_combine_alpha_op[3];
 
 //   float texture_combine_constant[4];
 
 //   /* The texture matrix dscribes how to transform texture coordinates */
-//   CoglMatrix matrix;
+//   Matrix matrix;
 
-//   CoglPipelineSnippetList vertex_snippets;
-//   CoglPipelineSnippetList fragment_snippets;
+//   PipelineSnippetList vertex_snippets;
+//   PipelineSnippetList fragment_snippets;
 
-//   CoglBool point_sprite_coords;
-// } CoglPipelineLayerBigState;
+//   Bool point_sprite_coords;
+// } PipelineLayerBigState;
 
-// struct _CoglPipelineLayer
+// struct _PipelineLayer
 // {
 //   /* XXX: Please think twice about adding members that *have* be
-//    * initialized during a _cogl_pipeline_layer_copy. We are aiming
+//    * initialized during a _pipeline_layer_copy. We are aiming
 //    * to have copies be as cheap as possible and copies may be
 //    * done by the primitives APIs which means they may happen
 //    * in performance critical code paths.
@@ -531,13 +531,13 @@ use std::{fmt, ptr};
 //    * the state relating to a given pipeline or layer may actually be
 //    * owned by one if is ancestors in the tree. We have a common data
 //    * type to track the tree heirachy so we can share code... */
-//   CoglNode _parent;
+//   Node _parent;
 
 //   /* Some layers have a pipeline owner, which is to say that the layer
 //    * is referenced in that pipelines->layer_differences list.  A layer
 //    * doesn't always have an owner and may simply be an ancestor for
 //    * other layers that keeps track of some shared state. */
-//   CoglPipeline      *owner;
+//   Pipeline      *owner;
 
 //   /* The lowest index is blended first then others on top */
 //   int	             index;
@@ -560,17 +560,17 @@ use std::{fmt, ptr};
 //      is NULL and it will be used to determine what type of texture
 //      lookups to use in any shaders generated by the pipeline
 //      backends. */
-//   CoglTextureType            texture_type;
+//   TextureType            texture_type;
 //   /* The texture for this layer, or NULL for an empty
 //    * layer */
-//   CoglTexture               *texture;
+//   Texture               *texture;
 
-//   const CoglSamplerCacheEntry *sampler_cache_entry;
+//   const SamplerCacheEntry *sampler_cache_entry;
 
 //   /* Infrequent differences aren't currently tracked in
 //    * a separate, dynamically allocated structure as they are
 //    * for pipelines... */
-//   CoglPipelineLayerBigState *big_state;
+//   PipelineLayerBigState *big_state;
 
 //   /* bitfields */
 //   /* Determines if layer->big_state is valid */
@@ -580,10 +580,10 @@ use std::{fmt, ptr};
 
 // typedef enum {
 //     COGL_PIPELINE_LAYER_TYPE_TEXTURE
-// } CoglPipelineLayerType;
+// } PipelineLayerType;
 
 // /**
-//  * CoglPipelineFilter:
+//  * PipelineFilter:
 //  * @COGL_PIPELINE_FILTER_NEAREST: Measuring in manhatten distance from the,
 //  *   current pixel center, use the nearest texture texel
 //  * @COGL_PIPELINE_FILTER_LINEAR: Use the weighted average of the 4 texels
@@ -616,22 +616,22 @@ use std::{fmt, ptr};
 //     COGL_PIPELINE_FILTER_LINEAR_MIPMAP_NEAREST = 0x2701,
 //     COGL_PIPELINE_FILTER_NEAREST_MIPMAP_LINEAR = 0x2702,
 //     COGL_PIPELINE_FILTER_LINEAR_MIPMAP_LINEAR = 0x2703
-//   } CoglPipelineFilter;
+//   } PipelineFilter;
 //   /* NB: these values come from the equivalents in gl.h */
 //   /**
-//    * CoglPipelineWrapMode:
+//    * PipelineWrapMode:
 //    * @COGL_PIPELINE_WRAP_MODE_REPEAT: The texture will be repeated. This
 //    *   is useful for example to draw a tiled background.
 //    * @COGL_PIPELINE_WRAP_MODE_CLAMP_TO_EDGE: The coordinates outside the
 //    *   range 0→1 will sample copies of the edge pixels of the
 //    *   texture. This is useful to avoid artifacts if only one copy of
 //    *   the texture is being rendered.
-//    * @COGL_PIPELINE_WRAP_MODE_AUTOMATIC: Cogl will try to automatically
-//    *   decide which of the above two to use. For cogl_rectangle(), it
+//    * @COGL_PIPELINE_WRAP_MODE_AUTOMATIC:  will try to automatically
+//    *   decide which of the above two to use. For rectangle(), it
 //    *   will use repeat mode if any of the texture coordinates are
 //    *   outside the range 0→1, otherwise it will use clamp to edge. For
-//    *   cogl_polygon() it will always use repeat mode. For
-//    *   cogl_vertex_buffer_draw() it will use repeat mode except for
+//    *   polygon() it will always use repeat mode. For
+//    *   vertex_buffer_draw() it will use repeat mode except for
 //    *   layers that have point sprite coordinate generation enabled. This
 //    *   is the default value.
 //    *
@@ -649,7 +649,7 @@ use std::{fmt, ptr};
 //   /* GL_ALWAYS is just used here as a value that is known not to clash
 //    * with any valid GL wrap modes
 //    *
-//    * XXX: keep the values in sync with the CoglPipelineWrapModeInternal
+//    * XXX: keep the values in sync with the PipelineWrapModeInternal
 //    * enum so no conversion is actually needed.
 //    */
 //   typedef enum {
@@ -657,11 +657,11 @@ use std::{fmt, ptr};
 //     COGL_PIPELINE_WRAP_MODE_MIRRORED_REPEAT = 0x8370,
 //     COGL_PIPELINE_WRAP_MODE_CLAMP_TO_EDGE = 0x812F,
 //     COGL_PIPELINE_WRAP_MODE_AUTOMATIC = 0x0207 /* GL_ALWAYS */
-//   } CoglPipelineWrapMode;
+//   } PipelineWrapMode;
 
 pub struct Pipeline {
     //     /* XXX: Please think twice about adding members that *have* be
-//    * initialized during a cogl_pipeline_copy. We are aiming to have
+//    * initialized during a pipeline_copy. We are aiming to have
 //    * copies be as cheap as possible and copies may be done by the
 //    * primitives APIs which means they may happen in performance
 //    * critical code paths.
@@ -678,11 +678,11 @@ pub struct Pipeline {
 //    * the state relating to a given pipeline or layer may actually be
 //    * owned by one if is ancestors in the tree. We have a common data
 //    * type to track the tree heirachy so we can share code... */
-//    CoglNode _parent;
+//    Node _parent;
 
 //    /* When weak pipelines are destroyed the user is notified via this
 //     * callback */
-//    CoglPipelineDestroyCallback destroy_callback;
+//    PipelineDestroyCallback destroy_callback;
 
 //    /* When notifying that a weak pipeline has been destroyed this
 //     * private data is passed to the above callback */
@@ -707,7 +707,7 @@ pub struct Pipeline {
 //    /* This is the primary color of the pipeline.
 //     *
 //     * This is a sparse property, ref COGL_PIPELINE_STATE_COLOR */
-//    CoglColor color;
+//    Color color;
 
 //    /* A pipeline may be made up with multiple layers used to combine
 //     * textures together.
@@ -720,7 +720,7 @@ pub struct Pipeline {
 //     * state into two groups; the minimal state modified in 90% of
 //     * all pipelines and the rest, so that the second group can
 //     * be allocated dynamically when required... */
-//    CoglPipelineBigState *big_state;
+//    PipelineBigState *big_state;
 
 //  #ifdef COGL_DEBUG_ENABLED
 //    /* For debugging purposes it's possible to associate a static const
@@ -733,18 +733,18 @@ pub struct Pipeline {
 
 //    /* A cached, complete list of the layers this pipeline depends
 //     * on sorted by layer->unit_index. */
-//    CoglPipelineLayer   **layers_cache;
+//    PipelineLayer   **layers_cache;
 //    /* To avoid a separate ->layers_cache allocation for common
 //     * pipelines with only a few layers... */
-//    CoglPipelineLayer    *short_layers_cache[3];
+//    PipelineLayer    *short_layers_cache[3];
 
-//    /* The deprecated cogl_pipeline_get_layers() API returns a
+//    /* The deprecated pipeline_get_layers() API returns a
 //     * const GList of layers, which we track here... */
 //    GList                *deprecated_get_layers_list;
 
 //    /* XXX: consider adding an authorities cache to speed up sparse
 //     * property value lookups:
-//     * CoglPipeline *authorities_cache[COGL_PIPELINE_N_SPARSE_PROPERTIES];
+//     * Pipeline *authorities_cache[COGL_PIPELINE_N_SPARSE_PROPERTIES];
 //     * and corresponding authorities_cache_dirty:1 bitfield
 //     */
 
@@ -794,7 +794,7 @@ pub struct Pipeline {
 //  #endif
 
 //    /* There are multiple fragment and vertex processing backends for
-//     * CoglPipeline, glsl, arbfp and fixed that are bundled under a
+//     * Pipeline, glsl, arbfp and fixed that are bundled under a
 //     * "progend". This identifies the backend being used for the
 //     * pipeline. */
 //    unsigned int          progend:3;
@@ -811,11 +811,11 @@ impl Pipeline {
     ///
     /// a pointer to a new `Pipeline`
     pub fn new(context: &Context) -> Pipeline {
-        // CoglPipeline *new;
+        // Pipeline *new;
 
-        // new = cogl_pipeline_copy (context->default_pipeline);
+        // new = pipeline_copy (context->default_pipeline);
         // #ifdef COGL_DEBUG_ENABLED
-        // _cogl_pipeline_set_static_breadcrumb (new, "new");
+        // _pipeline_set_static_breadcrumb (new, "new");
         // #endif
         // return new;
         unimplemented!()
@@ -831,16 +831,16 @@ impl Pipeline {
     /// ## `snippet`
     /// A `Snippet`
     pub fn add_layer_snippet(&self, layer: i32, snippet: &Snippet) {
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
-        // _COGL_RETURN_IF_FAIL (cogl_is_snippet (snippet));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_snippet (snippet));
         // _COGL_RETURN_IF_FAIL (snippet->hook >= COGL_SNIPPET_FIRST_LAYER_HOOK);
 
         // if (snippet->hook < COGL_SNIPPET_FIRST_LAYER_FRAGMENT_HOOK)
-        //     _cogl_pipeline_layer_add_vertex_snippet (pipeline,
+        //     _pipeline_layer_add_vertex_snippet (pipeline,
         //                                             layer_index,
         //                                             snippet);
         // else
-        //     _cogl_pipeline_layer_add_fragment_snippet (pipeline,
+        //     _pipeline_layer_add_fragment_snippet (pipeline,
         //                                             layer_index,
         //                                             snippet);
         unimplemented!()
@@ -853,14 +853,14 @@ impl Pipeline {
     /// ## `snippet`
     /// The `Snippet` to add to the vertex processing hook
     pub fn add_snippet(&self, snippet: &Snippet) {
-        // g_return_if_fail (cogl_is_pipeline (pipeline));
-        // g_return_if_fail (cogl_is_snippet (snippet));
+        // g_return_if_fail (is_pipeline (pipeline));
+        // g_return_if_fail (is_snippet (snippet));
         // g_return_if_fail (snippet->hook < COGL_SNIPPET_FIRST_LAYER_HOOK);
 
         // if (snippet->hook < COGL_SNIPPET_FIRST_PIPELINE_FRAGMENT_HOOK)
-        //   _cogl_pipeline_add_vertex_snippet (pipeline, snippet);
+        //   _pipeline_add_vertex_snippet (pipeline, snippet);
         // else
-        //   _cogl_pipeline_add_fragment_snippet (pipeline, snippet);
+        //   _pipeline_add_fragment_snippet (pipeline, snippet);
         unimplemented!()
     }
 
@@ -869,7 +869,7 @@ impl Pipeline {
     ///
     /// We would strongly advise developers to always aim to use
     /// `Pipeline::copy` instead of `Pipeline::new` whenever there will
-    /// be any similarity between two pipelines. Copying a pipeline helps Cogl
+    /// be any similarity between two pipelines. Copying a pipeline helps 
     /// keep track of a pipelines ancestry which we may use to help minimize GPU
     /// state changes.
     ///
@@ -878,9 +878,9 @@ impl Pipeline {
     ///
     /// a pointer to the newly allocated `Pipeline`
     pub fn copy(&self) -> Option<Pipeline> {
-        // CoglPipeline *pipeline = g_slice_new (CoglPipeline);
+        // Pipeline *pipeline = g_slice_new (Pipeline);
 
-        // _cogl_pipeline_node_init (COGL_NODE (pipeline));
+        // _pipeline_node_init (COGL_NODE (pipeline));
 
         // pipeline->is_weak = is_weak;
 
@@ -912,42 +912,42 @@ impl Pipeline {
 
         // pipeline->age = 0;
 
-        // _cogl_pipeline_set_parent (pipeline, src, !is_weak);
+        // _pipeline_set_parent (pipeline, src, !is_weak);
 
         // /* The semantics for copying a weak pipeline are that we promote all
         // * weak ancestors to temporarily become strong pipelines until the
         // * copy is freed. */
         // if (!is_weak)
-        //     _cogl_pipeline_promote_weak_ancestors (pipeline);
+        //     _pipeline_promote_weak_ancestors (pipeline);
 
-        // return _cogl_pipeline_object_new (pipeline);
+        // return _pipeline_object_new (pipeline);
         unimplemented!()
     }
 
     /// Iterates all the layer indices of the given `self`.
     ///
     /// ## `callback`
-    /// A `CoglPipelineLayerCallback` to be
+    /// A `PipelineLayerCallback` to be
     ///  called for each layer index
     /// ## `user_data`
     /// Private data that will be passed to the
     ///  callback
     pub fn foreach_layer<P: FnMut(&Pipeline, i32) -> i32>(&self, callback: P) {
-        // CoglPipeline *authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LAYERS);
+        // Pipeline *authority =
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LAYERS);
         // AppendLayerIndexState state;
-        // CoglBool cont;
+        // Bool cont;
         // int i;
 
         // /* XXX: We don't know what the user is going to want to do to the layers
         // * but any modification of layers can result in the layer graph changing
-        // * which could confuse _cogl_pipeline_foreach_layer_internal(). We first
+        // * which could confuse _pipeline_foreach_layer_internal(). We first
         // * get a list of layer indices which will remain valid so long as the
         // * user doesn't remove layers. */
         // state.i = 0;
         // state.indices = g_alloca (authority->n_layers * sizeof (int));
 
-        // _cogl_pipeline_foreach_layer_internal (pipeline,
+        // _pipeline_foreach_layer_internal (pipeline,
         //                                         append_layer_index_cb,
         //                                         &state);
 
@@ -962,12 +962,12 @@ impl Pipeline {
     ///
     /// The alpha test function of `self`.
     pub fn get_alpha_test_function(&self) -> PipelineAlphaFunc {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), 0);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), 0);
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_ALPHA_FUNC);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_ALPHA_FUNC);
 
         // return authority->big_state->alpha_state.alpha_func;
         unimplemented!()
@@ -979,12 +979,12 @@ impl Pipeline {
     ///
     /// The alpha test reference value of `self`.
     pub fn get_alpha_test_reference(&self) -> f32 {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), 0.0f);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), 0.0f);
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline,
+        //     _pipeline_get_authority (pipeline,
         //                                 COGL_PIPELINE_STATE_ALPHA_FUNC_REFERENCE);
 
         // return authority->big_state->alpha_state.alpha_func_reference;
@@ -996,14 +996,14 @@ impl Pipeline {
     /// ## `ambient`
     /// The location to store the ambient color
     pub fn get_ambient(&self, ambient: &mut Color) {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
 
-        // cogl_color_init_from_4fv (ambient,
+        // color_init_from_4fv (ambient,
         //                             authority->big_state->lighting_state.ambient);
         unimplemented!()
     }
@@ -1013,12 +1013,12 @@ impl Pipeline {
     /// ## `color`
     /// The location to store the color
     pub fn get_color(&self) -> Color {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_COLOR);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_COLOR);
 
         // *color = authority->color;
         unimplemented!()
@@ -1032,12 +1032,12 @@ impl Pipeline {
     ///
     /// A `ColorMask`
     pub fn get_color_mask(&self) -> ColorMask {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), 0);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), 0);
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LOGIC_OPS);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LOGIC_OPS);
 
         // return authority->big_state->logic_ops_state.color_mask;
         unimplemented!()
@@ -1052,13 +1052,13 @@ impl Pipeline {
     ///
     /// Status: Unstable
     pub fn get_cull_face_mode(&self) -> PipelineCullFaceMode {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_CULL_FACE;
-        // CoglPipeline *authority;
+        // PipelineState state = COGL_PIPELINE_STATE_CULL_FACE;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline),
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline),
         //                             COGL_PIPELINE_CULL_FACE_MODE_NONE);
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // return authority->big_state->cull_face_state.mode;
         unimplemented!()
@@ -1070,12 +1070,12 @@ impl Pipeline {
     /// ## `state_out`
     /// A destination `DepthState` struct
     pub fn get_depth_state(&self) -> DepthState {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // authority =
-        //   _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_DEPTH);
+        //   _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_DEPTH);
         // *state = authority->big_state->depth_state;
         unimplemented!()
     }
@@ -1085,14 +1085,14 @@ impl Pipeline {
     /// ## `diffuse`
     /// The location to store the diffuse color
     pub fn get_diffuse(&self, diffuse: &mut Color) {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
 
-        // cogl_color_init_from_4fv (diffuse,
+        // color_init_from_4fv (diffuse,
         //                             authority->big_state->lighting_state.diffuse);
         unimplemented!()
     }
@@ -1102,14 +1102,14 @@ impl Pipeline {
     /// ## `emission`
     /// The location to store the emission color
     pub fn get_emission(&self, emission: &mut Color) {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
 
-        // cogl_color_init_from_4fv (emission,
+        // color_init_from_4fv (emission,
         //                             authority->big_state->lighting_state.emission);
         unimplemented!()
     }
@@ -1129,13 +1129,13 @@ impl Pipeline {
     ///
     /// Status: Unstable
     pub fn get_front_face_winding(&self) -> Winding {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_CULL_FACE;
-        // CoglPipeline *authority;
+        // PipelineState state = COGL_PIPELINE_STATE_CULL_FACE;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline),
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline),
         //                             COGL_PIPELINE_CULL_FACE_MODE_NONE);
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // return authority->big_state->cull_face_state.front_winding;
         unimplemented!()
@@ -1155,10 +1155,10 @@ impl Pipeline {
     /// The magnification `PipelineFilter` for the
     ///  specified layer.
     pub fn get_layer_mag_filter(&self, layer_index: i32) -> PipelineFilter {
-        // CoglPipelineFilter min_filter;
-        // CoglPipelineFilter mag_filter;
+        // PipelineFilter min_filter;
+        // PipelineFilter mag_filter;
 
-        // _cogl_pipeline_get_layer_filters (pipeline, layer_index,
+        // _pipeline_get_layer_filters (pipeline, layer_index,
         //                                     &min_filter, &mag_filter);
         // return mag_filter;
         unimplemented!()
@@ -1178,10 +1178,10 @@ impl Pipeline {
     /// The minification `PipelineFilter` for the
     ///  specified layer.
     pub fn get_layer_min_filter(&self, layer_index: i32) -> PipelineFilter {
-        // CoglPipelineFilter min_filter;
-        // CoglPipelineFilter mag_filter;
+        // PipelineFilter min_filter;
+        // PipelineFilter mag_filter;
 
-        // _cogl_pipeline_get_layer_filters (pipeline, layer_index,
+        // _pipeline_get_layer_filters (pipeline, layer_index,
         //                                     &min_filter, &mag_filter);
         // return min_filter;
         unimplemented!()
@@ -1198,12 +1198,12 @@ impl Pipeline {
     /// whether the texture coordinates will be replaced with
     /// point sprite coordinates.
     pub fn get_layer_point_sprite_coords_enabled(&self, layer_index: i32) -> bool {
-        // CoglPipelineLayerState       change =
+        // PipelineLayerState       change =
         //     COGL_PIPELINE_LAYER_STATE_POINT_SPRITE_COORDS;
-        // CoglPipelineLayer *layer;
-        // CoglPipelineLayer *authority;
+        // PipelineLayer *layer;
+        // PipelineLayer *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -1211,9 +1211,9 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
         // /* FIXME: we shouldn't ever construct a layer in a getter function */
-        // authority = _cogl_pipeline_layer_get_authority (layer, change);
+        // authority = _pipeline_layer_get_authority (layer, change);
 
         // return authority->big_state->point_sprite_coords;
         unimplemented!()
@@ -1227,9 +1227,9 @@ impl Pipeline {
     /// the texture that was set for the
     ///  given layer of the pipeline or `None` if no texture was set.
     pub fn get_layer_texture(&self, layer_index: i32) -> Option<Texture> {
-        // CoglPipelineLayer *layer =
-        //     _cogl_pipeline_get_layer (pipeline, layer_index);
-        // return _cogl_pipeline_layer_get_texture (layer);
+        // PipelineLayer *layer =
+        //     _pipeline_get_layer (pipeline, layer_index);
+        // return _pipeline_layer_get_texture (layer);
         unimplemented!()
     }
 
@@ -1244,9 +1244,9 @@ impl Pipeline {
     /// the wrap mode for the 'p' coordinate of texture lookups on
     /// this layer.
     pub fn get_layer_wrap_mode_p(&self, layer_index: i32) -> PipelineWrapMode {
-        // CoglPipelineLayer *layer;
+        // PipelineLayer *layer;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -1254,9 +1254,9 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
-        // return _cogl_pipeline_layer_get_wrap_mode_p (layer);
+        // return _pipeline_layer_get_wrap_mode_p (layer);
         unimplemented!()
     }
 
@@ -1271,9 +1271,9 @@ impl Pipeline {
     /// the wrap mode for the 's' coordinate of texture lookups on
     /// this layer.
     pub fn get_layer_wrap_mode_s(&self, layer_index: i32) -> PipelineWrapMode {
-        // CoglPipelineLayer *layer;
+        // PipelineLayer *layer;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -1281,9 +1281,9 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
         // /* FIXME: we shouldn't ever construct a layer in a getter function */
-        // return _cogl_pipeline_layer_get_wrap_mode_s (layer);
+        // return _pipeline_layer_get_wrap_mode_s (layer);
         unimplemented!()
     }
 
@@ -1298,9 +1298,9 @@ impl Pipeline {
     /// the wrap mode for the 't' coordinate of texture lookups on
     /// this layer.
     pub fn get_layer_wrap_mode_t(&self, layer_index: i32) -> PipelineWrapMode {
-        // CoglPipelineLayer *layer;
+        // PipelineLayer *layer;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -1308,9 +1308,9 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
         // /* FIXME: we shouldn't ever construct a layer in a getter function */
-        // return _cogl_pipeline_layer_get_wrap_mode_t (layer);
+        // return _pipeline_layer_get_wrap_mode_t (layer);
         unimplemented!()
     }
 
@@ -1321,12 +1321,12 @@ impl Pipeline {
     ///
     /// the number of layers
     pub fn get_n_layers(&self) -> i32 {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), 0);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), 0);
 
         // authority =
-        //   _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LAYERS);
+        //   _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LAYERS);
 
         // return authority->n_layers;
         unimplemented!()
@@ -1340,12 +1340,12 @@ impl Pipeline {
     ///  enabled or `false` otherwise. The per-vertex point size can be
     ///  enabled with `Pipeline::set_per_vertex_point_size`.
     pub fn get_per_vertex_point_size(&self) -> bool {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline,
+        //     _pipeline_get_authority (pipeline,
         //                                 COGL_PIPELINE_STATE_PER_VERTEX_POINT_SIZE);
 
         // return authority->big_state->per_vertex_point_size;
@@ -1360,12 +1360,12 @@ impl Pipeline {
     ///
     /// the point size of the `self`.
     pub fn get_point_size(&self) -> f32 {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_POINT_SIZE);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_POINT_SIZE);
 
         // return authority->big_state->point_size;
         unimplemented!()
@@ -1378,12 +1378,12 @@ impl Pipeline {
     ///
     /// The pipelines current shininess value
     pub fn get_shininess(&self) -> f32 {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), 0);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), 0);
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
 
         // return authority->big_state->lighting_state.shininess;
         unimplemented!()
@@ -1394,14 +1394,14 @@ impl Pipeline {
     /// ## `specular`
     /// The location to store the specular color
     pub fn get_specular(&self, specular: &mut Color) {
-        // CoglPipeline *authority;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LIGHTING);
 
-        // cogl_color_init_from_4fv (specular,
+        // color_init_from_4fv (specular,
         //                             authority->big_state->lighting_state.specular);
         unimplemented!()
     }
@@ -1430,8 +1430,8 @@ impl Pipeline {
 
         // /* This API is designed as if the uniform locations are specific to
         //     a pipeline but they are actually unique across a whole
-        //     CoglContext. Potentially this could just be
-        //     cogl_context_get_uniform_location but it seems to make sense to
+        //     Context. Potentially this could just be
+        //     context_get_uniform_location but it seems to make sense to
         //     keep the API this way so that we can change the internals if need
         //     be. */
         // /* Look for an existing uniform with this name */
@@ -1452,21 +1452,21 @@ impl Pipeline {
     }
 
     //pub fn get_user_program(&self) -> /*Unimplemented*/Option<Handle> {
-    //    unsafe { TODO: call cogl_sys:cogl_pipeline_get_user_program() }
+    //    unsafe { TODO: call sys:pipeline_get_user_program() }
     //}
 
     /// This function removes a layer from your pipeline
     /// ## `layer_index`
     /// Specifies the layer you want to remove
     pub fn remove_layer(&self, layer_index: i32) {
-        // CoglPipeline         *authority;
-        // CoglPipelineLayerInfo layer_info;
+        // Pipeline         *authority;
+        // PipelineLayerInfo layer_info;
         // int                   i;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LAYERS);
+        //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_LAYERS);
 
         // /* The layer index of the layer we want info about */
         // layer_info.layer_index = layer_index;
@@ -1479,31 +1479,31 @@ impl Pipeline {
         // * dropped down to a lower texture unit to fill the gap of the
         // * removed layer. */
         // layer_info.layers_to_shift =
-        //     g_alloca (sizeof (CoglPipelineLayer *) * authority->n_layers);
+        //     g_alloca (sizeof (PipelineLayer *) * authority->n_layers);
         // layer_info.n_layers_to_shift = 0;
 
         // /* Unlike when we query layer info when adding a layer we must
         // * always have a complete layers_to_shift list... */
         // layer_info.ignore_shift_layers_if_found = FALSE;
 
-        // _cogl_pipeline_get_layer_info (authority, &layer_info);
+        // _pipeline_get_layer_info (authority, &layer_info);
 
         // if (layer_info.layer == NULL)
         //     return;
 
         // for (i = 0; i < layer_info.n_layers_to_shift; i++)
         //     {
-        //     CoglPipelineLayer *shift_layer = layer_info.layers_to_shift[i];
-        //     int unit_index = _cogl_pipeline_layer_get_unit_index (shift_layer);
-        //     _cogl_pipeline_set_layer_unit (pipeline, shift_layer, unit_index - 1);
+        //     PipelineLayer *shift_layer = layer_info.layers_to_shift[i];
+        //     int unit_index = _pipeline_layer_get_unit_index (shift_layer);
+        //     _pipeline_set_layer_unit (pipeline, shift_layer, unit_index - 1);
         //     /* NB: shift_layer may not be writeable so _set_layer_unit()
         //     * will allocate a derived layer internally which will become
         //     * owned by pipeline. Check the return value if we need to do
         //     * anything else with this layer. */
         //     }
 
-        // _cogl_pipeline_remove_layer_difference (pipeline, layer_info.layer, TRUE);
-        // _cogl_pipeline_try_reverting_layers_authority (pipeline, NULL);
+        // _pipeline_remove_layer_difference (pipeline, layer_info.layer, TRUE);
+        // _pipeline_try_reverting_layers_authority (pipeline, NULL);
 
         // pipeline->dirty_real_blend_enable = TRUE;
         unimplemented!()
@@ -1523,8 +1523,8 @@ impl Pipeline {
     /// A reference point that the chosen alpha function uses
     ///  to compare incoming fragments to.
     pub fn set_alpha_test_function(&self, alpha_func: PipelineAlphaFunc, alpha_reference: f32) {
-        // _cogl_pipeline_set_alpha_test_function (pipeline, alpha_func);
-        // _cogl_pipeline_set_alpha_test_function_reference (pipeline, alpha_reference);
+        // _pipeline_set_alpha_test_function (pipeline, alpha_func);
+        // _pipeline_set_alpha_test_function_reference (pipeline, alpha_reference);
         unimplemented!()
     }
 
@@ -1540,16 +1540,16 @@ impl Pipeline {
     /// ## `ambient`
     /// The components of the desired ambient color
     pub fn set_ambient(&self, ambient: &Color) {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_LIGHTING;
-        // CoglPipeline *authority;
-        // CoglPipelineLightingState *lighting_state;
+        // PipelineState state = COGL_PIPELINE_STATE_LIGHTING;
+        // Pipeline *authority;
+        // PipelineLightingState *lighting_state;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // lighting_state = &authority->big_state->lighting_state;
-        // if (cogl_color_equal (ambient, &lighting_state->ambient))
+        // if (color_equal (ambient, &lighting_state->ambient))
         //     return;
 
         // /* - Flush journal primitives referencing the current state.
@@ -1557,16 +1557,16 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // lighting_state = &pipeline->big_state->lighting_state;
-        // lighting_state->ambient[0] = cogl_color_get_red_float (ambient);
-        // lighting_state->ambient[1] = cogl_color_get_green_float (ambient);
-        // lighting_state->ambient[2] = cogl_color_get_blue_float (ambient);
-        // lighting_state->ambient[3] = cogl_color_get_alpha_float (ambient);
+        // lighting_state->ambient[0] = color_get_red_float (ambient);
+        // lighting_state->ambient[1] = color_get_green_float (ambient);
+        // lighting_state->ambient[2] = color_get_blue_float (ambient);
+        // lighting_state->ambient[3] = color_get_alpha_float (ambient);
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_lighting_state_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_lighting_state_equal);
 
         // pipeline->dirty_real_blend_enable = TRUE;
         unimplemented!()
@@ -1582,8 +1582,8 @@ impl Pipeline {
     /// ## `color`
     /// The components of the desired ambient and diffuse colors
     pub fn set_ambient_and_diffuse(&self, color: &Color) {
-        // cogl_pipeline_set_ambient (pipeline, color);
-        // cogl_pipeline_set_diffuse (pipeline, color);
+        // pipeline_set_ambient (pipeline, color);
+        // pipeline_set_diffuse (pipeline, color);
         unimplemented!()
     }
 
@@ -1593,7 +1593,7 @@ impl Pipeline {
     /// Blending occurs after the alpha test function, and combines fragments with
     /// the framebuffer.
     ///
-    /// Currently the only blend function Cogl exposes is ADD(). So any valid
+    /// Currently the only blend function  exposes is ADD(). So any valid
     /// blend statements will be of the form:
     ///
     ///
@@ -1652,7 +1652,7 @@ impl Pipeline {
     /// is in premultiplied form.
     ///
     /// ## `blend_string`
-    /// A <link linkend="cogl-Blend-Strings">Cogl blend string`</link>`
+    /// A <link linkend="cogl-Blend-Strings"> blend string`</link>`
     ///  describing the desired blend function.
     ///
     /// # Returns
@@ -1662,20 +1662,20 @@ impl Pipeline {
     ///  there was an error, `false` is returned and `error` is set accordingly (if
     ///  present).
     pub fn set_blend(&self, blend_string: &str) -> bool {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_BLEND;
-        // CoglPipeline *authority;
-        // CoglBlendStringStatement statements[2];
-        // CoglBlendStringStatement *rgb;
-        // CoglBlendStringStatement *a;
+        // PipelineState state = COGL_PIPELINE_STATE_BLEND;
+        // Pipeline *authority;
+        // BlendStringStatement statements[2];
+        // BlendStringStatement *rgb;
+        // BlendStringStatement *a;
         // int count;
-        // CoglPipelineBlendState *blend_state;
+        // PipelineBlendState *blend_state;
 
         // _COGL_GET_CONTEXT (ctx, FALSE);
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
         // count =
-        //     _cogl_blend_string_compile (blend_description,
+        //     _blend_string_compile (blend_description,
         //                                 COGL_BLEND_STRING_CONTEXT_BLENDING,
         //                                 statements,
         //                                 error);
@@ -1691,14 +1691,14 @@ impl Pipeline {
         //     }
 
         // authority =
-        //     _cogl_pipeline_get_authority (pipeline, state);
+        //     _pipeline_get_authority (pipeline, state);
 
         // /* - Flush journal primitives referencing the current state.
         // * - Make sure the pipeline has no dependants so it may be modified.
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // blend_state = &pipeline->big_state->blend_state;
 
@@ -1714,13 +1714,13 @@ impl Pipeline {
         // /* If we are the current authority see if we can revert to one of our
         // * ancestors being the authority */
         // if (pipeline == authority &&
-        //     _cogl_pipeline_get_parent (authority) != NULL)
+        //     _pipeline_get_parent (authority) != NULL)
         //     {
-        //     CoglPipeline *parent = _cogl_pipeline_get_parent (authority);
-        //     CoglPipeline *old_authority =
-        //         _cogl_pipeline_get_authority (parent, state);
+        //     Pipeline *parent = _pipeline_get_parent (authority);
+        //     Pipeline *old_authority =
+        //         _pipeline_get_authority (parent, state);
 
-        //     if (_cogl_pipeline_blend_state_equal (authority, old_authority))
+        //     if (_pipeline_blend_state_equal (authority, old_authority))
         //         pipeline->differences &= ~state;
         //     }
 
@@ -1731,7 +1731,7 @@ impl Pipeline {
         // if (pipeline != authority)
         //     {
         //     pipeline->differences |= state;
-        //     _cogl_pipeline_prune_redundant_ancestry (pipeline);
+        //     _pipeline_prune_redundant_ancestry (pipeline);
         //     }
 
         // pipeline->dirty_real_blend_enable = TRUE;
@@ -1748,21 +1748,21 @@ impl Pipeline {
     pub fn set_blend_constant(&self, constant_color: &Color) {
         // _COGL_GET_CONTEXT (ctx, NO_RETVAL);
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // if (!_cogl_has_private_feature (ctx, COGL_PRIVATE_FEATURE_BLEND_CONSTANT))
+        // if (!_has_private_feature (ctx, COGL_PRIVATE_FEATURE_BLEND_CONSTANT))
         //     return;
 
         // #if defined(HAVE_COGL_GLES2) || defined(HAVE_COGL_GL)
         // {
-        //     CoglPipelineState state = COGL_PIPELINE_STATE_BLEND;
-        //     CoglPipeline *authority;
-        //     CoglPipelineBlendState *blend_state;
+        //     PipelineState state = COGL_PIPELINE_STATE_BLEND;
+        //     Pipeline *authority;
+        //     PipelineBlendState *blend_state;
 
-        //     authority = _cogl_pipeline_get_authority (pipeline, state);
+        //     authority = _pipeline_get_authority (pipeline, state);
 
         //     blend_state = &authority->big_state->blend_state;
-        //     if (cogl_color_equal (constant_color, &blend_state->blend_constant))
+        //     if (color_equal (constant_color, &blend_state->blend_constant))
         //     return;
 
         //     /* - Flush journal primitives referencing the current state.
@@ -1770,13 +1770,13 @@ impl Pipeline {
         //     * - If the pipeline isn't currently an authority for the state being
         //     *   changed, then initialize that state from the current authority.
         //     */
-        //     _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        //     _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         //     blend_state = &pipeline->big_state->blend_state;
         //     blend_state->blend_constant = *constant_color;
 
-        //     _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                     _cogl_pipeline_blend_state_equal);
+        //     _pipeline_update_authority (pipeline, authority, state,
+        //                                     _pipeline_blend_state_equal);
 
         //     pipeline->dirty_real_blend_enable = TRUE;
         // }
@@ -1796,14 +1796,14 @@ impl Pipeline {
     /// ## `color`
     /// The components of the color
     pub fn set_color(&self, color: &Color) {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_COLOR;
-        // CoglPipeline *authority;
+        // PipelineState state = COGL_PIPELINE_STATE_COLOR;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
-        // if (cogl_color_equal (color, &authority->color))
+        // if (color_equal (color, &authority->color))
         //     return;
 
         // /* - Flush journal primitives referencing the current state.
@@ -1811,12 +1811,12 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, color, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, color, FALSE);
 
         // pipeline->color = *color;
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_color_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_color_equal);
 
         // pipeline->dirty_real_blend_enable = TRUE;
         unimplemented!()
@@ -1835,9 +1835,9 @@ impl Pipeline {
     /// ## `alpha`
     /// The alpha component
     pub fn set_color4f(&self, red: f32, green: f32, blue: f32, alpha: f32) {
-        // CoglColor color;
-        // cogl_color_init_from_4f (&color, red, green, blue, alpha);
-        // cogl_pipeline_set_color (pipeline, &color);
+        // Color color;
+        // color_init_from_4f (&color, red, green, blue, alpha);
+        // pipeline_set_color (pipeline, &color);
         unimplemented!()
     }
 
@@ -1854,9 +1854,9 @@ impl Pipeline {
     /// ## `alpha`
     /// The alpha component
     pub fn set_color4ub(&self, red: u8, green: u8, blue: u8, alpha: u8) {
-        // CoglColor color;
-        // cogl_color_init_from_4ub (&color, red, green, blue, alpha);
-        // cogl_pipeline_set_color (pipeline, &color);
+        // Color color;
+        // color_init_from_4ub (&color, red, green, blue, alpha);
+        // pipeline_set_color (pipeline, &color);
         unimplemented!()
     }
 
@@ -1867,13 +1867,13 @@ impl Pipeline {
     /// A `ColorMask` of which color channels to write to
     ///  the current framebuffer.
     pub fn set_color_mask(&self, color_mask: ColorMask) {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_LOGIC_OPS;
-        // CoglPipeline *authority;
-        // CoglPipelineLogicOpsState *logic_ops_state;
+        // PipelineState state = COGL_PIPELINE_STATE_LOGIC_OPS;
+        // Pipeline *authority;
+        // PipelineLogicOpsState *logic_ops_state;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // logic_ops_state = &authority->big_state->logic_ops_state;
         // if (logic_ops_state->color_mask == color_mask)
@@ -1884,13 +1884,13 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // logic_ops_state = &pipeline->big_state->logic_ops_state;
         // logic_ops_state->color_mask = color_mask;
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_logic_ops_state_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_logic_ops_state_equal);
         unimplemented!()
     }
 
@@ -1912,13 +1912,13 @@ impl Pipeline {
     /// ## `cull_face_mode`
     /// The new mode to set
     pub fn set_cull_face_mode(&self, cull_face_mode: PipelineCullFaceMode) {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_CULL_FACE;
-        // CoglPipeline *authority;
-        // CoglPipelineCullFaceState *cull_face_state;
+        // PipelineState state = COGL_PIPELINE_STATE_CULL_FACE;
+        // Pipeline *authority;
+        // PipelineCullFaceState *cull_face_state;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // cull_face_state = &authority->big_state->cull_face_state;
 
@@ -1930,12 +1930,12 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // pipeline->big_state->cull_face_state.mode = cull_face_mode;
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_cull_face_state_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_cull_face_state_equal);
         unimplemented!()
     }
 
@@ -1955,16 +1955,16 @@ impl Pipeline {
     /// TRUE if the GPU supports all the given `state` else `false`
     ///  and returns an `error`.
     pub fn set_depth_state(&self, state: &DepthState) -> bool {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_DEPTH;
-        // CoglPipeline *authority;
-        // CoglDepthState *orig_state;
+        // PipelineState state = COGL_PIPELINE_STATE_DEPTH;
+        // Pipeline *authority;
+        // DepthState *orig_state;
 
         // _COGL_GET_CONTEXT (ctx, FALSE);
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
         // _COGL_RETURN_VAL_IF_FAIL (depth_state->magic == COGL_DEPTH_STATE_MAGIC, FALSE);
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // orig_state = &authority->big_state->depth_state;
         // if (orig_state->test_enabled == depth_state->test_enabled &&
@@ -1978,7 +1978,7 @@ impl Pipeline {
         //     (depth_state->range_near != 0 ||
         //     depth_state->range_far != 1))
         //     {
-        //     _cogl_set_error (error,
+        //     _set_error (error,
         //                     COGL_SYSTEM_ERROR,
         //                     COGL_SYSTEM_ERROR_UNSUPPORTED,
         //                     "glDepthRange not available on GLES 1");
@@ -1990,12 +1990,12 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // pipeline->big_state->depth_state = *depth_state;
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_depth_state_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_depth_state_equal);
 
         // return TRUE;
         unimplemented!()
@@ -2010,16 +2010,16 @@ impl Pipeline {
     /// ## `diffuse`
     /// The components of the desired diffuse color
     pub fn set_diffuse(&self, diffuse: &Color) {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_LIGHTING;
-        // CoglPipeline *authority;
-        // CoglPipelineLightingState *lighting_state;
+        // PipelineState state = COGL_PIPELINE_STATE_LIGHTING;
+        // Pipeline *authority;
+        // PipelineLightingState *lighting_state;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // lighting_state = &authority->big_state->lighting_state;
-        // if (cogl_color_equal (diffuse, &lighting_state->diffuse))
+        // if (color_equal (diffuse, &lighting_state->diffuse))
         //     return;
 
         // /* - Flush journal primitives referencing the current state.
@@ -2027,16 +2027,16 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // lighting_state = &pipeline->big_state->lighting_state;
-        // lighting_state->diffuse[0] = cogl_color_get_red_float (diffuse);
-        // lighting_state->diffuse[1] = cogl_color_get_green_float (diffuse);
-        // lighting_state->diffuse[2] = cogl_color_get_blue_float (diffuse);
-        // lighting_state->diffuse[3] = cogl_color_get_alpha_float (diffuse);
+        // lighting_state->diffuse[0] = color_get_red_float (diffuse);
+        // lighting_state->diffuse[1] = color_get_green_float (diffuse);
+        // lighting_state->diffuse[2] = color_get_blue_float (diffuse);
+        // lighting_state->diffuse[3] = color_get_alpha_float (diffuse);
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_lighting_state_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_lighting_state_equal);
 
         // pipeline->dirty_real_blend_enable = TRUE;
         unimplemented!()
@@ -2051,16 +2051,16 @@ impl Pipeline {
     /// ## `emission`
     /// The components of the desired emissive color
     pub fn set_emission(&self, emission: &Color) {
-        // CoglPipeline *authority;
-        // CoglPipelineState state = COGL_PIPELINE_STATE_LIGHTING;
-        // CoglPipelineLightingState *lighting_state;
+        // Pipeline *authority;
+        // PipelineState state = COGL_PIPELINE_STATE_LIGHTING;
+        // PipelineLightingState *lighting_state;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // lighting_state = &authority->big_state->lighting_state;
-        // if (cogl_color_equal (emission, &lighting_state->emission))
+        // if (color_equal (emission, &lighting_state->emission))
         //     return;
 
         // /* - Flush journal primitives referencing the current state.
@@ -2068,16 +2068,16 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // lighting_state = &pipeline->big_state->lighting_state;
-        // lighting_state->emission[0] = cogl_color_get_red_float (emission);
-        // lighting_state->emission[1] = cogl_color_get_green_float (emission);
-        // lighting_state->emission[2] = cogl_color_get_blue_float (emission);
-        // lighting_state->emission[3] = cogl_color_get_alpha_float (emission);
+        // lighting_state->emission[0] = color_get_red_float (emission);
+        // lighting_state->emission[1] = color_get_green_float (emission);
+        // lighting_state->emission[2] = color_get_blue_float (emission);
+        // lighting_state->emission[3] = color_get_alpha_float (emission);
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_lighting_state_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_lighting_state_equal);
 
         // pipeline->dirty_real_blend_enable = TRUE;
         unimplemented!()
@@ -2096,13 +2096,13 @@ impl Pipeline {
     /// ## `front_winding`
     /// the winding order
     pub fn set_front_face_winding(&self, front_winding: Winding) {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_CULL_FACE;
-        // CoglPipeline *authority;
-        // CoglPipelineCullFaceState *cull_face_state;
+        // PipelineState state = COGL_PIPELINE_STATE_CULL_FACE;
+        // Pipeline *authority;
+        // PipelineCullFaceState *cull_face_state;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // cull_face_state = &authority->big_state->cull_face_state;
 
@@ -2114,12 +2114,12 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // pipeline->big_state->cull_face_state.front_winding = front_winding;
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_cull_face_state_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_cull_face_state_equal);
         unimplemented!()
     }
 
@@ -2203,7 +2203,7 @@ impl Pipeline {
     /// ## `layer_index`
     /// Specifies the layer you want define a combine function for
     /// ## `blend_string`
-    /// A <link linkend="cogl-Blend-Strings">Cogl blend string`</link>`
+    /// A <link linkend="cogl-Blend-Strings"> blend string`</link>`
     ///  describing the desired texture combine function.
     ///
     /// # Returns
@@ -2216,16 +2216,16 @@ impl Pipeline {
         layer_index: i32,
         blend_string: &str,
     ) -> bool {
-        // CoglPipelineLayerState state = COGL_PIPELINE_LAYER_STATE_COMBINE;
-        // CoglPipelineLayer *authority;
-        // CoglPipelineLayer *layer;
-        // CoglBlendStringStatement statements[2];
-        // CoglBlendStringStatement split[2];
-        // CoglBlendStringStatement *rgb;
-        // CoglBlendStringStatement *a;
+        // PipelineLayerState state = COGL_PIPELINE_LAYER_STATE_COMBINE;
+        // PipelineLayer *authority;
+        // PipelineLayer *layer;
+        // BlendStringStatement statements[2];
+        // BlendStringStatement split[2];
+        // BlendStringStatement *rgb;
+        // BlendStringStatement *a;
         // int count;
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -2233,14 +2233,14 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
         // /* Now find the ancestor of the layer that is the authority for the
         // * state we want to change */
-        // authority = _cogl_pipeline_layer_get_authority (layer, state);
+        // authority = _pipeline_layer_get_authority (layer, state);
 
         // count =
-        //     _cogl_blend_string_compile (combine_description,
+        //     _blend_string_compile (combine_description,
         //                                 COGL_BLEND_STRING_CONTEXT_TEXTURE_COMBINE,
         //                                 statements,
         //                                 error);
@@ -2249,7 +2249,7 @@ impl Pipeline {
 
         // if (statements[0].mask == COGL_BLEND_STRING_CHANNEL_MASK_RGBA)
         //     {
-        //     _cogl_blend_string_split_rgba_statement (statements,
+        //     _blend_string_split_rgba_statement (statements,
         //                                             &split[0], &split[1]);
         //     rgb = &split[0];
         //     a = &split[1];
@@ -2262,7 +2262,7 @@ impl Pipeline {
 
         // /* FIXME: compare the new state with the current state! */
         // /* possibly flush primitives referencing the current state... */
-        // layer = _cogl_pipeline_layer_pre_change_notify (pipeline, layer, state);
+        // layer = _pipeline_layer_pre_change_notify (pipeline, layer, state);
 
         // setup_texture_combine_state (rgb,
         //                             &layer->big_state->texture_combine_rgb_func,
@@ -2278,20 +2278,20 @@ impl Pipeline {
         // * the state we are changing see if we can revert to one of our
         // * ancestors being the authority. */
         // if (layer == authority &&
-        //     _cogl_pipeline_layer_get_parent (authority) != NULL)
+        //     _pipeline_layer_get_parent (authority) != NULL)
         //     {
-        //     CoglPipelineLayer *parent = _cogl_pipeline_layer_get_parent (authority);
-        //     CoglPipelineLayer *old_authority =
-        //         _cogl_pipeline_layer_get_authority (parent, state);
+        //     PipelineLayer *parent = _pipeline_layer_get_parent (authority);
+        //     PipelineLayer *old_authority =
+        //         _pipeline_layer_get_authority (parent, state);
 
-        //     if (_cogl_pipeline_layer_combine_state_equal (authority,
+        //     if (_pipeline_layer_combine_state_equal (authority,
         //                                                     old_authority))
         //         {
         //         layer->differences &= ~state;
 
         //         g_assert (layer->owner == pipeline);
         //         if (layer->differences == 0)
-        //             _cogl_pipeline_prune_empty_layer_difference (pipeline,
+        //             _pipeline_prune_empty_layer_difference (pipeline,
         //                                                         layer);
         //         goto changed;
         //         }
@@ -2304,7 +2304,7 @@ impl Pipeline {
         // if (layer != authority)
         //     {
         //     layer->differences |= state;
-        //     _cogl_pipeline_layer_prune_redundant_ancestry (layer);
+        //     _pipeline_layer_prune_redundant_ancestry (layer);
         //     }
 
         // changed:
@@ -2323,13 +2323,13 @@ impl Pipeline {
     /// ## `constant`
     /// The constant color you want
     pub fn set_layer_combine_constant(&self, layer_index: i32, constant: &Color) {
-        // CoglPipelineLayerState state = COGL_PIPELINE_LAYER_STATE_COMBINE_CONSTANT;
-        // CoglPipelineLayer     *layer;
-        // CoglPipelineLayer     *authority;
-        // CoglPipelineLayer     *new;
+        // PipelineLayerState state = COGL_PIPELINE_LAYER_STATE_COMBINE_CONSTANT;
+        // PipelineLayer     *layer;
+        // PipelineLayer     *authority;
+        // PipelineLayer     *new;
         // float                  color_as_floats[4];
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -2337,22 +2337,22 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
         // /* Now find the ancestor of the layer that is the authority for the
         // * state we want to change */
-        // authority = _cogl_pipeline_layer_get_authority (layer, state);
+        // authority = _pipeline_layer_get_authority (layer, state);
 
-        // color_as_floats[0] = cogl_color_get_red_float (constant_color);
-        // color_as_floats[1] = cogl_color_get_green_float (constant_color);
-        // color_as_floats[2] = cogl_color_get_blue_float (constant_color);
-        // color_as_floats[3] = cogl_color_get_alpha_float (constant_color);
+        // color_as_floats[0] = color_get_red_float (constant_color);
+        // color_as_floats[1] = color_get_green_float (constant_color);
+        // color_as_floats[2] = color_get_blue_float (constant_color);
+        // color_as_floats[3] = color_get_alpha_float (constant_color);
 
         // if (memcmp (authority->big_state->texture_combine_constant,
         //             color_as_floats, sizeof (float) * 4) == 0)
         //     return;
 
-        // new = _cogl_pipeline_layer_pre_change_notify (pipeline, layer, state);
+        // new = _pipeline_layer_pre_change_notify (pipeline, layer, state);
         // if (new != layer)
         //     layer = new;
         // else
@@ -2361,13 +2361,13 @@ impl Pipeline {
         //     * the state we are changing see if we can revert to one of our
         //     * ancestors being the authority. */
         //     if (layer == authority &&
-        //         _cogl_pipeline_layer_get_parent (authority) != NULL)
+        //         _pipeline_layer_get_parent (authority) != NULL)
         //         {
-        //         CoglPipelineLayer *parent =
-        //             _cogl_pipeline_layer_get_parent (authority);
-        //         CoglPipelineLayer *old_authority =
-        //             _cogl_pipeline_layer_get_authority (parent, state);
-        //         CoglPipelineLayerBigState *old_big_state = old_authority->big_state;
+        //         PipelineLayer *parent =
+        //             _pipeline_layer_get_parent (authority);
+        //         PipelineLayer *old_authority =
+        //             _pipeline_layer_get_authority (parent, state);
+        //         PipelineLayerBigState *old_big_state = old_authority->big_state;
 
         //         if (memcmp (old_big_state->texture_combine_constant,
         //                     color_as_floats, sizeof (float) * 4) == 0)
@@ -2376,7 +2376,7 @@ impl Pipeline {
 
         //             g_assert (layer->owner == pipeline);
         //             if (layer->differences == 0)
-        //                 _cogl_pipeline_prune_empty_layer_difference (pipeline,
+        //                 _pipeline_prune_empty_layer_difference (pipeline,
         //                                                             layer);
         //             goto changed;
         //             }
@@ -2394,7 +2394,7 @@ impl Pipeline {
         // if (layer != authority)
         //     {
         //     layer->differences |= state;
-        //     _cogl_pipeline_layer_prune_redundant_ancestry (layer);
+        //     _pipeline_layer_prune_redundant_ancestry (layer);
         //     }
 
         // changed:
@@ -2422,14 +2422,14 @@ impl Pipeline {
         min_filter: PipelineFilter,
         mag_filter: PipelineFilter,
     ) {
-        // CoglPipelineLayerState state = COGL_PIPELINE_LAYER_STATE_SAMPLER;
-        // CoglPipelineLayer *layer;
-        // CoglPipelineLayer *authority;
-        // const CoglSamplerCacheEntry *sampler_state;
+        // PipelineLayerState state = COGL_PIPELINE_LAYER_STATE_SAMPLER;
+        // PipelineLayer *layer;
+        // PipelineLayer *authority;
+        // const SamplerCacheEntry *sampler_state;
 
         // _COGL_GET_CONTEXT (ctx, NO_RETVAL);
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // _COGL_RETURN_IF_FAIL (mag_filter == COGL_PIPELINE_FILTER_NEAREST ||
         //                         mag_filter == COGL_PIPELINE_FILTER_LINEAR);
@@ -2440,18 +2440,18 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
         // /* Now find the ancestor of the layer that is the authority for the
         // * state we want to change */
-        // authority = _cogl_pipeline_layer_get_authority (layer, state);
+        // authority = _pipeline_layer_get_authority (layer, state);
 
         // sampler_state =
-        //     _cogl_sampler_cache_update_filters (ctx->sampler_cache,
+        //     _sampler_cache_update_filters (ctx->sampler_cache,
         //                                         authority->sampler_cache_entry,
         //                                         min_filter,
         //                                         mag_filter);
-        // _cogl_pipeline_set_layer_sampler_state (pipeline,
+        // _pipeline_set_layer_sampler_state (pipeline,
         //                                         layer,
         //                                         authority,
         //                                         sampler_state);
@@ -2465,12 +2465,12 @@ impl Pipeline {
     /// ## `matrix`
     /// the transformation matrix for the layer
     pub fn set_layer_matrix(&self, layer_index: i32, matrix: &Matrix) {
-        // CoglPipelineLayerState state = COGL_PIPELINE_LAYER_STATE_USER_MATRIX;
-        // CoglPipelineLayer     *layer;
-        // CoglPipelineLayer     *authority;
-        // CoglPipelineLayer     *new;
+        // PipelineLayerState state = COGL_PIPELINE_LAYER_STATE_USER_MATRIX;
+        // PipelineLayer     *layer;
+        // PipelineLayer     *authority;
+        // PipelineLayer     *new;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -2478,16 +2478,16 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
         // /* Now find the ancestor of the layer that is the authority for the
         // * state we want to change */
-        // authority = _cogl_pipeline_layer_get_authority (layer, state);
+        // authority = _pipeline_layer_get_authority (layer, state);
 
-        // if (cogl_matrix_equal (matrix, &authority->big_state->matrix))
+        // if (matrix_equal (matrix, &authority->big_state->matrix))
         //     return;
 
-        // new = _cogl_pipeline_layer_pre_change_notify (pipeline, layer, state);
+        // new = _pipeline_layer_pre_change_notify (pipeline, layer, state);
         // if (new != layer)
         //     layer = new;
         // else
@@ -2496,20 +2496,20 @@ impl Pipeline {
         //     * the state we are changing see if we can revert to one of our
         //     * ancestors being the authority. */
         //     if (layer == authority &&
-        //         _cogl_pipeline_layer_get_parent (authority) != NULL)
+        //         _pipeline_layer_get_parent (authority) != NULL)
         //         {
-        //         CoglPipelineLayer *parent =
-        //             _cogl_pipeline_layer_get_parent (authority);
-        //         CoglPipelineLayer *old_authority =
-        //             _cogl_pipeline_layer_get_authority (parent, state);
+        //         PipelineLayer *parent =
+        //             _pipeline_layer_get_parent (authority);
+        //         PipelineLayer *old_authority =
+        //             _pipeline_layer_get_authority (parent, state);
 
-        //         if (cogl_matrix_equal (matrix, &old_authority->big_state->matrix))
+        //         if (matrix_equal (matrix, &old_authority->big_state->matrix))
         //             {
         //             layer->differences &= ~state;
 
         //             g_assert (layer->owner == pipeline);
         //             if (layer->differences == 0)
-        //                 _cogl_pipeline_prune_empty_layer_difference (pipeline,
+        //                 _pipeline_prune_empty_layer_difference (pipeline,
         //                                                             layer);
         //             return;
         //             }
@@ -2525,7 +2525,7 @@ impl Pipeline {
         // if (layer != authority)
         //     {
         //     layer->differences |= state;
-        //     _cogl_pipeline_layer_prune_redundant_ancestry (layer);
+        //     _pipeline_layer_prune_redundant_ancestry (layer);
         //     }
         unimplemented!()
     }
@@ -2546,7 +2546,7 @@ impl Pipeline {
     /// ## `texture_type`
     /// The type of the default texture to use
     pub fn set_layer_null_texture(&self, layer_index: i32, texture_type: TextureType) {
-        // CoglContext *ctx = _cogl_context_get_default ();
+        // Context *ctx = _context_get_default ();
 
         // /* Disallow setting texture types that aren't supported */
         // switch (texture_type)
@@ -2574,8 +2574,8 @@ impl Pipeline {
         //     break;
         //     }
 
-        // _cogl_pipeline_set_layer_texture_type (pipeline, layer_index, texture_type);
-        // _cogl_pipeline_set_layer_texture_data (pipeline, layer_index, NULL);
+        // _pipeline_set_layer_texture_type (pipeline, layer_index, texture_type);
+        // _pipeline_set_layer_texture_data (pipeline, layer_index, NULL);
         unimplemented!()
     }
 
@@ -2603,23 +2603,23 @@ impl Pipeline {
         layer_index: i32,
         enable: bool,
     ) -> bool {
-        // CoglPipelineLayerState       change =
+        // PipelineLayerState       change =
         //     COGL_PIPELINE_LAYER_STATE_POINT_SPRITE_COORDS;
-        // CoglPipelineLayer           *layer;
-        // CoglPipelineLayer           *new;
-        // CoglPipelineLayer           *authority;
+        // PipelineLayer           *layer;
+        // PipelineLayer           *new;
+        // PipelineLayer           *authority;
 
         // _COGL_GET_CONTEXT (ctx, FALSE);
 
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
         // /* Don't allow point sprite coordinates to be enabled if the driver
         //     doesn't support it */
-        // if (enable && !cogl_has_feature (ctx, COGL_FEATURE_ID_POINT_SPRITE))
+        // if (enable && !has_feature (ctx, COGL_FEATURE_ID_POINT_SPRITE))
         //     {
         //     if (error)
         //         {
-        //         _cogl_set_error (error,
+        //         _set_error (error,
         //                         COGL_SYSTEM_ERROR,
         //                         COGL_SYSTEM_ERROR_UNSUPPORTED,
         //                         "Point sprite texture coordinates are enabled for "
@@ -2627,7 +2627,7 @@ impl Pipeline {
         //         }
         //     else
         //         {
-        //         static CoglBool warning_seen = FALSE;
+        //         static Bool warning_seen = FALSE;
         //         if (!warning_seen)
         //             g_warning ("Point sprite texture coordinates are enabled "
         //                     "for a layer but the GL driver does not support it.");
@@ -2643,16 +2643,16 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
         // /* Now find the ancestor of the layer that is the authority for the
         // * state we want to change */
-        // authority = _cogl_pipeline_layer_get_authority (layer, change);
+        // authority = _pipeline_layer_get_authority (layer, change);
 
         // if (authority->big_state->point_sprite_coords == enable)
         //     return TRUE;
 
-        // new = _cogl_pipeline_layer_pre_change_notify (pipeline, layer, change);
+        // new = _pipeline_layer_pre_change_notify (pipeline, layer, change);
         // if (new != layer)
         //     layer = new;
         // else
@@ -2661,12 +2661,12 @@ impl Pipeline {
         //     * the state we are changing see if we can revert to one of our
         //     * ancestors being the authority. */
         //     if (layer == authority &&
-        //         _cogl_pipeline_layer_get_parent (authority) != NULL)
+        //         _pipeline_layer_get_parent (authority) != NULL)
         //         {
-        //         CoglPipelineLayer *parent =
-        //             _cogl_pipeline_layer_get_parent (authority);
-        //         CoglPipelineLayer *old_authority =
-        //             _cogl_pipeline_layer_get_authority (parent, change);
+        //         PipelineLayer *parent =
+        //             _pipeline_layer_get_parent (authority);
+        //         PipelineLayer *old_authority =
+        //             _pipeline_layer_get_authority (parent, change);
 
         //         if (old_authority->big_state->point_sprite_coords == enable)
         //             {
@@ -2674,7 +2674,7 @@ impl Pipeline {
 
         //             g_assert (layer->owner == pipeline);
         //             if (layer->differences == 0)
-        //                 _cogl_pipeline_prune_empty_layer_difference (pipeline,
+        //                 _pipeline_prune_empty_layer_difference (pipeline,
         //                                                             layer);
         //             return TRUE;
         //             }
@@ -2690,7 +2690,7 @@ impl Pipeline {
         // if (layer != authority)
         //     {
         //     layer->differences |= change;
-        //     _cogl_pipeline_layer_prune_redundant_ancestry (layer);
+        //     _pipeline_layer_prune_redundant_ancestry (layer);
         //     }
 
         // return TRUE;
@@ -2698,7 +2698,7 @@ impl Pipeline {
     }
 
     // pub fn set_layer_texture<P: Is<Texture>>(&self, layer_index: i32, texture: &P) {
-    //     ffi::cogl_pipeline_set_layer_texture
+    //     ffi::pipeline_set_layer_texture
     // }
 
     /// Sets the wrap mode for all three coordinates of texture lookups on
@@ -2712,16 +2712,16 @@ impl Pipeline {
     /// ## `mode`
     /// the new wrap mode
     pub fn set_layer_wrap_mode(&self, layer_index: i32, mode: PipelineWrapMode) {
-        // CoglPipelineLayerState       change = COGL_PIPELINE_LAYER_STATE_SAMPLER;
-        // CoglPipelineLayer           *layer;
-        // CoglPipelineLayer           *authority;
-        // CoglSamplerCacheWrapMode     internal_mode =
+        // PipelineLayerState       change = COGL_PIPELINE_LAYER_STATE_SAMPLER;
+        // PipelineLayer           *layer;
+        // PipelineLayer           *authority;
+        // SamplerCacheWrapMode     internal_mode =
         //     public_to_internal_wrap_mode (mode);
-        // const CoglSamplerCacheEntry *sampler_state;
+        // const SamplerCacheEntry *sampler_state;
 
         // _COGL_GET_CONTEXT (ctx, NO_RETVAL);
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -2729,19 +2729,19 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
         // /* Now find the ancestor of the layer that is the authority for the
         // * state we want to change */
-        // authority = _cogl_pipeline_layer_get_authority (layer, change);
+        // authority = _pipeline_layer_get_authority (layer, change);
 
         // sampler_state =
-        //     _cogl_sampler_cache_update_wrap_modes (ctx->sampler_cache,
+        //     _sampler_cache_update_wrap_modes (ctx->sampler_cache,
         //                                         authority->sampler_cache_entry,
         //                                         internal_mode,
         //                                         internal_mode,
         //                                         internal_mode);
-        // _cogl_pipeline_set_layer_sampler_state (pipeline,
+        // _pipeline_set_layer_sampler_state (pipeline,
         //                                         layer,
         //                                         authority,
         //                                         sampler_state);
@@ -2758,16 +2758,16 @@ impl Pipeline {
     /// ## `mode`
     /// the new wrap mode
     pub fn set_layer_wrap_mode_p(&self, layer_index: i32, mode: PipelineWrapMode) {
-        // CoglPipelineLayerState       change = COGL_PIPELINE_LAYER_STATE_SAMPLER;
-        // CoglPipelineLayer           *layer;
-        // CoglPipelineLayer           *authority;
-        // CoglSamplerCacheWrapMode     internal_mode =
+        // PipelineLayerState       change = COGL_PIPELINE_LAYER_STATE_SAMPLER;
+        // PipelineLayer           *layer;
+        // PipelineLayer           *authority;
+        // SamplerCacheWrapMode     internal_mode =
         //     public_to_internal_wrap_mode (mode);
-        // const CoglSamplerCacheEntry *sampler_state;
+        // const SamplerCacheEntry *sampler_state;
 
         // _COGL_GET_CONTEXT (ctx, NO_RETVAL);
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -2775,21 +2775,21 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
         // /* Now find the ancestor of the layer that is the authority for the
         // * state we want to change */
-        // authority = _cogl_pipeline_layer_get_authority (layer, change);
+        // authority = _pipeline_layer_get_authority (layer, change);
 
         // sampler_state =
-        //     _cogl_sampler_cache_update_wrap_modes (ctx->sampler_cache,
+        //     _sampler_cache_update_wrap_modes (ctx->sampler_cache,
         //                                         authority->sampler_cache_entry,
         //                                         authority->sampler_cache_entry->
         //                                         wrap_mode_s,
         //                                         authority->sampler_cache_entry->
         //                                         wrap_mode_t,
         //                                         internal_mode);
-        // _cogl_pipeline_set_layer_sampler_state (pipeline,
+        // _pipeline_set_layer_sampler_state (pipeline,
         //                                         layer,
         //                                         authority,
         //                                         sampler_state);
@@ -2803,16 +2803,16 @@ impl Pipeline {
     /// ## `mode`
     /// the new wrap mode
     pub fn set_layer_wrap_mode_s(&self, layer_index: i32, mode: PipelineWrapMode) {
-        // CoglPipelineLayerState       change = COGL_PIPELINE_LAYER_STATE_SAMPLER;
-        // CoglPipelineLayer           *layer;
-        // CoglPipelineLayer           *authority;
-        // CoglSamplerCacheWrapMode     internal_mode =
+        // PipelineLayerState       change = COGL_PIPELINE_LAYER_STATE_SAMPLER;
+        // PipelineLayer           *layer;
+        // PipelineLayer           *authority;
+        // SamplerCacheWrapMode     internal_mode =
         //     public_to_internal_wrap_mode (mode);
-        // const CoglSamplerCacheEntry *sampler_state;
+        // const SamplerCacheEntry *sampler_state;
 
         // _COGL_GET_CONTEXT (ctx, NO_RETVAL);
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -2820,21 +2820,21 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
         // /* Now find the ancestor of the layer that is the authority for the
         // * state we want to change */
-        // authority = _cogl_pipeline_layer_get_authority (layer, change);
+        // authority = _pipeline_layer_get_authority (layer, change);
 
         // sampler_state =
-        //     _cogl_sampler_cache_update_wrap_modes (ctx->sampler_cache,
+        //     _sampler_cache_update_wrap_modes (ctx->sampler_cache,
         //                                         authority->sampler_cache_entry,
         //                                         internal_mode,
         //                                         authority->sampler_cache_entry->
         //                                         wrap_mode_t,
         //                                         authority->sampler_cache_entry->
         //                                         wrap_mode_p);
-        // _cogl_pipeline_set_layer_sampler_state (pipeline,
+        // _pipeline_set_layer_sampler_state (pipeline,
         //                                         layer,
         //                                         authority,
         //                                         sampler_state);
@@ -2848,16 +2848,16 @@ impl Pipeline {
     /// ## `mode`
     /// the new wrap mode
     pub fn set_layer_wrap_mode_t(&self, layer_index: i32, mode: PipelineWrapMode) {
-        // CoglPipelineLayerState       change = COGL_PIPELINE_LAYER_STATE_SAMPLER;
-        // CoglPipelineLayer           *layer;
-        // CoglPipelineLayer           *authority;
-        // CoglSamplerCacheWrapMode     internal_mode =
+        // PipelineLayerState       change = COGL_PIPELINE_LAYER_STATE_SAMPLER;
+        // PipelineLayer           *layer;
+        // PipelineLayer           *authority;
+        // SamplerCacheWrapMode     internal_mode =
         //     public_to_internal_wrap_mode (mode);
-        // const CoglSamplerCacheEntry *sampler_state;
+        // const SamplerCacheEntry *sampler_state;
 
         // _COGL_GET_CONTEXT (ctx, NO_RETVAL);
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -2865,21 +2865,21 @@ impl Pipeline {
         // * Note: If the layer already existed it's possibly owned by another
         // * pipeline. If the layer is created then it will be owned by
         // * pipeline. */
-        // layer = _cogl_pipeline_get_layer (pipeline, layer_index);
+        // layer = _pipeline_get_layer (pipeline, layer_index);
 
         // /* Now find the ancestor of the layer that is the authority for the
         // * state we want to change */
-        // authority = _cogl_pipeline_layer_get_authority (layer, change);
+        // authority = _pipeline_layer_get_authority (layer, change);
 
         // sampler_state =
-        //     _cogl_sampler_cache_update_wrap_modes (ctx->sampler_cache,
+        //     _sampler_cache_update_wrap_modes (ctx->sampler_cache,
         //                                         authority->sampler_cache_entry,
         //                                         authority->sampler_cache_entry->
         //                                         wrap_mode_s,
         //                                         internal_mode,
         //                                         authority->sampler_cache_entry->
         //                                         wrap_mode_p);
-        // _cogl_pipeline_set_layer_sampler_state (pipeline,
+        // _pipeline_set_layer_sampler_state (pipeline,
         //                                         layer,
         //                                         authority,
         //                                         sampler_state);
@@ -2900,7 +2900,7 @@ impl Pipeline {
     /// Note that enabling this will only work if the
     /// `FeatureID::OglFeatureIdPerVertexPointSize` feature is available. If
     /// this is not available then the function will return `false` and set
-    /// a `CoglError`.
+    /// a `Error`.
     ///
     /// ## `enable`
     /// whether to enable per-vertex point size
@@ -2909,22 +2909,22 @@ impl Pipeline {
     ///
     /// `true` if the change suceeded or `false` otherwise
     pub fn set_per_vertex_point_size(&self, enable: bool) -> bool {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_PER_VERTEX_POINT_SIZE;
-        // CoglPipeline *authority;
+        // PipelineState state = COGL_PIPELINE_STATE_PER_VERTEX_POINT_SIZE;
+        // Pipeline *authority;
 
         // _COGL_GET_CONTEXT (ctx, FALSE);
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // enable = !!enable;
 
         // if (authority->big_state->per_vertex_point_size == enable)
         //     return TRUE;
 
-        // if (enable && !cogl_has_feature (ctx, COGL_FEATURE_ID_PER_VERTEX_POINT_SIZE))
+        // if (enable && !has_feature (ctx, COGL_FEATURE_ID_PER_VERTEX_POINT_SIZE))
         //     {
-        //     _cogl_set_error (error,
+        //     _set_error (error,
         //                     COGL_SYSTEM_ERROR,
         //                     COGL_SYSTEM_ERROR_UNSUPPORTED,
         //                     "Per-vertex point size is not supported");
@@ -2937,12 +2937,12 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // pipeline->big_state->per_vertex_point_size = enable;
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_point_size_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_point_size_equal);
 
         // return TRUE;
         unimplemented!()
@@ -2964,12 +2964,12 @@ impl Pipeline {
     /// ## `point_size`
     /// the new point size.
     pub fn set_point_size(&self, point_size: f32) {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_POINT_SIZE;
-        // CoglPipeline *authority;
+        // PipelineState state = COGL_PIPELINE_STATE_POINT_SIZE;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // if (authority->big_state->point_size == point_size)
         //     return;
@@ -2977,19 +2977,19 @@ impl Pipeline {
         // /* Changing the point size may additionally modify
         // * COGL_PIPELINE_STATE_NON_ZERO_POINT_SIZE. */
         // if ((authority->big_state->point_size > 0.0f) != (point_size > 0.0f))
-        //     _cogl_pipeline_set_non_zero_point_size (pipeline, point_size > 0.0f);
+        //     _pipeline_set_non_zero_point_size (pipeline, point_size > 0.0f);
 
         // /* - Flush journal primitives referencing the current state.
         // * - Make sure the pipeline has no dependants so it may be modified.
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // pipeline->big_state->point_size = point_size;
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_point_size_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_point_size_equal);
         unimplemented!()
     }
 
@@ -3003,11 +3003,11 @@ impl Pipeline {
     /// ## `shininess`
     /// The desired shininess; must be >= 0.0
     pub fn set_shininess(&self, shininess: f32) {
-        // CoglPipeline *authority;
-        // CoglPipelineState state = COGL_PIPELINE_STATE_LIGHTING;
-        // CoglPipelineLightingState *lighting_state;
+        // Pipeline *authority;
+        // PipelineState state = COGL_PIPELINE_STATE_LIGHTING;
+        // PipelineLightingState *lighting_state;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
         // if (shininess < 0.0)
         //     {
@@ -3016,7 +3016,7 @@ impl Pipeline {
         //     return;
         //     }
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // lighting_state = &authority->big_state->lighting_state;
 
@@ -3028,13 +3028,13 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // lighting_state = &pipeline->big_state->lighting_state;
         // lighting_state->shininess = shininess;
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_lighting_state_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_lighting_state_equal);
         unimplemented!()
     }
 
@@ -3047,16 +3047,16 @@ impl Pipeline {
     /// ## `specular`
     /// The components of the desired specular color
     pub fn set_specular(&self, specular: &Color) {
-        // CoglPipeline *authority;
-        // CoglPipelineState state = COGL_PIPELINE_STATE_LIGHTING;
-        // CoglPipelineLightingState *lighting_state;
+        // Pipeline *authority;
+        // PipelineState state = COGL_PIPELINE_STATE_LIGHTING;
+        // PipelineLightingState *lighting_state;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // lighting_state = &authority->big_state->lighting_state;
-        // if (cogl_color_equal (specular, &lighting_state->specular))
+        // if (color_equal (specular, &lighting_state->specular))
         //     return;
 
         // /* - Flush journal primitives referencing the current state.
@@ -3064,16 +3064,16 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // lighting_state = &pipeline->big_state->lighting_state;
-        // lighting_state->specular[0] = cogl_color_get_red_float (specular);
-        // lighting_state->specular[1] = cogl_color_get_green_float (specular);
-        // lighting_state->specular[2] = cogl_color_get_blue_float (specular);
-        // lighting_state->specular[3] = cogl_color_get_alpha_float (specular);
+        // lighting_state->specular[0] = color_get_red_float (specular);
+        // lighting_state->specular[1] = color_get_green_float (specular);
+        // lighting_state->specular[2] = color_get_blue_float (specular);
+        // lighting_state->specular[3] = color_get_alpha_float (specular);
 
-        // _cogl_pipeline_update_authority (pipeline, authority, state,
-        //                                 _cogl_pipeline_lighting_state_equal);
+        // _pipeline_update_authority (pipeline, authority, state,
+        //                                 _pipeline_lighting_state_equal);
 
         // pipeline->dirty_real_blend_enable = TRUE;
     }
@@ -3094,11 +3094,11 @@ impl Pipeline {
     /// ## `value`
     /// The new value for the uniform
     pub fn set_uniform_1f(&self, uniform_location: i32, value: f32) {
-        // CoglBoxedValue *boxed_value;
+        // BoxedValue *boxed_value;
 
-        // boxed_value = _cogl_pipeline_override_uniform (pipeline, uniform_location);
+        // boxed_value = _pipeline_override_uniform (pipeline, uniform_location);
 
-        // _cogl_boxed_value_set_1f (boxed_value, value);
+        // _boxed_value_set_1f (boxed_value, value);
         unimplemented!()
     }
 
@@ -3118,11 +3118,11 @@ impl Pipeline {
     /// ## `value`
     /// The new value for the uniform
     pub fn set_uniform_1i(&self, uniform_location: i32, value: i32) {
-        // CoglBoxedValue *boxed_value;
+        // BoxedValue *boxed_value;
 
-        // boxed_value = _cogl_pipeline_override_uniform (pipeline, uniform_location);
+        // boxed_value = _pipeline_override_uniform (pipeline, uniform_location);
 
-        // _cogl_boxed_value_set_1i (boxed_value, value);
+        // _boxed_value_set_1i (boxed_value, value);
         unimplemented!()
     }
 
@@ -3154,11 +3154,11 @@ impl Pipeline {
         count: i32,
         value: &[f32],
     ) {
-        // CoglBoxedValue *boxed_value;
+        // BoxedValue *boxed_value;
 
-        // boxed_value = _cogl_pipeline_override_uniform (pipeline, uniform_location);
+        // boxed_value = _pipeline_override_uniform (pipeline, uniform_location);
 
-        // _cogl_boxed_value_set_float (boxed_value, n_components, count, value);
+        // _boxed_value_set_float (boxed_value, n_components, count, value);
         unimplemented!()
     }
 
@@ -3190,11 +3190,11 @@ impl Pipeline {
         count: i32,
         value: &[i32],
     ) {
-        // CoglBoxedValue *boxed_value;
+        // BoxedValue *boxed_value;
 
-        // boxed_value = _cogl_pipeline_override_uniform (pipeline, uniform_location);
+        // boxed_value = _pipeline_override_uniform (pipeline, uniform_location);
 
-        // _cogl_boxed_value_set_int (boxed_value, n_components, count, value);
+        // _boxed_value_set_int (boxed_value, n_components, count, value);
         unimplemented!()
     }
 
@@ -3234,11 +3234,11 @@ impl Pipeline {
         transpose: bool,
         value: &[f32],
     ) {
-        // CoglBoxedValue *boxed_value;
+        // BoxedValue *boxed_value;
 
-        // boxed_value = _cogl_pipeline_override_uniform (pipeline, uniform_location);
+        // boxed_value = _pipeline_override_uniform (pipeline, uniform_location);
 
-        // _cogl_boxed_value_set_matrix (boxed_value,
+        // _boxed_value_set_matrix (boxed_value,
         //                                 dimensions,
         //                                 count,
         //                                 transpose,
@@ -3247,12 +3247,12 @@ impl Pipeline {
     }
 
     pub fn set_user_program(&self, program: Handle) {
-        // CoglPipelineState state = COGL_PIPELINE_STATE_USER_SHADER;
-        // CoglPipeline *authority;
+        // PipelineState state = COGL_PIPELINE_STATE_USER_SHADER;
+        // Pipeline *authority;
 
-        // _COGL_RETURN_IF_FAIL (cogl_is_pipeline (pipeline));
+        // _COGL_RETURN_IF_FAIL (is_pipeline (pipeline));
 
-        // authority = _cogl_pipeline_get_authority (pipeline, state);
+        // authority = _pipeline_get_authority (pipeline, state);
 
         // if (authority->big_state->user_program == program)
         //   return;
@@ -3262,19 +3262,19 @@ impl Pipeline {
         //  * - If the pipeline isn't currently an authority for the state being
         //  *   changed, then initialize that state from the current authority.
         //  */
-        // _cogl_pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
 
         // if (program != COGL_INVALID_HANDLE)
-        //   _cogl_pipeline_set_progend (pipeline, COGL_PIPELINE_PROGEND_UNDEFINED);
+        //   _pipeline_set_progend (pipeline, COGL_PIPELINE_PROGEND_UNDEFINED);
 
         // /* If we are the current authority see if we can revert to one of our
         //  * ancestors being the authority */
         // if (pipeline == authority &&
-        //     _cogl_pipeline_get_parent (authority) != NULL)
+        //     _pipeline_get_parent (authority) != NULL)
         //   {
-        //     CoglPipeline *parent = _cogl_pipeline_get_parent (authority);
-        //     CoglPipeline *old_authority =
-        //       _cogl_pipeline_get_authority (parent, state);
+        //     Pipeline *parent = _pipeline_get_parent (authority);
+        //     Pipeline *old_authority =
+        //       _pipeline_get_authority (parent, state);
 
         //     if (old_authority->big_state->user_program == program)
         //       pipeline->differences &= ~state;
@@ -3286,14 +3286,14 @@ impl Pipeline {
         //      * that some of our ancestry will now become redundant, so we
         //      * aim to reparent ourselves if that's true... */
         //     pipeline->differences |= state;
-        //     _cogl_pipeline_prune_redundant_ancestry (pipeline);
+        //     _pipeline_prune_redundant_ancestry (pipeline);
         //   }
 
         // if (program != COGL_INVALID_HANDLE)
-        //   cogl_handle_ref (program);
+        //   handle_ref (program);
         // if (authority == pipeline &&
         //     pipeline->big_state->user_program != COGL_INVALID_HANDLE)
-        //   cogl_handle_unref (pipeline->big_state->user_program);
+        //   handle_unref (pipeline->big_state->user_program);
         // pipeline->big_state->user_program = program;
 
         // pipeline->dirty_real_blend_enable = TRUE;

@@ -2,7 +2,7 @@ use crate::{IndexBuffer, IndicesType, Object, Context};
 use std::fmt;
 
 // * SECTION:cogl-indices
-// * @short_description: Describe vertex indices stored in a #CoglIndexBuffer.
+// * @short_description: Describe vertex indices stored in a #IndexBuffer.
 // *
 // * Indices allow you to avoid duplicating vertices in your vertex data
 // * by virtualizing your data and instead providing a sequence of index
@@ -27,7 +27,7 @@ use std::fmt;
 // * vertices multiple times.
 // *
 // * |[
-// *   CoglVertex2f quad_vertices[] = {
+// *   Vertex2f quad_vertices[] = {
 // *     {x0, y0}, //0 = top left
 // *     {x1, y1}, //1 = bottom left
 // *     {x2, y2}, //2 = bottom right
@@ -53,17 +53,17 @@ use std::fmt;
 // * they need to display and we know exactly what that indices array
 // * needs to look like depending on the number of quads that need to be
 // * drawn. It doesn't matter how the quads might be animated and
-// * changed the indices will remain the same. Cogl even has a utility
-// * (cogl_get_rectangle_indices()) to get access to re-useable indices
+// * changed the indices will remain the same.  even has a utility
+// * (get_rectangle_indices()) to get access to re-useable indices
 // * for drawing quads as above.
 
 pub struct Indices {
-    // CoglObject _parent;
+    // Object _parent;
 
-    // CoglIndexBuffer *buffer;
+    // IndexBuffer *buffer;
     // size_t offset;
   
-    // CoglIndicesType type;
+    // IndicesType type;
   
     // int immutable_ref;
     
@@ -72,41 +72,41 @@ pub struct Indices {
 impl Indices {
     pub fn new(context: &Context, type_: IndicesType, indices_data: &[u8], n_indices: i32) -> Indices {
         // size_t buffer_bytes = sizeof_indices_type (type) * n_indices;
-        // CoglIndexBuffer *index_buffer = cogl_index_buffer_new (context, buffer_bytes);
-        // CoglBuffer *buffer = COGL_BUFFER (index_buffer);
-        // CoglIndices *indices;
-        // CoglError *ignore_error = NULL;
+        // IndexBuffer *index_buffer = index_buffer_new (context, buffer_bytes);
+        // Buffer *buffer = COGL_BUFFER (index_buffer);
+        // Indices *indices;
+        // Error *ignore_error = NULL;
       
-        // _cogl_buffer_set_data (buffer,
+        // _buffer_set_data (buffer,
         //                        0,
         //                        indices_data,
         //                        buffer_bytes,
         //                        &ignore_error);
         // if (ignore_error)
         //   {
-        //     cogl_error_free (ignore_error);
-        //     cogl_object_unref (index_buffer);
+        //     error_free (ignore_error);
+        //     object_unref (index_buffer);
         //     return NULL;
         //   }
       
-        // indices = cogl_indices_new_for_buffer (type, index_buffer, 0);
-        // cogl_object_unref (index_buffer);
+        // indices = indices_new_for_buffer (type, index_buffer, 0);
+        // object_unref (index_buffer);
       
         // return indices;
         unimplemented!()
     }
 
     pub fn new_for_buffer(type_: IndicesType, buffer: &IndexBuffer, offset: usize) -> Indices {
-        // CoglIndices *indices = g_slice_new (CoglIndices);
+        // Indices *indices = g_slice_new (Indices);
 
-        // indices->buffer = cogl_object_ref (buffer);
+        // indices->buffer = object_ref (buffer);
         // indices->offset = offset;
 
         // indices->type = type;
 
         // indices->immutable_ref = 0;
 
-        // return _cogl_indices_object_new (indices);
+        // return _indices_object_new (indices);
         unimplemented!()
     }
 
@@ -116,21 +116,21 @@ impl Indices {
     }
 
     pub fn get_offset(&self) -> usize {
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_indices (indices), 0);
+        // _COGL_RETURN_VAL_IF_FAIL (is_indices (indices), 0);
 
         // return indices->offset;
         unimplemented!()
     }
 
     pub fn get_type(&self) -> IndicesType {
-        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_indices (indices),
+        // _COGL_RETURN_VAL_IF_FAIL (is_indices (indices),
         //                     COGL_INDICES_TYPE_UNSIGNED_BYTE);
         // return indices->type;
         unimplemented!()
     }
 
     pub fn set_offset(&self, offset: usize) {
-        // _COGL_RETURN_IF_FAIL (cogl_is_indices (indices));
+        // _COGL_RETURN_IF_FAIL (is_indices (indices));
 
         // if (G_UNLIKELY (indices->immutable_ref))
         //     warn_about_midscene_changes ();

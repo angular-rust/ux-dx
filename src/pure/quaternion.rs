@@ -19,7 +19,7 @@ use std::mem;
 // * <ulink url="http://en.wikipedia.org/wiki/Gimbal_lock">"Gimbal lock"</ulink>
 // * where two of the axis of rotation may become aligned and you loose a
 // * degree of freedom.
-// * CoglQuaternion:
+// * Quaternion:
 // * @w: based on the angle of rotation it is cos(𝜃/2)
 // * @x: based on the angle of rotation and x component of the axis of
 // *     rotation it is sin(𝜃/2)*axis.x
@@ -173,7 +173,7 @@ impl Quaternion {
     /// rotate.
     pub fn init(&mut self, angle: f32, x: f32, y: f32, z: f32) {
         // float axis[3] = { x, y, z};
-        // cogl_quaternion_init_from_angle_vector (quaternion, angle, axis);
+        // quaternion_init_from_angle_vector (quaternion, angle, axis);
     }
 
     /// Initializes a quaternion that rotates `angle` degrees around the
@@ -193,12 +193,12 @@ impl Quaternion {
         // float half_angle;
         // float sin_half_angle;
 
-        // /* XXX: Should we make cogl_vector3_normalize have separate in and
+        // /* XXX: Should we make vector3_normalize have separate in and
         // * out args? */
         // axis[0] = axis3f_in[0];
         // axis[1] = axis3f_in[1];
         // axis[2] = axis3f_in[2];
-        // cogl_vector3_normalize (axis);
+        // vector3_normalize (axis);
 
         // half_angle = angle * _COGL_QUATERNION_DEGREES_TO_RADIANS * 0.5f;
         // sin_half_angle = sinf (half_angle);
@@ -209,7 +209,7 @@ impl Quaternion {
         // quaternion->y = axis[1] * sin_half_angle;
         // quaternion->z = axis[2] * sin_half_angle;
 
-        // cogl_quaternion_normalize (quaternion);
+        // quaternion_normalize (quaternion);
         unimplemented!()
     }
 
@@ -423,7 +423,7 @@ impl Quaternion {
 
     /// This combines the rotations of two quaternions into `self`. The
     /// operation is not commutative so the order is important because AxB
-    /// != BxA. Cogl follows the standard convention for quaternions here
+    /// != BxA.  follows the standard convention for quaternions here
     /// so the rotations are applied `right` to `left`. This is similar to the
     /// combining of matrices.
     ///
@@ -506,7 +506,7 @@ impl Quaternion {
         //     }
 
         // /* compute the cosine of the angle between the two given quaternions */
-        // cos_difference = cogl_quaternion_dot_product (a, b);
+        // cos_difference = quaternion_dot_product (a, b);
 
         // /* If negative, use -b. Two quaternions q and -q represent the same angle but
         // * may produce a different slerp. We choose b or -b to rotate using the acute
@@ -539,7 +539,7 @@ impl Quaternion {
         // result->z = fa * a->z + fb * qb_z;
         // result->w = fa * a->w + fb * qb_w;
 
-        // cogl_quaternion_normalize (result);
+        // quaternion_normalize (result);
         unimplemented!()
     }
 
@@ -640,7 +640,7 @@ impl Quaternion {
         //     }
 
         // /* compute the cosine of the angle between the two given quaternions */
-        // cos_difference = cogl_quaternion_dot_product (a, b);
+        // cos_difference = quaternion_dot_product (a, b);
 
         // /* If negative, use -b. Two quaternions q and -q represent the same angle but
         // * may produce a different slerp. We choose b or -b to rotate using the acute
@@ -720,18 +720,18 @@ impl Quaternion {
         next: &Quaternion,
         t: f32,
     ) {
-        // CoglQuaternion slerp0;
-        // CoglQuaternion slerp1;
+        // Quaternion slerp0;
+        // Quaternion slerp1;
 
-        // cogl_quaternion_slerp (&slerp0, a, b, t);
-        // cogl_quaternion_slerp (&slerp1, prev, next, t);
-        // cogl_quaternion_slerp (result, &slerp0, &slerp1, 2.0f * t * (1.0f - t));
+        // quaternion_slerp (&slerp0, a, b, t);
+        // quaternion_slerp (&slerp1, prev, next, t);
+        // quaternion_slerp (result, &slerp0, &slerp1, 2.0f * t * (1.0f - t));
         unimplemented!()
     }
 
     fn equal(v1: &Self, v2: &Self) -> bool {
-        // const CoglQuaternion *a = v1;
-        // const CoglQuaternion *b = v2;
+        // const Quaternion *a = v1;
+        // const Quaternion *b = v2;
 
         // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, FALSE);
         // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, FALSE);

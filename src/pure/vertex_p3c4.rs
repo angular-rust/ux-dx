@@ -9,7 +9,7 @@ use std::mem;
 // * @a: The alpha component of a color attribute
 // *
 // * A convenience vertex definition that can be used with
-// * cogl_primitive_new_p3c4().
+// * primitive_new_p3c4().
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct VertexP3C4 {

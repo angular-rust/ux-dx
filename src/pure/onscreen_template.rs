@@ -2,33 +2,33 @@ use crate::{Object, SwapChain};
 use std::fmt;
 
 pub struct OnscreenTemplate {
-    // CoglObject _parent;
+    // Object _parent;
 
-    // CoglFramebufferConfig config;
+    // FramebufferConfig config;
 }
 
 impl OnscreenTemplate {
-    // * cogl_onscreen_new: (constructor)
-    // * @context: A #CoglContext
+    // * onscreen_new: (constructor)
+    // * @context: A #Context
     // * @width: The desired framebuffer width
     // * @height: The desired framebuffer height
     // *
-    // * Instantiates an "unallocated" #CoglOnscreen framebuffer that may be
+    // * Instantiates an "unallocated" #Onscreen framebuffer that may be
     // * configured before later being allocated, either implicitly when
-    // * it is first used or explicitly via cogl_framebuffer_allocate().
+    // * it is first used or explicitly via framebuffer_allocate().
     // *
-    // * Return value: (transfer full): A newly instantiated #CoglOnscreen framebuffer
+    // * Return value: (transfer full): A newly instantiated #Onscreen framebuffer
     // * Since: 1.8
     // * Stability: unstable
     pub fn new(swap_chain: &SwapChain) -> OnscreenTemplate {
-        // CoglOnscreenTemplate *onscreen_template = g_slice_new0 (CoglOnscreenTemplate);
+        // OnscreenTemplate *onscreen_template = g_slice_new0 (OnscreenTemplate);
         // char *user_config;
 
         // onscreen_template->config.swap_chain = swap_chain;
         // if (swap_chain)
-        //     cogl_object_ref (swap_chain);
+        //     object_ref (swap_chain);
         // else
-        //     onscreen_template->config.swap_chain = cogl_swap_chain_new ();
+        //     onscreen_template->config.swap_chain = swap_chain_new ();
 
         // onscreen_template->config.swap_throttled = TRUE;
         // onscreen_template->config.need_stencil = TRUE;
@@ -43,11 +43,11 @@ impl OnscreenTemplate {
         //         samples_per_pixel;
         //     }
 
-        // return _cogl_onscreen_template_object_new (onscreen_template);
+        // return _onscreen_template_object_new (onscreen_template);
         unimplemented!()
     }
 
-    /// Requires that any future CoglOnscreen framebuffers derived from
+    /// Requires that any future Onscreen framebuffers derived from
     /// this template must support making at least `n` samples per pixel
     /// which will all contribute to the final resolved color for that
     /// pixel.
