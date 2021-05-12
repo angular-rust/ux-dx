@@ -2,17 +2,64 @@ use crate::{
     Context, FrameClosure, FrameEvent, FrameInfo, Framebuffer, Object, OnscreenDirtyClosure,
     OnscreenDirtyInfo, OnscreenResizeClosure,
 };
-
-use glib::translate::*;
 use std::boxed::Box as Box_;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct Onscreen(Object<ffi::CoglOnscreen, OnscreenClass>) @extends Object, @implements Framebuffer;
+// typedef struct _CoglOnscreenEvent
+// {
+//   CoglList link;
 
-    match fn {
-        get_type => || ffi::cogl_onscreen_get_gtype(),
-    }
+//   CoglOnscreen *onscreen;
+//   CoglFrameInfo *info;
+//   CoglFrameEvent type;
+// } CoglOnscreenEvent;
+
+// typedef struct _CoglOnscreenQueuedDirty
+// {
+//   CoglList link;
+
+//   CoglOnscreen *onscreen;
+//   CoglOnscreenDirtyInfo info;
+// } CoglOnscreenQueuedDirty;
+
+// @extends Object, @implements Framebuffer;
+pub struct Onscreen {
+    // CoglFramebuffer  _parent;
+
+    // #ifdef COGL_HAS_X11_SUPPORT
+    //   uint32_t foreign_xid;
+    //   CoglOnscreenX11MaskCallback foreign_update_mask_callback;
+    //   void *foreign_update_mask_data;
+    // #endif
+    
+    // #ifdef COGL_HAS_WIN32_SUPPORT
+    //   HWND foreign_hwnd;
+    // #endif
+    
+    // #ifdef COGL_HAS_EGL_PLATFORM_WAYLAND_SUPPORT
+    //   struct wl_surface *foreign_surface;
+    // #endif
+    
+    // #ifdef COGL_HAS_EGL_PLATFORM_MIR_SUPPORT
+    //   struct MirSurface *foreign_surface;
+    // #endif
+    
+    //   CoglBool swap_throttled;
+    
+    //   CoglList frame_closures;
+    
+    //   CoglBool resizable;
+    //   CoglList resize_closures;
+    
+    //   CoglList dirty_closures;
+    
+    //   int64_t frame_counter;
+    //   int64_t swap_frame_counter; /* frame counter at last all to
+    //                                * cogl_onscreen_swap_region() or
+    //                                * cogl_onscreen_swap_buffers() */
+    //   GQueue pending_frame_infos;
+    
+    //   void *winsys;
 }
 
 impl Onscreen {
@@ -30,13 +77,26 @@ impl Onscreen {
     ///
     /// A newly instantiated `Onscreen` framebuffer
     pub fn new(context: &Context, width: i32, height: i32) -> Onscreen {
-        unsafe {
-            from_glib_full(ffi::cogl_onscreen_new(
-                context.to_glib_none().0,
-                width,
-                height,
-            ))
-        }
+        // CoglOnscreen *onscreen = g_new0 (CoglOnscreen, 1);
+
+        // _COGL_GET_CONTEXT (ctx, NULL);
+
+        // _cogl_framebuffer_init (COGL_FRAMEBUFFER (onscreen),
+        //                         ctx,
+        //                         COGL_FRAMEBUFFER_TYPE_ONSCREEN,
+        //                         0x1eadbeef, /* width */
+        //                         0x1eadbeef); /* height */
+        // /* NB: make sure to pass positive width/height numbers here
+        // * because otherwise we'll hit input validation assertions!*/
+
+        // _cogl_onscreen_init_from_template (onscreen, ctx->display->onscreen_template);
+
+        // COGL_FRAMEBUFFER (onscreen)->allocated = TRUE;
+
+        // /* XXX: Note we don't initialize onscreen->winsys in this case. */
+
+        // return _cogl_onscreen_object_new (onscreen);
+        unimplemented!()
     }
 
     /// Installs a `callback` function that will be called whenever the
@@ -68,27 +128,11 @@ impl Onscreen {
         &self,
         callback: P,
     ) -> Option<OnscreenDirtyClosure> {
-        let callback_data: Box_<P> = Box_::new(callback);
-        unsafe extern "C" fn callback_func<P: Fn(&Onscreen, &OnscreenDirtyInfo) + 'static>(
-            onscreen: *mut ffi::CoglOnscreen,
-            info: *const ffi::CoglOnscreenDirtyInfo,
-            user_data: glib_sys::gpointer,
-        ) {
-            let onscreen = from_glib_borrow(onscreen);
-            let info = from_glib_borrow(info);
-            let callback: &P = &*(user_data as *mut _);
-            (*callback)(&onscreen, &info);
-        }
-        let callback = Some(callback_func::<P> as _);
-        let super_callback0: Box_<P> = callback_data;
-        unsafe {
-            from_glib_full(ffi::cogl_onscreen_add_dirty_callback(
-                self.to_glib_none().0,
-                callback,
-                Box_::into_raw(super_callback0) as *mut _,
-                None,
-            ))
-        }
+        // return _cogl_closure_list_add (&onscreen->dirty_closures,
+        //     callback,
+        //     user_data,
+        //     destroy);
+        unimplemented!()
     }
 
     /// Installs a `callback` function that will be called for significant
@@ -127,29 +171,11 @@ impl Onscreen {
         &self,
         callback: P,
     ) -> Option<FrameClosure> {
-        let callback_data: Box_<P> = Box_::new(callback);
-        unsafe extern "C" fn callback_func<P: Fn(&Onscreen, &FrameEvent, &FrameInfo) + 'static>(
-            onscreen: *mut ffi::CoglOnscreen,
-            event: ffi::CoglFrameEvent,
-            info: *mut ffi::CoglFrameInfo,
-            user_data: glib_sys::gpointer,
-        ) {
-            let onscreen = from_glib_borrow(onscreen);
-            let event = from_glib(event);
-            let info = from_glib_borrow(info);
-            let callback: &P = &*(user_data as *mut _);
-            (*callback)(&onscreen, &event, &info);
-        }
-        let callback = Some(callback_func::<P> as _);
-        let super_callback0: Box_<P> = callback_data;
-        unsafe {
-            from_glib_full(ffi::cogl_onscreen_add_frame_callback(
-                self.to_glib_none().0,
-                callback,
-                Box_::into_raw(super_callback0) as *mut _,
-                None,
-            ))
-        }
+        // return _cogl_closure_list_add (&onscreen->frame_closures,
+        //     callback,
+        //     user_data,
+        //     destroy);
+        unimplemented!()
     }
 
     /// Registers a `callback` with `self` that will be called whenever
@@ -186,27 +212,11 @@ impl Onscreen {
         &self,
         callback: P,
     ) -> Option<OnscreenResizeClosure> {
-        let callback_data: Box_<P> = Box_::new(callback);
-        unsafe extern "C" fn callback_func<P: Fn(&Onscreen, i32, i32) + 'static>(
-            onscreen: *mut ffi::CoglOnscreen,
-            width: libc::c_int,
-            height: libc::c_int,
-            user_data: glib_sys::gpointer,
-        ) {
-            let onscreen = from_glib_borrow(onscreen);
-            let callback: &P = &*(user_data as *mut _);
-            (*callback)(&onscreen, width, height);
-        }
-        let callback = Some(callback_func::<P> as _);
-        let super_callback0: Box_<P> = callback_data;
-        unsafe {
-            from_glib_full(ffi::cogl_onscreen_add_resize_callback(
-                self.to_glib_none().0,
-                callback,
-                Box_::into_raw(super_callback0) as *mut _,
-                None,
-            ))
-        }
+        // return _cogl_closure_list_add (&onscreen->resize_closures,
+        //     callback,
+        //     user_data,
+        //     destroy);
+        unimplemented!()
     }
 
     /// Gets the current age of the buffer contents.
@@ -253,7 +263,18 @@ impl Onscreen {
     /// The age of the buffer contents or 0 when the buffer
     ///  contents are undefined.
     pub fn get_buffer_age(&self) -> i32 {
-        unsafe { ffi::cogl_onscreen_get_buffer_age(self.to_glib_none().0) }
+        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // const CoglWinsysVtable *winsys;
+
+        // _COGL_RETURN_VAL_IF_FAIL  (framebuffer->type == COGL_FRAMEBUFFER_TYPE_ONSCREEN, 0);
+
+        // winsys = _cogl_framebuffer_get_winsys (framebuffer);
+
+        // if (!winsys->onscreen_get_buffer_age)
+        //     return 0;
+
+        // return winsys->onscreen_get_buffer_age (onscreen);
+        unimplemented!()
     }
 
     /// Gets the value of the framebuffers frame counter. This is
@@ -265,7 +286,8 @@ impl Onscreen {
     ///
     /// the current frame counter value
     pub fn get_frame_counter(&self) -> i64 {
-        unsafe { ffi::cogl_onscreen_get_frame_counter(self.to_glib_none().0) }
+        // return onscreen->frame_counter;
+        unimplemented!()
     }
 
     /// Lets you query whether `self` has been marked as resizable via
@@ -289,10 +311,8 @@ impl Onscreen {
     /// Returns whether `self` has been marked as
     ///  resizable or not.
     pub fn get_resizable(&self) -> bool {
-        unsafe {
-            let ret = ffi::cogl_onscreen_get_resizable(self.to_glib_none().0);
-            ret == crate::TRUE
-        }
+        // return onscreen->resizable;
+        unimplemented!()
     }
 
     /// This requests to make `self` invisible to the user.
@@ -311,9 +331,16 @@ impl Onscreen {
     /// hide windows without confusing Cogl.`</note>`
     ///
     pub fn hide(&self) {
-        unsafe {
-            ffi::cogl_onscreen_hide(self.to_glib_none().0);
-        }
+        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+
+        // if (framebuffer->allocated)
+        // {
+        // const CoglWinsysVtable *winsys =
+        //     _cogl_framebuffer_get_winsys (framebuffer);
+        // if (winsys->onscreen_set_visibility)
+        //     winsys->onscreen_set_visibility (onscreen, FALSE);
+        // }
+        unimplemented!()
     }
 
     /// Removes a callback and associated user data that were previously
@@ -326,12 +353,10 @@ impl Onscreen {
     /// A `OnscreenDirtyClosure` returned from
     ///  `Onscreen::add_dirty_callback`
     pub fn remove_dirty_callback(&self, closure: &mut OnscreenDirtyClosure) {
-        unsafe {
-            ffi::cogl_onscreen_remove_dirty_callback(
-                self.to_glib_none().0,
-                closure.to_glib_none_mut().0,
-            );
-        }
+        // _COGL_RETURN_IF_FAIL (closure);
+
+        // _cogl_closure_disconnect (closure);
+        unimplemented!()
     }
 
     /// Removes a callback and associated user data that were previously
@@ -344,12 +369,10 @@ impl Onscreen {
     /// A `FrameClosure` returned from
     ///  `Onscreen::add_frame_callback`
     pub fn remove_frame_callback(&self, closure: &mut FrameClosure) {
-        unsafe {
-            ffi::cogl_onscreen_remove_frame_callback(
-                self.to_glib_none().0,
-                closure.to_glib_none_mut().0,
-            );
-        }
+        // _COGL_RETURN_IF_FAIL (closure);
+
+        // _cogl_closure_disconnect (closure);
+        unimplemented!()
     }
 
     /// Removes a resize `callback` and `user_data` pair that were previously
@@ -358,12 +381,8 @@ impl Onscreen {
     /// ## `closure`
     /// An identifier returned from `Onscreen::add_resize_callback`
     pub fn remove_resize_callback(&self, closure: &mut OnscreenResizeClosure) {
-        unsafe {
-            ffi::cogl_onscreen_remove_resize_callback(
-                self.to_glib_none().0,
-                closure.to_glib_none_mut().0,
-            );
-        }
+        // _cogl_closure_disconnect (closure);
+        unimplemented!()
     }
 
     /// Lets you request Cogl to mark an `self` framebuffer as
@@ -390,9 +409,23 @@ impl Onscreen {
     /// can track when the viewport has been changed automatically.`</note>`
     ///
     pub fn set_resizable(&self, resizable: bool) {
-        unsafe {
-            ffi::cogl_onscreen_set_resizable(self.to_glib_none().0, resizable as i32);
-        }
+        // CoglFramebuffer *framebuffer;
+        // const CoglWinsysVtable *winsys;
+
+        // if (onscreen->resizable == resizable)
+        //     return;
+
+        // onscreen->resizable = resizable;
+
+        // framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // if (framebuffer->allocated)
+        //     {
+        //     winsys = _cogl_framebuffer_get_winsys (COGL_FRAMEBUFFER (onscreen));
+
+        //     if (winsys->onscreen_set_resizable)
+        //         winsys->onscreen_set_resizable (onscreen, resizable);
+        //     }
+        unimplemented!()
     }
 
     /// Requests that the given `self` framebuffer should have swap buffer
@@ -402,9 +435,15 @@ impl Onscreen {
     /// ## `throttled`
     /// Whether swap throttling is wanted or not.
     pub fn set_swap_throttled(&self, throttled: bool) {
-        unsafe {
-            ffi::cogl_onscreen_set_swap_throttled(self.to_glib_none().0, throttled as i32);
-        }
+        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // framebuffer->config.swap_throttled = throttled;
+        // if (framebuffer->allocated)
+        // {
+        //     const CoglWinsysVtable *winsys =
+        //         _cogl_framebuffer_get_winsys (framebuffer);
+        //     winsys->onscreen_update_swap_throttled (onscreen);
+        // }
+        unimplemented!()
     }
 
     /// This requests to make `self` visible to the user.
@@ -429,9 +468,19 @@ impl Onscreen {
     /// hide windows without confusing Cogl.`</note>`
     ///
     pub fn show(&self) {
-        unsafe {
-            ffi::cogl_onscreen_show(self.to_glib_none().0);
-        }
+        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // const CoglWinsysVtable *winsys;
+
+        // if (!framebuffer->allocated)
+        //     {
+        //     if (!cogl_framebuffer_allocate (framebuffer, NULL))
+        //         return;
+        //     }
+
+        // winsys = _cogl_framebuffer_get_winsys (framebuffer);
+        // if (winsys->onscreen_set_visibility)
+        //     winsys->onscreen_set_visibility (onscreen, TRUE);
+        unimplemented!()
     }
 
     /// Swaps the current back buffer being rendered too, to the front for display.
@@ -448,9 +497,8 @@ impl Onscreen {
     /// perform incremental updates to older buffers instead of having to
     /// render a full buffer for every frame.`</note>`
     pub fn swap_buffers(&self) {
-        unsafe {
-            ffi::cogl_onscreen_swap_buffers(self.to_glib_none().0);
-        }
+        // cogl_onscreen_swap_buffers_with_damage (onscreen, NULL, 0);
+        unimplemented!()
     }
 
     /// Swaps the current back buffer being rendered too, to the front for
@@ -496,13 +544,44 @@ impl Onscreen {
     /// ## `n_rectangles`
     /// The number of 4-tuples to be read from `rectangles`
     pub fn swap_buffers_with_damage(&self, rectangles: &[i32], n_rectangles: i32) {
-        unsafe {
-            ffi::cogl_onscreen_swap_buffers_with_damage(
-                self.to_glib_none().0,
-                rectangles.as_ptr(),
-                n_rectangles,
-            );
-        }
+        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // const CoglWinsysVtable *winsys;
+        // CoglFrameInfo *info;
+
+        // _COGL_RETURN_IF_FAIL  (framebuffer->type == COGL_FRAMEBUFFER_TYPE_ONSCREEN);
+
+        // info = _cogl_frame_info_new ();
+        // info->frame_counter = onscreen->frame_counter;
+        // g_queue_push_tail (&onscreen->pending_frame_infos, info);
+
+        // /* FIXME: we shouldn't need to flush *all* journals here! */
+        // cogl_flush ();
+
+        // winsys = _cogl_framebuffer_get_winsys (framebuffer);
+        // winsys->onscreen_swap_buffers_with_damage (onscreen,
+        //                                             rectangles, n_rectangles);
+        // cogl_framebuffer_discard_buffers (framebuffer,
+        //                                     COGL_BUFFER_BIT_COLOR |
+        //                                     COGL_BUFFER_BIT_DEPTH |
+        //                                     COGL_BUFFER_BIT_STENCIL);
+
+        // if (!_cogl_winsys_has_feature (COGL_WINSYS_FEATURE_SYNC_AND_COMPLETE_EVENT))
+        //     {
+        //     CoglFrameInfo *info;
+
+        //     g_warn_if_fail (onscreen->pending_frame_infos.length == 1);
+
+        //     info = g_queue_pop_tail (&onscreen->pending_frame_infos);
+
+        //     _cogl_onscreen_queue_event (onscreen, COGL_FRAME_EVENT_SYNC, info);
+        //     _cogl_onscreen_queue_event (onscreen, COGL_FRAME_EVENT_COMPLETE, info);
+
+        //     cogl_object_unref (info);
+        //     }
+
+        // onscreen->frame_counter++;
+        // framebuffer->mid_scene = FALSE;
+        unimplemented!()
     }
 
     /// Swaps a region of the back buffer being rendered too, to the front for
@@ -520,13 +599,51 @@ impl Onscreen {
     /// ## `n_rectangles`
     /// The number of 4-tuples to be read from `rectangles`
     pub fn swap_region(&self, rectangles: &[i32], n_rectangles: i32) {
-        unsafe {
-            ffi::cogl_onscreen_swap_region(
-                self.to_glib_none().0,
-                rectangles.as_ptr(),
-                n_rectangles,
-            );
-        }
+        // CoglFramebuffer *framebuffer = COGL_FRAMEBUFFER (onscreen);
+        // const CoglWinsysVtable *winsys;
+        // CoglFrameInfo *info;
+
+        // _COGL_RETURN_IF_FAIL  (framebuffer->type == COGL_FRAMEBUFFER_TYPE_ONSCREEN);
+
+        // info = _cogl_frame_info_new ();
+        // info->frame_counter = onscreen->frame_counter;
+        // g_queue_push_tail (&onscreen->pending_frame_infos, info);
+
+        // /* FIXME: we shouldn't need to flush *all* journals here! */
+        // cogl_flush ();
+
+        // winsys = _cogl_framebuffer_get_winsys (framebuffer);
+
+        // /* This should only be called if the winsys advertises
+        //     COGL_WINSYS_FEATURE_SWAP_REGION */
+        // _COGL_RETURN_IF_FAIL (winsys->onscreen_swap_region != NULL);
+
+        // winsys->onscreen_swap_region (COGL_ONSCREEN (framebuffer),
+        //                                 rectangles,
+        //                                 n_rectangles);
+
+        // cogl_framebuffer_discard_buffers (framebuffer,
+        //                                     COGL_BUFFER_BIT_COLOR |
+        //                                     COGL_BUFFER_BIT_DEPTH |
+        //                                     COGL_BUFFER_BIT_STENCIL);
+
+        // if (!_cogl_winsys_has_feature (COGL_WINSYS_FEATURE_SYNC_AND_COMPLETE_EVENT))
+        //     {
+        //     CoglFrameInfo *info;
+
+        //     g_warn_if_fail (onscreen->pending_frame_infos.length == 1);
+
+        //     info = g_queue_pop_tail (&onscreen->pending_frame_infos);
+
+        //     _cogl_onscreen_queue_event (onscreen, COGL_FRAME_EVENT_SYNC, info);
+        //     _cogl_onscreen_queue_event (onscreen, COGL_FRAME_EVENT_COMPLETE, info);
+
+        //     cogl_object_unref (info);
+        //     }
+
+        // onscreen->frame_counter++;
+        // framebuffer->mid_scene = FALSE;
+        unimplemented!()
     }
 }
 

@@ -5,33 +5,34 @@
 )]
 
 use crate::Object;
-
-use glib::translate::*;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct SwapChain(Object<ffi::CoglSwapChain, SwapChainClass>) @extends Object;
+pub struct SwapChain {
+    // CoglObject _parent;
 
-    match fn {
-        get_type => || ffi::cogl_swap_chain_get_gtype(),
-    }
+    // CoglBool has_alpha;
+  
+    // int length;
 }
 
 impl SwapChain {
     pub fn new() -> SwapChain {
-        unsafe { from_glib_full(ffi::cogl_swap_chain_new()) }
+        // CoglSwapChain *swap_chain = g_slice_new0 (CoglSwapChain);
+
+        // swap_chain->length = -1; /* no preference */
+      
+        // return _cogl_swap_chain_object_new (swap_chain);
+        unimplemented!()
     }
 
     pub fn set_has_alpha(&self, has_alpha: bool) {
-        unsafe {
-            ffi::cogl_swap_chain_set_has_alpha(self.to_glib_none().0, has_alpha as i32);
-        }
+        // swap_chain->has_alpha = has_alpha;
+        unimplemented!()
     }
 
     pub fn set_length(&self, length: i32) {
-        unsafe {
-            ffi::cogl_swap_chain_set_length(self.to_glib_none().0, length);
-        }
+        // swap_chain->length = length;
+        unimplemented!()
     }
 }
 

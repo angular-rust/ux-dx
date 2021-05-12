@@ -33,3 +33,6 @@ glib-sys = "0.10"
 ffi = { package = "cogl-sys-rs", version="0.1.4" }
 
 [dev-dependencies]
+
+[dependencies]
+bytes = "1.0.1"

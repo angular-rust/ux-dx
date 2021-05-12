@@ -1,14 +1,30 @@
 use crate::{Bitmap, Context, Object, PixelFormat, Texture};
-
-use glib::translate::*;
 use std::{fmt, ptr};
 
-glib_wrapper! {
-    pub struct Texture2D(Object<ffi::CoglTexture2D, Texture2DClass>) @extends Object, @implements Texture;
+// @extends Object, @implements Texture;
+pub struct Texture2D {
+    // CoglTexture _parent;
 
-    match fn {
-        get_type => || ffi::cogl_texture_2d_get_gtype(),
-    }
+    // /* The internal format of the GL texture represented as a
+    //     CoglPixelFormat */
+    // CoglPixelFormat internal_format;
+
+    // CoglBool auto_mipmap;
+    // CoglBool mipmaps_dirty;
+    // CoglBool is_foreign;
+
+    // /* TODO: factor out these OpenGL specific members into some form
+    // * of driver private state. */
+
+    // /* The internal format of the GL texture represented as a GL enum */
+    // GLenum gl_internal_format;
+    // /* The texture object number */
+    // GLuint gl_texture;
+    // GLenum gl_legacy_texobj_min_filter;
+    // GLenum gl_legacy_texobj_mag_filter;
+    // GLint gl_legacy_texobj_wrap_mode_s;
+    // GLint gl_legacy_texobj_wrap_mode_t;
+    // CoglTexturePixel first_pixel;
 }
 
 impl Texture2D {
@@ -45,23 +61,26 @@ impl Texture2D {
         height: i32,
         format: PixelFormat,
     ) -> Texture2D {
-        unsafe {
-            from_glib_full(ffi::cogl_texture_2d_gl_new_from_foreign(
-                ctx.to_glib_none().0,
-                gl_handle,
-                width,
-                height,
-                format.to_glib(),
-            ))
-        }
+        // ffi::cogl_texture_2d_gl_new_from_foreign
+        unimplemented!()
     }
 
     pub fn from_bitmap(bitmap: &Bitmap) -> Texture2D {
-        unsafe {
-            from_glib_full(ffi::cogl_texture_2d_new_from_bitmap(
-                bitmap.to_glib_none().0,
-            ))
-        }
+        // CoglTextureLoader *loader;
+
+        // _COGL_RETURN_VAL_IF_FAIL (bmp != NULL, NULL);
+      
+        // loader = _cogl_texture_create_loader ();
+        // loader->src_type = COGL_TEXTURE_SOURCE_TYPE_BITMAP;
+        // loader->src.bitmap.bitmap = cogl_object_ref (bmp);
+        // loader->src.bitmap.can_convert_in_place = can_convert_in_place;
+      
+        // return  _cogl_texture_2d_create_base (_cogl_bitmap_get_context (bmp),
+        //                                       cogl_bitmap_get_width (bmp),
+        //                                       cogl_bitmap_get_height (bmp),
+        //                                       cogl_bitmap_get_format (bmp),
+        //                                       loader);
+        unimplemented!()
     }
 
     pub fn from_data(
@@ -71,50 +90,69 @@ impl Texture2D {
         format: PixelFormat,
         rowstride: i32,
         data: &[u8],
-    ) -> Result<Texture2D, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = ffi::cogl_texture_2d_new_from_data(
-                ctx.to_glib_none().0,
-                width,
-                height,
-                format.to_glib(),
-                rowstride,
-                data.as_ptr(),
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
+    ) -> Texture2D {
+        // CoglBitmap *bmp;
+        // CoglTexture2D *tex_2d;
+
+        // _COGL_RETURN_VAL_IF_FAIL (format != COGL_PIXEL_FORMAT_ANY, NULL);
+        // _COGL_RETURN_VAL_IF_FAIL (data != NULL, NULL);
+
+        // /* Rowstride from width if not given */
+        // if (rowstride == 0)
+        //     rowstride = width * _cogl_pixel_format_get_bytes_per_pixel (format);
+
+        // /* Wrap the data into a bitmap */
+        // bmp = cogl_bitmap_new_for_data (ctx,
+        //                                 width, height,
+        //                                 format,
+        //                                 rowstride,
+        //                                 (uint8_t *) data);
+
+        // tex_2d = cogl_texture_2d_new_from_bitmap (bmp);
+
+        // cogl_object_unref (bmp);
+
+        // if (tex_2d &&
+        //     !cogl_texture_allocate (COGL_TEXTURE (tex_2d), error))
+        //     {
+        //     cogl_object_unref (tex_2d);
+        //     return NULL;
+        //     }
+
+        // return tex_2d;
+        unimplemented!()
     }
 
-    pub fn from_file(ctx: &Context, filename: &str) -> Result<Texture2D, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = ffi::cogl_texture_2d_new_from_file(
-                ctx.to_glib_none().0,
-                filename.to_glib_none().0,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
+    pub fn from_file(ctx: &Context, filename: &str) -> Texture2D {
+        // CoglBitmap *bmp;
+        // CoglTexture2D *tex_2d = NULL;
+
+        // _COGL_RETURN_VAL_IF_FAIL (error == NULL || *error == NULL, NULL);
+
+        // bmp = _cogl_bitmap_from_file (ctx, filename, error);
+        // if (bmp == NULL)
+        //     return NULL;
+
+        // tex_2d = _cogl_texture_2d_new_from_bitmap (bmp,
+        //                                             TRUE); /* can convert in-place */
+
+        // cogl_object_unref (bmp);
+
+        // return tex_2d;
+        unimplemented!()
     }
 
     pub fn with_size(ctx: &Context, width: i32, height: i32) -> Texture2D {
-        unsafe {
-            from_glib_full(ffi::cogl_texture_2d_new_with_size(
-                ctx.to_glib_none().0,
-                width,
-                height,
-            ))
-        }
+        // CoglTextureLoader *loader;
+
+        // loader = _cogl_texture_create_loader ();
+        // loader->src_type = COGL_TEXTURE_SOURCE_TYPE_SIZED;
+        // loader->src.sized.width = width;
+        // loader->src.sized.height = height;
+
+        // return _cogl_texture_2d_create_base (ctx, width, height,
+        //                                     COGL_PIXEL_FORMAT_RGBA_8888_PRE, loader);
+        unimplemented!()
     }
 }
 

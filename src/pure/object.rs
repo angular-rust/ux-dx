@@ -1,30 +1,31 @@
-use glib::object::IsA;
-use glib::translate::*;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct Object(Object<ffi::CoglObject, ObjectClass>);
+pub struct Object {
+    // CoglObjectClass  *klass; /* equivalent to GTypeInstance */
 
-    match fn {
-        get_type => || ffi::cogl_object_get_gtype(),
-    }
+    // CoglUserDataEntry user_data_entry[
+    //   COGL_OBJECT_N_PRE_ALLOCATED_USER_DATA_ENTRIES];
+    // GArray           *user_data_array;
+    // int               n_user_data_entries;
+  
+    // unsigned int      ref_count;
 }
 
 impl Object {
     //pub fn ref_(object: /*Unimplemented*/Option<Fundamental: Pointer>) -> /*Unimplemented*/Option<Fundamental: Pointer> {
-    //    unsafe { TODO: call cogl_sys:cogl_object_ref() }
+    //    unimplemented!()
     //}
 
     //pub fn unref(object: /*Unimplemented*/Option<Fundamental: Pointer>) {
-    //    unsafe { TODO: call cogl_sys:cogl_object_unref() }
+    //    unimplemented!()
     //}
 
-    //pub fn value_get_object(value: &glib::Value) -> /*Unimplemented*/Option<Fundamental: Pointer> {
-    //    unsafe { TODO: call cogl_sys:cogl_object_value_get_object() }
+    //pub fn value_get_object(value: &Value) -> /*Unimplemented*/Option<Fundamental: Pointer> {
+    //    unimplemented!()
     //}
 
-    //pub fn value_set_object(value: &mut glib::Value, object: /*Unimplemented*/Option<Fundamental: Pointer>) {
-    //    unsafe { TODO: call cogl_sys:cogl_object_value_set_object() }
+    //pub fn value_set_object(value: &mut Value, object: /*Unimplemented*/Option<Fundamental: Pointer>) {
+    //    unimplemented!()
     //}
 }
 
@@ -39,15 +40,15 @@ pub trait ObjectExt: 'static {
     //fn set_user_data(&self, key: &mut UserDataKey, user_data: /*Unimplemented*/Option<Fundamental: Pointer>, destroy: UserDataDestroyCallback);
 }
 
-impl<O: IsA<Object>> ObjectExt for O {
-    //fn get_user_data(&self, key: &mut UserDataKey) -> /*Unimplemented*/Option<Fundamental: Pointer> {
-    //    unsafe { TODO: call cogl_sys:cogl_object_get_user_data() }
-    //}
+// impl<O: Is<Object>> ObjectExt for O {
+//     //fn get_user_data(&self, key: &mut UserDataKey) -> /*Unimplemented*/Option<Fundamental: Pointer> {
+//     //    unsafe { TODO: call cogl_sys:cogl_object_get_user_data() }
+//     //}
 
-    //fn set_user_data(&self, key: &mut UserDataKey, user_data: /*Unimplemented*/Option<Fundamental: Pointer>, destroy: UserDataDestroyCallback) {
-    //    unsafe { TODO: call cogl_sys:cogl_object_set_user_data() }
-    //}
-}
+//     //fn set_user_data(&self, key: &mut UserDataKey, user_data: /*Unimplemented*/Option<Fundamental: Pointer>, destroy: UserDataDestroyCallback) {
+//     //    unsafe { TODO: call cogl_sys:cogl_object_set_user_data() }
+//     //}
+// }
 
 impl fmt::Display for Object {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

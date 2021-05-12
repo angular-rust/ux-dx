@@ -1,19 +1,50 @@
 use crate::{Object, SwapChain};
-
-use glib::translate::*;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct OnscreenTemplate(Object<ffi::CoglOnscreenTemplate, OnscreenTemplateClass>) @extends Object;
+pub struct OnscreenTemplate {
+    // CoglObject _parent;
 
-    match fn {
-        get_type => || ffi::cogl_onscreen_template_get_gtype(),
-    }
+    // CoglFramebufferConfig config;
 }
 
 impl OnscreenTemplate {
+    // * cogl_onscreen_new: (constructor)
+    // * @context: A #CoglContext
+    // * @width: The desired framebuffer width
+    // * @height: The desired framebuffer height
+    // *
+    // * Instantiates an "unallocated" #CoglOnscreen framebuffer that may be
+    // * configured before later being allocated, either implicitly when
+    // * it is first used or explicitly via cogl_framebuffer_allocate().
+    // *
+    // * Return value: (transfer full): A newly instantiated #CoglOnscreen framebuffer
+    // * Since: 1.8
+    // * Stability: unstable
     pub fn new(swap_chain: &SwapChain) -> OnscreenTemplate {
-        unsafe { from_glib_full(ffi::cogl_onscreen_template_new(swap_chain.to_glib_none().0)) }
+        // CoglOnscreenTemplate *onscreen_template = g_slice_new0 (CoglOnscreenTemplate);
+        // char *user_config;
+
+        // onscreen_template->config.swap_chain = swap_chain;
+        // if (swap_chain)
+        //     cogl_object_ref (swap_chain);
+        // else
+        //     onscreen_template->config.swap_chain = cogl_swap_chain_new ();
+
+        // onscreen_template->config.swap_throttled = TRUE;
+        // onscreen_template->config.need_stencil = TRUE;
+        // onscreen_template->config.samples_per_pixel = 0;
+
+        // user_config = getenv ("COGL_POINT_SAMPLES_PER_PIXEL");
+        // if (user_config)
+        //     {
+        //     unsigned long samples_per_pixel = strtoul (user_config, NULL, 10);
+        //     if (samples_per_pixel != ULONG_MAX)
+        //         onscreen_template->config.samples_per_pixel =
+        //         samples_per_pixel;
+        //     }
+
+        // return _cogl_onscreen_template_object_new (onscreen_template);
+        unimplemented!()
     }
 
     /// Requires that any future CoglOnscreen framebuffers derived from
@@ -33,9 +64,8 @@ impl OnscreenTemplate {
     /// ## `n`
     /// The minimum number of samples per pixel
     pub fn set_samples_per_pixel(&self, n: i32) {
-        unsafe {
-            ffi::cogl_onscreen_template_set_samples_per_pixel(self.to_glib_none().0, n);
-        }
+        // onscreen_template->config.samples_per_pixel = samples_per_pixel;
+        unimplemented!()
     }
 
     /// Sets whether future `Onscreen` framebuffers derived from this
@@ -46,9 +76,8 @@ impl OnscreenTemplate {
     /// ## `enabled`
     /// Whether framebuffers are created with stereo buffers
     pub fn set_stereo_enabled(&self, enabled: bool) {
-        unsafe {
-            ffi::cogl_onscreen_template_set_stereo_enabled(self.to_glib_none().0, enabled as i32);
-        }
+        // onscreen_template->config.stereo_enabled = enabled;
+        unimplemented!()
     }
 
     /// Requests that any future `Onscreen` framebuffers derived from this
@@ -57,9 +86,8 @@ impl OnscreenTemplate {
     /// ## `throttled`
     /// Whether throttling should be enabled
     pub fn set_swap_throttled(&self, throttled: bool) {
-        unsafe {
-            ffi::cogl_onscreen_template_set_swap_throttled(self.to_glib_none().0, throttled as i32);
-        }
+        // onscreen_template->config.swap_throttled = throttled;
+        unimplemented!()
     }
 }
 

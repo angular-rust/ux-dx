@@ -1,17 +1,79 @@
 use crate::{AttributeBuffer, AttributeType, Context, Object};
-
-use glib::translate::*;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct Attribute(Object<ffi::CoglAttribute, AttributeClass>) @extends Object;
+pub enum AttributeNameID {
+//   COGL_ATTRIBUTE_NAME_ID_POSITION_ARRAY,
+//   COGL_ATTRIBUTE_NAME_ID_COLOR_ARRAY,
+//   COGL_ATTRIBUTE_NAME_ID_TEXTURE_COORD_ARRAY,
+//   COGL_ATTRIBUTE_NAME_ID_NORMAL_ARRAY,
+//   COGL_ATTRIBUTE_NAME_ID_POINT_SIZE_ARRAY,
+//   COGL_ATTRIBUTE_NAME_ID_CUSTOM_ARRAY
+}
 
-    match fn {
-        get_type => || ffi::cogl_attribute_get_gtype(),
-    }
+pub struct AttributeNameState {
+//   char *name;
+//   CoglAttributeNameID name_id;
+//   int name_index;
+//   CoglBool normalized_default;
+//   int layer_number;
+}
+
+pub enum DrawFlags {
+//   COGL_DRAW_SKIP_JOURNAL_FLUSH = 1 << 0,
+//   COGL_DRAW_SKIP_PIPELINE_VALIDATION = 1 << 1,
+//   COGL_DRAW_SKIP_FRAMEBUFFER_FLUSH = 1 << 2,
+//   COGL_DRAW_SKIP_LEGACY_STATE = 1 << 3,
+//   /* By default the vertex attribute drawing code will assume that if
+//      there is a color attribute array enabled then we can't determine
+//      if the colors will be opaque so we need to enabling
+//      blending. However when drawing from the journal we know what the
+//      contents of the color array is so we can override this by passing
+//      this flag. */
+//   COGL_DRAW_COLOR_ATTRIBUTE_IS_OPAQUE = 1 << 4,
+//   /* This forcibly disables the debug option to divert all drawing to
+//    * wireframes */
+//   COGL_DRAW_SKIP_DEBUG_WIREFRAME = 1 << 5
+}
+
+pub struct Attribute {
+    // CoglObject _parent;
+
+    // const CoglAttributeNameState *name_state;
+    // CoglBool normalized;
+
+    // CoglBool is_buffered;
+
+    // union {
+    //     struct {
+    //     CoglAttributeBuffer *attribute_buffer;
+    //     size_t stride;
+    //     size_t offset;
+    //     int n_components;
+    //     CoglAttributeType type;
+    //     } buffered;
+    //     struct {
+    //     CoglContext *context;
+    //     CoglBoxedValue boxed;
+    //     } constant;
+    // } d;
+
+    // int immutable_ref;
 }
 
 impl Attribute {
+    // * cogl_attribute_new: (constructor)
+    // * @attribute_buffer: The #CoglAttributeBuffer containing the actual
+    // *                    attribute data
+    // * @name: The name of the attribute (used to reference it from GLSL)
+    // * @stride: The number of bytes to jump to get to the next attribute
+    // *          value for the next vertex. (Usually
+    // *          <literal>sizeof (MyVertex)</literal>)
+    // * @offset: The byte offset from the start of @attribute_buffer for
+    // *          the first attribute value. (Usually
+    // *          <literal>offsetof (MyVertex, component0)</literal>
+    // * @components: The number of components (e.g. 4 for an rgba color or
+    // *              3 for and (x,y,z) position)
+    // * @type: FIXME
     /// Describes the layout for a list of vertex attribute values (For
     /// example, a list of texture coordinates or colors).
     ///
@@ -111,18 +173,53 @@ impl Attribute {
         components: i32,
         type_: AttributeType,
     ) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new(
-                attribute_buffer.to_glib_none().0,
-                name.to_glib_none().0,
-                stride,
-                offset,
-                components,
-                type_.to_glib(),
-            ))
-        }
+        // CoglAttribute *attribute = g_slice_new (CoglAttribute);
+        // CoglBuffer *buffer = COGL_BUFFER (attribute_buffer);
+        // CoglContext *ctx = buffer->context;
+
+        // attribute->is_buffered = TRUE;
+
+        // attribute->name_state =
+        //     g_hash_table_lookup (ctx->attribute_name_states_hash, name);
+        // if (!attribute->name_state)
+        //     {
+        //     CoglAttributeNameState *name_state =
+        //         _cogl_attribute_register_attribute_name (ctx, name);
+        //     if (!name_state)
+        //         goto error;
+        //     attribute->name_state = name_state;
+        //     }
+
+        // attribute->d.buffered.attribute_buffer = cogl_object_ref (attribute_buffer);
+        // attribute->d.buffered.stride = stride;
+        // attribute->d.buffered.offset = offset;
+        // attribute->d.buffered.n_components = n_components;
+        // attribute->d.buffered.type = type;
+
+        // attribute->immutable_ref = 0;
+
+        // if (attribute->name_state->name_id != COGL_ATTRIBUTE_NAME_ID_CUSTOM_ARRAY)
+        //     {
+        //     if (!validate_n_components (attribute->name_state, n_components))
+        //         return NULL;
+        //     attribute->normalized =
+        //         attribute->name_state->normalized_default;
+        //     }
+        // else
+        //     attribute->normalized = FALSE;
+
+        // return _cogl_attribute_object_new (attribute);
+
+        // error:
+        // _cogl_attribute_free (attribute);
+        // return NULL;
+        unimplemented!()
     }
 
+    // * cogl_attribute_new_const_1f:
+    // * @context: A #CoglContext
+    // * @name: The name of the attribute (used to reference it from GLSL)
+    // * @value: The constant value for the attribute
     /// Creates a new, single component, attribute whose value remains
     /// constant across all the vertices of a primitive without needing to
     /// duplicate the value for each vertex.
@@ -145,13 +242,13 @@ impl Attribute {
     /// A newly allocated `Attribute`
     ///  representing the given constant `value`.
     pub fn new_const_1f(context: &Context, name: &str, value: f32) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_1f(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                value,
-            ))
-        }
+        // return _cogl_attribute_new_const (context,
+        //     name,
+        //     1, /* n_components */
+        //     1, /* 1 column vector */
+        //     FALSE, /* no transpose */
+        //     &value);
+        unimplemented!()
     }
 
     /// Creates a new, 2 component, attribute whose value remains
@@ -184,14 +281,14 @@ impl Attribute {
         component0: f32,
         component1: f32,
     ) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_2f(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                component0,
-                component1,
-            ))
-        }
+        // float vec2[2] = { component0, component1 };
+        // return _cogl_attribute_new_const (context,
+        //                                   name,
+        //                                   2, /* n_components */
+        //                                   1, /* 1 column vector */
+        //                                   FALSE, /* no transpose */
+        //                                   vec2);
+        unimplemented!()
     }
 
     /// Creates a new, 2 component, attribute whose value remains
@@ -217,13 +314,13 @@ impl Attribute {
     /// A newly allocated `Attribute`
     ///  representing the given constant vector.
     pub fn new_const_2fv(context: &Context, name: &str, value: &[f32; 2]) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_2fv(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                value.as_ptr(),
-            ))
-        }
+        // return _cogl_attribute_new_const (context,
+        //     name,
+        //     2, /* n_components */
+        //     1, /* 1 column vector */
+        //     FALSE, /* no transpose */
+        //     value);
+        unimplemented!()
     }
 
     /// Creates a new matrix attribute whose value remains constant
@@ -262,14 +359,13 @@ impl Attribute {
         matrix2x2: &[f32; 4],
         transpose: bool,
     ) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_2x2fv(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                matrix2x2.as_ptr(),
-                transpose as i32,
-            ))
-        }
+        // return _cogl_attribute_new_const (context,
+        //     name,
+        //     2, /* n_components */
+        //     2, /* 2 column vector */
+        //     FALSE, /* no transpose */
+        //     matrix2x2);
+        unimplemented!()
     }
 
     /// Creates a new, 3 component, attribute whose value remains
@@ -308,15 +404,14 @@ impl Attribute {
         component1: f32,
         component2: f32,
     ) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_3f(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                component0,
-                component1,
-                component2,
-            ))
-        }
+        // float vec3[3] = { component0, component1, component2 };
+        // return _cogl_attribute_new_const (context,
+        //                                   name,
+        //                                   3, /* n_components */
+        //                                   1, /* 1 column vector */
+        //                                   FALSE, /* no transpose */
+        //                                   vec3);
+        unimplemented!()
     }
 
     /// Creates a new, 3 component, attribute whose value remains
@@ -345,13 +440,13 @@ impl Attribute {
     /// A newly allocated `Attribute`
     ///  representing the given constant vector.
     pub fn new_const_3fv(context: &Context, name: &str, value: &[f32; 3]) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_3fv(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                value.as_ptr(),
-            ))
-        }
+        // return _cogl_attribute_new_const (context,
+        //     name,
+        //     3, /* n_components */
+        //     1, /* 1 column vector */
+        //     FALSE, /* no transpose */
+        //     value);
+        unimplemented!()
     }
 
     /// Creates a new matrix attribute whose value remains constant
@@ -391,14 +486,13 @@ impl Attribute {
         matrix3x3: &[f32; 9],
         transpose: bool,
     ) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_3x3fv(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                matrix3x3.as_ptr(),
-                transpose as i32,
-            ))
-        }
+        // return _cogl_attribute_new_const (context,
+        //     name,
+        //     3, /* n_components */
+        //     3, /* 3 column vector */
+        //     FALSE, /* no transpose */
+        //     matrix3x3);
+        unimplemented!()
     }
 
     /// Creates a new, 4 component, attribute whose value remains
@@ -441,16 +535,14 @@ impl Attribute {
         component2: f32,
         component3: f32,
     ) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_4f(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                component0,
-                component1,
-                component2,
-                component3,
-            ))
-        }
+        // float vec4[4] = { component0, component1, component2, component3 };
+        // return _cogl_attribute_new_const (context,
+        //                                   name,
+        //                                   4, /* n_components */
+        //                                   1, /* 1 column vector */
+        //                                   FALSE, /* no transpose */
+        //                                   vec4);
+        unimplemented!()
     }
 
     /// Creates a new, 4 component, attribute whose value remains
@@ -480,13 +572,13 @@ impl Attribute {
     /// A newly allocated `Attribute`
     ///  representing the given constant vector.
     pub fn new_const_4fv(context: &Context, name: &str, value: &[f32; 4]) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_4fv(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                value.as_ptr(),
-            ))
-        }
+        // return _cogl_attribute_new_const (context,
+        //     name,
+        //     4, /* n_components */
+        //     1, /* 1 column vector */
+        //     FALSE, /* no transpose */
+        //     value);
+        unimplemented!()
     }
 
     /// Creates a new matrix attribute whose value remains constant
@@ -526,14 +618,13 @@ impl Attribute {
         matrix4x4: &[f32; 16],
         transpose: bool,
     ) -> Attribute {
-        unsafe {
-            from_glib_full(ffi::cogl_attribute_new_const_4x4fv(
-                context.to_glib_none().0,
-                name.to_glib_none().0,
-                matrix4x4.as_ptr(),
-                transpose as i32,
-            ))
-        }
+        // return _cogl_attribute_new_const (context,
+        //     name,
+        //     4, /* n_components */
+        //     4, /* 4 column vector */
+        //     FALSE, /* no transpose */
+        //     matrix4x4);
+        unimplemented!()
     }
 
     ///
@@ -542,7 +633,11 @@ impl Attribute {
     /// the `AttributeBuffer` that was
     ///  set with `Attribute::set_buffer` or `Attribute::new`.
     pub fn get_buffer(&self) -> Option<AttributeBuffer> {
-        unsafe { from_glib_none(ffi::cogl_attribute_get_buffer(self.to_glib_none().0)) }
+        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_attribute (attribute), NULL);
+        // _COGL_RETURN_VAL_IF_FAIL (attribute->is_buffered, NULL);
+      
+        // return attribute->d.buffered.attribute_buffer;
+        unimplemented!()
     }
 
     ///
@@ -551,19 +646,27 @@ impl Attribute {
     /// the value of the normalized property set with
     /// `Attribute::set_normalized`.
     pub fn get_normalized(&self) -> bool {
-        unsafe { ffi::cogl_attribute_get_normalized(self.to_glib_none().0) == crate::TRUE }
+        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_attribute (attribute), FALSE);
+
+        // return attribute->normalized;
+        unimplemented!()
     }
 
     /// Sets a new `AttributeBuffer` for the attribute.
     /// ## `attribute_buffer`
     /// A `AttributeBuffer`
     pub fn set_buffer(&self, attribute_buffer: &AttributeBuffer) {
-        unsafe {
-            ffi::cogl_attribute_set_buffer(
-                self.to_glib_none().0,
-                attribute_buffer.to_glib_none().0,
-            );
-        }
+        // _COGL_RETURN_IF_FAIL (cogl_is_attribute (attribute));
+        // _COGL_RETURN_IF_FAIL (attribute->is_buffered);
+      
+        // if (G_UNLIKELY (attribute->immutable_ref))
+        //   warn_about_midscene_changes ();
+      
+        // cogl_object_ref (attribute_buffer);
+      
+        // cogl_object_unref (attribute->d.buffered.attribute_buffer);
+        // attribute->d.buffered.attribute_buffer = attribute_buffer;
+        unimplemented!()
     }
 
     /// Sets whether fixed point attribute types are mapped to the range
@@ -578,9 +681,13 @@ impl Attribute {
     /// ## `normalized`
     /// The new value for the normalized property.
     pub fn set_normalized(&self, normalized: bool) {
-        unsafe {
-            ffi::cogl_attribute_set_normalized(self.to_glib_none().0, normalized as i32);
-        }
+        // _COGL_RETURN_IF_FAIL (cogl_is_attribute (attribute));
+
+        // if (G_UNLIKELY (attribute->immutable_ref))
+        //   warn_about_midscene_changes ();
+      
+        // attribute->normalized = normalized;
+        unimplemented!()
     }
 }
 

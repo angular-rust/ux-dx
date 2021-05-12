@@ -5,16 +5,108 @@
 )]
 
 use crate::{Driver, Object, OnscreenTemplate, Output, RendererConstraint, WinsysID};
-
-use glib::translate::*;
 use std::{fmt, ptr};
 
-glib_wrapper! {
-    pub struct Renderer(Object<ffi::CoglRenderer, RendererClass>) @extends Object;
+// typedef struct _CoglDriverDescription
+// {
+//   CoglDriver id;
+//   const char *name;
+//   CoglRendererConstraint constraints;
+//   /* It would be nice to make this a pointer and then use a compound
+//    * literal from C99 to initialise it but we probably can't get away
+//    * with using C99 here. Instead we'll just use a fixed-size array.
+//    * GCC should complain if someone adds an 8th feature to a
+//    * driver. */
+//   const CoglPrivateFeature private_features[8];
+//   const CoglDriverVtable *vtable;
+//   const CoglTextureDriver *texture_driver;
+//   const char *libgl_name;
+// } CoglDriverDescription;
 
-    match fn {
-        get_type => || ffi::cogl_renderer_get_gtype(),
-    }
+// * SECTION:cogl-renderer
+// * @short_description: Choosing a means to render
+// *
+// * A #CoglRenderer represents a means to render. It encapsulates the
+// * selection of an underlying driver, such as OpenGL or OpenGL-ES and
+// * a selection of a window system binding API such as GLX, or EGL or
+// * WGL.
+// *
+// * A #CoglRenderer has two states, "unconnected" and "connected". When
+// * a renderer is first instantiated using cogl_renderer_new() it is
+// * unconnected so that it can be configured and constraints can be
+// * specified for how the backend driver and window system should be
+// * chosen.
+// *
+// * After configuration a #CoglRenderer can (optionally) be explicitly
+// * connected using cogl_renderer_connect() which allows for the
+// * handling of connection errors so that fallback configurations can
+// * be tried if necessary. Applications that don't support any
+// * fallbacks though can skip using cogl_renderer_connect() and leave
+// * Cogl to automatically connect the renderer.
+// *
+// * Once you have a configured #CoglRenderer it can be used to create a
+// * #CoglDisplay object using cogl_display_new().
+// *
+// * <note>Many applications don't need to explicitly use
+// * cogl_renderer_new() or cogl_display_new() and can just jump
+// * straight to cogl_context_new() and pass a %NULL display argument so
+// * Cogl will automatically connect and setup a renderer and
+// * display.</note>
+pub struct Renderer {
+    // CoglObject _parent;
+    // CoglBool connected;
+    // CoglDriver driver_override;
+    // const CoglDriverVtable *driver_vtable;
+    // const CoglTextureDriver *texture_driver;
+    // const CoglWinsysVtable *winsys_vtable;
+    // CoglWinsysID winsys_id_override;
+    // GList *constraints;
+
+    // GArray *poll_fds;
+    // int poll_fds_age;
+    // GList *poll_sources;
+
+    // CoglList idle_closures;
+
+    // GList *outputs;
+
+    // #ifdef COGL_HAS_XLIB_SUPPORT
+    // Display *foreign_xdpy;
+    // CoglBool xlib_enable_event_retrieval;
+    // #endif
+
+    // #ifdef COGL_HAS_WIN32_SUPPORT
+    // CoglBool win32_enable_event_retrieval;
+    // #endif
+
+    // CoglDriver driver;
+    // unsigned long private_features
+    //     [COGL_FLAGS_N_LONGS_FOR_SIZE (COGL_N_PRIVATE_FEATURES)];
+    // #ifndef HAVE_DIRECTLY_LINKED_GL_LIBRARY
+    // GModule *libgl_module;
+    // #endif
+
+    // #if defined (COGL_HAS_EGL_PLATFORM_WAYLAND_SUPPORT)
+    // struct wl_display *foreign_wayland_display;
+    // CoglBool wayland_enable_event_dispatch;
+    // #endif
+
+    // #if defined (COGL_HAS_EGL_PLATFORM_MIR_SUPPORT)
+    // MirConnection *foreign_mir_connection;
+    // #endif
+
+    // #if defined (COGL_HAS_EGL_PLATFORM_KMS_SUPPORT)
+    // int kms_fd;
+    // #endif
+
+    // #ifdef COGL_HAS_SDL_SUPPORT
+    // CoglBool sdl_event_type_set;
+    // uint32_t sdl_event_type;
+    // #endif
+
+    // /* List of callback functions that will be given every native event */
+    // GSList *event_filters;
+    // void *winsys;
 }
 
 impl Renderer {
@@ -55,7 +147,35 @@ impl Renderer {
     ///
     /// A newly created `Renderer`.
     pub fn new() -> Renderer {
-        unsafe { from_glib_full(ffi::cogl_renderer_new()) }
+        // CoglRenderer *renderer = g_new0 (CoglRenderer, 1);
+
+        // _cogl_init ();
+
+        // renderer->connected = FALSE;
+        // renderer->event_filters = NULL;
+
+        // renderer->poll_fds = g_array_new (FALSE, TRUE, sizeof (CoglPollFD));
+
+        // _cogl_list_init (&renderer->idle_closures);
+
+        // #ifdef COGL_HAS_XLIB_SUPPORT
+        // renderer->xlib_enable_event_retrieval = TRUE;
+        // #endif
+
+        // #ifdef COGL_HAS_WIN32_SUPPORT
+        // renderer->win32_enable_event_retrieval = TRUE;
+        // #endif
+
+        // #ifdef COGL_HAS_EGL_PLATFORM_WAYLAND_SUPPORT
+        // renderer->wayland_enable_event_dispatch = TRUE;
+        // #endif
+
+        // #ifdef COGL_HAS_EGL_PLATFORM_KMS_SUPPORT
+        // renderer->kms_fd = -1;
+        // #endif
+
+        // return _cogl_renderer_object_new (renderer);
+        unimplemented!()
     }
 
     /// This adds a renderer selection `constraint`.
@@ -65,9 +185,10 @@ impl Renderer {
     /// ## `constraint`
     /// A `RendererConstraint` to add
     pub fn add_constraint(&self, constraint: RendererConstraint) {
-        unsafe {
-            ffi::cogl_renderer_add_constraint(self.to_glib_none().0, constraint.to_glib());
-        }
+        // g_return_if_fail (!renderer->connected);
+        // renderer->constraints = g_list_prepend (renderer->constraints,
+        //                                   GUINT_TO_POINTER (constraint));
+        unimplemented!()
     }
 
     /// Tests if a given `onscreen_template` can be supported with the given
@@ -82,20 +203,23 @@ impl Renderer {
     pub fn check_onscreen_template(
         &self,
         onscreen_template: &OnscreenTemplate,
-    ) -> Result<bool, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = ffi::cogl_renderer_check_onscreen_template(
-                self.to_glib_none().0,
-                onscreen_template.to_glib_none().0,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(ret == crate::TRUE)
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
+    ) -> bool {
+        // CoglDisplay *display;
+
+        // if (!cogl_renderer_connect (renderer, error))
+        //     return FALSE;
+
+        // display = cogl_display_new (renderer, onscreen_template);
+        // if (!cogl_display_setup (display, error))
+        //     {
+        //     cogl_object_unref (display);
+        //     return FALSE;
+        //     }
+
+        // cogl_object_unref (display);
+
+        // return TRUE;
+        unimplemented!()
     }
 
     /// Connects the configured `self`. Renderer connection isn't a
@@ -107,16 +231,98 @@ impl Renderer {
     ///
     /// `true` if there was no error while connecting the
     ///  given `self`. `false` if there was an error.
-    pub fn connect(&self) -> Result<bool, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = ffi::cogl_renderer_connect(self.to_glib_none().0, &mut error);
-            if error.is_null() {
-                Ok(ret == crate::TRUE)
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
+    pub fn connect(&self) -> bool {
+        // int i;
+        // GString *error_message;
+        // CoglBool constraints_failed = FALSE;
+
+        // if (renderer->connected)
+        //     return TRUE;
+
+        // /* The driver needs to be chosen before connecting the renderer
+        //     because eglInitialize requires the library containing the GL API
+        //     to be loaded before its called */
+        // if (!_cogl_renderer_choose_driver (renderer, error))
+        //     return FALSE;
+
+        // error_message = g_string_new ("");
+        // for (i = 0; i < G_N_ELEMENTS (_cogl_winsys_vtable_getters); i++)
+        //     {
+        //     const CoglWinsysVtable *winsys = _cogl_winsys_vtable_getters[i]();
+        //     CoglError *tmp_error = NULL;
+        //     GList *l;
+        //     CoglBool skip_due_to_constraints = FALSE;
+
+        //     if (renderer->winsys_id_override != COGL_WINSYS_ID_ANY)
+        //         {
+        //         if (renderer->winsys_id_override != winsys->id)
+        //             continue;
+        //         }
+        //     else
+        //         {
+        //         char *user_choice = getenv ("COGL_RENDERER");
+        //         if (!user_choice)
+        //             user_choice = _cogl_config_renderer;
+        //         if (user_choice &&
+        //             g_ascii_strcasecmp (winsys->name, user_choice) != 0)
+        //             continue;
+        //         }
+
+        //     for (l = renderer->constraints; l; l = l->next)
+        //         {
+        //         CoglRendererConstraint constraint = GPOINTER_TO_UINT (l->data);
+        //         if (!(winsys->constraints & constraint))
+        //             {
+        //             skip_due_to_constraints = TRUE;
+        //             break;
+        //             }
+        //         }
+        //     if (skip_due_to_constraints)
+        //         {
+        //         constraints_failed |= TRUE;
+        //         continue;
+        //         }
+
+        //     /* At least temporarily we will associate this winsys with
+        //     * the renderer in-case ->renderer_connect calls API that
+        //     * wants to query the current winsys... */
+        //     renderer->winsys_vtable = winsys;
+
+        //     if (!winsys->renderer_connect (renderer, &tmp_error))
+        //         {
+        //         g_string_append_c (error_message, '\n');
+        //         g_string_append (error_message, tmp_error->message);
+        //         cogl_error_free (tmp_error);
+        //         }
+        //     else
+        //         {
+        //         renderer->connected = TRUE;
+        //         g_string_free (error_message, TRUE);
+        //         return TRUE;
+        //         }
+        //     }
+
+        // if (!renderer->connected)
+        //     {
+        //     if (constraints_failed)
+        //         {
+        //         _cogl_set_error (error, COGL_RENDERER_ERROR,
+        //                     COGL_RENDERER_ERROR_BAD_CONSTRAINT,
+        //                     "Failed to connected to any renderer due to constraints");
+        //         return FALSE;
+        //         }
+
+        //     renderer->winsys_vtable = NULL;
+        //     _cogl_set_error (error, COGL_WINSYS_ERROR,
+        //                 COGL_WINSYS_ERROR_INIT,
+        //                 "Failed to connected to any renderer: %s",
+        //                 error_message->str);
+        //     g_string_free (error_message, TRUE);
+        //     return FALSE;
+        //     }
+
+        // return TRUE;
+        unimplemented!()
     }
 
     /// Iterates all known display outputs for the given `self` and
@@ -128,31 +334,24 @@ impl Renderer {
     /// ## `user_data`
     /// A user pointer to be passed to `callback`
     pub fn foreach_output<P: FnMut(&Output)>(&self, callback: P) {
-        let callback_data: P = callback;
-        unsafe extern "C" fn callback_func<P: FnMut(&Output)>(
-            output: *mut ffi::CoglOutput,
-            user_data: glib_sys::gpointer,
-        ) {
-            let output = from_glib_borrow(output);
-            let callback: *mut P = user_data as *const _ as usize as *mut P;
-            (*callback)(&output);
-        }
-        let callback = Some(callback_func::<P> as _);
-        let super_callback0: &P = &callback_data;
-        unsafe {
-            ffi::cogl_renderer_foreach_output(
-                self.to_glib_none().0,
-                callback,
-                super_callback0 as *const _ as usize as *mut _,
-            );
-        }
+        // GList *l;
+
+        // _COGL_RETURN_IF_FAIL (renderer->connected);
+        // _COGL_RETURN_IF_FAIL (callback != NULL);
+      
+        // for (l = renderer->outputs; l; l = l->next)
+        //   callback (l->data, user_data);
+        unimplemented!()
     }
 
     /// Queries what underlying driver is being used by Cogl.
     ///
     /// This may only be called on a connected `Renderer`.
     pub fn get_driver(&self) -> Driver {
-        unsafe { from_glib(ffi::cogl_renderer_get_driver(self.to_glib_none().0)) }
+        // _COGL_RETURN_VAL_IF_FAIL (renderer->connected, 0);
+
+        // return renderer->driver;
+        unimplemented!()
     }
 
     /// Queries how many texture units can be used from fragment programs
@@ -161,7 +360,18 @@ impl Renderer {
     ///
     /// the number of texture image units.
     pub fn get_n_fragment_texture_units(&self) -> i32 {
-        unsafe { ffi::cogl_renderer_get_n_fragment_texture_units(self.to_glib_none().0) }
+        // int n = 0;
+
+        //     _COGL_GET_CONTEXT (ctx, 0);
+        
+        // #if defined (HAVE_COGL_GL) || defined (HAVE_COGL_GLES2)
+        //     if (cogl_has_feature (ctx, COGL_FEATURE_ID_GLSL) ||
+        //         cogl_has_feature (ctx, COGL_FEATURE_ID_ARBFP))
+        //     GE (ctx, glGetIntegerv (GL_MAX_TEXTURE_IMAGE_UNITS, &n));
+        // #endif
+        
+        // return n;
+        unimplemented!()
     }
 
     /// Queries which window system backend Cogl has chosen to use.
@@ -173,7 +383,10 @@ impl Renderer {
     /// The `WinsysID` corresponding to the chosen window
     ///  system backend.
     pub fn get_winsys_id(&self) -> WinsysID {
-        unsafe { from_glib(ffi::cogl_renderer_get_winsys_id(self.to_glib_none().0)) }
+        // _COGL_RETURN_VAL_IF_FAIL (renderer->connected, 0);
+
+        // return renderer->winsys_vtable->id;
+        unimplemented!()
     }
 
     /// This removes a renderer selection `constraint`.
@@ -183,9 +396,10 @@ impl Renderer {
     /// ## `constraint`
     /// A `RendererConstraint` to remove
     pub fn remove_constraint(&self, constraint: RendererConstraint) {
-        unsafe {
-            ffi::cogl_renderer_remove_constraint(self.to_glib_none().0, constraint.to_glib());
-        }
+        // g_return_if_fail (!renderer->connected);
+        // renderer->constraints = g_list_remove (renderer->constraints,
+        //                                        GUINT_TO_POINTER (constraint));
+        unimplemented!()
     }
 
     /// Requests that Cogl should try to use a specific underlying driver
@@ -198,9 +412,9 @@ impl Renderer {
     ///
     /// This may only be called on an un-connected `Renderer`.
     pub fn set_driver(&self, driver: Driver) {
-        unsafe {
-            ffi::cogl_renderer_set_driver(self.to_glib_none().0, driver.to_glib());
-        }
+        // _COGL_RETURN_IF_FAIL (!renderer->connected);
+        // renderer->driver_override = driver;
+        unimplemented!()
     }
 
     /// This allows you to explicitly select a winsys backend to use instead
@@ -213,9 +427,10 @@ impl Renderer {
     /// ## `winsys_id`
     /// An ID of the winsys you explicitly want to use.
     pub fn set_winsys_id(&self, winsys_id: WinsysID) {
-        unsafe {
-            ffi::cogl_renderer_set_winsys_id(self.to_glib_none().0, winsys_id.to_glib());
-        }
+        // _COGL_RETURN_IF_FAIL (!renderer->connected);
+
+        // renderer->winsys_id_override = winsys_id;
+        unimplemented!()
     }
 }
 

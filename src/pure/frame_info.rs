@@ -1,17 +1,20 @@
 use crate::{Object, Output};
-
-use glib::translate::*;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct FrameInfo(Object<ffi::CoglFrameInfo, FrameInfoClass>) @extends Object;
+pub struct FrameInfo {
+    // CoglObject _parent;
 
-    match fn {
-        get_type => || ffi::cogl_frame_info_get_gtype(),
-    }
+    // int64_t frame_counter;
+    // int64_t presentation_time;
+    // float refresh_rate;
+  
+    // CoglOutput *output;
 }
 
 impl FrameInfo {
+    pub fn new() -> Self {
+        unimplemented!()
+    }
     /// Gets the frame counter for the `Onscreen` that corresponds
     /// to this frame.
     ///
@@ -19,7 +22,8 @@ impl FrameInfo {
     ///
     /// The frame counter value
     pub fn get_frame_counter(&self) -> i64 {
-        unsafe { ffi::cogl_frame_info_get_frame_counter(self.to_glib_none().0) }
+        // return info->frame_counter;
+        unimplemented!()
     }
 
     /// Gets the `Output` that the swapped frame was presented to.
@@ -29,7 +33,8 @@ impl FrameInfo {
     /// The `Output` that the frame was
     ///  presented to, or `None` if this could not be determined.
     pub fn get_output(&self) -> Option<Output> {
-        unsafe { from_glib_none(ffi::cogl_frame_info_get_output(self.to_glib_none().0)) }
+        // return info->output;
+        unimplemented!()
     }
 
     /// Gets the presentation time for the frame. This is the time at which
@@ -50,7 +55,8 @@ impl FrameInfo {
     ///
     /// the presentation time for the frame
     pub fn get_presentation_time(&self) -> i64 {
-        unsafe { ffi::cogl_frame_info_get_presentation_time(self.to_glib_none().0) }
+        // return info->presentation_time;
+        unimplemented!()
     }
 
     /// Gets the refresh rate in Hertz for the output that the frame was on
@@ -66,7 +72,8 @@ impl FrameInfo {
     ///
     /// the refresh rate in Hertz
     pub fn get_refresh_rate(&self) -> f32 {
-        unsafe { ffi::cogl_frame_info_get_refresh_rate(self.to_glib_none().0) }
+        // return info->refresh_rate;
+        unimplemented!()
     }
 }
 

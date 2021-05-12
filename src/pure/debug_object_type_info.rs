@@ -1,7 +1,45 @@
 #![allow(unused_imports)]
-
-use glib::translate::*;
 use std::mem;
+
+pub enum DebugFlags {
+    // COGL_DEBUG_SLICING,
+    // COGL_DEBUG_OFFSCREEN,
+    // COGL_DEBUG_DRAW,
+    // COGL_DEBUG_PANGO,
+    // COGL_DEBUG_RECTANGLES,
+    // COGL_DEBUG_OBJECT,
+    // COGL_DEBUG_BLEND_STRINGS,
+    // COGL_DEBUG_DISABLE_BATCHING,
+    // COGL_DEBUG_DISABLE_VBOS,
+    // COGL_DEBUG_DISABLE_PBOS,
+    // COGL_DEBUG_JOURNAL,
+    // COGL_DEBUG_BATCHING,
+    // COGL_DEBUG_DISABLE_SOFTWARE_TRANSFORM,
+    // COGL_DEBUG_MATRICES,
+    // COGL_DEBUG_ATLAS,
+    // COGL_DEBUG_DUMP_ATLAS_IMAGE,
+    // COGL_DEBUG_DISABLE_ATLAS,
+    // COGL_DEBUG_DISABLE_SHARED_ATLAS,
+    // COGL_DEBUG_OPENGL,
+    // COGL_DEBUG_DISABLE_TEXTURING,
+    // COGL_DEBUG_DISABLE_ARBFP,
+    // COGL_DEBUG_DISABLE_FIXED,
+    // COGL_DEBUG_DISABLE_GLSL,
+    // COGL_DEBUG_SHOW_SOURCE,
+    // COGL_DEBUG_DISABLE_BLENDING,
+    // COGL_DEBUG_TEXTURE_PIXMAP,
+    // COGL_DEBUG_BITMAP,
+    // COGL_DEBUG_DISABLE_NPOT_TEXTURES,
+    // COGL_DEBUG_WIREFRAME,
+    // COGL_DEBUG_DISABLE_SOFTWARE_CLIP,
+    // COGL_DEBUG_DISABLE_PROGRAM_CACHES,
+    // COGL_DEBUG_DISABLE_FAST_READ_PIXEL,
+    // COGL_DEBUG_CLIPPING,
+    // COGL_DEBUG_WINSYS,
+    // COGL_DEBUG_PERFORMANCE,
+  
+    // COGL_DEBUG_N_FLAGS
+}
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
@@ -10,64 +48,3 @@ pub struct DebugObjectTypeInfo<'a> {
     pub instance_count: u64,
 }
 
-// #[doc(hidden)]
-// impl<'a> Uninitialized for DebugObjectTypeInfo<'a> {
-//     #[inline]
-//     unsafe fn uninitialized() -> Self {
-//         mem::zeroed()
-//     }
-// }
-
-#[doc(hidden)]
-impl<'a> ToGlibPtr<'a, *const ffi::CoglDebugObjectTypeInfo> for DebugObjectTypeInfo<'a> {
-    type Storage = &'a Self;
-
-    #[inline]
-    fn to_glib_none(&'a self) -> Stash<'a, *const ffi::CoglDebugObjectTypeInfo, Self> {
-        let ptr: *const DebugObjectTypeInfo = &*self;
-        Stash(ptr as *const ffi::CoglDebugObjectTypeInfo, self)
-    }
-}
-
-#[doc(hidden)]
-impl<'a> ToGlibPtrMut<'a, *mut ffi::CoglDebugObjectTypeInfo> for DebugObjectTypeInfo<'a> {
-    type Storage = &'a mut Self;
-
-    #[inline]
-    fn to_glib_none_mut(&'a mut self) -> StashMut<'a, *mut ffi::CoglDebugObjectTypeInfo, Self> {
-        let ptr: *mut DebugObjectTypeInfo = &mut *self;
-        StashMut(ptr as *mut ffi::CoglDebugObjectTypeInfo, self)
-    }
-}
-
-#[doc(hidden)]
-impl<'a> FromGlibPtrNone<*const ffi::CoglDebugObjectTypeInfo> for DebugObjectTypeInfo<'a> {
-    unsafe fn from_glib_none(ptr: *const ffi::CoglDebugObjectTypeInfo) -> Self {
-        *(ptr as *const DebugObjectTypeInfo)
-    }
-}
-
-#[doc(hidden)]
-impl<'a> FromGlibPtrNone<*mut ffi::CoglDebugObjectTypeInfo> for DebugObjectTypeInfo<'a> {
-    unsafe fn from_glib_none(ptr: *mut ffi::CoglDebugObjectTypeInfo) -> Self {
-        *(ptr as *mut DebugObjectTypeInfo)
-    }
-}
-
-#[doc(hidden)]
-impl<'a> FromGlibPtrBorrow<*mut ffi::CoglDebugObjectTypeInfo> for DebugObjectTypeInfo<'a> {
-    unsafe fn from_glib_borrow(
-        ptr: *mut ffi::CoglDebugObjectTypeInfo,
-    ) -> glib::translate::Borrowed<Self> {
-        glib::translate::Borrowed::new(*(ptr as *mut DebugObjectTypeInfo))
-    }
-}
-
-#[doc(hidden)]
-impl<'a> FromGlibPtrBorrow<*const ffi::CoglDebugObjectTypeInfo> for DebugObjectTypeInfo<'a> {
-    unsafe fn from_glib_borrow(
-        ptr: *const ffi::CoglDebugObjectTypeInfo,
-    ) -> glib::translate::Borrowed<Self> {
-        glib::translate::Borrowed::new(*(ptr as *const DebugObjectTypeInfo))
-    }
-}

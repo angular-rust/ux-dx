@@ -1,12 +1,6 @@
-use glib::translate::*;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct Fixed(Object<ffi::CoglFixed, FixedClass>);
-
-    match fn {
-        get_type => || ffi::cogl_fixed_get_type(),
-    }
+pub struct Fixed {
 }
 
 impl Fixed {

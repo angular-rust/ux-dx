@@ -5,17 +5,317 @@
 )]
 
 use crate::{Object, SnippetHook};
-
-use glib::translate::*;
-use glib::GString;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct Snippet(Object<ffi::CoglSnippet, SnippetClass>) @extends Object;
+// * SECTION:cogl-snippet
+// * @short_description: Functions for creating and manipulating shader snippets
+// *
+// * #CoglSnippet<!-- -->s are used to modify or replace parts of a
+// * #CoglPipeline using GLSL. GLSL is a programming language supported
+// * by OpenGL on programmable hardware to provide a more flexible
+// * description of what should be rendered. A description of GLSL
+// * itself is outside the scope of this documentation but any good
+// * OpenGL book should help to describe it.
+// *
+// * Unlike in OpenGL, when using GLSL with Cogl it is possible to write
+// * short snippets to replace small sections of the pipeline instead of
+// * having to replace the whole of either the vertex or fragment
+// * pipelines. Of course it is also possible to replace the whole of
+// * the pipeline if needed.
+// *
+// * Each snippet is a standalone chunk of code which would attach to
+// * the pipeline at a particular point. The code is split into four
+// * separate strings (all of which are optional):
+// *
+// * <glosslist>
+// *  <glossentry>
+// *   <glossterm>declarations</glossterm>
+// *   <glossdef><para>
+// * The code in this string will be inserted outside of any function in
+// * the global scope of the shader. This can be used to declare
+// * uniforms, attributes, varyings and functions to be used by the
+// * snippet.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>pre</glossterm>
+// *   <glossdef><para>
+// * The code in this string will be inserted before the hook point.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>post</glossterm>
+// *   <glossdef><para>
+// * The code in this string will be inserted after the hook point. This
+// * can be used to modify the results of the builtin generated code for
+// * that hook point.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>replace</glossterm>
+// *   <glossdef><para>
+// * If present the code in this string will replace the generated code
+// * for the hook point.
+// *   </para></glossdef>
+// *  </glossentry>
+// * </glosslist>
+// *
+// * All of the strings apart from the declarations string of a pipeline
+// * are generated in a single function so they can share variables
+// * declared from one string in another. The scope of the code is
+// * limited to each snippet so local variables declared in the snippet
+// * will not collide with variables declared in another
+// * snippet. However, code in the 'declarations' string is global to
+// * the shader so it is the application's responsibility to ensure that
+// * variables declared here will not collide with those from other
+// * snippets.
+// *
+// * The snippets can be added to a pipeline with
+// * cogl_pipeline_add_snippet() or
+// * cogl_pipeline_add_layer_snippet(). Which function to use depends on
+// * which hook the snippet is targetting. The snippets are all
+// * generated in the order they are added to the pipeline. That is, the
+// * post strings are executed in the order they are added to the
+// * pipeline and the pre strings are executed in reverse order. If any
+// * replace strings are given for a snippet then any other snippets
+// * with the same hook added before that snippet will be ignored. The
+// * different hooks are documented under #CoglSnippetHook.
+// *
+// * For portability with GLES2, it is recommended not to use the GLSL
+// * builtin names such as gl_FragColor. Instead there are replacement
+// * names under the cogl_* namespace which can be used instead. These
+// * are:
+// *
+// * <glosslist>
+// *  <glossentry>
+// *   <glossterm>uniform mat4
+// *         <emphasis>cogl_modelview_matrix</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The current modelview matrix. This is equivalent to
+// *    #gl_ModelViewMatrix.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>uniform mat4
+// *         <emphasis>cogl_projection_matrix</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The current projection matrix. This is equivalent to
+// *    #gl_ProjectionMatrix.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>uniform mat4
+// *         <emphasis>cogl_modelview_projection_matrix</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The combined modelview and projection matrix. A vertex shader
+// *    would typically use this to transform the incoming vertex
+// *    position. The separate modelview and projection matrices are
+// *    usually only needed for lighting calculations. This is
+// *    equivalent to #gl_ModelViewProjectionMatrix.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>uniform mat4
+// *         <emphasis>cogl_texture_matrix</emphasis>[]</glossterm>
+// *   <glossdef><para>
+// *    An array of matrices for transforming the texture
+// *    coordinates. This is equivalent to #gl_TextureMatrix.
+// *   </para></glossdef>
+// *  </glossentry>
+// * </glosslist>
+// *
+// * In a vertex shader, the following are also available:
+// *
+// * <glosslist>
+// *  <glossentry>
+// *   <glossterm>attribute vec4
+// *         <emphasis>cogl_position_in</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The incoming vertex position. This is equivalent to #gl_Vertex.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>attribute vec4
+// *         <emphasis>cogl_color_in</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The incoming vertex color. This is equivalent to #gl_Color.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>attribute vec4
+// *         <emphasis>cogl_tex_coord_in</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The texture coordinate for layer 0. This is an alternative name
+// *    for #cogl_tex_coord0_in.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>attribute vec4
+// *         <emphasis>cogl_tex_coord0_in</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The texture coordinate for the layer 0. This is equivalent to
+// *    #gl_MultiTexCoord0. There will also be #cogl_tex_coord1_in and
+// *    so on if more layers are added to the pipeline.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>attribute vec3
+// *         <emphasis>cogl_normal_in</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The normal of the vertex. This is equivalent to #gl_Normal.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>vec4
+// *         <emphasis>cogl_position_out</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The calculated position of the vertex. This must be written to
+// *    in all vertex shaders. This is equivalent to #gl_Position.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>float
+// *         <emphasis>cogl_point_size_in</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The incoming point size from the cogl_point_size_in attribute.
+// *    This is only available if
+// *    cogl_pipeline_set_per_vertex_point_size() is set on the
+// *    pipeline.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>float
+// *         <emphasis>cogl_point_size_out</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The calculated size of a point. This is equivalent to #gl_PointSize.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>varying vec4
+// *         <emphasis>cogl_color_out</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The calculated color of a vertex. This is equivalent to #gl_FrontColor.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>varying vec4
+// *         <emphasis>cogl_tex_coord0_out</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The calculated texture coordinate for layer 0 of the pipeline.
+// *    This is equivalent to #gl_TexCoord[0]. There will also be
+// *    #cogl_tex_coord1_out and so on if more layers are added to the
+// *    pipeline. In the fragment shader, this varying is called
+// *    #cogl_tex_coord0_in.
+// *   </para></glossdef>
+// *  </glossentry>
+// * </glosslist>
+// *
+// * In a fragment shader, the following are also available:
+// *
+// * <glosslist>
+// *  <glossentry>
+// *   <glossterm>varying vec4 <emphasis>cogl_color_in</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The calculated color of a vertex. This is equivalent to #gl_FrontColor.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>varying vec4
+// *              <emphasis>cogl_tex_coord0_in</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The texture coordinate for layer 0. This is equivalent to
+// *    #gl_TexCoord[0]. There will also be #cogl_tex_coord1_in and so
+// *    on if more layers are added to the pipeline.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>vec4 <emphasis>cogl_color_out</emphasis></glossterm>
+// *   <glossdef><para>
+// *    The final calculated color of the fragment. All fragment shaders
+// *    must write to this variable. This is equivalent to
+// *    #gl_FrontColor.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>float <emphasis>cogl_depth_out</emphasis></glossterm>
+// *   <glossdef><para>
+// *    An optional output variable specifying the depth value to use
+// *    for this fragment. This is equivalent to #gl_FragDepth.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>bool <emphasis>cogl_front_facing</emphasis></glossterm>
+// *   <glossdef><para>
+// *    A readonly variable that will be true if the current primitive
+// *    is front facing. This can be used to implement two-sided
+// *    coloring algorithms. This is equivalent to #gl_FrontFacing.
+// *   </para></glossdef>
+// *  </glossentry>
+// *  <glossentry>
+// *   <glossterm>vec2 <emphasis>cogl_point_coord</emphasis></glossterm>
+// *   <glossdef><para>
+// *    When rendering points, this will contain a vec2 which represents
+// *    the position within the point of the current fragment.
+// *    vec2(0.0,0.0) will be the topleft of the point and vec2(1.0,1.0)
+// *    will be the bottom right. Note that there is currently a bug in
+// *    Cogl where when rendering to an offscreen buffer these
+// *    coordinates will be upside-down. The value is undefined when not
+// *    rendering points. This builtin can only be used if the
+// *    %COGL_FEATURE_ID_POINT_SPRITE feature is available.
+// *   </para></glossdef>
+// *  </glossentry>
+// * </glosslist>
+// *
+// * Here is an example of using a snippet to add a desaturate effect to the
+// * generated color on a pipeline.
+// *
+// * <programlisting>
+// *   CoglPipeline *pipeline = cogl_pipeline_new ();
+// *
+// *   /<!-- -->* Set up the pipeline here, ie by adding a texture or other
+// *      layers *<!-- -->/
+// *
+// *   /<!-- -->* Create the snippet. The first string is the declarations which
+// *      we will use to add a uniform. The second is the 'post' string which
+// *      will contain the code to perform the desaturation. *<!-- -->/
+// *   CoglSnippet *snippet =
+// *     cogl_snippet_new (COGL_SNIPPET_HOOK_FRAGMENT,
+// *                       "uniform float factor;",
+// *                       "float gray = dot (vec3 (0.299, 0.587, 0.114), "
+// *                       "                  cogl_color_out.rgb);"
+// *                       "cogl_color_out.rgb = mix (vec3 (gray),"
+// *                       "                          cogl_color_out.rgb,"
+// *                       "                          factor);");
+// *
+// *   /<!-- -->* Add it to the pipeline *<!-- -->/
+// *   cogl_pipeline_add_snippet (pipeline, snippet);
+// *   /<!-- -->* The pipeline keeps a reference to the snippet
+// *      so we don't need to *<!-- -->/
+// *   cogl_object_unref (snippet);
+// *
+// *   /<!-- -->* Update the custom uniform on the pipeline *<!-- -->/
+// *   int location = cogl_pipeline_get_uniform_location (pipeline, "factor");
+// *   cogl_pipeline_set_uniform_1f (pipeline, location, 0.5f);
+// *
+// *   /<!-- -->* Now we can render with the snippet as usual *<!-- -->/
+// *   cogl_push_source (pipeline);
+// *   cogl_rectangle (0, 0, 10, 10);
+// *   cogl_pop_source ();
+// * </programlisting>
+pub struct Snippet {
+    // CoglObject _parent;
 
-    match fn {
-        get_type => || ffi::cogl_snippet_get_gtype(),
-    }
+    // CoglSnippetHook hook;
+  
+    // /* This is set to TRUE the first time the snippet is attached to the
+    //    pipeline. After that any attempts to modify the snippet will be
+    //    ignored. */
+    // CoglBool immutable;
+  
+    // char *declarations;
+    // char *pre;
+    // char *replace;
+    // char *post;
 }
 
 impl Snippet {
@@ -34,13 +334,17 @@ impl Snippet {
     ///
     /// a pointer to a new `Snippet`
     pub fn new(hook: SnippetHook, declarations: &str, post: &str) -> Snippet {
-        unsafe {
-            from_glib_full(ffi::cogl_snippet_new(
-                hook.to_glib(),
-                declarations.to_glib_none().0,
-                post.to_glib_none().0,
-            ))
-        }
+        // CoglSnippet *snippet = g_slice_new0 (CoglSnippet);
+
+        // _cogl_snippet_object_new (snippet);
+
+        // snippet->hook = hook;
+
+        // cogl_snippet_set_declarations (snippet, declarations);
+        // cogl_snippet_set_post (snippet, post);
+
+        // return snippet;
+        unimplemented!()
     }
 
     ///
@@ -48,8 +352,11 @@ impl Snippet {
     ///
     /// the source string that was set with
     ///  `Snippet::set_declarations` or `None` if none was set.
-    pub fn get_declarations(&self) -> Option<GString> {
-        unsafe { from_glib_none(ffi::cogl_snippet_get_declarations(self.to_glib_none().0)) }
+    pub fn get_declarations(&self) -> Option<String> {
+        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_snippet (snippet), NULL);
+
+        // return snippet->declarations;
+        unimplemented!()
     }
 
     ///
@@ -58,7 +365,10 @@ impl Snippet {
     /// the hook that was set when `Snippet::new` was
     ///  called.
     pub fn get_hook(&self) -> SnippetHook {
-        unsafe { from_glib(ffi::cogl_snippet_get_hook(self.to_glib_none().0)) }
+        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_snippet (snippet), 0);
+
+        // return snippet->hook;
+        unimplemented!()
     }
 
     ///
@@ -66,8 +376,11 @@ impl Snippet {
     ///
     /// the source string that was set with
     ///  `Snippet::set_post` or `None` if none was set.
-    pub fn get_post(&self) -> Option<GString> {
-        unsafe { from_glib_none(ffi::cogl_snippet_get_post(self.to_glib_none().0)) }
+    pub fn get_post(&self) -> Option<String> {
+        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_snippet (snippet), NULL);
+
+        // return snippet->post;
+        unimplemented!()
     }
 
     ///
@@ -75,8 +388,11 @@ impl Snippet {
     ///
     /// the source string that was set with
     ///  `Snippet::set_pre` or `None` if none was set.
-    pub fn get_pre(&self) -> Option<GString> {
-        unsafe { from_glib_none(ffi::cogl_snippet_get_pre(self.to_glib_none().0)) }
+    pub fn get_pre(&self) -> Option<String> {
+        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_snippet (snippet), NULL);
+
+        // return snippet->pre;
+        unimplemented!()
     }
 
     ///
@@ -84,8 +400,11 @@ impl Snippet {
     ///
     /// the source string that was set with
     ///  `Snippet::set_replace` or `None` if none was set.
-    pub fn get_replace(&self) -> Option<GString> {
-        unsafe { from_glib_none(ffi::cogl_snippet_get_replace(self.to_glib_none().0)) }
+    pub fn get_replace(&self) -> Option<String> {
+        // _COGL_RETURN_VAL_IF_FAIL (cogl_is_snippet (snippet), NULL);
+
+        // return snippet->replace;
+        unimplemented!()
     }
 
     /// Sets a source string that will be inserted in the global scope of
@@ -100,12 +419,14 @@ impl Snippet {
     /// The new source string for the declarations section
     ///  of this snippet.
     pub fn set_declarations(&self, declarations: &str) {
-        unsafe {
-            ffi::cogl_snippet_set_declarations(
-                self.to_glib_none().0,
-                declarations.to_glib_none().0,
-            );
-        }
+        // _COGL_RETURN_IF_FAIL (cogl_is_snippet (snippet));
+
+        // if (!_cogl_snippet_modify (snippet))
+        //     return;
+
+        // g_free (snippet->declarations);
+        // snippet->declarations = declarations ? g_strdup (declarations) : NULL;
+        unimplemented!()
     }
 
     /// Sets a source string that will be inserted after the hook point in
@@ -119,9 +440,14 @@ impl Snippet {
     /// ## `post`
     /// The new source string for the post section of this snippet.
     pub fn set_post(&self, post: &str) {
-        unsafe {
-            ffi::cogl_snippet_set_post(self.to_glib_none().0, post.to_glib_none().0);
-        }
+        // _COGL_RETURN_IF_FAIL (cogl_is_snippet (snippet));
+
+        // if (!_cogl_snippet_modify (snippet))
+        //   return;
+      
+        // g_free (snippet->post);
+        // snippet->post = post ? g_strdup (post) : NULL;
+        unimplemented!()
     }
 
     /// Sets a source string that will be inserted before the hook point in
@@ -135,9 +461,14 @@ impl Snippet {
     /// ## `pre`
     /// The new source string for the pre section of this snippet.
     pub fn set_pre(&self, pre: &str) {
-        unsafe {
-            ffi::cogl_snippet_set_pre(self.to_glib_none().0, pre.to_glib_none().0);
-        }
+        // _COGL_RETURN_IF_FAIL (cogl_is_snippet (snippet));
+
+        // if (!_cogl_snippet_modify (snippet))
+        //   return;
+      
+        // g_free (snippet->pre);
+        // snippet->pre = pre ? g_strdup (pre) : NULL;
+        unimplemented!()
     }
 
     /// Sets a source string that will be used instead of any generated
@@ -151,9 +482,14 @@ impl Snippet {
     /// ## `replace`
     /// The new source string for the replace section of this snippet.
     pub fn set_replace(&self, replace: &str) {
-        unsafe {
-            ffi::cogl_snippet_set_replace(self.to_glib_none().0, replace.to_glib_none().0);
-        }
+        // _COGL_RETURN_IF_FAIL (cogl_is_snippet (snippet));
+
+        // if (!_cogl_snippet_modify (snippet))
+        //     return;
+
+        // g_free (snippet->replace);
+        // snippet->replace = replace ? g_strdup (replace) : NULL;
+        unimplemented!()
     }
 }
 

@@ -5,16 +5,9 @@
 )]
 
 use crate::{Context, Object, TexturePixmapX11ReportLevel};
-
-use glib::translate::*;
 use std::{fmt, ptr};
 
-glib_wrapper! {
-    pub struct TexturePixmapX11(Object<ffi::CoglTexturePixmapX11, TexturePixmapX11Class>) @extends Object;
-
-    match fn {
-        get_type => || ffi::cogl_texture_pixmap_x11_get_gtype(),
-    }
+pub struct TexturePixmapX11 {
 }
 
 impl TexturePixmapX11 {
@@ -37,21 +30,9 @@ impl TexturePixmapX11 {
         context: &Context,
         pixmap: u32,
         automatic_updates: bool,
-    ) -> Result<TexturePixmapX11, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = ffi::cogl_texture_pixmap_x11_new(
-                context.to_glib_none().0,
-                pixmap,
-                automatic_updates as i32,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
+    ) -> TexturePixmapX11 {
+        // let ret = ffi::cogl_texture_pixmap_x11_new(   
+        unimplemented!()     
     }
 
     /// Creates one of a pair of textures to contain the contents of `pixmap`,
@@ -88,21 +69,9 @@ impl TexturePixmapX11 {
         context: &Context,
         pixmap: u32,
         automatic_updates: bool,
-    ) -> Result<TexturePixmapX11, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = ffi::cogl_texture_pixmap_x11_new_left(
-                context.to_glib_none().0,
-                pixmap,
-                automatic_updates as i32,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
+    ) -> TexturePixmapX11 {
+        // ffi::cogl_texture_pixmap_x11_new_left
+        unimplemented!()
     }
 
     /// Checks whether the given `self` is using the
@@ -116,10 +85,8 @@ impl TexturePixmapX11 {
     /// `true` if the texture is using an efficient extension
     ///  and `false` otherwise
     pub fn is_using_tfp_extension(&self) -> bool {
-        unsafe {
-            ffi::cogl_texture_pixmap_x11_is_using_tfp_extension(self.to_glib_none().0)
-                == crate::TRUE
-        }
+        // ffi::cogl_texture_pixmap_x11_is_using_tfp_extension
+        unimplemented!()
     }
 
     /// Creates a texture object that corresponds to the right-eye image
@@ -130,11 +97,8 @@ impl TexturePixmapX11 {
     ///
     /// a new `TexturePixmapX11` instance
     pub fn new_right(&self) -> Option<TexturePixmapX11> {
-        unsafe {
-            from_glib_none(ffi::cogl_texture_pixmap_x11_new_right(
-                self.to_glib_none().0,
-            ))
-        }
+        // ffi::cogl_texture_pixmap_x11_new_right
+        unimplemented!()
     }
 
     /// Sets the damage object that will be used to track automatic updates
@@ -151,13 +115,8 @@ impl TexturePixmapX11 {
     ///  the damage events. This should match the level that the damage
     ///  object was created with.
     pub fn set_damage_object(&self, damage: u32, report_level: TexturePixmapX11ReportLevel) {
-        unsafe {
-            ffi::cogl_texture_pixmap_x11_set_damage_object(
-                self.to_glib_none().0,
-                damage,
-                report_level.to_glib(),
-            );
-        }
+        // ffi::cogl_texture_pixmap_x11_set_damage_object
+        unimplemented!()
     }
 
     /// Forces an update of the given `self` so that it is refreshed with
@@ -172,9 +131,8 @@ impl TexturePixmapX11 {
     /// ## `height`
     /// height of the area to update
     pub fn update_area(&self, x: i32, y: i32, width: i32, height: i32) {
-        unsafe {
-            ffi::cogl_texture_pixmap_x11_update_area(self.to_glib_none().0, x, y, width, height);
-        }
+        // ffi::cogl_texture_pixmap_x11_update_area
+        unimplemented!()
     }
 
     pub fn error_quark() -> u32 {

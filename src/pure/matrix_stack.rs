@@ -1,14 +1,98 @@
 use crate::{Context, Euler, Matrix, MatrixEntry, Object, Quaternion};
-
-use glib::translate::*;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct MatrixStack(Object<ffi::CoglMatrixStack, MatrixStackClass>) @extends Object;
+// * SECTION:cogl-matrix-stack
+// * @short_description: Functions for efficiently tracking many
+// *                     related transformations
+// *
+// * Matrices can be used (for example) to describe the model-view
+// * transforms of objects, texture transforms, and projective
+// * transforms.
+// *
+// * The #CoglMatrix api provides a good way to manipulate individual
+// * matrices representing a single transformation but if you need to
+// * track many-many such transformations for many objects that are
+// * organized in a scenegraph for example then using a separate
+// * #CoglMatrix for each object may not be the most efficient way.
+// *
+// * A #CoglMatrixStack enables applications to track lots of
+// * transformations that are related to each other in some kind of
+// * hierarchy.  In a scenegraph for example if you want to know how to
+// * transform a particular node then you usually have to walk up
+// * through the ancestors and accumulate their transforms before
+// * finally applying the transform of the node itself. In this model
+// * things are grouped together spatially according to their ancestry
+// * and all siblings with the same parent share the same initial
+// * transformation. The #CoglMatrixStack API is suited to tracking lots
+// * of transformations that fit this kind of model.
+// *
+// * Compared to using the #CoglMatrix api directly to track many
+// * related transforms, these can be some advantages to using a
+// * #CoglMatrixStack:
+// * <itemizedlist>
+// *   <listitem>Faster equality comparisons of transformations</listitem>
+// *   <listitem>Efficient comparisons of the differences between arbitrary
+// *   transformations</listitem>
+// *   <listitem>Avoid redundant arithmetic related to common transforms
+// *   </listitem>
+// *   <listitem>Can be more space efficient (not always though)</listitem>
+// * </itemizedlist>
+// *
+// * For reference (to give an idea of when a #CoglMatrixStack can
+// * provide a space saving) a #CoglMatrix can be expected to take 72
+// * bytes whereas a single #CoglMatrixEntry in a #CoglMatrixStack is
+// * currently around 32 bytes on a 32bit CPU or 36 bytes on a 64bit
+// * CPU. An entry is needed for each individual operation applied to
+// * the stack (such as rotate, scale, translate) so if most of your
+// * leaf node transformations only need one or two simple operations
+// * relative to their parent then a matrix stack will likely take less
+// * space than having a #CoglMatrix for each node.
+// *
+// * Even without any space saving though the ability to perform fast
+// * comparisons and avoid redundant arithmetic (especially sine and
+// * cosine calculations for rotations) can make using a matrix stack
+// * worthwhile.
 
-    match fn {
-        get_type => || ffi::cogl_matrix_stack_get_gtype(),
-    }
+
+// * CoglMatrixStack:
+// *
+// * Tracks your current position within a hierarchy and lets you build
+// * up a graph of transformations as you traverse through a hierarchy
+// * such as a scenegraph.
+// *
+// * A #CoglMatrixStack always maintains a reference to a single
+// * transformation at any point in time, representing the
+// * transformation at the current position in the hierarchy. You can
+// * get a reference to the current transformation by calling
+// * cogl_matrix_stack_get_entry().
+// *
+// * When a #CoglMatrixStack is first created with
+// * cogl_matrix_stack_new() then it is conceptually positioned at the
+// * root of your hierarchy and the current transformation simply
+// * represents an identity transformation.
+// *
+// * As you traverse your object hierarchy (your scenegraph) then you
+// * should call cogl_matrix_stack_push() whenever you move down one
+// * level and call cogl_matrix_stack_pop() whenever you move back up
+// * one level towards the root.
+// *
+// * At any time you can apply a set of operations, such as "rotate",
+// * "scale", "translate" on top of the current transformation of a
+// * #CoglMatrixStack using functions such as
+// * cogl_matrix_stack_rotate(), cogl_matrix_stack_scale() and
+// * cogl_matrix_stack_translate(). These operations will derive a new
+// * current transformation and will never affect a transformation
+// * that you have referenced using cogl_matrix_stack_get_entry().
+// *
+// * Internally applying operations to a #CoglMatrixStack builds up a
+// * graph of #CoglMatrixEntry structures which each represent a single
+// * immutable transform.
+pub struct MatrixStack {
+    // CoglObject _parent;
+
+    // CoglContext *context;
+  
+    // CoglMatrixEntry *last_entry;
 }
 
 impl MatrixStack {
@@ -40,7 +124,24 @@ impl MatrixStack {
     ///
     /// A newly allocated `MatrixStack`
     pub fn new(ctx: &Context) -> MatrixStack {
-        unsafe { from_glib_full(ffi::cogl_matrix_stack_new(ctx.to_glib_none().0)) }
+        // CoglMatrixStack *stack = g_slice_new (CoglMatrixStack);
+
+        // if (G_UNLIKELY (cogl_matrix_stack_magazine == NULL))
+        //     {
+        //     cogl_matrix_stack_magazine =
+        //         _cogl_magazine_new (sizeof (CoglMatrixEntryFull), 20);
+        //     cogl_matrix_stack_matrices_magazine =
+        //         _cogl_magazine_new (sizeof (CoglMatrix), 20);
+        //     }
+
+        // stack->context = ctx;
+        // stack->last_entry = NULL;
+
+        // cogl_matrix_entry_ref (&ctx->identity_entry);
+        // _cogl_matrix_stack_push_entry (stack, &ctx->identity_entry);
+
+        // return _cogl_matrix_stack_object_new (stack);
+        unimplemented!()
     }
 
     /// Replaces the current matrix with a perspective matrix for a given
@@ -63,17 +164,19 @@ impl MatrixStack {
     /// ## `z_far`
     /// The distance to the far clipping plane (Must be positive)
     pub fn frustum(&self, left: f32, right: f32, bottom: f32, top: f32, z_near: f32, z_far: f32) {
-        unsafe {
-            ffi::cogl_matrix_stack_frustum(
-                self.to_glib_none().0,
-                left,
-                right,
-                bottom,
-                top,
-                z_near,
-                z_far,
-            );
-        }
+        // CoglMatrixEntryLoad *entry;
+
+        // entry =
+        //     _cogl_matrix_stack_push_replacement_entry (stack,
+        //                                             COGL_MATRIX_OP_LOAD);
+
+        // entry->matrix =
+        //     _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+
+        // cogl_matrix_init_identity (entry->matrix);
+        // cogl_matrix_frustum (entry->matrix,
+        //                     left, right, bottom, top,
+        //                     z_near, z_far);
     }
 
     /// Resolves the current `self` transform into a `Matrix` by
@@ -101,14 +204,8 @@ impl MatrixStack {
     ///  and in that case `matrix` will be initialized with
     ///  the value of the current transform.
     pub fn get(&self) -> (Matrix, Matrix) {
-        unsafe {
-            let mut matrix = Matrix::uninitialized();
-            let ret = from_glib_full(ffi::cogl_matrix_stack_get(
-                self.to_glib_none().0,
-                matrix.to_glib_none_mut().0,
-            ));
-            (ret, matrix)
-        }
+        // return cogl_matrix_entry_get (stack->last_entry, matrix);
+        unimplemented!()
     }
 
     /// Gets a reference to the current transform represented by a
@@ -127,7 +224,8 @@ impl MatrixStack {
     /// A pointer to the `MatrixEntry`
     ///  representing the current matrix stack transform.
     pub fn get_entry(&self) -> Option<MatrixEntry> {
-        unsafe { from_glib_none(ffi::cogl_matrix_stack_get_entry(self.to_glib_none().0)) }
+        // return stack->last_entry;
+        unimplemented!()
     }
 
     /// Gets the inverse transform of the current matrix and uses it to
@@ -141,30 +239,36 @@ impl MatrixStack {
     ///  for degenerate transformations that can't be inverted (in this case the
     ///  `inverse` matrix will simply be initialized with the identity matrix)
     pub fn get_inverse(&self) -> (bool, Matrix) {
-        unsafe {
-            let mut inverse = Matrix::uninitialized();
-            let ret = ffi::cogl_matrix_stack_get_inverse(
-                self.to_glib_none().0,
-                inverse.to_glib_none_mut().0,
-            );
-            (ret == crate::TRUE, inverse)
-        }
+        // CoglMatrix matrix;
+        // CoglMatrix *internal = cogl_matrix_stack_get (stack, &matrix);
+
+        // if (internal)
+        //     return cogl_matrix_get_inverse (internal, inverse);
+        // else
+        //     return cogl_matrix_get_inverse (&matrix, inverse);
+        unimplemented!()
     }
 
     /// Resets the current matrix to the identity matrix.
     pub fn load_identity(&self) {
-        unsafe {
-            ffi::cogl_matrix_stack_load_identity(self.to_glib_none().0);
-        }
+        // _cogl_matrix_stack_push_replacement_entry (stack,
+        //     COGL_MATRIX_OP_LOAD_IDENTITY);
+        unimplemented!()
     }
 
     /// Multiplies the current matrix by the given matrix.
     /// ## `matrix`
     /// the matrix to multiply with the current model-view
     pub fn multiply(&self, matrix: &Matrix) {
-        unsafe {
-            ffi::cogl_matrix_stack_multiply(self.to_glib_none().0, matrix.to_glib_none().0);
-        }
+        // CoglMatrixEntryMultiply *entry;
+
+        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_MULTIPLY);
+
+        // entry->matrix =
+        //     _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+
+        // cogl_matrix_init_from_array (entry->matrix, (float *)matrix);
+        unimplemented!()
     }
 
     /// Replaces the current matrix with an orthographic projection matrix.
@@ -185,17 +289,19 @@ impl MatrixStack {
     ///  plane (will be `<emphasis>`negative`</emphasis>` if the plane is
     ///  behind the viewer)
     pub fn orthographic(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32, near: f32, far: f32) {
-        unsafe {
-            ffi::cogl_matrix_stack_orthographic(
-                self.to_glib_none().0,
-                x_1,
-                y_1,
-                x_2,
-                y_2,
-                near,
-                far,
-            );
-        }
+        // CoglMatrixEntryLoad *entry;
+
+        // entry =
+        //     _cogl_matrix_stack_push_replacement_entry (stack,
+        //                                             COGL_MATRIX_OP_LOAD);
+
+        // entry->matrix =
+        //     _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+
+        // cogl_matrix_init_identity (entry->matrix);
+        // cogl_matrix_orthographic (entry->matrix,
+        //                             x_1, y_1, x_2, y_2, near, far);
+        unimplemented!()
     }
 
     /// Replaces the current matrix with a perspective matrix based on the
@@ -215,9 +321,19 @@ impl MatrixStack {
     /// ## `z_far`
     /// The distance to the far clipping plane (Must be positive)
     pub fn perspective(&self, fov_y: f32, aspect: f32, z_near: f32, z_far: f32) {
-        unsafe {
-            ffi::cogl_matrix_stack_perspective(self.to_glib_none().0, fov_y, aspect, z_near, z_far);
-        }
+        // CoglMatrixEntryLoad *entry;
+
+        // entry =
+        //     _cogl_matrix_stack_push_replacement_entry (stack,
+        //                                             COGL_MATRIX_OP_LOAD);
+
+        // entry->matrix =
+        //     _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+
+        // cogl_matrix_init_identity (entry->matrix);
+        // cogl_matrix_perspective (entry->matrix,
+        //                         fov_y, aspect, z_near, z_far);
+        unimplemented!()
     }
 
     /// Restores the previous transform that was last saved by calling
@@ -226,9 +342,38 @@ impl MatrixStack {
     /// This is usually called while traversing a scenegraph whenever you
     /// return up one level in the graph towards the root node.
     pub fn pop(&self) {
-        unsafe {
-            ffi::cogl_matrix_stack_pop(self.to_glib_none().0);
-        }
+        // CoglMatrixEntry *old_top;
+        // CoglMatrixEntry *new_top;
+
+        // _COGL_RETURN_IF_FAIL (stack != NULL);
+
+        // old_top = stack->last_entry;
+        // _COGL_RETURN_IF_FAIL (old_top != NULL);
+
+        // /* To pop we are moving the top of the stack to the old top's parent
+        // * node. The stack always needs to have a reference to the top entry
+        // * so we must take a reference to the new top. The stack would have
+        // * previously had a reference to the old top so we need to decrease
+        // * the ref count on that. We need to ref the new head first in case
+        // * this stack was the only thing referencing the old top. In that
+        // * case the call to cogl_matrix_entry_unref will unref the parent.
+        // */
+
+        // /* Find the last save operation and remove it */
+
+        // /* XXX: it would be an error to pop to the very beginning of the
+        // * stack so we don't need to check for NULL pointer dereferencing. */
+        // for (new_top = old_top;
+        //     new_top->op != COGL_MATRIX_OP_SAVE;
+        //     new_top = new_top->parent)
+        //     ;
+
+        // new_top = new_top->parent;
+        // cogl_matrix_entry_ref (new_top);
+
+        // cogl_matrix_entry_unref (old_top);
+
+        // stack->last_entry = new_top;
     }
 
     /// Saves the current transform and starts a new transform that derives
@@ -239,9 +384,11 @@ impl MatrixStack {
     /// called when going back up one layer to restore the previous
     /// transform of an ancestor.
     pub fn push(&self) {
-        unsafe {
-            ffi::cogl_matrix_stack_push(self.to_glib_none().0);
-        }
+        // CoglMatrixEntrySave *entry;
+
+        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_SAVE);
+
+        // entry->cache_valid = FALSE;
     }
 
     /// Multiplies the current matrix by one that rotates the around the
@@ -258,9 +405,15 @@ impl MatrixStack {
     /// ## `z`
     /// Z-component of vertex to rotate around.
     pub fn rotate(&self, angle: f32, x: f32, y: f32, z: f32) {
-        unsafe {
-            ffi::cogl_matrix_stack_rotate(self.to_glib_none().0, angle, x, y, z);
-        }
+        // CoglMatrixEntryRotate *entry;
+
+        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_ROTATE);
+      
+        // entry->angle = angle;
+        // entry->x = x;
+        // entry->y = y;
+        // entry->z = z;
+        unimplemented!()
     }
 
     /// Multiplies the current matrix by one that rotates according to the
@@ -269,9 +422,15 @@ impl MatrixStack {
     /// ## `euler`
     /// A `Euler`
     pub fn rotate_euler(&self, euler: &Euler) {
-        unsafe {
-            ffi::cogl_matrix_stack_rotate_euler(self.to_glib_none().0, euler.to_glib_none().0);
-        }
+        // CoglMatrixEntryRotateEuler *entry;
+
+        // entry = _cogl_matrix_stack_push_operation (stack,
+        //                                            COGL_MATRIX_OP_ROTATE_EULER);
+      
+        // entry->heading = euler->heading;
+        // entry->pitch = euler->pitch;
+        // entry->roll = euler->roll;
+        unimplemented!()
     }
 
     /// Multiplies the current matrix by one that rotates according to the
@@ -279,12 +438,16 @@ impl MatrixStack {
     /// ## `quaternion`
     /// A `Quaternion`
     pub fn rotate_quaternion(&self, quaternion: &Quaternion) {
-        unsafe {
-            ffi::cogl_matrix_stack_rotate_quaternion(
-                self.to_glib_none().0,
-                quaternion.to_glib_none().0,
-            );
-        }
+        // CoglMatrixEntryRotateQuaternion *entry;
+
+        // entry = _cogl_matrix_stack_push_operation (stack,
+        //                                            COGL_MATRIX_OP_ROTATE_QUATERNION);
+      
+        // entry->values[0] = quaternion->w;
+        // entry->values[1] = quaternion->x;
+        // entry->values[2] = quaternion->y;
+        // entry->values[3] = quaternion->z;
+        unimplemented!()
     }
 
     /// Multiplies the current matrix by one that scales the x, y and z
@@ -296,9 +459,14 @@ impl MatrixStack {
     /// ## `z`
     /// Amount to scale along the z-axis
     pub fn scale(&self, x: f32, y: f32, z: f32) {
-        unsafe {
-            ffi::cogl_matrix_stack_scale(self.to_glib_none().0, x, y, z);
-        }
+        // CoglMatrixEntryScale *entry;
+
+        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_SCALE);
+      
+        // entry->x = x;
+        // entry->y = y;
+        // entry->z = z;
+        unimplemented!()
     }
 
     /// Replaces the current `self` matrix value with the value of `matrix`.
@@ -308,9 +476,17 @@ impl MatrixStack {
     /// ## `matrix`
     /// A `Matrix` replace the current matrix value with
     pub fn set(&self, matrix: &Matrix) {
-        unsafe {
-            ffi::cogl_matrix_stack_set(self.to_glib_none().0, matrix.to_glib_none().0);
-        }
+        // CoglMatrixEntryLoad *entry;
+
+        // entry =
+        //   _cogl_matrix_stack_push_replacement_entry (stack,
+        //                                              COGL_MATRIX_OP_LOAD);
+      
+        // entry->matrix =
+        //   _cogl_magazine_chunk_alloc (cogl_matrix_stack_matrices_magazine);
+      
+        // cogl_matrix_init_from_array (entry->matrix, (float *)matrix);
+        unimplemented!()
     }
 
     /// Multiplies the current matrix by one that translates along all
@@ -322,9 +498,14 @@ impl MatrixStack {
     /// ## `z`
     /// Distance to translate along the z-axis
     pub fn translate(&self, x: f32, y: f32, z: f32) {
-        unsafe {
-            ffi::cogl_matrix_stack_translate(self.to_glib_none().0, x, y, z);
-        }
+        // CoglMatrixEntryTranslate *entry;
+
+        // entry = _cogl_matrix_stack_push_operation (stack, COGL_MATRIX_OP_TRANSLATE);
+      
+        // entry->x = x;
+        // entry->y = y;
+        // entry->z = z;
+        unimplemented!()
     }
 }
 

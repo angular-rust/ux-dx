@@ -5,18 +5,9 @@
 )]
 
 use crate::{Bitmap, Object, PixelFormat, TextureComponents};
+use std::{fmt, mem, ptr, ffi::c_void};
 
-use glib::object::IsA;
-use glib::translate::*;
-use std::{fmt, mem, ptr};
-
-glib_wrapper! {
-    pub struct Texture(Interface<ffi::CoglTexture>) @requires Object;
-
-    match fn {
-        get_type => || ffi::cogl_texture_get_gtype(),
-    }
-}
+pub struct Texture(c_void);
 
 /// Trait containing all `Texture` methods.
 ///
@@ -38,7 +29,7 @@ pub trait TextureExt: 'static {
     /// `true` if the texture was successfully allocated,
     ///  otherwise `false` and `error` will be updated if it
     ///  wasn't `None`.
-    fn allocate(&self) -> Result<bool, glib::Error>;
+    fn allocate(&self) -> bool;
 
     /// Queries what components the given `self` stores internally as set
     /// via `Texture::set_components`.
@@ -213,7 +204,7 @@ pub trait TextureExt: 'static {
         rowstride: i32,
         data: &[u8],
         level: i32,
-    ) -> Result<bool, glib::Error>;
+    ) -> bool;
 
     /// Affects the internal storage format for this texture by specifying
     /// whether red, green and blue color components should be stored as
@@ -329,171 +320,367 @@ pub trait TextureExt: 'static {
     ) -> bool;
 }
 
-impl<O: IsA<Texture>> TextureExt for O {
-    fn allocate(&self) -> Result<bool, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = ffi::cogl_texture_allocate(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() {
-                Ok(ret == crate::TRUE)
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
+// impl<O: Is<Texture>> TextureExt for O {
+//     fn allocate(&self) -> bool {
+//         // if (texture->allocated)
+//         //     return TRUE;
 
-    fn get_components(&self) -> TextureComponents {
-        unsafe {
-            from_glib(ffi::cogl_texture_get_components(
-                self.as_ref().to_glib_none().0,
-            ))
-        }
-    }
+//         // if (texture->components == COGL_TEXTURE_COMPONENTS_RG &&
+//         //     !cogl_has_feature (texture->context, COGL_FEATURE_ID_TEXTURE_RG))
+//         //     _cogl_set_error (error,
+//         //                     COGL_TEXTURE_ERROR,
+//         //                     COGL_TEXTURE_ERROR_FORMAT,
+//         //                     "A red-green texture was requested but the driver "
+//         //                     "does not support them");
 
-    fn get_data(&self, format: PixelFormat, rowstride: u32, data: &[u8]) -> i32 {
-        unsafe {
-            ffi::cogl_texture_get_data(
-                self.as_ref().to_glib_none().0,
-                format.to_glib(),
-                rowstride,
-                data.to_glib_none().0,
-            )
-        }
-    }
+//         // texture->allocated = texture->vtable->allocate (texture, error);
 
-    fn get_gl_texture(&self) -> (bool, u32, u32) {
-        unsafe {
-            let mut out_gl_handle = mem::MaybeUninit::uninit();
-            let mut out_gl_target = mem::MaybeUninit::uninit();
-            let ret = ffi::cogl_texture_get_gl_texture(
-                self.as_ref().to_glib_none().0,
-                out_gl_handle.as_mut_ptr(),
-                out_gl_target.as_mut_ptr(),
-            );
-            let out_gl_handle = out_gl_handle.assume_init();
-            let out_gl_target = out_gl_target.assume_init();
-            (ret == crate::TRUE, out_gl_handle, out_gl_target)
-        }
-    }
+//         // return texture->allocated;
+//         unimplemented!()
+//     }
 
-    fn get_height(&self) -> u32 {
-        unsafe { ffi::cogl_texture_get_height(self.as_ref().to_glib_none().0) }
-    }
+//     fn get_components(&self) -> TextureComponents {
+//         // return texture->components;
+//         unimplemented!()
+//     }
 
-    fn get_max_waste(&self) -> i32 {
-        unsafe { ffi::cogl_texture_get_max_waste(self.as_ref().to_glib_none().0) }
-    }
+//     fn get_data(&self, format: PixelFormat, rowstride: u32, data: &[u8]) -> i32 {
+//         // CoglContext *ctx = texture->context;
+//         // int bpp;
+//         // int byte_size;
+//         // CoglPixelFormat closest_format;
+//         // GLenum closest_gl_format;
+//         // GLenum closest_gl_type;
+//         // CoglBitmap *target_bmp;
+//         // int tex_width;
+//         // int tex_height;
+//         // CoglPixelFormat texture_format;
+//         // CoglError *ignore_error = NULL;
 
-    fn get_premultiplied(&self) -> bool {
-        unsafe {
-            ffi::cogl_texture_get_premultiplied(self.as_ref().to_glib_none().0) == crate::TRUE
-        }
-    }
+//         // CoglTextureGetData tg_data;
 
-    fn get_width(&self) -> u32 {
-        unsafe { ffi::cogl_texture_get_width(self.as_ref().to_glib_none().0) }
-    }
+//         // texture_format = _cogl_texture_get_format (texture);
 
-    fn is_sliced(&self) -> bool {
-        unsafe { ffi::cogl_texture_is_sliced(self.as_ref().to_glib_none().0) == crate::TRUE }
-    }
+//         // /* Default to internal format if none specified */
+//         // if (format == COGL_PIXEL_FORMAT_ANY)
+//         //     format = texture_format;
 
-    fn set_components(&self, components: TextureComponents) {
-        unsafe {
-            ffi::cogl_texture_set_components(self.as_ref().to_glib_none().0, components.to_glib());
-        }
-    }
+//         // tex_width = cogl_texture_get_width (texture);
+//         // tex_height = cogl_texture_get_height (texture);
 
-    fn set_data(
-        &self,
-        format: PixelFormat,
-        rowstride: i32,
-        data: &[u8],
-        level: i32,
-    ) -> Result<bool, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = ffi::cogl_texture_set_data(
-                self.as_ref().to_glib_none().0,
-                format.to_glib(),
-                rowstride,
-                data.to_glib_none().0,
-                level,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(ret == crate::TRUE)
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
+//         // /* Rowstride from texture width if none specified */
+//         // bpp = _cogl_pixel_format_get_bytes_per_pixel (format);
+//         // if (rowstride == 0)
+//         //     rowstride = tex_width * bpp;
 
-    fn set_premultiplied(&self, premultiplied: bool) {
-        unsafe {
-            ffi::cogl_texture_set_premultiplied(
-                self.as_ref().to_glib_none().0,
-                premultiplied as i32,
-            );
-        }
-    }
+//         // /* Return byte size if only that requested */
+//         // byte_size = tex_height * rowstride;
+//         // if (data == NULL)
+//         //     return byte_size;
 
-    fn set_region(
-        &self,
-        src_x: i32,
-        src_y: i32,
-        dst_x: i32,
-        dst_y: i32,
-        dst_width: u32,
-        dst_height: u32,
-        width: i32,
-        height: i32,
-        format: PixelFormat,
-        rowstride: u32,
-        data: &[u8],
-    ) -> bool {
-        unsafe {
-            ffi::cogl_texture_set_region(
-                self.as_ref().to_glib_none().0,
-                src_x,
-                src_y,
-                dst_x,
-                dst_y,
-                dst_width,
-                dst_height,
-                width,
-                height,
-                format.to_glib(),
-                rowstride,
-                data.as_ptr(),
-            ) == crate::TRUE
-        }
-    }
+//         // closest_format =
+//         //     ctx->texture_driver->find_best_gl_get_data_format (ctx,
+//         //                                                     format,
+//         //                                                     &closest_gl_format,
+//         //                                                     &closest_gl_type);
 
-    fn set_region_from_bitmap(
-        &self,
-        src_x: i32,
-        src_y: i32,
-        dst_x: i32,
-        dst_y: i32,
-        dst_width: u32,
-        dst_height: u32,
-        bitmap: &Bitmap,
-    ) -> bool {
-        unsafe {
-            ffi::cogl_texture_set_region_from_bitmap(
-                self.as_ref().to_glib_none().0,
-                src_x,
-                src_y,
-                dst_x,
-                dst_y,
-                dst_width,
-                dst_height,
-                bitmap.to_glib_none().0,
-            ) == crate::TRUE
-        }
-    }
-}
+//         // /* We can assume that whatever data GL gives us will have the
+//         //     premult status of the original texture */
+//         // if (COGL_PIXEL_FORMAT_CAN_HAVE_PREMULT (closest_format))
+//         //     closest_format = ((closest_format & ~COGL_PREMULT_BIT) |
+//         //                     (texture_format & COGL_PREMULT_BIT));
+
+//         // /* If the application is requesting a conversion from a
+//         // * component-alpha texture and the driver doesn't support them
+//         // * natively then we can only read into an alpha-format buffer. In
+//         // * this case the driver will be faking the alpha textures with a
+//         // * red-component texture and it won't swizzle to the correct format
+//         // * while reading */
+//         // if (!_cogl_has_private_feature (ctx, COGL_PRIVATE_FEATURE_ALPHA_TEXTURES))
+//         //     {
+//         //     if (texture_format == COGL_PIXEL_FORMAT_A_8)
+//         //         {
+//         //         closest_format = COGL_PIXEL_FORMAT_A_8;
+//         //         closest_gl_format = GL_RED;
+//         //         closest_gl_type = GL_UNSIGNED_BYTE;
+//         //         }
+//         //     else if (format == COGL_PIXEL_FORMAT_A_8)
+//         //         {
+//         //         /* If we are converting to a component-alpha texture then we
+//         //         * need to read all of the components to a temporary buffer
+//         //         * because there is no way to get just the 4th component.
+//         //         * Note: it doesn't matter whether the texture is
+//         //         * pre-multiplied here because we're only going to look at
+//         //         * the alpha component */
+//         //         closest_format = COGL_PIXEL_FORMAT_RGBA_8888;
+//         //         closest_gl_format = GL_RGBA;
+//         //         closest_gl_type = GL_UNSIGNED_BYTE;
+//         //         }
+//         //     }
+
+//         // /* Is the requested format supported? */
+//         // if (closest_format == format)
+//         //     /* Target user data directly */
+//         //     target_bmp = cogl_bitmap_new_for_data (ctx,
+//         //                                         tex_width,
+//         //                                         tex_height,
+//         //                                         format,
+//         //                                         rowstride,
+//         //                                         data);
+//         // else
+//         //     {
+//         //     target_bmp = _cogl_bitmap_new_with_malloc_buffer (ctx,
+//         //                                                         tex_width, tex_height,
+//         //                                                         closest_format,
+//         //                                                         &ignore_error);
+//         //     if (!target_bmp)
+//         //         {
+//         //         cogl_error_free (ignore_error);
+//         //         return 0;
+//         //         }
+//         //     }
+
+//         // tg_data.target_bits = _cogl_bitmap_map (target_bmp, COGL_BUFFER_ACCESS_WRITE,
+//         //                                         COGL_BUFFER_MAP_HINT_DISCARD,
+//         //                                         &ignore_error);
+//         // if (tg_data.target_bits)
+//         //     {
+//         //     tg_data.meta_texture = texture;
+//         //     tg_data.orig_width = tex_width;
+//         //     tg_data.orig_height = tex_height;
+//         //     tg_data.target_bmp = target_bmp;
+//         //     tg_data.error = NULL;
+//         //     tg_data.success = TRUE;
+
+//         //     /* If there are any dependent framebuffers on the texture then we
+//         //         need to flush their journals so the texture contents will be
+//         //         up-to-date */
+//         //     _cogl_texture_flush_journal_rendering (texture);
+
+//         //     /* Iterating through the subtextures allows piecing together
+//         //     * the data for a sliced texture, and allows us to do the
+//         //     * read-from-framebuffer logic here in a simple fashion rather than
+//         //     * passing offsets down through the code. */
+//         //     cogl_meta_texture_foreach_in_region (COGL_META_TEXTURE (texture),
+//         //                                         0, 0, 1, 1,
+//         //                                         COGL_PIPELINE_WRAP_MODE_REPEAT,
+//         //                                         COGL_PIPELINE_WRAP_MODE_REPEAT,
+//         //                                         texture_get_cb,
+//         //                                         &tg_data);
+
+//         //     _cogl_bitmap_unmap (target_bmp);
+//         //     }
+//         // else
+//         //     {
+//         //     cogl_error_free (ignore_error);
+//         //     tg_data.success = FALSE;
+//         //     }
+
+//         // /* XXX: In some cases _cogl_texture_2d_download_from_gl may fail
+//         // * to read back the texture data; such as for GLES which doesn't
+//         // * support glGetTexImage, so here we fallback to drawing the
+//         // * texture and reading the pixels from the framebuffer. */
+//         // if (!tg_data.success)
+//         //     {
+//         //     if (!_cogl_texture_draw_and_read (texture, target_bmp,
+//         //                                         closest_gl_format,
+//         //                                         closest_gl_type,
+//         //                                         &ignore_error))
+//         //         {
+//         //         /* We have no more fallbacks so we just give up and
+//         //         * hope for the best */
+//         //         g_warning ("Failed to read texture since draw-and-read "
+//         //                     "fallback failed: %s", ignore_error->message);
+//         //         cogl_error_free (ignore_error);
+//         //         cogl_object_unref (target_bmp);
+//         //         return 0;
+//         //         }
+//         //     }
+
+//         // /* Was intermediate used? */
+//         // if (closest_format != format)
+//         //     {
+//         //     CoglBitmap *new_bmp;
+//         //     CoglBool result;
+//         //     CoglError *error = NULL;
+
+//         //     /* Convert to requested format directly into the user's buffer */
+//         //     new_bmp = cogl_bitmap_new_for_data (ctx,
+//         //                                         tex_width, tex_height,
+//         //                                         format,
+//         //                                         rowstride,
+//         //                                         data);
+//         //     result = _cogl_bitmap_convert_into_bitmap (target_bmp, new_bmp, &error);
+
+//         //     if (!result)
+//         //         {
+//         //         cogl_error_free (error);
+//         //         /* Return failure after cleaning up */
+//         //         byte_size = 0;
+//         //         }
+
+//         //     cogl_object_unref (new_bmp);
+//         //     }
+
+//         // cogl_object_unref (target_bmp);
+
+//         // return byte_size;
+//         unimplemented!()
+//     }
+
+//     fn get_gl_texture(&self) -> (bool, u32, u32) {
+//         // if (!texture->allocated)
+//         //     cogl_texture_allocate (texture, NULL);
+
+//         // return texture->vtable->get_gl_texture (texture,
+//         //                                         out_gl_handle, out_gl_target);
+//         unimplemented!()
+//     }
+
+//     fn get_height(&self) -> u32 {
+//         // return texture->height;
+//         unimplemented!()
+//     }
+
+//     fn get_max_waste(&self) -> i32 {
+//         // return texture->vtable->get_max_waste (texture);
+//         unimplemented!()
+//     }
+
+//     fn get_premultiplied(&self) -> bool {
+//         // return texture->premultiplied;
+//         unimplemented!()
+//     }
+
+//     fn get_width(&self) -> u32 {
+//         // return texture->width;
+//         unimplemented!()
+//     }
+
+//     fn is_sliced(&self) -> bool {
+//         // if (!texture->allocated)
+//         //     cogl_texture_allocate (texture, NULL);
+//         // return texture->vtable->is_sliced (texture);
+//         unimplemented!()
+//     }
+
+//     fn set_components(&self, components: TextureComponents) {
+//         // _COGL_RETURN_IF_FAIL (!texture->allocated);
+
+//         // if (texture->components == components)
+//         //     return;
+
+//         // texture->components = components;
+//         unimplemented!()
+//     }
+
+//     fn set_data(
+//         &self,
+//         format: PixelFormat,
+//         rowstride: i32,
+//         data: &[u8],
+//         level: i32,
+//     ) -> bool {
+//         // int level_width;
+//         // int level_height;
+
+//         // _cogl_texture_get_level_size (texture,
+//         //                                 level,
+//         //                                 &level_width,
+//         //                                 &level_height,
+//         //                                 NULL);
+
+//         // return _cogl_texture_set_region (texture,
+//         //                                 level_width,
+//         //                                 level_height,
+//         //                                 format,
+//         //                                 rowstride,
+//         //                                 data,
+//         //                                 0, 0, /* dest x, y */
+//         //                                 level,
+//         //                                 error);
+//         unimplemented!()
+//     }
+
+//     fn set_premultiplied(&self, premultiplied: bool) {
+//         // _COGL_RETURN_IF_FAIL (!texture->allocated);
+
+//         // premultiplied = !!premultiplied;
+      
+//         // if (texture->premultiplied == premultiplied)
+//         //   return;
+      
+//         // texture->premultiplied = premultiplied;
+//         unimplemented!()
+//     }
+
+//     fn set_region(
+//         &self,
+//         src_x: i32,
+//         src_y: i32,
+//         dst_x: i32,
+//         dst_y: i32,
+//         dst_width: u32,
+//         dst_height: u32,
+//         width: i32,
+//         height: i32,
+//         format: PixelFormat,
+//         rowstride: u32,
+//         data: &[u8],
+//     ) -> bool {
+//         // CoglError *ignore_error = NULL;
+//         // const uint8_t *first_pixel;
+//         // int bytes_per_pixel = _cogl_pixel_format_get_bytes_per_pixel (format);
+//         // CoglBool status;
+
+//         // /* Rowstride from width if none specified */
+//         // if (rowstride == 0)
+//         //     rowstride = bytes_per_pixel * width;
+
+//         // first_pixel = data + rowstride * src_y + bytes_per_pixel * src_x;
+
+//         // status = _cogl_texture_set_region (texture,
+//         //                                     dst_width,
+//         //                                     dst_height,
+//         //                                     format,
+//         //                                     rowstride,
+//         //                                     first_pixel,
+//         //                                     dst_x,
+//         //                                     dst_y,
+//         //                                     0,
+//         //                                     &ignore_error);
+//         // if (!status)
+//         //     cogl_error_free (ignore_error);
+//         // return status;
+//         unimplemented!()
+//     }
+
+//     fn set_region_from_bitmap(
+//         &self,
+//         src_x: i32,
+//         src_y: i32,
+//         dst_x: i32,
+//         dst_y: i32,
+//         dst_width: u32,
+//         dst_height: u32,
+//         bitmap: &Bitmap,
+//     ) -> bool {
+//         // CoglError *ignore_error = NULL;
+//         // CoglBool status =
+//         //     _cogl_texture_set_region_from_bitmap (texture,
+//         //                                         src_x, src_y,
+//         //                                         dst_width, dst_height,
+//         //                                         bitmap,
+//         //                                         dst_x, dst_y,
+//         //                                         0, /* level */
+//         //                                         &ignore_error);
+
+//         // if (!status)
+//         //     cogl_error_free (ignore_error);
+//         // return status;
+//         unimplemented!()
+//     }
+// }
 
 impl fmt::Display for Texture {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

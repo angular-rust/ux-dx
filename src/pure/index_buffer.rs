@@ -1,14 +1,8 @@
 use crate::{Context, Object};
-
-use glib::translate::*;
 use std::fmt;
 
-glib_wrapper! {
-    pub struct IndexBuffer(Object<ffi::CoglIndexBuffer, IndexBufferClass>) @extends Object;
-
-    match fn {
-        get_type => || ffi::cogl_index_buffer_get_gtype(),
-    }
+pub struct IndexBuffer {
+    // CoglBuffer _parent;
 }
 
 impl IndexBuffer {
@@ -25,7 +19,18 @@ impl IndexBuffer {
     ///
     /// A newly allocated `IndexBuffer`
     pub fn new(context: &Context, bytes: usize) -> IndexBuffer {
-        unsafe { from_glib_full(ffi::cogl_index_buffer_new(context.to_glib_none().0, bytes)) }
+        // CoglIndexBuffer *indices = g_slice_new (CoglIndexBuffer);
+
+        // /* parent's constructor */
+        // _cogl_buffer_initialize (COGL_BUFFER (indices),
+        //                         context,
+        //                         bytes,
+        //                         COGL_BUFFER_BIND_TARGET_INDEX_BUFFER,
+        //                         COGL_BUFFER_USAGE_HINT_INDEX_BUFFER,
+        //                         COGL_BUFFER_UPDATE_HINT_STATIC);
+
+        // return _cogl_index_buffer_object_new (indices);
+        unimplemented!()
     }
 }
 

@@ -1,10 +1,11 @@
+#![allow(dead_code)]
+#![allow(unused_imports)]
+#![allow(unused_variables)]
 #![allow(
     clippy::too_many_arguments,
     clippy::let_and_return,
     clippy::from_over_into
 )]
-
-use glib::translate::*;
 
 mod atlas_texture;
 pub use self::atlas_texture::AtlasTexture;
@@ -125,6 +126,9 @@ pub use poll_fd::PollFD;
 
 mod primitive;
 pub use self::primitive::Primitive;
+
+mod primitives;
+pub use self::primitives::*;
 
 mod quaternion;
 pub use self::quaternion::Quaternion;
@@ -249,29 +253,6 @@ pub use alias::Buffer;
 pub use alias::MetaTexture;
 pub use alias::PrimitiveTexture;
 pub use alias::UserDataDestroyCallback;
-
-pub(crate) const TRUE: i32 = ::glib_sys::GTRUE;
-// pub(crate) const FALSE:i32 = ::glib_sys::GFALSE;
-
-pub fn source_new(context: &Context, priority: glib::Priority) -> glib::Source {
-    unsafe {
-        let source = ffi::cogl_glib_source_new(context.to_glib_none().0, priority.to_glib());
-        from_glib_full(source)
-    }
-}
-
-// let source = glib_sys::g_timeout_source_new(interval);
-// glib_sys::g_source_set_callback(
-//     source,
-//     Some(trampoline::<F>),
-//     into_raw(func),
-//     Some(destroy_closure::<F>),
-// );
-// glib_sys::g_source_set_priority(source, priority.to_glib());
-
-// if let Some(name) = name {
-//     glib_sys::g_source_set_name(source, name.to_glib_none().0);
-// }
 
 #[doc(hidden)]
 pub mod traits {
