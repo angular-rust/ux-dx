@@ -20,17 +20,17 @@ use std::mem;
 #[derive(Debug, PartialOrd, Ord)] // Hash
 pub struct Color {
     // /*< private >*/
-    // uint8_t COGL_PRIVATE (red);
-    // uint8_t COGL_PRIVATE (green);
-    // uint8_t COGL_PRIVATE (blue);
+// uint8_t COGL_PRIVATE (red);
+// uint8_t COGL_PRIVATE (green);
+// uint8_t COGL_PRIVATE (blue);
 
-    // uint8_t COGL_PRIVATE (alpha);
+// uint8_t COGL_PRIVATE (alpha);
 
-    // /* padding in case we want to change to floats at
-    // * some point */
-    // uint32_t COGL_PRIVATE (padding0);
-    // uint32_t COGL_PRIVATE (padding1);
-    // uint32_t COGL_PRIVATE (padding2);
+// /* padding in case we want to change to floats at
+// * some point */
+// uint32_t COGL_PRIVATE (padding0);
+// uint32_t COGL_PRIVATE (padding1);
+// uint32_t COGL_PRIVATE (padding2);
 }
 
 impl Color {
@@ -431,7 +431,7 @@ impl Color {
 
         // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, FALSE);
         // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, FALSE);
-      
+
         // /* XXX: We don't compare the padding */
         // return *c1 == *c2 ? TRUE : FALSE;
         unimplemented!()

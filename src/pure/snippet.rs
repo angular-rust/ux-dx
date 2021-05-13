@@ -4,7 +4,7 @@
     clippy::from_over_into
 )]
 
-use crate::{Object, SnippetHook};
+use super::SnippetHook;
 use std::fmt;
 
 // * SECTION:cogl-snippet
@@ -305,17 +305,17 @@ use std::fmt;
 pub struct Snippet {
     // Object _parent;
 
-    // SnippetHook hook;
-  
-    // /* This is set to TRUE the first time the snippet is attached to the
-    //    pipeline. After that any attempts to modify the snippet will be
-    //    ignored. */
-    // Bool immutable;
-  
-    // char *declarations;
-    // char *pre;
-    // char *replace;
-    // char *post;
+// SnippetHook hook;
+
+// /* This is set to TRUE the first time the snippet is attached to the
+//    pipeline. After that any attempts to modify the snippet will be
+//    ignored. */
+// Bool immutable;
+
+// char *declarations;
+// char *pre;
+// char *replace;
+// char *post;
 }
 
 impl Snippet {
@@ -444,7 +444,7 @@ impl Snippet {
 
         // if (!_snippet_modify (snippet))
         //   return;
-      
+
         // g_free (snippet->post);
         // snippet->post = post ? g_strdup (post) : NULL;
         unimplemented!()
@@ -465,7 +465,7 @@ impl Snippet {
 
         // if (!_snippet_modify (snippet))
         //   return;
-      
+
         // g_free (snippet->pre);
         // snippet->pre = pre ? g_strdup (pre) : NULL;
         unimplemented!()

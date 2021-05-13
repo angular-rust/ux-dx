@@ -61,7 +61,7 @@ use std::boxed::Box as Box_;
 // * </listitem>
 // * <listitem>
 // * There's no standard to what order the component axis rotations are
-// * applied. The most common convention seems to be what we do in 
+// * applied. The most common convention seems to be what we do in
 // * with heading (y-axis), pitch (x-axis) and then roll (z-axis), but
 // * other software might apply x-axis, y-axis then z-axis or any other
 // * order so you need to consider this if you are accepting euler
@@ -83,8 +83,6 @@ use std::boxed::Box as Box_;
 // * and convert them to quaternions internally to avoid Gimbal Lock and
 // * handle interpolations. See quaternion_init_from_euler().
 
-
-
 // * Euler:
 // * @heading: Angle to rotate around an object's y axis
 // * @pitch: Angle to rotate around an object's x axis
@@ -105,7 +103,7 @@ use std::boxed::Box as Box_;
 // * you want to do interpolation between 3d rotations.
 #[derive(Debug, PartialOrd, Ord)] // Hash
 pub struct Euler {
-//   /*< public > */
+    //   /*< public > */
 //   float heading;
 //   float pitch;
 //   float roll;
@@ -206,12 +204,10 @@ impl Euler {
         // *   |       0  -sinP         0|
         // *   And calculate H as atan2 (-M[3][2], M[1][1])
         // */
-
         // float sinP;
         // float H; /* heading */
         // float P; /* pitch */
         // float R; /* roll */
-
         // /* NB: Matrix provides struct members named according to the
         // * [row][column] indexed. So matrix->zx is row 3 column 1. */
         // sinP = -matrix->zy;

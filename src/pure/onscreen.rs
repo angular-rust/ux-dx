@@ -1,9 +1,10 @@
-use crate::{
-    Context, FrameClosure, FrameEvent, FrameInfo, Framebuffer, Object, OnscreenDirtyClosure,
+use super::{
+    Context, FrameClosure, FrameEvent, FrameInfo, Framebuffer, OnscreenDirtyClosure,
     OnscreenDirtyInfo, OnscreenResizeClosure,
 };
 use std::boxed::Box as Box_;
 use std::fmt;
+use winit::window::{Window, WindowBuilder};
 
 // typedef struct _OnscreenEvent
 // {
@@ -25,40 +26,40 @@ use std::fmt;
 // @extends Object, @implements Framebuffer;
 pub struct Onscreen {
     // Framebuffer  _parent;
-
+    window: Window,
     // #ifdef COGL_HAS_X11_SUPPORT
     //   uint32_t foreign_xid;
     //   OnscreenX11MaskCallback foreign_update_mask_callback;
     //   void *foreign_update_mask_data;
     // #endif
-    
+
     // #ifdef COGL_HAS_WIN32_SUPPORT
     //   HWND foreign_hwnd;
     // #endif
-    
+
     // #ifdef COGL_HAS_EGL_PLATFORM_WAYLAND_SUPPORT
     //   struct wl_surface *foreign_surface;
     // #endif
-    
+
     // #ifdef COGL_HAS_EGL_PLATFORM_MIR_SUPPORT
     //   struct MirSurface *foreign_surface;
     // #endif
-    
+
     //   Bool swap_throttled;
-    
+
     //   List frame_closures;
-    
+
     //   Bool resizable;
     //   List resize_closures;
-    
+
     //   List dirty_closures;
-    
+
     //   int64_t frame_counter;
     //   int64_t swap_frame_counter; /* frame counter at last all to
     //                                * onscreen_swap_region() or
     //                                * onscreen_swap_buffers() */
     //   GQueue pending_frame_infos;
-    
+
     //   void *winsys;
 }
 
@@ -88,13 +89,11 @@ impl Onscreen {
         //                         0x1eadbeef); /* height */
         // /* NB: make sure to pass positive width/height numbers here
         // * because otherwise we'll hit input validation assertions!*/
-
         // _onscreen_init_from_template (onscreen, ctx->display->onscreen_template);
 
         // COGL_FRAMEBUFFER (onscreen)->allocated = TRUE;
 
         // /* XXX: Note we don't initialize onscreen->winsys in this case. */
-
         // return _onscreen_object_new (onscreen);
         unimplemented!()
     }
@@ -293,7 +292,7 @@ impl Onscreen {
     /// Lets you query whether `self` has been marked as resizable via
     /// the `Onscreen::set_resizable` api.
     ///
-    /// By default, if possible, a `self` will be created by 
+    /// By default, if possible, a `self` will be created by
     /// as non resizable, but it is not guaranteed that this is always
     /// possible for all window systems.
     ///
@@ -388,7 +387,7 @@ impl Onscreen {
     /// Lets you request  to mark an `self` framebuffer as
     /// resizable or not.
     ///
-    /// By default, if possible, a `self` will be created by 
+    /// By default, if possible, a `self` will be created by
     /// as non resizable, but it is not guaranteed that this is always
     /// possible for all window systems.
     ///

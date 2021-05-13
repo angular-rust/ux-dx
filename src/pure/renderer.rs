@@ -4,7 +4,7 @@
     clippy::from_over_into
 )]
 
-use crate::{Driver, Object, OnscreenTemplate, Output, RendererConstraint, WinsysID};
+use super::{Driver, OnscreenTemplate, Output, RendererConstraint, WinsysID};
 use std::{fmt, ptr};
 
 // typedef struct _DriverDescription
@@ -54,59 +54,59 @@ use std::{fmt, ptr};
 // * display.</note>
 pub struct Renderer {
     // Object _parent;
-    // Bool connected;
-    // Driver driver_override;
-    // const DriverVtable *driver_vtable;
-    // const TextureDriver *texture_driver;
-    // const WinsysVtable *winsys_vtable;
-    // WinsysID winsys_id_override;
-    // GList *constraints;
+// Bool connected;
+// Driver driver_override;
+// const DriverVtable *driver_vtable;
+// const TextureDriver *texture_driver;
+// const WinsysVtable *winsys_vtable;
+// WinsysID winsys_id_override;
+// GList *constraints;
 
-    // GArray *poll_fds;
-    // int poll_fds_age;
-    // GList *poll_sources;
+// GArray *poll_fds;
+// int poll_fds_age;
+// GList *poll_sources;
 
-    // List idle_closures;
+// List idle_closures;
 
-    // GList *outputs;
+// GList *outputs;
 
-    // #ifdef COGL_HAS_XLIB_SUPPORT
-    // Display *foreign_xdpy;
-    // Bool xlib_enable_event_retrieval;
-    // #endif
+// #ifdef COGL_HAS_XLIB_SUPPORT
+// Display *foreign_xdpy;
+// Bool xlib_enable_event_retrieval;
+// #endif
 
-    // #ifdef COGL_HAS_WIN32_SUPPORT
-    // Bool win32_enable_event_retrieval;
-    // #endif
+// #ifdef COGL_HAS_WIN32_SUPPORT
+// Bool win32_enable_event_retrieval;
+// #endif
 
-    // Driver driver;
-    // unsigned long private_features
-    //     [COGL_FLAGS_N_LONGS_FOR_SIZE (COGL_N_PRIVATE_FEATURES)];
-    // #ifndef HAVE_DIRECTLY_LINKED_GL_LIBRARY
-    // GModule *libgl_module;
-    // #endif
+// Driver driver;
+// unsigned long private_features
+//     [COGL_FLAGS_N_LONGS_FOR_SIZE (COGL_N_PRIVATE_FEATURES)];
+// #ifndef HAVE_DIRECTLY_LINKED_GL_LIBRARY
+// GModule *libgl_module;
+// #endif
 
-    // #if defined (COGL_HAS_EGL_PLATFORM_WAYLAND_SUPPORT)
-    // struct wl_display *foreign_wayland_display;
-    // Bool wayland_enable_event_dispatch;
-    // #endif
+// #if defined (COGL_HAS_EGL_PLATFORM_WAYLAND_SUPPORT)
+// struct wl_display *foreign_wayland_display;
+// Bool wayland_enable_event_dispatch;
+// #endif
 
-    // #if defined (COGL_HAS_EGL_PLATFORM_MIR_SUPPORT)
-    // MirConnection *foreign_mir_connection;
-    // #endif
+// #if defined (COGL_HAS_EGL_PLATFORM_MIR_SUPPORT)
+// MirConnection *foreign_mir_connection;
+// #endif
 
-    // #if defined (COGL_HAS_EGL_PLATFORM_KMS_SUPPORT)
-    // int kms_fd;
-    // #endif
+// #if defined (COGL_HAS_EGL_PLATFORM_KMS_SUPPORT)
+// int kms_fd;
+// #endif
 
-    // #ifdef COGL_HAS_SDL_SUPPORT
-    // Bool sdl_event_type_set;
-    // uint32_t sdl_event_type;
-    // #endif
+// #ifdef COGL_HAS_SDL_SUPPORT
+// Bool sdl_event_type_set;
+// uint32_t sdl_event_type;
+// #endif
 
-    // /* List of callback functions that will be given every native event */
-    // GSList *event_filters;
-    // void *winsys;
+// /* List of callback functions that will be given every native event */
+// GSList *event_filters;
+// void *winsys;
 }
 
 impl Renderer {
@@ -200,10 +200,7 @@ impl Renderer {
     ///
     /// `true` if the `onscreen_template` can be supported,
     ///  else `false`.
-    pub fn check_onscreen_template(
-        &self,
-        onscreen_template: &OnscreenTemplate,
-    ) -> bool {
+    pub fn check_onscreen_template(&self, onscreen_template: &OnscreenTemplate) -> bool {
         // Display *display;
 
         // if (!renderer_connect (renderer, error))
@@ -338,7 +335,7 @@ impl Renderer {
 
         // _COGL_RETURN_IF_FAIL (renderer->connected);
         // _COGL_RETURN_IF_FAIL (callback != NULL);
-      
+
         // for (l = renderer->outputs; l; l = l->next)
         //   callback (l->data, user_data);
         unimplemented!()
@@ -363,13 +360,13 @@ impl Renderer {
         // int n = 0;
 
         //     _COGL_GET_CONTEXT (ctx, 0);
-        
+
         // #if defined (HAVE_COGL_GL) || defined (HAVE_COGL_GLES2)
         //     if (has_feature (ctx, COGL_FEATURE_ID_GLSL) ||
         //         has_feature (ctx, COGL_FEATURE_ID_ARBFP))
         //     GE (ctx, glGetIntegerv (GL_MAX_TEXTURE_IMAGE_UNITS, &n));
         // #endif
-        
+
         // return n;
         unimplemented!()
     }

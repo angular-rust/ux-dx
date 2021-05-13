@@ -41,7 +41,6 @@ impl fmt::Display for AttributeType {
     }
 }
 
-
 /// Error codes that can be thrown when performing bitmap
 /// operations. Note that `gdk_pixbuf_new_from_file` can also throw
 /// errors directly from the underlying image loading library. For
@@ -73,8 +72,6 @@ impl fmt::Display for BitmapError {
     }
 }
 
-
-
 /// Error enumeration for the blend strings parser
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -105,8 +102,6 @@ impl fmt::Display for BlendStringError {
     }
 }
 
-
-
 /// Error enumeration for `Buffer`
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -128,7 +123,6 @@ impl fmt::Display for BufferError {
         )
     }
 }
-
 
 /// The update hint on a buffer allows the user to give some detail on how often
 /// the buffer data is going to be updated.
@@ -157,7 +151,6 @@ impl fmt::Display for BufferUpdateHint {
         )
     }
 }
-
 
 /// When using depth testing one of these functions is used to compare
 /// the depth of an incoming fragment against the depth value currently
@@ -212,8 +205,6 @@ impl fmt::Display for DepthTestFunction {
     }
 }
 
-
-
 /// Identifiers for underlying hardware drivers that may be used by
 ///  for rendering.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -252,8 +243,6 @@ impl fmt::Display for Driver {
         )
     }
 }
-
-
 
 /// All the capabilities that can vary between different GPUs supported
 /// by . Applications that depend on any of these features should explicitly
@@ -377,7 +366,6 @@ impl fmt::Display for FeatureID {
     }
 }
 
-
 /// Return values for the `XlibFilterFunc` and `Win32FilterFunc` functions.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -401,7 +389,6 @@ impl fmt::Display for FilterReturn {
         )
     }
 }
-
 
 /// The fog mode determines the equation used to calculate the fogging blend
 /// factor while fogging is enabled. The simplest `FogMode::Linear` mode
@@ -451,7 +438,6 @@ impl fmt::Display for FogMode {
     }
 }
 
-
 /// Identifiers that are passed to `FrameCallback` functions
 /// (registered using `Onscreen::add_frame_callback`) that
 /// mark the progression of a frame in some way which usually
@@ -496,7 +482,6 @@ impl fmt::Display for FrameEvent {
     }
 }
 
-
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum FramebufferError {
@@ -514,7 +499,6 @@ impl fmt::Display for FramebufferError {
         )
     }
 }
-
 
 /// Error codes that relate to the gles2_context api.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -541,8 +525,6 @@ impl fmt::Display for GLES2ContextError {
         )
     }
 }
-
-
 
 /// You should aim to use the smallest data type that gives you enough
 /// range, since it reduces the size of your index array and can help
@@ -577,8 +559,6 @@ impl fmt::Display for IndicesType {
         )
     }
 }
-
-
 
 /// Alpha testing happens before blending primitives with the framebuffer and
 /// gives an opportunity to discard fragments based on a comparison with the
@@ -629,7 +609,6 @@ impl fmt::Display for MaterialAlphaFunc {
         )
     }
 }
-
 
 /// Texture filtering is used whenever the current pixel maps either to more
 /// than one texture element (texel) or less than one. These filter enums
@@ -682,8 +661,6 @@ impl fmt::Display for MaterialFilter {
     }
 }
 
-
-
 /// Available types of layers for a `Material`. This enumeration
 /// might be expanded in later versions.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -705,8 +682,6 @@ impl fmt::Display for MaterialLayerType {
         )
     }
 }
-
-
 
 /// The wrap mode specifies what happens when texture coordinates
 /// outside the range 0→1 are used. Note that if the filter mode is
@@ -751,8 +726,6 @@ impl fmt::Display for MaterialWrapMode {
         )
     }
 }
-
-
 
 /// Alpha testing happens before blending primitives with the framebuffer and
 /// gives an opportunity to discard fragments based on a comparison with the
@@ -804,8 +777,6 @@ impl fmt::Display for PipelineAlphaFunc {
     }
 }
 
-
-
 /// Specifies which faces should be culled. This can be set on a
 /// pipeline using `Pipeline::set_cull_face_mode`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -836,7 +807,6 @@ impl fmt::Display for PipelineCullFaceMode {
         )
     }
 }
-
 
 /// Texture filtering is used whenever the current pixel maps either to more
 /// than one texture element (texel) or less than one. These filter enums
@@ -889,7 +859,6 @@ impl fmt::Display for PipelineFilter {
     }
 }
 
-
 /// The wrap mode specifies what happens when texture coordinates
 /// outside the range 0→1 are used. Note that if the filter mode is
 /// anything but `PipelineFilter::Nearest` then texels outside the
@@ -936,7 +905,6 @@ impl fmt::Display for PipelineWrapMode {
         )
     }
 }
-
 
 /// Pixel formats used by . For the formats with a byte per
 /// component, the order of the components specify the order in
@@ -1064,8 +1032,6 @@ impl fmt::Display for PixelFormat {
     }
 }
 
-
-
 /// A bitmask of events that  may need to wake on for a file
 /// descriptor. Note that these all have the same values as the
 /// corresponding defines for the poll function call on Unix so they
@@ -1105,7 +1071,6 @@ impl fmt::Display for PollFDEvent {
     }
 }
 
-
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum RendererError {
@@ -1125,8 +1090,6 @@ impl fmt::Display for RendererError {
         )
     }
 }
-
-
 
 /// Types of shaders
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -1150,8 +1113,6 @@ impl fmt::Display for ShaderType {
         )
     }
 }
-
-
 
 /// `SnippetHook` is used to specify a location within a
 /// `Pipeline` where the code of the snippet should be used when it
@@ -1485,8 +1446,6 @@ impl fmt::Display for SnippetHook {
     }
 }
 
-
-
 /// Represents how draw should affect the two buffers
 /// of a stereo framebuffer. See `Framebuffer::set_stereo_mode`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -1513,8 +1472,6 @@ impl fmt::Display for StereoMode {
         )
     }
 }
-
-
 
 /// Some output devices (such as LCD panels) display colors
 /// by making each pixel consist of smaller "subpixels"
@@ -1568,9 +1525,7 @@ impl fmt::Display for SubpixelOrder {
     }
 }
 
-
-
-/// Error enumeration for 
+/// Error enumeration for
 ///
 /// The `SystemError::SystemErrorUnsupported` error can be thrown for a
 /// variety of reasons. For example:
@@ -1613,8 +1568,6 @@ impl fmt::Display for SystemError {
     }
 }
 
-
-
 /// See `Texture::set_components`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -1649,8 +1602,6 @@ impl fmt::Display for TextureComponents {
     }
 }
 
-
-
 /// Error codes that can be thrown when allocating textures.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -1680,8 +1631,6 @@ impl fmt::Display for TextureError {
     }
 }
 
-
-
 /// Error codes that can be thrown when performing texture-pixmap-x11
 /// operations.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -1702,8 +1651,6 @@ impl fmt::Display for TexturePixmapX11Error {
         )
     }
 }
-
-
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -1729,7 +1676,6 @@ impl fmt::Display for TexturePixmapX11ReportLevel {
     }
 }
 
-
 /// Constants representing the underlying hardware texture type of a
 /// `Texture`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -1754,8 +1700,6 @@ impl fmt::Display for TextureType {
         )
     }
 }
-
-
 
 /// Different ways of interpreting vertices when drawing.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -1800,8 +1744,6 @@ impl fmt::Display for VerticesMode {
     }
 }
 
-
-
 /// Enum used to represent the two directions of rotation. This can be
 /// used to set the front face for culling by calling
 /// `Pipeline::set_front_face_winding`.
@@ -1826,8 +1768,6 @@ impl fmt::Display for Winding {
         )
     }
 }
-
-
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -1868,8 +1808,6 @@ impl fmt::Display for WinsysFeature {
         )
     }
 }
-
-
 
 /// Identifies specific window system backends that  supports.
 ///
@@ -1926,4 +1864,3 @@ impl fmt::Display for WinsysID {
         )
     }
 }
-

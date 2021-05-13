@@ -1,8 +1,7 @@
-use crate::Texture;
+use super::Texture;
 use std::fmt;
 
-pub struct Offscreen {
-}
+pub struct Offscreen {}
 
 impl Offscreen {
     // // * offscreen_new_with_texture:

@@ -1,4 +1,4 @@
-use std::{mem, ptr, ffi::c_void};
+use std::{ffi::c_void, mem, ptr};
 
 #[repr(C)]
 #[derive(Debug)]

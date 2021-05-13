@@ -1,7 +1,6 @@
 use std::fmt;
 
-pub struct Fixed {
-}
+pub struct Fixed {}
 
 impl Fixed {
     // TODO: remade all it here coz

@@ -4,7 +4,7 @@
     clippy::from_over_into
 )]
 
-use crate::{Euler, Matrix};
+use super::{Euler, Matrix};
 use std::boxed::Box as Box_;
 use std::mem;
 // * SECTION:cogl-quaternion
@@ -87,17 +87,17 @@ use std::mem;
 #[derive(Debug, PartialOrd, Ord)] // Hash
 pub struct Quaternion {
     //< public >
-    // float w;
+// float w;
 
-    // float x;
-    // float y;
-    // float z;
+// float x;
+// float y;
+// float z;
 
-    // /*< private >*/
-    // float padding0;
-    // float padding1;
-    // float padding2;
-    // float padding3;
+// /*< private >*/
+// float padding0;
+// float padding1;
+// float padding2;
+// float padding3;
 }
 
 impl Quaternion {
@@ -115,7 +115,6 @@ impl Quaternion {
         // * in this form:
         // * [w=cos(𝜃/2) ( x=sin(𝜃/2)*a.x, y=sin(𝜃/2)*a.y, z=sin(𝜃/2)*a.x )]
         // */
-
         // /* FIXME: clamp [-1, 1] */
         // return 2.0f * acosf (quaternion->w) * _COGL_QUATERNION_RADIANS_TO_DEGREES;
         unimplemented!()
@@ -132,9 +131,7 @@ impl Quaternion {
         // * in this form:
         // * [w=cos(𝜃/2) ( x=sin(𝜃/2)*a.x, y=sin(𝜃/2)*a.y, z=sin(𝜃/2)*a.x )]
         // */
-
         // /* NB: sin²(𝜃) + cos²(𝜃) = 1 */
-
         // sin_half_angle_sqr = 1.0f - quaternion->w * quaternion->w;
 
         // if (sin_half_angle_sqr <= 0.0f)
@@ -270,7 +267,6 @@ impl Quaternion {
         // /* Algorithm devised by Ken Shoemake, Ref:
         // * http://campar.in.tum.de/twiki/pub/Chair/DwarfTutorial/quatut.pdf
         // */
-
         // /* 3D maths literature refers to the diagonal of a matrix as the
         // * "trace" of a matrix... */
         // float trace = matrix->xx + matrix->yy + matrix->zz;
@@ -574,7 +570,6 @@ impl Quaternion {
         // * in this form:
         // * [w=cos(𝜃/2) ( x=sin(𝜃/2)*a.x, y=sin(𝜃/2)*a.y, z=sin(𝜃/2)*a.x )]
         // */
-
         // /* FIXME: clamp [-1, 1] */
         // /* Extract 𝜃/2 from w */
         // half_angle = acosf (quaternion->w);
@@ -665,12 +660,10 @@ impl Quaternion {
         // /* If we have two unit quaternions the dot should be <= 1.0 */
         // g_assert (cos_difference < 1.1f);
 
-
         // /* Determine the interpolation factors for each quaternion, simply using
         // * linear interpolation for quaternions that are nearly exactly the same.
         // * (this will avoid divisions by zero)
         // */
-
         // if (cos_difference > 0.9999f)
         //     {
         //     fa = 1.0f - t;
@@ -692,7 +685,6 @@ impl Quaternion {
         //     }
 
         // /* Finally interpolate the two quaternions */
-
         // result->x = fa * a->x + fb * qb_x;
         // result->y = fa * a->y + fb * qb_y;
         // result->z = fa * a->z + fb * qb_z;

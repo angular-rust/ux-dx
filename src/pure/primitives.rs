@@ -48,16 +48,16 @@ use super::TextureVertex;
 pub fn rectangle(x_1: f32, y_1: f32, x_2: f32, y_2: f32) {
     // const float position[4] = {x_1, y_1, x_2, y_2};
     // MultiTexturedRect rect;
-  
+
     // /* XXX: All the rectangle* APIs normalize their input into an array of
     //  * MultiTexturedRect rectangles and pass these on to our work horse;
     //  * _rectangles_with_multitexture_coords.
     //  */
-  
+
     // rect.position = position;
     // rect.tex_coords = NULL;
     // rect.tex_coords_len = 0;
-  
+
     // _rectangles_with_multitexture_coords (&rect, 1);
 }
 

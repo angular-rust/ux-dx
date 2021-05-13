@@ -7,6 +7,9 @@
     clippy::from_over_into
 )]
 
+mod atlas;
+pub use self::atlas::Atlas;
+
 mod atlas_texture;
 pub use self::atlas_texture::AtlasTexture;
 
@@ -256,7 +259,6 @@ pub use alias::UserDataDestroyCallback;
 
 #[doc(hidden)]
 pub mod traits {
-    pub use crate::FramebufferExt;
-    pub use crate::ObjectExt;
-    pub use crate::TextureExt;
+    pub use super::FramebufferExt;
+    pub use super::TextureExt;
 }

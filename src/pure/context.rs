@@ -1,4 +1,4 @@
-use crate::{Display, Object, Renderer};
+use super::{Display, Renderer};
 use std::fmt;
 
 pub struct TextureGLVertex {
@@ -70,7 +70,7 @@ pub struct TextureGLVertex {
 // * Since: 1.10
 
 pub enum FeatureID {
-//  TEXTURE_NPOT_BASIC = 1,
+    //  TEXTURE_NPOT_BASIC = 1,
 //  TEXTURE_NPOT_MIPMAP,
 //  TEXTURE_NPOT_REPEAT,
 //  TEXTURE_NPOT,
@@ -543,7 +543,6 @@ impl Context {
         // * so we make sure it's the first attribute name we register */
         // _attribute_register_attribute_name (context, "color_in");
 
-
         // context->uniform_names =
         //     g_ptr_array_new_with_free_func ((GDestroyNotify) g_free);
         // context->uniform_name_hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -741,7 +740,6 @@ impl Context {
         //                                 0, /* rowstride */
         //                                 white_pixel,
         //                                 NULL); /* abort on error */
-
         // /* If 3D or rectangle textures aren't supported then these will
         // * return errors that we can simply ignore. */
         // internal_error = NULL;

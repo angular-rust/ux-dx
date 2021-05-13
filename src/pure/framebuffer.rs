@@ -34,8 +34,8 @@
 // * also catch any possible errors that may arise from your
 // * configuration.
 use super::{
-    Bitmap, Color, ColorMask, Context, Euler, Fence, FenceClosure, Matrix, Pipeline,
-    PixelFormat, Primitive, Quaternion, ReadPixelsFlags, StereoMode, Texture,
+    Bitmap, Color, ColorMask, Context, Euler, Fence, FenceClosure, Matrix, Pipeline, PixelFormat,
+    Primitive, Quaternion, ReadPixelsFlags, StereoMode, Texture,
 };
 use crate::prelude::*;
 use std::boxed::Box as Box_;
@@ -151,6 +151,7 @@ use std::{fmt, ptr};
 //     OffscreenFlags create_flags;
 // };
 
+#[derive(Default, Debug, Clone)]
 pub struct Framebuffer {
     // Object          _parent;
 // Context        *context;

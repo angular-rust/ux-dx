@@ -1,4 +1,4 @@
-use crate::{Object, SubpixelOrder};
+use super::SubpixelOrder;
 use std::fmt;
 
 // /**
@@ -63,16 +63,16 @@ use std::fmt;
 pub struct Output {
     // Object _parent;
 
-    // char *name;
+// char *name;
 
-    // int x; /* Must be first field for _output_values_equal() */
-    // int y;
-    // int width;
-    // int height;
-    // int mm_width;
-    // int mm_height;
-    // float refresh_rate;
-    // SubpixelOrder subpixel_order
+// int x; /* Must be first field for _output_values_equal() */
+// int y;
+// int width;
+// int height;
+// int mm_width;
+// int mm_height;
+// float refresh_rate;
+// SubpixelOrder subpixel_order
 }
 
 impl Output {

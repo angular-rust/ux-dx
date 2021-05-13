@@ -1,30 +1,30 @@
-use crate::{Bitmap, Context, Object, PixelFormat, Texture};
+use super::{Bitmap, Context, PixelFormat, Texture};
 use std::{fmt, ptr};
 
 // @extends Object, @implements Texture;
 pub struct Texture2D {
     // Texture _parent;
 
-    // /* The internal format of the GL texture represented as a
-    //     PixelFormat */
-    // PixelFormat internal_format;
+// /* The internal format of the GL texture represented as a
+//     PixelFormat */
+// PixelFormat internal_format;
 
-    // Bool auto_mipmap;
-    // Bool mipmaps_dirty;
-    // Bool is_foreign;
+// Bool auto_mipmap;
+// Bool mipmaps_dirty;
+// Bool is_foreign;
 
-    // /* TODO: factor out these OpenGL specific members into some form
-    // * of driver private state. */
+// /* TODO: factor out these OpenGL specific members into some form
+// * of driver private state. */
 
-    // /* The internal format of the GL texture represented as a GL enum */
-    // GLenum gl_internal_format;
-    // /* The texture object number */
-    // GLuint gl_texture;
-    // GLenum gl_legacy_texobj_min_filter;
-    // GLenum gl_legacy_texobj_mag_filter;
-    // GLint gl_legacy_texobj_wrap_mode_s;
-    // GLint gl_legacy_texobj_wrap_mode_t;
-    // TexturePixel first_pixel;
+// /* The internal format of the GL texture represented as a GL enum */
+// GLenum gl_internal_format;
+// /* The texture object number */
+// GLuint gl_texture;
+// GLenum gl_legacy_texobj_min_filter;
+// GLenum gl_legacy_texobj_mag_filter;
+// GLint gl_legacy_texobj_wrap_mode_s;
+// GLint gl_legacy_texobj_wrap_mode_t;
+// TexturePixel first_pixel;
 }
 
 impl Texture2D {
@@ -69,12 +69,12 @@ impl Texture2D {
         // TextureLoader *loader;
 
         // _COGL_RETURN_VAL_IF_FAIL (bmp != NULL, NULL);
-      
+
         // loader = _texture_create_loader ();
         // loader->src_type = COGL_TEXTURE_SOURCE_TYPE_BITMAP;
         // loader->src.bitmap.bitmap = object_ref (bmp);
         // loader->src.bitmap.can_convert_in_place = can_convert_in_place;
-      
+
         // return  _texture_2d_create_base (_bitmap_get_context (bmp),
         //                                       bitmap_get_width (bmp),
         //                                       bitmap_get_height (bmp),
@@ -135,7 +135,6 @@ impl Texture2D {
 
         // tex_2d = _texture_2d_new_from_bitmap (bmp,
         //                                             TRUE); /* can convert in-place */
-
         // object_unref (bmp);
 
         // return tex_2d;

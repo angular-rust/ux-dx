@@ -1,4 +1,4 @@
-use crate::{IndexBuffer, IndicesType, Object, Context};
+use super::{Context, IndexBuffer, IndicesType};
 use std::fmt;
 
 // * SECTION:cogl-indices
@@ -60,23 +60,27 @@ use std::fmt;
 pub struct Indices {
     // Object _parent;
 
-    // IndexBuffer *buffer;
-    // size_t offset;
-  
-    // IndicesType type;
-  
-    // int immutable_ref;
-    
+// IndexBuffer *buffer;
+// size_t offset;
+
+// IndicesType type;
+
+// int immutable_ref;
 }
 
 impl Indices {
-    pub fn new(context: &Context, type_: IndicesType, indices_data: &[u8], n_indices: i32) -> Indices {
+    pub fn new(
+        context: &Context,
+        type_: IndicesType,
+        indices_data: &[u8],
+        n_indices: i32,
+    ) -> Indices {
         // size_t buffer_bytes = sizeof_indices_type (type) * n_indices;
         // IndexBuffer *index_buffer = index_buffer_new (context, buffer_bytes);
         // Buffer *buffer = COGL_BUFFER (index_buffer);
         // Indices *indices;
         // Error *ignore_error = NULL;
-      
+
         // _buffer_set_data (buffer,
         //                        0,
         //                        indices_data,
@@ -88,10 +92,10 @@ impl Indices {
         //     object_unref (index_buffer);
         //     return NULL;
         //   }
-      
+
         // indices = indices_new_for_buffer (type, index_buffer, 0);
         // object_unref (index_buffer);
-      
+
         // return indices;
         unimplemented!()
     }

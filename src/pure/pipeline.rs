@@ -1,6 +1,6 @@
-use crate::{
-    Color, ColorMask, Context, DepthState, Handle, Matrix, Object, PipelineAlphaFunc,
-    PipelineCullFaceMode, PipelineFilter, PipelineWrapMode, Snippet, Texture, TextureType, Winding,
+use super::{
+    Color, ColorMask, Context, DepthState, Handle, Matrix, PipelineAlphaFunc, PipelineCullFaceMode,
+    PipelineFilter, PipelineWrapMode, Snippet, Texture, TextureType, Winding,
 };
 
 use std::{fmt, ptr};
@@ -869,7 +869,7 @@ impl Pipeline {
     ///
     /// We would strongly advise developers to always aim to use
     /// `Pipeline::copy` instead of `Pipeline::new` whenever there will
-    /// be any similarity between two pipelines. Copying a pipeline helps 
+    /// be any similarity between two pipelines. Copying a pipeline helps
     /// keep track of a pipelines ancestry which we may use to help minimize GPU
     /// state changes.
     ///
@@ -2211,11 +2211,7 @@ impl Pipeline {
     /// `true` if the blend string was successfully parsed, and the
     ///  described texture combining is supported by the underlying driver and
     ///  or hardware. On failure, `false` is returned and `error` is set
-    pub fn set_layer_combine(
-        &self,
-        layer_index: i32,
-        blend_string: &str,
-    ) -> bool {
+    pub fn set_layer_combine(&self, layer_index: i32, blend_string: &str) -> bool {
         // PipelineLayerState state = COGL_PIPELINE_LAYER_STATE_COMBINE;
         // PipelineLayer *authority;
         // PipelineLayer *layer;
@@ -2598,11 +2594,7 @@ impl Pipeline {
     /// # Returns
     ///
     /// `true` if the function succeeds, `false` otherwise.
-    pub fn set_layer_point_sprite_coords_enabled(
-        &self,
-        layer_index: i32,
-        enable: bool,
-    ) -> bool {
+    pub fn set_layer_point_sprite_coords_enabled(&self, layer_index: i32, enable: bool) -> bool {
         // PipelineLayerState       change =
         //     COGL_PIPELINE_LAYER_STATE_POINT_SPRITE_COORDS;
         // PipelineLayer           *layer;

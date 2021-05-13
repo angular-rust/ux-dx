@@ -6,13 +6,13 @@
 )]
 
 use std::mem;
- 
+
 // * SECTION:cogl-poll
 // * @short_description: Functions for integrating  with an
 // *   application's main loop
 // *
 // *  needs to integrate with the application's main loop so that it
-// * can internally handle some events from the driver. All 
+// * can internally handle some events from the driver. All
 // * applications must use these functions. They provide enough
 // * information to describe the state that  will need to wake up
 // * on. An application using the GLib main loop can instead use
@@ -32,7 +32,7 @@ use std::mem;
 // * @events: A bitmask of events to block on
 // * @revents: A bitmask of returned events
 // *
-// * A struct for describing the state of a file descriptor that 
+// * A struct for describing the state of a file descriptor that
 // * needs to block on. The @events field contains a bitmask of
 // * #PollFDEvent<!-- -->s that should cause the application to wake
 // * up. After the application is woken up from idle it should pass back
@@ -48,4 +48,3 @@ pub struct PollFD {
     pub events: i16,
     pub revents: i16,
 }
-

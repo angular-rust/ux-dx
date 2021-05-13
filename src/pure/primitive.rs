@@ -1,9 +1,9 @@
-use crate::prelude::*;
 use super::{
     Attribute, Context, Framebuffer, Indices, Pipeline, VertexP2, VertexP2C4, VertexP2T2,
     VertexP2T2C4, VertexP3, VertexP3C4, VertexP3T2, VertexP3T2C4, VerticesMode,
 };
-use std::{fmt,ffi::c_void};
+use crate::prelude::*;
+use std::{ffi::c_void, fmt};
 
 pub struct PrimitiveTexture(c_void);
 
@@ -17,18 +17,18 @@ pub struct PrimitiveTexture(c_void);
 pub struct Primitive {
     // Object _parent;
 
-    // Indices *indices;
-    // VerticesMode mode;
-    // int first_vertex;
-    // int n_vertices;
-  
-    // int immutable_ref;
-  
-    // Attribute **attributes;
-    // int n_attributes;
-  
-    // int n_embedded_attributes;
-    // Attribute *embedded_attribute;
+// Indices *indices;
+// VerticesMode mode;
+// int first_vertex;
+// int n_vertices;
+
+// int immutable_ref;
+
+// Attribute **attributes;
+// int n_attributes;
+
+// int n_embedded_attributes;
+// Attribute *embedded_attribute;
 }
 
 impl Primitive {
@@ -53,19 +53,19 @@ impl Primitive {
         // Attribute **attributes;
         // int i;
         // Attribute *attribute;
-      
+
         // va_start (ap, n_vertices);
         // for (n_attributes = 0; va_arg (ap, Attribute *); n_attributes++)
         //   ;
         // va_end (ap);
-      
+
         // attributes = g_alloca (sizeof (Attribute *) * n_attributes);
-      
+
         // va_start (ap, n_vertices);
         // for (i = 0; (attribute = va_arg (ap, Attribute *)); i++)
         //   attributes[i] = attribute;
         // va_end (ap);
-      
+
         // return primitive_new_with_attributes (mode, n_vertices,
         //                                            attributes,
         //                                            i);
@@ -747,7 +747,7 @@ impl Primitive {
         // primitive_set_first_vertex (copy, primitive->first_vertex);
 
         // return copy;
-  
+
         unimplemented!()
     }
 
@@ -880,7 +880,6 @@ impl Primitive {
         // /* First try to use the embedded storage assocated with the
         // * primitive, else fallback to slice allocating separate storage for
         // * the attribute pointers... */
-
         // if (n_attributes <= primitive->n_embedded_attributes)
         //     {
         //     if (primitive->attributes != &primitive->embedded_attribute)
@@ -967,7 +966,7 @@ impl Primitive {
         //     }
 
         // primitive->mode = mode;
-        unimplemented!()        
+        unimplemented!()
     }
 
     /// Specifies how many vertices should be read when drawing the given
@@ -992,11 +991,11 @@ impl Primitive {
         // Texture *texture;
 
         // _COGL_RETURN_IF_FAIL (is_primitive_texture (primitive_texture));
-      
+
         // texture = COGL_TEXTURE (primitive_texture);
-      
+
         // g_assert (texture->vtable->set_auto_mipmap != NULL);
-      
+
         // texture->vtable->set_auto_mipmap (texture, value);
         unimplemented!()
     }

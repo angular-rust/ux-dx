@@ -1,14 +1,14 @@
-use crate::{Object, Output};
+use super::Output;
 use std::fmt;
 
 pub struct FrameInfo {
     // Object _parent;
 
-    // int64_t frame_counter;
-    // int64_t presentation_time;
-    // float refresh_rate;
-  
-    // Output *output;
+// int64_t frame_counter;
+// int64_t presentation_time;
+// float refresh_rate;
+
+// Output *output;
 }
 
 impl FrameInfo {

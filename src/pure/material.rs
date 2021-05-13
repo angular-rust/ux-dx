@@ -3,5 +3,4 @@ use std::ptr;
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
-pub struct Material {
-}
+pub struct Material {}

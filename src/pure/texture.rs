@@ -3,9 +3,9 @@
     clippy::let_and_return,
     clippy::from_over_into
 )]
-use crate::prelude::*;
 use super::{Bitmap, PixelFormat, TextureComponents}; // Object,
-use std::{fmt, mem, ptr, ffi::c_void};
+use crate::prelude::*;
+use std::{ffi::c_void, fmt, mem, ptr};
 
 #[derive(Debug)]
 pub struct Texture(c_void);
@@ -208,13 +208,7 @@ pub trait TextureExt: 'static {
     ///
     /// `true` if the data upload was successful, and
     ///  `false` otherwise
-    fn set_data(
-        &self,
-        format: PixelFormat,
-        rowstride: i32,
-        data: &[u8],
-        level: i32,
-    ) -> bool;
+    fn set_data(&self, format: PixelFormat, rowstride: i32, data: &[u8], level: i32) -> bool;
 
     /// Affects the internal storage format for this texture by specifying
     /// whether red, green and blue color components should be stored as
@@ -584,13 +578,7 @@ impl<O: Is<Texture>> TextureExt for O {
         unimplemented!()
     }
 
-    fn set_data(
-        &self,
-        format: PixelFormat,
-        rowstride: i32,
-        data: &[u8],
-        level: i32,
-    ) -> bool {
+    fn set_data(&self, format: PixelFormat, rowstride: i32, data: &[u8], level: i32) -> bool {
         // int level_width;
         // int level_height;
 
@@ -616,10 +604,10 @@ impl<O: Is<Texture>> TextureExt for O {
         // _COGL_RETURN_IF_FAIL (!texture->allocated);
 
         // premultiplied = !!premultiplied;
-      
+
         // if (texture->premultiplied == premultiplied)
         //   return;
-      
+
         // texture->premultiplied = premultiplied;
         unimplemented!()
     }

@@ -1,4 +1,4 @@
-use crate::{Context, Euler, Matrix, MatrixEntry, Object, Quaternion};
+use super::{Context, Euler, Matrix, MatrixEntry, Quaternion};
 use std::fmt;
 
 // * SECTION:cogl-matrix-stack
@@ -53,7 +53,6 @@ use std::fmt;
 // * cosine calculations for rotations) can make using a matrix stack
 // * worthwhile.
 
-
 // * MatrixStack:
 // *
 // * Tracks your current position within a hierarchy and lets you build
@@ -90,9 +89,9 @@ use std::fmt;
 pub struct MatrixStack {
     // Object _parent;
 
-    // Context *context;
-  
-    // MatrixEntry *last_entry;
+// Context *context;
+
+// MatrixEntry *last_entry;
 }
 
 impl MatrixStack {
@@ -408,7 +407,7 @@ impl MatrixStack {
         // MatrixEntryRotate *entry;
 
         // entry = _matrix_stack_push_operation (stack, COGL_MATRIX_OP_ROTATE);
-      
+
         // entry->angle = angle;
         // entry->x = x;
         // entry->y = y;
@@ -426,7 +425,7 @@ impl MatrixStack {
 
         // entry = _matrix_stack_push_operation (stack,
         //                                            COGL_MATRIX_OP_ROTATE_EULER);
-      
+
         // entry->heading = euler->heading;
         // entry->pitch = euler->pitch;
         // entry->roll = euler->roll;
@@ -442,7 +441,7 @@ impl MatrixStack {
 
         // entry = _matrix_stack_push_operation (stack,
         //                                            COGL_MATRIX_OP_ROTATE_QUATERNION);
-      
+
         // entry->values[0] = quaternion->w;
         // entry->values[1] = quaternion->x;
         // entry->values[2] = quaternion->y;
@@ -462,7 +461,7 @@ impl MatrixStack {
         // MatrixEntryScale *entry;
 
         // entry = _matrix_stack_push_operation (stack, COGL_MATRIX_OP_SCALE);
-      
+
         // entry->x = x;
         // entry->y = y;
         // entry->z = z;
@@ -481,10 +480,10 @@ impl MatrixStack {
         // entry =
         //   _matrix_stack_push_replacement_entry (stack,
         //                                              COGL_MATRIX_OP_LOAD);
-      
+
         // entry->matrix =
         //   _magazine_chunk_alloc (matrix_stack_matrices_magazine);
-      
+
         // matrix_init_from_array (entry->matrix, (float *)matrix);
         unimplemented!()
     }
@@ -501,7 +500,7 @@ impl MatrixStack {
         // MatrixEntryTranslate *entry;
 
         // entry = _matrix_stack_push_operation (stack, COGL_MATRIX_OP_TRANSLATE);
-      
+
         // entry->x = x;
         // entry->y = y;
         // entry->z = z;

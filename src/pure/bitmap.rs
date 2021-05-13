@@ -1,6 +1,6 @@
+use super::{Context, PixelBuffer, PixelFormat};
 use bytes::Bytes;
-use crate::{Context, Object, PixelBuffer, PixelFormat};
-use std::{fmt};
+use std::fmt;
 
 // * @short_description: Functions for loading images
 // *
@@ -9,26 +9,26 @@ use std::{fmt};
 pub struct Bitmap {
     // Object _parent;
 
-    // /* Pointer back to the context that this bitmap was created with */
-    // Context *context;
-  
-    // PixelFormat format;
-    // int width;
-    // int height;
-    // int rowstride;
-  
-    // uint8_t *data;
-  
-    // Bool mapped;
-    // Bool bound;
-  
-    // /* If this is non-null then 'data' is ignored and instead it is
-    //    fetched from this shared bitmap. */
-    // Bitmap *shared_bmp;
-  
-    // /* If this is non-null then 'data' is treated as an offset into the
-    //    buffer and map will divert to mapping the buffer */
-    // Buffer *buffer;
+// /* Pointer back to the context that this bitmap was created with */
+// Context *context;
+
+// PixelFormat format;
+// int width;
+// int height;
+// int rowstride;
+
+// uint8_t *data;
+
+// Bool mapped;
+// Bool bound;
+
+// /* If this is non-null then 'data' is ignored and instead it is
+//    fetched from this shared bitmap. */
+// Bitmap *shared_bmp;
+
+// /* If this is non-null then 'data' is treated as an offset into the
+//    buffer and map will divert to mapping the buffer */
+// Buffer *buffer;
 }
 
 impl Bitmap {
@@ -103,20 +103,27 @@ impl Bitmap {
     // *
     // * Since: 1.8
     // * Stability: unstable
-    pub fn from_buffer(buffer: Bytes, format: PixelFormat, width: i32, height: i32, rowstride: i32, offset: i32) -> Bitmap {
+    pub fn from_buffer(
+        buffer: Bytes,
+        format: PixelFormat,
+        width: i32,
+        height: i32,
+        rowstride: i32,
+        offset: i32,
+    ) -> Bitmap {
         // Bitmap *bmp;
 
         // _COGL_RETURN_VAL_IF_FAIL (is_buffer (buffer), NULL);
-      
+
         // bmp = bitmap_new_for_data (buffer->context,
         //                                 width, height,
         //                                 format,
         //                                 rowstride,
         //                                 NULL /* data */);
-      
+
         // bmp->buffer = object_ref (buffer);
         // bmp->data = GINT_TO_POINTER (offset);
-      
+
         // return bmp;
         unimplemented!()
     }
@@ -183,7 +190,6 @@ impl Bitmap {
         //     pixel_buffer_new (context,
         //                         height * rowstride,
         //                         NULL); /* data */
-
         // _COGL_RETURN_VAL_IF_FAIL (pixel_buffer != NULL, NULL);
 
         // bitmap = bitmap_new_from_buffer (COGL_BUFFER (pixel_buffer),

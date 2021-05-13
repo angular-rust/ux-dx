@@ -1,4 +1,4 @@
-use crate::Matrix;
+use super::Matrix;
 use std::mem;
 
 // typedef enum _MatrixOp
@@ -153,10 +153,10 @@ use std::mem;
 // * object_ref() and object_unref().</note>
 #[derive(Debug, PartialOrd, Ord)] // Hash
 pub struct MatrixEntry {
-//     MatrixEntry *parent;
+    //     MatrixEntry *parent;
 //     MatrixOp op;
 //     unsigned int ref_count;
-  
+
 //   #ifdef COGL_DEBUG_ENABLED
 //     /* used for performance tracing */
 //     int composite_gets;
@@ -215,7 +215,6 @@ impl MatrixEntry {
         // * If we come across any non-translation operations during 3) or 4)
         // * then bail out returning FALSE.
         // */
-
         // for (node0 = entry0; node0; node0 = node0->parent)
         //     {
         //     GSList *link;
@@ -324,13 +323,13 @@ impl MatrixEntry {
         //  {
         //    entry0 = _matrix_entry_skip_saves (entry0);
         //    entry1 = _matrix_entry_skip_saves (entry1);
-     
+
         //    if (entry0 == entry1)
         //      return TRUE;
-     
+
         //    if (entry0->op != entry1->op)
         //      return FALSE;
-     
+
         //    switch (entry0->op)
         //      {
         //      case COGL_MATRIX_OP_LOAD_IDENTITY:
@@ -381,7 +380,7 @@ impl MatrixEntry {
         //            (MatrixEntryRotateEuler *)entry0;
         //          MatrixEntryRotateEuler *rotate1 =
         //            (MatrixEntryRotateEuler *)entry1;
-     
+
         //          if (rotate0->heading != rotate1->heading ||
         //              rotate0->pitch != rotate1->pitch ||
         //              rotate0->roll != rotate1->roll)
@@ -420,7 +419,7 @@ impl MatrixEntry {
         //        g_warn_if_reached ();
         //      }
         //  }
-     
+
         // return FALSE;
         unimplemented!()
     }

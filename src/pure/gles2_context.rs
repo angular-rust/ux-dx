@@ -1,4 +1,4 @@
-use crate::{Context, Object};
+use super::Context;
 use std::{fmt, ptr};
 
 // typedef struct _GLES2Offscreen
@@ -90,71 +90,71 @@ use std::{fmt, ptr};
 pub struct GLES2Context {
     // Object _parent;
 
-    // Context *context;
-  
-    // /* This is set to FALSE until the first time the GLES2 context is
-    //  * bound to something. We need to keep track of this so we can set
-    //  * the viewport and scissor the first time it is bound. */
-    // Bool has_been_bound;
-  
-    // Framebuffer *read_buffer;
-    // GLES2Offscreen *gles2_read_buffer;
-    // Framebuffer *write_buffer;
-    // GLES2Offscreen *gles2_write_buffer;
-  
-    // GLuint current_fbo_handle;
-  
-    // List foreign_offscreens;
-  
-    // GLES2Vtable *vtable;
-  
-    // /* Hash table mapping GL's IDs for shaders and objects to ShaderData
-    //  * and ProgramData so that we can maintain extra data for these
-    //  * objects. Although technically the IDs will end up global across
-    //  * all GLES2 contexts because they will all be in the same share
-    //  * list, we don't really want to expose this outside of the  API
-    //  * so we will assume it is undefined behaviour if an application
-    //  * relies on this. */
-    // GHashTable *shader_map;
-    // GHashTable *program_map;
-  
-    // /* Currently in use program. We need to keep track of this so that
-    //  * we can keep a reference to the data for the program while it is
-    //  * current */
-    // GLES2ProgramData *current_program;
-  
-    // /* Whether the currently bound framebuffer needs flipping. This is
-    //  * used to check for changes so that we can dirty the following
-    //  * state flags */
-    // GLES2FlipState current_flip_state;
-  
-    // /* The following state is tracked separately from the GL context
-    //  * because we need to modify it depending on whether we are flipping
-    //  * the geometry. */
-    // Bool viewport_dirty;
-    // int viewport[4];
-    // Bool scissor_dirty;
-    // int scissor[4];
-    // Bool front_face_dirty;
-    // GLenum front_face;
-  
-    // /* We need to keep track of the pack alignment so we can flip the
-    //  * results of glReadPixels read from a Offscreen */
-    // int pack_alignment;
-  
-    // /* A hash table of GLES2TextureObjects indexed by the texture
-    //  * object ID so that we can track some state */
-    // GHashTable *texture_object_map;
-  
-    // /* Array of GLES2TextureUnits to keep track of state for each
-    //  * texture unit */
-    // GArray *texture_units;
-  
-    // /* The currently active texture unit indexed from 0 (not from
-    //  * GL_TEXTURE0) */
-    // int current_texture_unit;
-  
-    // void *winsys;
+// Context *context;
+
+// /* This is set to FALSE until the first time the GLES2 context is
+//  * bound to something. We need to keep track of this so we can set
+//  * the viewport and scissor the first time it is bound. */
+// Bool has_been_bound;
+
+// Framebuffer *read_buffer;
+// GLES2Offscreen *gles2_read_buffer;
+// Framebuffer *write_buffer;
+// GLES2Offscreen *gles2_write_buffer;
+
+// GLuint current_fbo_handle;
+
+// List foreign_offscreens;
+
+// GLES2Vtable *vtable;
+
+// /* Hash table mapping GL's IDs for shaders and objects to ShaderData
+//  * and ProgramData so that we can maintain extra data for these
+//  * objects. Although technically the IDs will end up global across
+//  * all GLES2 contexts because they will all be in the same share
+//  * list, we don't really want to expose this outside of the  API
+//  * so we will assume it is undefined behaviour if an application
+//  * relies on this. */
+// GHashTable *shader_map;
+// GHashTable *program_map;
+
+// /* Currently in use program. We need to keep track of this so that
+//  * we can keep a reference to the data for the program while it is
+//  * current */
+// GLES2ProgramData *current_program;
+
+// /* Whether the currently bound framebuffer needs flipping. This is
+//  * used to check for changes so that we can dirty the following
+//  * state flags */
+// GLES2FlipState current_flip_state;
+
+// /* The following state is tracked separately from the GL context
+//  * because we need to modify it depending on whether we are flipping
+//  * the geometry. */
+// Bool viewport_dirty;
+// int viewport[4];
+// Bool scissor_dirty;
+// int scissor[4];
+// Bool front_face_dirty;
+// GLenum front_face;
+
+// /* We need to keep track of the pack alignment so we can flip the
+//  * results of glReadPixels read from a Offscreen */
+// int pack_alignment;
+
+// /* A hash table of GLES2TextureObjects indexed by the texture
+//  * object ID so that we can track some state */
+// GHashTable *texture_object_map;
+
+// /* Array of GLES2TextureUnits to keep track of state for each
+//  * texture unit */
+// GArray *texture_units;
+
+// /* The currently active texture unit indexed from 0 (not from
+//  * GL_TEXTURE0) */
+// int current_texture_unit;
+
+// void *winsys;
 }
 
 impl GLES2Context {

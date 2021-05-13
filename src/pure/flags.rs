@@ -6,7 +6,6 @@ bitflags! {
     }
 }
 
-
 bitflags! {
     pub struct BufferBit: u32 {
         const COLOR = 1;
@@ -22,14 +21,12 @@ bitflags! {
     }
 }
 
-
 bitflags! {
     pub struct BufferTarget: u32 {
         const WINDOW_BUFFER = 2;
         const OFFSCREEN_BUFFER = 4;
     }
 }
-
 
 bitflags! {
     pub struct ColorMask: u32 {
@@ -41,7 +38,6 @@ bitflags! {
         const ALL = 15;
     }
 }
-
 
 bitflags! {
     pub struct FeatureFlags: u32 {
@@ -77,7 +73,6 @@ bitflags! {
         const COLOR_BUFFER = 1;
     }
 }
-
 
 bitflags! {
     pub struct RendererConstraint: u32 {

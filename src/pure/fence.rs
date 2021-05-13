@@ -8,7 +8,6 @@ use std::ptr;
 // * points in the GPU command stream and receive notification when the GPU
 // * has executed to that point.
 
-
 // /**
 //  * FenceCallback:
 //  * @fence: Unused. In the future this parameter may be used to pass
@@ -36,7 +35,4 @@ use std::ptr;
 // * Stability: Unstable
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
-pub struct Fence {
-
-}
-
+pub struct Fence {}

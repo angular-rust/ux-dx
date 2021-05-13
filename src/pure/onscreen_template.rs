@@ -1,10 +1,10 @@
-use crate::{Object, SwapChain};
+use super::SwapChain;
 use std::fmt;
 
 pub struct OnscreenTemplate {
     // Object _parent;
 
-    // FramebufferConfig config;
+// FramebufferConfig config;
 }
 
 impl OnscreenTemplate {

@@ -1,38 +1,38 @@
-#![allow(
-    clippy::too_many_arguments,
-    clippy::let_and_return,
-    clippy::from_over_into
-)]
+use std::{fmt, cell::RefCell};
 
-use crate::Object;
-use std::fmt;
+struct SwapChainProps {
+    has_alpha: bool,
+    length: i32,
+}
+
+impl Default for SwapChainProps {
+    fn default() -> Self {
+        Self {
+            has_alpha: false,
+            length: -1,
+        }
+    }
+}
 
 pub struct SwapChain {
-    // Object _parent;
-
-    // Bool has_alpha;
-  
-    // int length;
+    props: RefCell<SwapChainProps>,    
 }
 
 impl SwapChain {
     pub fn new() -> SwapChain {
-        // SwapChain *swap_chain = g_slice_new0 (SwapChain);
-
-        // swap_chain->length = -1; /* no preference */
-      
-        // return _swap_chain_object_new (swap_chain);
-        unimplemented!()
+        Self {
+            props: Default::default()
+        }
     }
 
     pub fn set_has_alpha(&self, has_alpha: bool) {
-        // swap_chain->has_alpha = has_alpha;
-        unimplemented!()
+        let mut props = self.props.borrow_mut();
+        props.has_alpha = has_alpha;
     }
 
     pub fn set_length(&self, length: i32) {
-        // swap_chain->length = length;
-        unimplemented!()
+        let mut props = self.props.borrow_mut();
+        props.length = length;
     }
 }
 

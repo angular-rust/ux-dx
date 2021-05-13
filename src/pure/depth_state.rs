@@ -5,7 +5,7 @@ use std::mem;
 pub struct DepthState {
     pub private_member_magic: u32,
     pub private_member_test_enabled: bool,  // Bool
-    pub private_member_test_function: i32, // DepthTestFunction, // TODO: possible should be enum
+    pub private_member_test_function: i32,  // DepthTestFunction, // TODO: possible should be enum
     pub private_member_write_enabled: bool, // Bool
     pub private_member_range_near: f32,
     pub private_member_range_far: f32,
@@ -152,7 +152,6 @@ impl DepthState {
     // // * Stability: Unstable
     // pub fn set_test_function (&self, DepthTestFunction function);
 
-
     // // * depth_state_get_test_function:
     // // * @state: A #DepthState struct
     // // *
@@ -202,7 +201,7 @@ impl DepthState {
     // *
     // * Since: 2.0
     // * Stability: Unstable
-    pub fn  set_range(&self, near_val: f32, far_val: f32) {
+    pub fn set_range(&self, near_val: f32, far_val: f32) {
         // _COGL_RETURN_IF_FAIL (state->magic == COGL_DEPTH_STATE_MAGIC);
         // state->range_near = near;
         // state->range_far = far;
@@ -220,7 +219,7 @@ impl DepthState {
     // *
     // * Since: 2.0
     // * Stability: Unstable
-    pub fn get_range (&self) -> (f32, f32) {
+    pub fn get_range(&self) -> (f32, f32) {
         // _COGL_RETURN_IF_FAIL (state->magic == COGL_DEPTH_STATE_MAGIC);
         // *near_out = state->range_near;
         // *far_out = state->range_far;

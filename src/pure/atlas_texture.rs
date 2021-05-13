@@ -1,6 +1,5 @@
-use crate::{Bitmap, Context, Object, PixelFormat};
-use std::{fmt};
-
+use super::{Atlas, Bitmap, Context, PixelFormat, Texture};
+use std::fmt;
 
 // * SECTION:cogl-atlas-texture
 // * @short_description: Functions for managing textures in 's global
@@ -24,26 +23,26 @@ use std::{fmt};
 // * some limitations to be aware of. Please see the documentation for
 // * #MetaTexture for more details.</note>
 pub struct AtlasTexture {
-    // Texture           _parent;
+    parent: Texture,
 
-    // /* The format that the texture is in. This isn't necessarily the
-    //    same format as the atlas texture because we can store
-    //    pre-multiplied and non-pre-multiplied textures together */
-    // PixelFormat       internal_format;
-  
-    // /* The rectangle that was used to add this texture to the
-    //    atlas. This includes the 1-pixel border */
-    // RectangleMapEntry rectangle;
-  
-    // /* The atlas that this texture is in. If the texture is no longer in
-    //    an atlas then this will be NULL. A reference is taken on the
-    //    atlas by the texture (but not vice versa so there is no cycle) */
-    // Atlas            *atlas;
-  
-    // /* Either a SubTexture representing the atlas region for easy
-    //  * rendering or if the texture has been migrated out of the atlas it
-    //  * may be some other texture type such as Texture2D */
-    // Texture          *sub_texture;
+    // The format that the texture is in. This isn't necessarily the
+    // same format as the atlas texture because we can store
+    // pre-multiplied and non-pre-multiplied textures together
+    internal_format: PixelFormat,
+
+    // The rectangle that was used to add this texture to the
+    // atlas. This includes the 1-pixel border
+    // rectangle: RectangleMapEntry,
+
+    // The atlas that this texture is in. If the texture is no longer in
+    // an atlas then this will be NULL. A reference is taken on the
+    // atlas by the texture (but not vice versa so there is no cycle)
+    atlas: Option<Atlas>,
+
+    // Either a SubTexture representing the atlas region for easy
+    // rendering or if the texture has been migrated out of the atlas it
+    // may be some other texture type such as Texture2D
+    sub_texture: Option<Texture>,
 }
 
 impl AtlasTexture {
@@ -56,7 +55,7 @@ impl AtlasTexture {
     // *
     // * The storage for the texture is not allocated before this function
     // * returns. You can call texture_allocate() to explicitly
-    // * allocate the underlying storage or preferably let 
+    // * allocate the underlying storage or preferably let
     // * automatically allocate storage lazily when it may know more about
     // * how the texture is being used and can optimize how it is allocated.
     // *
@@ -215,7 +214,6 @@ impl AtlasTexture {
 
         // atlas_tex = _atlas_texture_new_from_bitmap (bmp,
         //                                                 TRUE); /* convert in-place */
-
         // object_unref (bmp);
 
         // return atlas_tex;
@@ -254,12 +252,12 @@ impl AtlasTexture {
         // /* We can't atlas zero-sized textures because it breaks the atlas
         //  * data structure */
         // _COGL_RETURN_VAL_IF_FAIL (width > 0 && height > 0, NULL);
-      
+
         // loader = _texture_create_loader ();
         // loader->src_type = COGL_TEXTURE_SOURCE_TYPE_SIZED;
         // loader->src.sized.width = width;
         // loader->src.sized.height = height;
-      
+
         // return _atlas_texture_create_base (ctx, width, height,
         //                                         COGL_PIXEL_FORMAT_RGBA_8888_PRE,
         //                                         loader);

@@ -1,5 +1,5 @@
-use crate::{Object, OnscreenTemplate, Renderer};
-use std::{fmt};
+use super::{OnscreenTemplate, Renderer};
+use std::fmt;
 
 // * SECTION:cogl-display
 // * @short_description: Common aspects of a display pipeline
@@ -22,20 +22,20 @@ use std::{fmt};
 // * create a GLContext.
 
 pub struct Display {
-//     Object _parent;
+    //     Object _parent;
 
 //     Bool setup;
 //     Renderer *renderer;
 //     OnscreenTemplate *onscreen_template;
-  
+
 //   #ifdef COGL_HAS_WAYLAND_EGL_SERVER_SUPPORT
 //     struct wl_display *wayland_compositor_display;
 //   #endif
-  
+
 //   #ifdef COGL_HAS_EGL_PLATFORM_GDL_SUPPORT
 //     gdl_plane_id_t gdl_plane;
 //   #endif
-  
+
 //     void *winsys;
 }
 

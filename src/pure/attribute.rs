@@ -1,8 +1,8 @@
-use crate::{AttributeBuffer, AttributeType, Context, Object};
+use super::{AttributeBuffer, AttributeType, Context};
 use std::fmt;
 
 pub enum AttributeNameID {
-//   COGL_ATTRIBUTE_NAME_ID_POSITION_ARRAY,
+    //   COGL_ATTRIBUTE_NAME_ID_POSITION_ARRAY,
 //   COGL_ATTRIBUTE_NAME_ID_COLOR_ARRAY,
 //   COGL_ATTRIBUTE_NAME_ID_TEXTURE_COORD_ARRAY,
 //   COGL_ATTRIBUTE_NAME_ID_NORMAL_ARRAY,
@@ -11,7 +11,7 @@ pub enum AttributeNameID {
 }
 
 pub struct AttributeNameState {
-//   char *name;
+    //   char *name;
 //   AttributeNameID name_id;
 //   int name_index;
 //   Bool normalized_default;
@@ -19,7 +19,7 @@ pub struct AttributeNameState {
 }
 
 pub enum DrawFlags {
-//   COGL_DRAW_SKIP_JOURNAL_FLUSH = 1 << 0,
+    //   COGL_DRAW_SKIP_JOURNAL_FLUSH = 1 << 0,
 //   COGL_DRAW_SKIP_PIPELINE_VALIDATION = 1 << 1,
 //   COGL_DRAW_SKIP_FRAMEBUFFER_FLUSH = 1 << 2,
 //   COGL_DRAW_SKIP_LEGACY_STATE = 1 << 3,
@@ -38,26 +38,26 @@ pub enum DrawFlags {
 pub struct Attribute {
     // Object _parent;
 
-    // const AttributeNameState *name_state;
-    // Bool normalized;
+// const AttributeNameState *name_state;
+// Bool normalized;
 
-    // Bool is_buffered;
+// Bool is_buffered;
 
-    // union {
-    //     struct {
-    //     AttributeBuffer *attribute_buffer;
-    //     size_t stride;
-    //     size_t offset;
-    //     int n_components;
-    //     AttributeType type;
-    //     } buffered;
-    //     struct {
-    //     Context *context;
-    //     BoxedValue boxed;
-    //     } constant;
-    // } d;
+// union {
+//     struct {
+//     AttributeBuffer *attribute_buffer;
+//     size_t stride;
+//     size_t offset;
+//     int n_components;
+//     AttributeType type;
+//     } buffered;
+//     struct {
+//     Context *context;
+//     BoxedValue boxed;
+//     } constant;
+// } d;
 
-    // int immutable_ref;
+// int immutable_ref;
 }
 
 impl Attribute {
@@ -635,7 +635,7 @@ impl Attribute {
     pub fn get_buffer(&self) -> Option<AttributeBuffer> {
         // _COGL_RETURN_VAL_IF_FAIL (is_attribute (attribute), NULL);
         // _COGL_RETURN_VAL_IF_FAIL (attribute->is_buffered, NULL);
-      
+
         // return attribute->d.buffered.attribute_buffer;
         unimplemented!()
     }
@@ -658,12 +658,12 @@ impl Attribute {
     pub fn set_buffer(&self, attribute_buffer: &AttributeBuffer) {
         // _COGL_RETURN_IF_FAIL (is_attribute (attribute));
         // _COGL_RETURN_IF_FAIL (attribute->is_buffered);
-      
+
         // if (G_UNLIKELY (attribute->immutable_ref))
         //   warn_about_midscene_changes ();
-      
+
         // object_ref (attribute_buffer);
-      
+
         // object_unref (attribute->d.buffered.attribute_buffer);
         // attribute->d.buffered.attribute_buffer = attribute_buffer;
         unimplemented!()
@@ -685,7 +685,7 @@ impl Attribute {
 
         // if (G_UNLIKELY (attribute->immutable_ref))
         //   warn_about_midscene_changes ();
-      
+
         // attribute->normalized = normalized;
         unimplemented!()
     }

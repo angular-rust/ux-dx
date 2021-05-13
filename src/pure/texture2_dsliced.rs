@@ -4,18 +4,18 @@
     clippy::from_over_into
 )]
 
-use crate::{Bitmap, Context, Object, PixelFormat, Texture};
+use super::{Bitmap, Context, PixelFormat, Texture};
 use std::{fmt, ptr};
 
 // @extends Object, @implements Texture;
 pub struct Texture2DSliced {
     // Texture _parent;
 
-    // GArray *slice_x_spans;
-    // GArray *slice_y_spans;
-    // GArray *slice_textures;
-    // int max_waste;
-    // PixelFormat internal_format;
+// GArray *slice_x_spans;
+// GArray *slice_y_spans;
+// GArray *slice_textures;
+// int max_waste;
+// PixelFormat internal_format;
 }
 
 impl Texture2DSliced {
@@ -67,11 +67,7 @@ impl Texture2DSliced {
         unimplemented!()
     }
 
-    pub fn from_file(
-        ctx: &Context,
-        filename: &str,
-        max_waste: i32,
-    ) -> Texture2DSliced {
+    pub fn from_file(ctx: &Context, filename: &str, max_waste: i32) -> Texture2DSliced {
         // Bitmap *bmp;
         // Texture2DSliced *tex_2ds = NULL;
 
@@ -84,7 +80,6 @@ impl Texture2DSliced {
         // tex_2ds = _texture_2d_sliced_new_from_bitmap (bmp,
         //                                         max_waste,
         //                                         TRUE); /* can convert in-place */
-
         // object_unref (bmp);
 
         // return tex_2ds;

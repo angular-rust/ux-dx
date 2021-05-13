@@ -4,33 +4,33 @@
     clippy::from_over_into
 )]
 
-use crate::{Bitmap, Context, Object, PixelFormat, Texture};
+use super::{Bitmap, Context, PixelFormat, Texture};
 use std::{fmt, ptr};
 
 // @extends Object, @implements Texture;
 pub struct Texture3D {
     // Texture _parent;
 
-    // /* The internal format of the texture represented as a
-    //     PixelFormat */
-    // PixelFormat internal_format;
-    // int depth;
-    // Bool auto_mipmap;
-    // Bool mipmaps_dirty;
+// /* The internal format of the texture represented as a
+//     PixelFormat */
+// PixelFormat internal_format;
+// int depth;
+// Bool auto_mipmap;
+// Bool mipmaps_dirty;
 
-    // /* TODO: factor out these OpenGL specific members into some form
-    // * of driver private state. */
+// /* TODO: factor out these OpenGL specific members into some form
+// * of driver private state. */
 
-    // /* The internal format of the GL texture represented as a GL enum */
-    // GLenum gl_format;
-    // /* The texture object number */
-    // GLuint gl_texture;
-    // GLenum gl_legacy_texobj_min_filter;
-    // GLenum gl_legacy_texobj_mag_filter;
-    // GLint gl_legacy_texobj_wrap_mode_s;
-    // GLint gl_legacy_texobj_wrap_mode_t;
-    // GLint gl_legacy_texobj_wrap_mode_p;
-    // TexturePixel first_pixel;
+// /* The internal format of the GL texture represented as a GL enum */
+// GLenum gl_format;
+// /* The texture object number */
+// GLuint gl_texture;
+// GLenum gl_legacy_texobj_min_filter;
+// GLenum gl_legacy_texobj_mag_filter;
+// GLint gl_legacy_texobj_wrap_mode_s;
+// GLint gl_legacy_texobj_wrap_mode_t;
+// GLint gl_legacy_texobj_wrap_mode_p;
+// TexturePixel first_pixel;
 }
 
 impl Texture3D {
@@ -48,7 +48,7 @@ impl Texture3D {
     // *
     // * The storage for the texture is not allocated before this function
     // * returns. You can call texture_allocate() to explicitly
-    // * allocate the underlying storage or preferably let 
+    // * allocate the underlying storage or preferably let
     // * automatically allocate storage lazily when it may know more about
     // * how the texture is going to be used and can optimize how it is
     // * allocated.
@@ -77,7 +77,6 @@ impl Texture3D {
         // loader->src.bitmap.height = height;
         // loader->src.bitmap.depth = depth;
         // loader->src.bitmap.can_convert_in_place = FALSE; /* TODO add api for this */
-
         // return _texture_3d_create_base (_bitmap_get_context (bmp),
         //                                     bitmap_get_width (bmp),
         //                                     height,
@@ -224,7 +223,7 @@ impl Texture3D {
     // *
     // * The storage for the texture is not allocated before this function
     // * returns. You can call texture_allocate() to explicitly
-    // * allocate the underlying storage or preferably let 
+    // * allocate the underlying storage or preferably let
     // * automatically allocate storage lazily when it may know more about
     // * how the texture is going to be used and can optimize how it is
     // * allocated.

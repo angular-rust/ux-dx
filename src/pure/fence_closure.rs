@@ -2,7 +2,7 @@ use std::mem;
 use std::ptr;
 
 pub enum FenceType {
-//   FENCE_TYPE_PENDING,
+    //   FENCE_TYPE_PENDING,
 // #ifdef GL_ARB_sync
 //   FENCE_TYPE_GL_ARB,
 // #endif
@@ -21,13 +21,13 @@ pub enum FenceType {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct FenceClosure {
     // List link;
-    // Framebuffer *framebuffer;
-  
-    // FenceType type;
-    // void *fence_obj;
-  
-    // FenceCallback callback;
-    // void *user_data;
+// Framebuffer *framebuffer;
+
+// FenceType type;
+// void *fence_obj;
+
+// FenceCallback callback;
+// void *user_data;
 }
 
 // /**
@@ -71,7 +71,7 @@ pub struct FenceClosure {
 //  framebuffer_add_fence_callback (Framebuffer *framebuffer,
 //                                       FenceCallback callback,
 //                                       void *user_data);
- 
+
 //  /**
 //   * framebuffer_cancel_fence_callback:
 //   * @framebuffer: The #Framebuffer the commands were submitted to

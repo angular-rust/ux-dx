@@ -37,22 +37,22 @@ use std::fmt;
 pub struct TextureRectangle {
     // Texture _parent;
 
-    // /* The internal format of the texture represented as a
-    //     PixelFormat */
-    // PixelFormat internal_format;
+// /* The internal format of the texture represented as a
+//     PixelFormat */
+// PixelFormat internal_format;
 
-    // /* TODO: factor out these OpenGL specific members into some form
-    // * of driver private state. */
+// /* TODO: factor out these OpenGL specific members into some form
+// * of driver private state. */
 
-    // /* The internal format of the GL texture represented as a GL enum */
-    // GLenum gl_format;
-    // /* The texture object number */
-    // GLuint gl_texture;
-    // GLenum gl_legacy_texobj_min_filter;
-    // GLenum gl_legacy_texobj_mag_filter;
-    // GLint gl_legacy_texobj_wrap_mode_s;
-    // GLint gl_legacy_texobj_wrap_mode_t;
-    // Bool is_foreign;
+// /* The internal format of the GL texture represented as a GL enum */
+// GLenum gl_format;
+// /* The texture object number */
+// GLuint gl_texture;
+// GLenum gl_legacy_texobj_min_filter;
+// GLenum gl_legacy_texobj_mag_filter;
+// GLint gl_legacy_texobj_wrap_mode_s;
+// GLint gl_legacy_texobj_wrap_mode_t;
+// Bool is_foreign;
 }
 
 impl TextureRectangle {
@@ -80,7 +80,7 @@ impl TextureRectangle {
     // *
     // * The storage for the texture is not allocated before this function
     // * returns. You can call texture_allocate() to explicitly
-    // * allocate the underlying storage or preferably let 
+    // * allocate the underlying storage or preferably let
     // * automatically allocate storage lazily when it may know more about
     // * how the texture is going to be used and can optimize how it is
     // * allocated.
@@ -93,12 +93,11 @@ impl TextureRectangle {
         // TextureLoader *loader;
 
         // _COGL_RETURN_VAL_IF_FAIL (is_bitmap (bmp), NULL);
-      
+
         // loader = _texture_create_loader ();
         // loader->src_type = COGL_TEXTURE_SOURCE_TYPE_BITMAP;
         // loader->src.bitmap.bitmap = object_ref (bmp);
         // loader->src.bitmap.can_convert_in_place = FALSE; /* TODO add api for this */
-      
         // return _texture_rectangle_create_base (_bitmap_get_context (bmp),
         //                                             bitmap_get_width (bmp),
         //                                             bitmap_get_height (bmp),
@@ -156,7 +155,6 @@ impl TextureRectangle {
         // * called and the texture_from_pixmap spec doesn't clarify that it
         // * is reliable to query back the size from OpenGL.
         // */
-
         // /* Assert that it is a valid GL texture object */
         // _COGL_RETURN_VAL_IF_FAIL (ctx->glIsTexture (gl_handle), NULL);
 
@@ -200,7 +198,7 @@ impl TextureRectangle {
     // *
     // * The storage for the texture is not allocated before this function
     // * returns. You can call texture_allocate() to explicitly
-    // * allocate the underlying storage or preferably let 
+    // * allocate the underlying storage or preferably let
     // * automatically allocate storage lazily when it may know more about
     // * how the texture is going to be used and can optimize how it is
     // * allocated.

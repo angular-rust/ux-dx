@@ -1,3 +1,5 @@
+use super::{PixelFormat, Texture};
+
 pub enum AtlasFlags {
   ClearTexture     = (1 << 0),
   DisableMigration = (1 << 1)
@@ -22,9 +24,9 @@ pub struct Atlas {
 
 //   RectangleMap *map;
 
-//   Texture *texture;
-//   PixelFormat texture_format;
-//   AtlasFlags flags;
+  texture: Option<Texture>,
+  texture_format: PixelFormat,
+  flags: AtlasFlags,
 
 //   AtlasUpdatePositionCallback update_position_cb;
 
@@ -45,5 +47,6 @@ impl Atlas {
         // g_hook_list_init (&atlas->post_reorganize_callbacks, sizeof (GHook));
 
         // return _atlas_object_new (atlas);
+        unimplemented!()
     }
 }

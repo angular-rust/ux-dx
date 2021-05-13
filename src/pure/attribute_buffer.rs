@@ -1,4 +1,4 @@
-use crate::{Context, Object};
+use super::Context;
 use std::fmt;
 
 pub struct AttributeBuffer {

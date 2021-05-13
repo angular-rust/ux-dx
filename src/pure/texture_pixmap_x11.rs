@@ -4,11 +4,10 @@
     clippy::from_over_into
 )]
 
-use crate::{Context, Object, TexturePixmapX11ReportLevel};
+use super::{Context, TexturePixmapX11ReportLevel};
 use std::{fmt, ptr};
 
-pub struct TexturePixmapX11 {
-}
+pub struct TexturePixmapX11 {}
 
 impl TexturePixmapX11 {
     /// Creates a texture that contains the contents of `pixmap`. If
@@ -26,13 +25,9 @@ impl TexturePixmapX11 {
     /// # Returns
     ///
     /// a new `TexturePixmapX11` instance
-    pub fn new(
-        context: &Context,
-        pixmap: u32,
-        automatic_updates: bool,
-    ) -> TexturePixmapX11 {
-        // let ret = ffi::texture_pixmap_x11_new(   
-        unimplemented!()     
+    pub fn new(context: &Context, pixmap: u32, automatic_updates: bool) -> TexturePixmapX11 {
+        // let ret = ffi::texture_pixmap_x11_new(
+        unimplemented!()
     }
 
     /// Creates one of a pair of textures to contain the contents of `pixmap`,
@@ -65,11 +60,7 @@ impl TexturePixmapX11 {
     /// # Returns
     ///
     /// a new `TexturePixmapX11` instance
-    pub fn new_left(
-        context: &Context,
-        pixmap: u32,
-        automatic_updates: bool,
-    ) -> TexturePixmapX11 {
+    pub fn new_left(context: &Context, pixmap: u32, automatic_updates: bool) -> TexturePixmapX11 {
         // ffi::texture_pixmap_x11_new_left
         unimplemented!()
     }

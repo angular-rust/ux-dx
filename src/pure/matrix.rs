@@ -4,7 +4,7 @@
     clippy::from_over_into
 )]
 
-use crate::{Euler, Quaternion};
+use super::{Euler, Quaternion};
 
 use std::boxed::Box as Box_;
 use std::mem;
@@ -57,40 +57,45 @@ use std::mem;
 // * allows  to annotate the matrices internally. Violation of this will give
 // * undefined results. If you need to initialize a matrix with a constant other
 // * than the identity matrix you can use matrix_init_from_array().</note>
-#[derive(Debug, PartialOrd, Ord)] // Hash
+#[derive(Default, Debug, Clone, PartialOrd)] // Hash
 pub struct Matrix {
-    // /* column 0 */
-    // float xx;
-    // float yx;
-    // float zx;
-    // float wx;
+    // column 0
+    xx: f32,
+    yx: f32,
+    zx: f32,
+    wx: f32,
 
-    // /* column 1 */
-    // float xy;
-    // float yy;
-    // float zy;
-    // float wy;
+    // column 1
+    xy: f32,
+    yy: f32,
+    zy: f32,
+    wy: f32,
 
-    // /* column 2 */
-    // float xz;
-    // float yz;
-    // float zz;
-    // float wz;
+    // column 2
+    xz: f32,
+    yz: f32,
+    zz: f32,
+    wz: f32,
 
-    // /* column 3 */
-    // float xw;
-    // float yw;
-    // float zw;
-    // float ww;
+    // column 3
+    xw: f32,
+    yw: f32,
+    zw: f32,
+    ww: f32,
+    // < private >
 
-    // /*< private >*/
+    // Note: we may want to extend this later with private flags
+    // and a cache of the inverse transform matrix.
 
-    // /* Note: we may want to extend this later with private flags
-    // * and a cache of the inverse transform matrix. */
     // float          COGL_PRIVATE (inv)[16];
     // unsigned long  COGL_PRIVATE (type);
     // unsigned long  COGL_PRIVATE (flags);
     // unsigned long  COGL_PRIVATE (_padding3);
+}
+
+#[inline]
+fn idx(row: usize, col: usize) -> usize {
+    col * 4 + row
 }
 
 impl Matrix {
@@ -120,22 +125,31 @@ impl Matrix {
         z_near: f32,
         z_far: f32,
     ) {
-        // float x, y, a, b, c, d;
-        // float m[16];
+        let mut m: [f32; 16] = [0.0; 16];
 
-        // x = (2.0f * nearval) / (right - left);
-        // y = (2.0f * nearval) / (top - bottom);
-        // a = (right + left) / (right - left);
-        // b = (top + bottom) / (top - bottom);
-        // c = -(farval + nearval) / ( farval - nearval);
-        // d = -(2.0f * farval * nearval) / (farval - nearval);  /* error? */
+        let x = (2.0 * z_near) / (right - left);
+        let y = (2.0 * z_near) / (top - bottom);
+        let a = (right + left) / (right - left);
+        let b = (top + bottom) / (top - bottom);
+        let c = -(z_far + z_near) / (z_far - z_near);
+        let d = -(2.0 * z_far * z_near) / (z_far - z_near); /* error? */
 
-        // #define M(row,col)  m[col*4+row]
-        // M (0,0) = x;     M (0,1) = 0.0f;  M (0,2) = a;      M (0,3) = 0.0f;
-        // M (1,0) = 0.0f;  M (1,1) = y;     M (1,2) = b;      M (1,3) = 0.0f;
-        // M (2,0) = 0.0f;  M (2,1) = 0.0f;  M (2,2) = c;      M (2,3) = d;
-        // M (3,0) = 0.0f;  M (3,1) = 0.0f;  M (3,2) = -1.0f;  M (3,3) = 0.0f;
-        // #undef M
+        m[idx(0, 0)] = x;
+        m[idx(0, 1)] = 0.0;
+        m[idx(0, 2)] = a;
+        m[idx(0, 3)] = 0.0;
+        m[idx(1, 0)] = 0.0;
+        m[idx(1, 1)] = y;
+        m[idx(1, 2)] = b;
+        m[idx(1, 3)] = 0.0;
+        m[idx(2, 0)] = 0.0;
+        m[idx(2, 1)] = 0.0;
+        m[idx(2, 2)] = c;
+        m[idx(2, 3)] = d;
+        m[idx(3, 0)] = 0.0;
+        m[idx(3, 1)] = 0.0;
+        m[idx(3, 2)] = -1.0;
+        m[idx(3, 3)] = 0.0;
 
         // matrix_multiply_array_with_flags (matrix, m, MAT_FLAG_PERSPECTIVE);
         unimplemented!()
@@ -212,7 +226,6 @@ impl Matrix {
         // * http://www.euclideanspace.com/maths/geometry/
         // *        rotations/conversions/eulerToMatrix/index.htm
         // */
-
         // /* Heading rotation x=0, y=1, z=0 gives:
         // *
         // * [ ch   0   sh   0 ]
@@ -244,7 +257,6 @@ impl Matrix {
         // * [ ch*sp*sr - sh*cr   sh*sr + ch*sp*cr       ch*cp       0 ]
         // * [       0                    0                0         1 ]
         // */
-
         // matrix->xx = cos_heading * cos_roll + sin_heading * sin_pitch * sin_roll;
         // matrix->yx = cos_pitch * sin_roll;
         // matrix->zx = cos_heading * sin_pitch * sin_roll - sin_heading * cos_roll;
@@ -287,7 +299,7 @@ impl Matrix {
         // float yy = quaternion->y * ys;
         // float yz = quaternion->y * zs;
         // float zz = quaternion->z * zs;
-      
+
         // matrix->xx = 1.0f - (yy + zz);
         // matrix->yx = xy + wz;
         // matrix->zx = xz - wy;
@@ -300,7 +312,7 @@ impl Matrix {
         // matrix->xw = matrix->yw = matrix->zw = 0.0f;
         // matrix->wx = matrix->wy = matrix->wz = 0.0f;
         // matrix->ww = 1.0f;
-      
+
         // matrix->flags = (MAT_FLAG_GENERAL | MAT_DIRTY_ALL);
     }
 
@@ -343,7 +355,7 @@ impl Matrix {
         // matrix->xw = tx;
         // matrix->yw = ty;
         // matrix->zw = tz;
-      
+
         // matrix->type = COGL_MATRIX_TYPE_3D;
         // matrix->flags = MAT_FLAG_TRANSLATION | MAT_DIRTY_INVERSE;
     }
@@ -511,7 +523,6 @@ impl Matrix {
     pub fn orthographic(&mut self, x_1: f32, y_1: f32, x_2: f32, y_2: f32, near: f32, far: f32) {
         // float m[16];
 
-        // #define M(row, col)  m[col * 4 + row]
         // M (0,0) = 2.0f / (x_2 - x_1);
         // M (0,1) = 0.0f;
         // M (0,2) = 0.0f;
@@ -524,14 +535,13 @@ impl Matrix {
 
         // M (2,0) = 0.0f;
         // M (2,1) = 0.0f;
-        // M (2,2) = -2.0f / (farval - nearval);
-        // M (2,3) = -(farval + nearval) / (farval - nearval);
+        // M (2,2) = -2.0f / (far - near);
+        // M (2,3) = -(far + near) / (far - near);
 
         // M (3,0) = 0.0f;
         // M (3,1) = 0.0f;
         // M (3,2) = 0.0f;
         // M (3,3) = 1.0f;
-        // #undef M
 
         // matrix_multiply_array_with_flags (matrix, m,
         //                                     (MAT_FLAG_GENERAL_SCALE |
@@ -568,7 +578,15 @@ impl Matrix {
         unimplemented!()
     }
 
-    pub fn project_points(&self, n_components: i32, stride_in: usize, points_in: &[u8], stride_out: usize, points_out: &[u8], n_points: i32) {
+    pub fn project_points(
+        &self,
+        n_components: i32,
+        stride_in: usize,
+        points_in: &[u8],
+        stride_out: usize,
+        points_out: &[u8],
+        n_points: i32,
+    ) {
         // if (n_components == 2)
         //     _matrix_project_points_f2 (matrix,
         //                                     stride_in, points_in,
@@ -582,7 +600,7 @@ impl Matrix {
         // else
         //     {
         //     _COGL_RETURN_IF_FAIL (n_components == 4);
-        
+
         //     _matrix_project_points_f4 (matrix,
         //                                     stride_in, points_in,
         //                                     stride_out, points_out,
@@ -688,7 +706,6 @@ impl Matrix {
         //     y /= mag;
         //     z /= mag;
 
-
         //     /*
         //     *     Arbitrary axis rotation matrix.
         //     *
@@ -741,7 +758,6 @@ impl Matrix {
         //     *  been zero, the numerator would have been zero as well, giving
         //     *  the expected result.
         //     */
-
         //     xx = x * x;
         //     yy = y * y;
         //     zz = z * z;
@@ -758,17 +774,14 @@ impl Matrix {
         //     M (0,1) = (one_c * xy) - zs;
         //     M (0,2) = (one_c * zx) + ys;
         //     /*    M (0,3) = 0.0f; */
-
         //     M (1,0) = (one_c * xy) + zs;
         //     M (1,1) = (one_c * yy) + c;
         //     M (1,2) = (one_c * yz) - xs;
         //     /*    M (1,3) = 0.0f; */
-
         //     M (2,0) = (one_c * zx) - ys;
         //     M (2,1) = (one_c * yz) + xs;
         //     M (2,2) = (one_c * zz) + c;
         //     /*    M (2,3) = 0.0f; */
-
         //     /*
         //         M (3,0) = 0.0f;
         //         M (3,1) = 0.0f;
@@ -822,12 +835,12 @@ impl Matrix {
         // m[1] *= x;   m[5] *= y;   m[9]  *= z;
         // m[2] *= x;   m[6] *= y;   m[10] *= z;
         // m[3] *= x;   m[7] *= y;   m[11] *= z;
-      
+
         // if (fabsf (x - y) < 1e-8 && fabsf (x - z) < 1e-8)
         //   matrix->flags |= MAT_FLAG_UNIFORM_SCALE;
         // else
         //   matrix->flags |= MAT_FLAG_GENERAL_SCALE;
-      
+
         // matrix->flags |= (MAT_DIRTY_TYPE | MAT_DIRTY_INVERSE);
         unimplemented!()
     }
@@ -852,7 +865,15 @@ impl Matrix {
         unimplemented!()
     }
 
-    pub fn transform_points(&self, n_components: i32, stride_in: usize, points_in: &[u8], stride_out: usize, points_out: &[u8], n_points: i32) {
+    pub fn transform_points(
+        &self,
+        n_components: i32,
+        stride_in: usize,
+        points_in: &[u8],
+        stride_out: usize,
+        points_out: &[u8],
+        n_points: i32,
+    ) {
         // /* The results of transforming always have three components... */
         // _COGL_RETURN_IF_FAIL (stride_out >= sizeof (Point3f));
 
@@ -887,7 +908,7 @@ impl Matrix {
         // m[13] = m[1] * x + m[5] * y + m[9]  * z + m[13];
         // m[14] = m[2] * x + m[6] * y + m[10] * z + m[14];
         // m[15] = m[3] * x + m[7] * y + m[11] * z + m[15];
-      
+
         // matrix->flags |= (MAT_FLAG_TRANSLATION |
         //                   MAT_DIRTY_TYPE |
         //                   MAT_DIRTY_INVERSE);
@@ -1040,7 +1061,6 @@ impl Matrix {
         // * We do at least use the == operator to compare values though so
         // * that -0 is considered equal to 0.
         // */
-
         // /* XXX: We don't compare the flags, inverse matrix or padding */
         // if (a->xx == b->xx &&
         //     a->xy == b->xy &&

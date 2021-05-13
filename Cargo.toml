@@ -38,3 +38,4 @@ ffi = { package = "cogl-sys-rs", version="0.1.4" }
 bytes = "1.0.1"
 fontdue = "0.5.0"
 ux-primitives = "0.1"
+winit = "0.24.0"
