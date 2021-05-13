@@ -91,9 +91,6 @@ pub use self::matrix_entry::MatrixEntry;
 mod matrix_stack;
 pub use self::matrix_stack::MatrixStack;
 
-mod object;
-pub use self::object::{Object, ObjectExt};
-
 mod offscreen;
 pub use self::offscreen::Offscreen;
 
@@ -114,6 +111,9 @@ pub use self::onscreen_template::OnscreenTemplate;
 
 mod output;
 pub use self::output::Output;
+
+mod path;
+pub use self::path::*;
 
 mod pipeline;
 pub use self::pipeline::Pipeline;

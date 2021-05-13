@@ -1,5 +1,6 @@
-use crate::{
-    Attribute, Context, Framebuffer, Indices, Object, Pipeline, VertexP2, VertexP2C4, VertexP2T2,
+use crate::prelude::*;
+use super::{
+    Attribute, Context, Framebuffer, Indices, Pipeline, VertexP2, VertexP2C4, VertexP2T2,
     VertexP2T2C4, VertexP3, VertexP3C4, VertexP3T2, VertexP3T2C4, VerticesMode,
 };
 use std::{fmt,ffi::c_void};
@@ -750,39 +751,40 @@ impl Primitive {
         unimplemented!()
     }
 
-    // /// Draws the given `self` geometry to the specified destination
-    // /// `framebuffer` using the graphics processing state described by `pipeline`.
-    // ///
-    // /// This drawing api doesn't support high-level meta texture types such
-    // /// as `Texture2DSliced` so it is the user's responsibility to
-    // /// ensure that only low-level textures that can be directly sampled by
-    // /// a GPU such as `Texture2D`, `TextureRectangle` or `Texture3D`
-    // /// are associated with layers of the given `pipeline`.
-    // /// ## `framebuffer`
-    // /// A destination `Framebuffer`
-    // /// ## `pipeline`
-    // /// A `Pipeline` state object
-    // pub fn draw<P: Is<Framebuffer>>(&self, framebuffer: &P, pipeline: &Pipeline) {
-    //     if (primitive->indices)
-    //         _framebuffer_draw_indexed_attributes (framebuffer,
-    //                                                 pipeline,
-    //                                                 primitive->mode,
-    //                                                 primitive->first_vertex,
-    //                                                 primitive->n_vertices,
-    //                                                 primitive->indices,
-    //                                                 primitive->attributes,
-    //                                                 primitive->n_attributes,
-    //                                                 0);
-    //     else
-    //         _framebuffer_draw_attributes (framebuffer,
-    //                                         pipeline,
-    //                                         primitive->mode,
-    //                                         primitive->first_vertex,
-    //                                         primitive->n_vertices,
-    //                                         primitive->attributes,
-    //                                         primitive->n_attributes,
-    //                                         0);
-    // }
+    /// Draws the given `self` geometry to the specified destination
+    /// `framebuffer` using the graphics processing state described by `pipeline`.
+    ///
+    /// This drawing api doesn't support high-level meta texture types such
+    /// as `Texture2DSliced` so it is the user's responsibility to
+    /// ensure that only low-level textures that can be directly sampled by
+    /// a GPU such as `Texture2D`, `TextureRectangle` or `Texture3D`
+    /// are associated with layers of the given `pipeline`.
+    /// ## `framebuffer`
+    /// A destination `Framebuffer`
+    /// ## `pipeline`
+    /// A `Pipeline` state object
+    pub fn draw<P: Is<Framebuffer>>(&self, framebuffer: &P, pipeline: &Pipeline) {
+        // if (primitive->indices)
+        //     _framebuffer_draw_indexed_attributes (framebuffer,
+        //                                             pipeline,
+        //                                             primitive->mode,
+        //                                             primitive->first_vertex,
+        //                                             primitive->n_vertices,
+        //                                             primitive->indices,
+        //                                             primitive->attributes,
+        //                                             primitive->n_attributes,
+        //                                             0);
+        // else
+        //     _framebuffer_draw_attributes (framebuffer,
+        //                                     pipeline,
+        //                                     primitive->mode,
+        //                                     primitive->first_vertex,
+        //                                     primitive->n_vertices,
+        //                                     primitive->attributes,
+        //                                     primitive->n_attributes,
+        //                                     0);
+        unimplemented!()
+    }
 
     /// Iterates all the attributes of the given `Primitive`.
     /// ## `callback`

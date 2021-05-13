@@ -3,8 +3,8 @@
     clippy::let_and_return,
     clippy::from_over_into
 )]
-
-use crate::{Context, Object, Texture};
+use crate::prelude::*;
+use super::{Context, Texture};
 use std::fmt;
 
 // * SECTION:cogl-sub-texture
@@ -39,91 +39,91 @@ pub struct SubTexture {
 }
 
 impl SubTexture {
-    // /// Creates a high-level `SubTexture` representing a sub-region of
-    // /// any other `Texture`. The sub-region must strictly lye within the
-    // /// bounds of the `parent_texture`. The returned texture implements the
-    // /// `MetaTexture` interface because it's not a low level texture
-    // /// that hardware can understand natively.
-    // ///
-    // /// `<note>`Remember: Unless you are using high level drawing APIs such
-    // /// as `rectangle` or other APIs documented to understand the
-    // /// `MetaTexture` interface then you need to use the
-    // /// `MetaTexture` interface to resolve a `SubTexture` into a
-    // /// low-level texture before drawing.`</note>`
-    // /// ## `ctx`
-    // /// A `Context` pointer
-    // /// ## `parent_texture`
-    // /// The full texture containing a sub-region you want
-    // ///  to make a `SubTexture` from.
-    // /// ## `sub_x`
-    // /// The top-left x coordinate of the parent region to make
-    // ///  a texture from.
-    // /// ## `sub_y`
-    // /// The top-left y coordinate of the parent region to make
-    // ///  a texture from.
-    // /// ## `sub_width`
-    // /// The width of the parent region to make a texture from.
-    // /// ## `sub_height`
-    // /// The height of the parent region to make a texture
-    // ///  from.
-    // ///
-    // /// # Returns
-    // ///
-    // /// A newly allocated `SubTexture`
-    // ///  representing a sub-region of `parent_texture`.
-    // pub fn new<P: Is<Texture>>(
-    //     ctx: &Context,
-    //     parent_texture: &P,
-    //     sub_x: i32,
-    //     sub_y: i32,
-    //     sub_width: i32,
-    //     sub_height: i32,
-    // ) -> SubTexture {
-    //     // Texture    *full_texture;
-    //     // SubTexture *sub_tex;
-    //     // Texture    *tex;
-    //     // unsigned int    next_width, next_height;
+    /// Creates a high-level `SubTexture` representing a sub-region of
+    /// any other `Texture`. The sub-region must strictly lye within the
+    /// bounds of the `parent_texture`. The returned texture implements the
+    /// `MetaTexture` interface because it's not a low level texture
+    /// that hardware can understand natively.
+    ///
+    /// `<note>`Remember: Unless you are using high level drawing APIs such
+    /// as `rectangle` or other APIs documented to understand the
+    /// `MetaTexture` interface then you need to use the
+    /// `MetaTexture` interface to resolve a `SubTexture` into a
+    /// low-level texture before drawing.`</note>`
+    /// ## `ctx`
+    /// A `Context` pointer
+    /// ## `parent_texture`
+    /// The full texture containing a sub-region you want
+    ///  to make a `SubTexture` from.
+    /// ## `sub_x`
+    /// The top-left x coordinate of the parent region to make
+    ///  a texture from.
+    /// ## `sub_y`
+    /// The top-left y coordinate of the parent region to make
+    ///  a texture from.
+    /// ## `sub_width`
+    /// The width of the parent region to make a texture from.
+    /// ## `sub_height`
+    /// The height of the parent region to make a texture
+    ///  from.
+    ///
+    /// # Returns
+    ///
+    /// A newly allocated `SubTexture`
+    ///  representing a sub-region of `parent_texture`.
+    pub fn new<P: Is<Texture>>(
+        ctx: &Context,
+        parent_texture: &P,
+        sub_x: i32,
+        sub_y: i32,
+        sub_width: i32,
+        sub_height: i32,
+    ) -> SubTexture {
+        // Texture    *full_texture;
+        // SubTexture *sub_tex;
+        // Texture    *tex;
+        // unsigned int    next_width, next_height;
 
-    //     // next_width = texture_get_width (next_texture);
-    //     // next_height = texture_get_height (next_texture);
+        // next_width = texture_get_width (next_texture);
+        // next_height = texture_get_height (next_texture);
 
-    //     // /* The region must specify a non-zero subset of the full texture */
-    //     // _COGL_RETURN_VAL_IF_FAIL (sub_x >= 0 && sub_y >= 0, NULL);
-    //     // _COGL_RETURN_VAL_IF_FAIL (sub_width > 0 && sub_height > 0, NULL);
-    //     // _COGL_RETURN_VAL_IF_FAIL (sub_x + sub_width <= next_width, NULL);
-    //     // _COGL_RETURN_VAL_IF_FAIL (sub_y + sub_height <= next_height, NULL);
+        // /* The region must specify a non-zero subset of the full texture */
+        // _COGL_RETURN_VAL_IF_FAIL (sub_x >= 0 && sub_y >= 0, NULL);
+        // _COGL_RETURN_VAL_IF_FAIL (sub_width > 0 && sub_height > 0, NULL);
+        // _COGL_RETURN_VAL_IF_FAIL (sub_x + sub_width <= next_width, NULL);
+        // _COGL_RETURN_VAL_IF_FAIL (sub_y + sub_height <= next_height, NULL);
 
-    //     // sub_tex = g_new (SubTexture, 1);
+        // sub_tex = g_new (SubTexture, 1);
 
-    //     // tex = COGL_TEXTURE (sub_tex);
+        // tex = COGL_TEXTURE (sub_tex);
 
-    //     // _texture_init (tex, ctx, sub_width, sub_height,
-    //     //                     _texture_get_format (next_texture),
-    //     //                     NULL, /* no loader */
-    //     //                     &sub_texture_vtable);
+        // _texture_init (tex, ctx, sub_width, sub_height,
+        //                     _texture_get_format (next_texture),
+        //                     NULL, /* no loader */
+        //                     &sub_texture_vtable);
 
-    //     // /* If the next texture is also a sub texture we can avoid one level
-    //     //     of indirection by referencing the full texture of that texture
-    //     //     instead. */
-    //     // if (is_sub_texture (next_texture))
-    //     //     {
-    //     //     SubTexture *other_sub_tex = COGL_SUB_TEXTURE (next_texture);
-    //     //     full_texture = other_sub_tex->full_texture;
-    //     //     sub_x += other_sub_tex->sub_x;
-    //     //     sub_y += other_sub_tex->sub_y;
-    //     //     }
-    //     // else
-    //     //     full_texture = next_texture;
+        // /* If the next texture is also a sub texture we can avoid one level
+        //     of indirection by referencing the full texture of that texture
+        //     instead. */
+        // if (is_sub_texture (next_texture))
+        //     {
+        //     SubTexture *other_sub_tex = COGL_SUB_TEXTURE (next_texture);
+        //     full_texture = other_sub_tex->full_texture;
+        //     sub_x += other_sub_tex->sub_x;
+        //     sub_y += other_sub_tex->sub_y;
+        //     }
+        // else
+        //     full_texture = next_texture;
 
-    //     // sub_tex->next_texture = object_ref (next_texture);
-    //     // sub_tex->full_texture = object_ref (full_texture);
+        // sub_tex->next_texture = object_ref (next_texture);
+        // sub_tex->full_texture = object_ref (full_texture);
 
-    //     // sub_tex->sub_x = sub_x;
-    //     // sub_tex->sub_y = sub_y;
+        // sub_tex->sub_x = sub_x;
+        // sub_tex->sub_y = sub_y;
 
-    //     // return _sub_texture_object_new (sub_tex);
-    //     unimplemented!()
-    // }
+        // return _sub_texture_object_new (sub_tex);
+        unimplemented!()
+    }
 
     /// Retrieves the parent texture that `self` derives its content
     /// from. This is the texture that was passed to

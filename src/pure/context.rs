@@ -139,6 +139,7 @@ pub enum FeatureID {
 // * should be careful to destroy all context dependant resources, such as
 // * framebuffers or textures etc before unrefing and destroying the
 // * context.</para></note>
+#[derive(Debug, Clone)]
 pub struct Context {
     //     Object _parent;
 

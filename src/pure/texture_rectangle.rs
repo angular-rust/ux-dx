@@ -4,7 +4,7 @@
     clippy::from_over_into
 )]
 
-use super::{Bitmap, Context, Object, PixelFormat, Texture};
+use super::{Bitmap, Context, PixelFormat, Texture};
 use std::fmt;
 
 // * SECTION:cogl-texture-rectangle

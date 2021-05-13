@@ -33,12 +33,11 @@
 // * draw to it, but if you do the allocation manually then you can
 // * also catch any possible errors that may arise from your
 // * configuration.
-use crate::{
-    Bitmap, Color, ColorMask, Context, Euler, Fence, FenceClosure, Matrix, Object, Pipeline,
-    PixelFormat, Primitive, ReadPixelsFlags, StereoMode, Texture,
+use super::{
+    Bitmap, Color, ColorMask, Context, Euler, Fence, FenceClosure, Matrix, Pipeline,
+    PixelFormat, Primitive, Quaternion, ReadPixelsFlags, StereoMode, Texture,
 };
-
-use super::Quaternion;
+use crate::prelude::*;
 use std::boxed::Box as Box_;
 use std::{fmt, ptr};
 
@@ -154,75 +153,84 @@ use std::{fmt, ptr};
 
 pub struct Framebuffer {
     // Object          _parent;
-    // Context        *context;
-    // FramebufferType  type;
-  
-    // /* The user configuration before allocation... */
-    // FramebufferConfig config;
-  
-    // int                 width;
-    // int                 height;
-    // /* Format of the pixels in the framebuffer (including the expected
-    //    premult state) */
-    // PixelFormat     internal_format;
-    // Bool            allocated;
-  
-    // MatrixStack    *modelview_stack;
-    // MatrixStack    *projection_stack;
-    // float               viewport_x;
-    // float               viewport_y;
-    // float               viewport_width;
-    // float               viewport_height;
-    // int                 viewport_age;
-    // int                 viewport_age_for_scissor_workaround;
-  
-    // ClipStack      *clip_stack;
-  
-    // Bool            dither_enabled;
-    // Bool            depth_writing_enabled;
-    // ColorMask       color_mask;
-    // StereoMode      stereo_mode;
-  
-    // /* We journal the textured rectangles we want to submit to OpenGL so
-    //  * we have an oppertunity to batch them together into less draw
-    //  * calls. */
-    // Journal        *journal;
-  
-    // /* The scene of a given framebuffer may depend on images in other
-    //  * framebuffers... */
-    // GList              *deps;
-  
-    // /* As part of an optimization for reading-back single pixels from a
-    //  * framebuffer in some simple cases where the geometry is still
-    //  * available in the journal we need to track the bounds of the last
-    //  * region cleared, its color and we need to track when something
-    //  * does in fact draw to that region so it is no longer clear.
-    //  */
-    // float               clear_color_red;
-    // float               clear_color_green;
-    // float               clear_color_blue;
-    // float               clear_color_alpha;
-    // int                 clear_clip_x0;
-    // int                 clear_clip_y0;
-    // int                 clear_clip_x1;
-    // int                 clear_clip_y1;
-    // Bool            clear_clip_dirty;
-  
-    // /* Whether something has been drawn to the buffer since the last
-    //  * swap buffers or swap region. */
-    // Bool            mid_scene;
-  
-    // /* driver specific */
-    // Bool            dirty_bitmasks;
-    // FramebufferBits bits;
-  
-    // int                 samples_per_pixel;
+// Context        *context;
+// FramebufferType  type;
+
+// /* The user configuration before allocation... */
+// FramebufferConfig config;
+
+// int                 width;
+// int                 height;
+// /* Format of the pixels in the framebuffer (including the expected
+//    premult state) */
+// PixelFormat     internal_format;
+// Bool            allocated;
+
+// MatrixStack    *modelview_stack;
+// MatrixStack    *projection_stack;
+// float               viewport_x;
+// float               viewport_y;
+// float               viewport_width;
+// float               viewport_height;
+// int                 viewport_age;
+// int                 viewport_age_for_scissor_workaround;
+
+// ClipStack      *clip_stack;
+
+// Bool            dither_enabled;
+// Bool            depth_writing_enabled;
+// ColorMask       color_mask;
+// StereoMode      stereo_mode;
+
+// /* We journal the textured rectangles we want to submit to OpenGL so
+//  * we have an oppertunity to batch them together into less draw
+//  * calls. */
+// Journal        *journal;
+
+// /* The scene of a given framebuffer may depend on images in other
+//  * framebuffers... */
+// GList              *deps;
+
+// /* As part of an optimization for reading-back single pixels from a
+//  * framebuffer in some simple cases where the geometry is still
+//  * available in the journal we need to track the bounds of the last
+//  * region cleared, its color and we need to track when something
+//  * does in fact draw to that region so it is no longer clear.
+//  */
+// float               clear_color_red;
+// float               clear_color_green;
+// float               clear_color_blue;
+// float               clear_color_alpha;
+// int                 clear_clip_x0;
+// int                 clear_clip_y0;
+// int                 clear_clip_x1;
+// int                 clear_clip_y1;
+// Bool            clear_clip_dirty;
+
+// /* Whether something has been drawn to the buffer since the last
+//  * swap buffers or swap region. */
+// Bool            mid_scene;
+
+// /* driver specific */
+// Bool            dirty_bitmasks;
+// FramebufferBits bits;
+
+// int                 samples_per_pixel;
 }
 
 impl Framebuffer {
     // pub fn error_quark() -> u32 {
     //     unsafe { ffi::framebuffer_error_quark() }
     // }
+}
+
+impl Object for Framebuffer {}
+impl Is<Framebuffer> for Framebuffer {}
+
+impl AsRef<Framebuffer> for Framebuffer {
+    fn as_ref(&self) -> &Framebuffer {
+        self
+    }
 }
 
 /// Trait containing all `Framebuffer` methods.
@@ -1152,578 +1160,614 @@ pub trait FramebufferExt: 'static {
     fn translate(&self, x: f32, y: f32, z: f32);
 }
 
-// impl<O: Is<Framebuffer>> FramebufferExt for O {
-//     fn add_fence_callback<P: Fn(&Fence) + 'static>(&self, callback: P) -> Option<FenceClosure> {
-//         let callback_data: Box_<P> = Box_::new(callback);
-//         unsafe extern "C" fn callback_func<P: Fn(&Fence) + 'static>(
-//             fence: *mut ffi::Fence,
-//             user_data: glib_sys::gpointer,
-//         ) {
-//             let fence = from_glib_borrow(fence);
-//             let callback: &P = &*(user_data as *mut _);
-//             (*callback)(&fence);
-//         }
-//         let callback = Some(callback_func::<P> as _);
-//         let super_callback0: Box_<P> = callback_data;
-//         unsafe {
-//             from_glib_none(ffi::framebuffer_add_fence_callback(
-//                 self.as_ref().to_glib_none().0,
-//                 callback,
-//                 Box_::into_raw(super_callback0) as *mut _,
-//             ))
-//         }
-//     }
+impl<O: Is<Framebuffer>> FramebufferExt for O {
+    fn add_fence_callback<P: Fn(&Fence) + 'static>(&self, callback: P) -> Option<FenceClosure> {
+        // let callback_data: Box_<P> = Box_::new(callback);
+        // unsafe extern "C" fn callback_func<P: Fn(&Fence) + 'static>(
+        //     fence: *mut ffi::Fence,
+        //     user_data: glib_sys::gpointer,
+        // ) {
+        //     let fence = from_glib_borrow(fence);
+        //     let callback: &P = &*(user_data as *mut _);
+        //     (*callback)(&fence);
+        // }
+        // let callback = Some(callback_func::<P> as _);
+        // let super_callback0: Box_<P> = callback_data;
+        // unsafe {
+        //     from_glib_none(ffi::framebuffer_add_fence_callback(
+        //         self.as_ref().to_glib_none().0,
+        //         callback,
+        //         Box_::into_raw(super_callback0) as *mut _,
+        //     ))
+        // }
+        unimplemented!()
+    }
 
-//     fn allocate(&self) -> bool {
-//         unsafe {
-//             let mut error = ptr::null_mut();
-//             let ret = ffi::framebuffer_allocate(self.as_ref().to_glib_none().0, &mut error);
-//             if error.is_null() {
-//                 Ok(ret == crate::TRUE)
-//             } else {
-//                 Err(from_glib_full(error))
-//             }
-//         }
-//     }
+    fn allocate(&self) -> bool {
+        // unsafe {
+        //     let mut error = ptr::null_mut();
+        //     let ret = ffi::framebuffer_allocate(self.as_ref().to_glib_none().0, &mut error);
+        //     if error.is_null() {
+        //         Ok(ret == crate::TRUE)
+        //     } else {
+        //         Err(from_glib_full(error))
+        //     }
+        // }
+        unimplemented!()
+    }
 
-//     fn cancel_fence_callback(&self, closure: &mut FenceClosure) {
-//         unsafe {
-//             ffi::framebuffer_cancel_fence_callback(
-//                 self.as_ref().to_glib_none().0,
-//                 closure.to_glib_none_mut().0,
-//             );
-//         }
-//     }
+    fn cancel_fence_callback(&self, closure: &mut FenceClosure) {
+        // unsafe {
+        //     ffi::framebuffer_cancel_fence_callback(
+        //         self.as_ref().to_glib_none().0,
+        //         closure.to_glib_none_mut().0,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn clear(&self, buffers: libc::c_ulong, color: &Color) {
-//         unsafe {
-//             ffi::framebuffer_clear(
-//                 self.as_ref().to_glib_none().0,
-//                 buffers,
-//                 color.to_glib_none().0,
-//             );
-//         }
-//     }
+    fn clear(&self, buffers: libc::c_ulong, color: &Color) {
+        // unsafe {
+        //     ffi::framebuffer_clear(
+        //         self.as_ref().to_glib_none().0,
+        //         buffers,
+        //         color.to_glib_none().0,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn clear4f(&self, buffers: libc::c_ulong, red: f32, green: f32, blue: f32, alpha: f32) {
-//         unsafe {
-//             ffi::framebuffer_clear4f(
-//                 self.as_ref().to_glib_none().0,
-//                 buffers,
-//                 red,
-//                 green,
-//                 blue,
-//                 alpha,
-//             );
-//         }
-//     }
+    fn clear4f(&self, buffers: libc::c_ulong, red: f32, green: f32, blue: f32, alpha: f32) {
+        // unsafe {
+        //     ffi::framebuffer_clear4f(
+        //         self.as_ref().to_glib_none().0,
+        //         buffers,
+        //         red,
+        //         green,
+        //         blue,
+        //         alpha,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn discard_buffers(&self, buffers: libc::c_ulong) {
-//         unsafe {
-//             ffi::framebuffer_discard_buffers(self.as_ref().to_glib_none().0, buffers);
-//         }
-//     }
+    fn discard_buffers(&self, buffers: libc::c_ulong) {
+        // unsafe {
+        //     ffi::framebuffer_discard_buffers(self.as_ref().to_glib_none().0, buffers);
+        // }
+        unimplemented!()
+    }
 
-//     fn draw_multitextured_rectangle(
-//         &self,
-//         pipeline: &Pipeline,
-//         x_1: f32,
-//         y_1: f32,
-//         x_2: f32,
-//         y_2: f32,
-//         tex_coords: &[f32],
-//     ) {
-//         let tex_coords_len = tex_coords.len() as i32;
-//         unsafe {
-//             ffi::framebuffer_draw_multitextured_rectangle(
-//                 self.as_ref().to_glib_none().0,
-//                 pipeline.to_glib_none().0,
-//                 x_1,
-//                 y_1,
-//                 x_2,
-//                 y_2,
-//                 tex_coords.to_glib_none().0,
-//                 tex_coords_len,
-//             );
-//         }
-//     }
+    fn draw_multitextured_rectangle(
+        &self,
+        pipeline: &Pipeline,
+        x_1: f32,
+        y_1: f32,
+        x_2: f32,
+        y_2: f32,
+        tex_coords: &[f32],
+    ) {
+        // let tex_coords_len = tex_coords.len() as i32;
+        // unsafe {
+        //     ffi::framebuffer_draw_multitextured_rectangle(
+        //         self.as_ref().to_glib_none().0,
+        //         pipeline.to_glib_none().0,
+        //         x_1,
+        //         y_1,
+        //         x_2,
+        //         y_2,
+        //         tex_coords.to_glib_none().0,
+        //         tex_coords_len,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn draw_rectangle(&self, pipeline: &Pipeline, x_1: f32, y_1: f32, x_2: f32, y_2: f32) {
-//         unsafe {
-//             ffi::framebuffer_draw_rectangle(
-//                 self.as_ref().to_glib_none().0,
-//                 pipeline.to_glib_none().0,
-//                 x_1,
-//                 y_1,
-//                 x_2,
-//                 y_2,
-//             );
-//         }
-//     }
+    fn draw_rectangle(&self, pipeline: &Pipeline, x_1: f32, y_1: f32, x_2: f32, y_2: f32) {
+        // unsafe {
+        //     ffi::framebuffer_draw_rectangle(
+        //         self.as_ref().to_glib_none().0,
+        //         pipeline.to_glib_none().0,
+        //         x_1,
+        //         y_1,
+        //         x_2,
+        //         y_2,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     //fn draw_rectangles(&self, pipeline: &Pipeline, coordinates: &[f32], n_rectangles: u32) {
-//     //    unsafe { TODO: call sys:framebuffer_draw_rectangles() }
-//     //}
+    //fn draw_rectangles(&self, pipeline: &Pipeline, coordinates: &[f32], n_rectangles: u32) {
+    //    unsafe { TODO: call sys:framebuffer_draw_rectangles() }
+    //}
 
-//     fn draw_textured_rectangle(
-//         &self,
-//         pipeline: &Pipeline,
-//         x_1: f32,
-//         y_1: f32,
-//         x_2: f32,
-//         y_2: f32,
-//         s_1: f32,
-//         t_1: f32,
-//         s_2: f32,
-//         t_2: f32,
-//     ) {
-//         unsafe {
-//             ffi::framebuffer_draw_textured_rectangle(
-//                 self.as_ref().to_glib_none().0,
-//                 pipeline.to_glib_none().0,
-//                 x_1,
-//                 y_1,
-//                 x_2,
-//                 y_2,
-//                 s_1,
-//                 t_1,
-//                 s_2,
-//                 t_2,
-//             );
-//         }
-//     }
+    fn draw_textured_rectangle(
+        &self,
+        pipeline: &Pipeline,
+        x_1: f32,
+        y_1: f32,
+        x_2: f32,
+        y_2: f32,
+        s_1: f32,
+        t_1: f32,
+        s_2: f32,
+        t_2: f32,
+    ) {
+        // unsafe {
+        //     ffi::framebuffer_draw_textured_rectangle(
+        //         self.as_ref().to_glib_none().0,
+        //         pipeline.to_glib_none().0,
+        //         x_1,
+        //         y_1,
+        //         x_2,
+        //         y_2,
+        //         s_1,
+        //         t_1,
+        //         s_2,
+        //         t_2,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     //fn draw_textured_rectangles(&self, pipeline: &Pipeline, coordinates: &[f32], n_rectangles: u32) {
-//     //    unsafe { TODO: call sys:framebuffer_draw_textured_rectangles() }
-//     //}
+    //fn draw_textured_rectangles(&self, pipeline: &Pipeline, coordinates: &[f32], n_rectangles: u32) {
+    //    unsafe { TODO: call sys:framebuffer_draw_textured_rectangles() }
+    //}
 
-//     fn finish(&self) {
-//         unsafe {
-//             ffi::framebuffer_finish(self.as_ref().to_glib_none().0);
-//         }
-//     }
+    fn finish(&self) {
+        // unsafe {
+        //     ffi::framebuffer_finish(self.as_ref().to_glib_none().0);
+        // }
+        unimplemented!()
+    }
 
-//     fn frustum(&self, left: f32, right: f32, bottom: f32, top: f32, z_near: f32, z_far: f32) {
-//         unsafe {
-//             ffi::framebuffer_frustum(
-//                 self.as_ref().to_glib_none().0,
-//                 left,
-//                 right,
-//                 bottom,
-//                 top,
-//                 z_near,
-//                 z_far,
-//             );
-//         }
-//     }
+    fn frustum(&self, left: f32, right: f32, bottom: f32, top: f32, z_near: f32, z_far: f32) {
+        // unsafe {
+        //     ffi::framebuffer_frustum(
+        //         self.as_ref().to_glib_none().0,
+        //         left,
+        //         right,
+        //         bottom,
+        //         top,
+        //         z_near,
+        //         z_far,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn get_alpha_bits(&self) -> i32 {
-//         unsafe { ffi::framebuffer_get_alpha_bits(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_alpha_bits(&self) -> i32 {
+        // unsafe { ffi::framebuffer_get_alpha_bits(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_blue_bits(&self) -> i32 {
-//         unsafe { ffi::framebuffer_get_blue_bits(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_blue_bits(&self) -> i32 {
+        // unsafe { ffi::framebuffer_get_blue_bits(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_color_mask(&self) -> ColorMask {
-//         unsafe {
-//             from_glib(ffi::framebuffer_get_color_mask(
-//                 self.as_ref().to_glib_none().0,
-//             ))
-//         }
-//     }
+    fn get_color_mask(&self) -> ColorMask {
+        // unsafe {
+        //     from_glib(ffi::framebuffer_get_color_mask(
+        //         self.as_ref().to_glib_none().0,
+        //     ))
+        // }
+        unimplemented!()
+    }
 
-//     fn get_context(&self) -> Option<Context> {
-//         unsafe {
-//             from_glib_none(ffi::framebuffer_get_context(
-//                 self.as_ref().to_glib_none().0,
-//             ))
-//         }
-//     }
+    fn get_context(&self) -> Option<Context> {
+        // unsafe { from_glib_none(ffi::framebuffer_get_context(self.as_ref().to_glib_none().0)) }
+        unimplemented!()
+    }
 
-//     fn get_depth_bits(&self) -> i32 {
-//         unsafe { ffi::framebuffer_get_depth_bits(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_depth_bits(&self) -> i32 {
+        // unsafe { ffi::framebuffer_get_depth_bits(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_depth_texture(&self) -> Option<Texture> {
-//         unsafe {
-//             from_glib_none(ffi::framebuffer_get_depth_texture(
-//                 self.as_ref().to_glib_none().0,
-//             ))
-//         }
-//     }
+    fn get_depth_texture(&self) -> Option<Texture> {
+        // unsafe {
+        //     from_glib_none(ffi::framebuffer_get_depth_texture(
+        //         self.as_ref().to_glib_none().0,
+        //     ))
+        // }
+        unimplemented!()
+    }
 
-//     fn get_depth_texture_enabled(&self) -> bool {
-//         unsafe {
-//             ffi::framebuffer_get_depth_texture_enabled(self.as_ref().to_glib_none().0)
-//                 == crate::TRUE
-//         }
-//     }
+    fn get_depth_texture_enabled(&self) -> bool {
+        // unsafe {
+        //     ffi::framebuffer_get_depth_texture_enabled(self.as_ref().to_glib_none().0)
+        //         == crate::TRUE
+        // }
+        unimplemented!()
+    }
 
-//     fn get_depth_write_enabled(&self) -> bool {
-//         unsafe {
-//             ffi::framebuffer_get_depth_write_enabled(self.as_ref().to_glib_none().0)
-//                 == crate::TRUE
-//         }
-//     }
+    fn get_depth_write_enabled(&self) -> bool {
+        // unsafe {
+        //     ffi::framebuffer_get_depth_write_enabled(self.as_ref().to_glib_none().0) == crate::TRUE
+        // }
+        unimplemented!()
+    }
 
-//     fn get_dither_enabled(&self) -> bool {
-//         unsafe {
-//             ffi::framebuffer_get_dither_enabled(self.as_ref().to_glib_none().0) == crate::TRUE
-//         }
-//     }
+    fn get_dither_enabled(&self) -> bool {
+        // unsafe {
+        //     ffi::framebuffer_get_dither_enabled(self.as_ref().to_glib_none().0) == crate::TRUE
+        // }
+        unimplemented!()
+    }
 
-//     fn get_green_bits(&self) -> i32 {
-//         unsafe { ffi::framebuffer_get_green_bits(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_green_bits(&self) -> i32 {
+        // unsafe { ffi::framebuffer_get_green_bits(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_height(&self) -> i32 {
-//         unsafe { ffi::framebuffer_get_height(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_height(&self) -> i32 {
+        // unsafe { ffi::framebuffer_get_height(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_is_stereo(&self) -> bool {
-//         unsafe {
-//             ffi::framebuffer_get_is_stereo(self.as_ref().to_glib_none().0) == crate::TRUE
-//         }
-//     }
+    fn get_is_stereo(&self) -> bool {
+        // unsafe { ffi::framebuffer_get_is_stereo(self.as_ref().to_glib_none().0) == crate::TRUE }
+        unimplemented!()
+    }
 
-//     fn get_modelview_matrix(&self) -> Matrix {
-//         unsafe {
-//             let mut matrix = Matrix::uninitialized();
-//             ffi::framebuffer_get_modelview_matrix(
-//                 self.as_ref().to_glib_none().0,
-//                 matrix.to_glib_none_mut().0,
-//             );
-//             matrix
-//         }
-//     }
+    fn get_modelview_matrix(&self) -> Matrix {
+        // unsafe {
+        //     let mut matrix = Matrix::uninitialized();
+        //     ffi::framebuffer_get_modelview_matrix(
+        //         self.as_ref().to_glib_none().0,
+        //         matrix.to_glib_none_mut().0,
+        //     );
+        //     matrix
+        // }
+        unimplemented!()
+    }
 
-//     fn get_projection_matrix(&self) -> Matrix {
-//         unsafe {
-//             let mut matrix = Matrix::uninitialized();
-//             ffi::framebuffer_get_projection_matrix(
-//                 self.as_ref().to_glib_none().0,
-//                 matrix.to_glib_none_mut().0,
-//             );
-//             matrix
-//         }
-//     }
+    fn get_projection_matrix(&self) -> Matrix {
+        // unsafe {
+        //     let mut matrix = Matrix::uninitialized();
+        //     ffi::framebuffer_get_projection_matrix(
+        //         self.as_ref().to_glib_none().0,
+        //         matrix.to_glib_none_mut().0,
+        //     );
+        //     matrix
+        // }
+        unimplemented!()
+    }
 
-//     fn get_red_bits(&self) -> i32 {
-//         unsafe { ffi::framebuffer_get_red_bits(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_red_bits(&self) -> i32 {
+        // unsafe { ffi::framebuffer_get_red_bits(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_samples_per_pixel(&self) -> i32 {
-//         unsafe { ffi::framebuffer_get_samples_per_pixel(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_samples_per_pixel(&self) -> i32 {
+        // unsafe { ffi::framebuffer_get_samples_per_pixel(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_stereo_mode(&self) -> StereoMode {
-//         unsafe {
-//             from_glib(ffi::framebuffer_get_stereo_mode(
-//                 self.as_ref().to_glib_none().0,
-//             ))
-//         }
-//     }
+    fn get_stereo_mode(&self) -> StereoMode {
+        // unsafe {
+        //     from_glib(ffi::framebuffer_get_stereo_mode(
+        //         self.as_ref().to_glib_none().0,
+        //     ))
+        // }
+        unimplemented!()
+    }
 
-//     //fn get_viewport4fv(&self, viewport: /*Unimplemented*/FixedArray TypeId { ns_id: 0, id: 20 }; 4) {
-//     //    unsafe { TODO: call sys:framebuffer_get_viewport4fv() }
-//     //}
+    //fn get_viewport4fv(&self, viewport: /*Unimplemented*/FixedArray TypeId { ns_id: 0, id: 20 }; 4) {
+    //    unsafe { TODO: call sys:framebuffer_get_viewport4fv() }
+    //}
 
-//     fn get_viewport_height(&self) -> f32 {
-//         unsafe { ffi::framebuffer_get_viewport_height(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_viewport_height(&self) -> f32 {
+        // unsafe { ffi::framebuffer_get_viewport_height(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_viewport_width(&self) -> f32 {
-//         unsafe { ffi::framebuffer_get_viewport_width(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_viewport_width(&self) -> f32 {
+        // unsafe { ffi::framebuffer_get_viewport_width(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_viewport_x(&self) -> f32 {
-//         unsafe { ffi::framebuffer_get_viewport_x(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_viewport_x(&self) -> f32 {
+        // unsafe { ffi::framebuffer_get_viewport_x(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_viewport_y(&self) -> f32 {
-//         unsafe { ffi::framebuffer_get_viewport_y(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_viewport_y(&self) -> f32 {
+        // unsafe { ffi::framebuffer_get_viewport_y(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn get_width(&self) -> i32 {
-//         unsafe { ffi::framebuffer_get_width(self.as_ref().to_glib_none().0) }
-//     }
+    fn get_width(&self) -> i32 {
+        // unsafe { ffi::framebuffer_get_width(self.as_ref().to_glib_none().0) }
+        unimplemented!()
+    }
 
-//     fn identity_matrix(&self) {
-//         unsafe {
-//             ffi::framebuffer_identity_matrix(self.as_ref().to_glib_none().0);
-//         }
-//     }
+    fn identity_matrix(&self) {
+        // unsafe {
+        //     ffi::framebuffer_identity_matrix(self.as_ref().to_glib_none().0);
+        // }
+        unimplemented!()
+    }
 
-//     fn orthographic(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32, near: f32, far: f32) {
-//         unsafe {
-//             ffi::framebuffer_orthographic(
-//                 self.as_ref().to_glib_none().0,
-//                 x_1,
-//                 y_1,
-//                 x_2,
-//                 y_2,
-//                 near,
-//                 far,
-//             );
-//         }
-//     }
+    fn orthographic(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32, near: f32, far: f32) {
+        // unsafe {
+        //     ffi::framebuffer_orthographic(
+        //         self.as_ref().to_glib_none().0,
+        //         x_1,
+        //         y_1,
+        //         x_2,
+        //         y_2,
+        //         near,
+        //         far,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn perspective(&self, fov_y: f32, aspect: f32, z_near: f32, z_far: f32) {
-//         unsafe {
-//             ffi::framebuffer_perspective(
-//                 self.as_ref().to_glib_none().0,
-//                 fov_y,
-//                 aspect,
-//                 z_near,
-//                 z_far,
-//             );
-//         }
-//     }
+    fn perspective(&self, fov_y: f32, aspect: f32, z_near: f32, z_far: f32) {
+        // unsafe {
+        //     ffi::framebuffer_perspective(
+        //         self.as_ref().to_glib_none().0,
+        //         fov_y,
+        //         aspect,
+        //         z_near,
+        //         z_far,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn pop_clip(&self) {
-//         unsafe {
-//             ffi::framebuffer_pop_clip(self.as_ref().to_glib_none().0);
-//         }
-//     }
+    fn pop_clip(&self) {
+        // unsafe {
+        //     ffi::framebuffer_pop_clip(self.as_ref().to_glib_none().0);
+        // }
+        unimplemented!()
+    }
 
-//     fn pop_matrix(&self) {
-//         unsafe {
-//             ffi::framebuffer_pop_matrix(self.as_ref().to_glib_none().0);
-//         }
-//     }
+    fn pop_matrix(&self) {
+        // unsafe {
+        //     ffi::framebuffer_pop_matrix(self.as_ref().to_glib_none().0);
+        // }
+        unimplemented!()
+    }
 
-//     fn push_matrix(&self) {
-//         unsafe {
-//             ffi::framebuffer_push_matrix(self.as_ref().to_glib_none().0);
-//         }
-//     }
+    fn push_matrix(&self) {
+        // unsafe {
+        //     ffi::framebuffer_push_matrix(self.as_ref().to_glib_none().0);
+        // }
+        unimplemented!()
+    }
 
-//     fn push_primitive_clip(
-//         &self,
-//         primitive: &Primitive,
-//         bounds_x1: f32,
-//         bounds_y1: f32,
-//         bounds_x2: f32,
-//         bounds_y2: f32,
-//     ) {
-//         unsafe {
-//             ffi::framebuffer_push_primitive_clip(
-//                 self.as_ref().to_glib_none().0,
-//                 primitive.to_glib_none().0,
-//                 bounds_x1,
-//                 bounds_y1,
-//                 bounds_x2,
-//                 bounds_y2,
-//             );
-//         }
-//     }
+    fn push_primitive_clip(
+        &self,
+        primitive: &Primitive,
+        bounds_x1: f32,
+        bounds_y1: f32,
+        bounds_x2: f32,
+        bounds_y2: f32,
+    ) {
+        // unsafe {
+        //     ffi::framebuffer_push_primitive_clip(
+        //         self.as_ref().to_glib_none().0,
+        //         primitive.to_glib_none().0,
+        //         bounds_x1,
+        //         bounds_y1,
+        //         bounds_x2,
+        //         bounds_y2,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn push_rectangle_clip(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32) {
-//         unsafe {
-//             ffi::framebuffer_push_rectangle_clip(
-//                 self.as_ref().to_glib_none().0,
-//                 x_1,
-//                 y_1,
-//                 x_2,
-//                 y_2,
-//             );
-//         }
-//     }
+    fn push_rectangle_clip(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32) {
+        // unsafe {
+        //     ffi::framebuffer_push_rectangle_clip(
+        //         self.as_ref().to_glib_none().0,
+        //         x_1,
+        //         y_1,
+        //         x_2,
+        //         y_2,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn push_scissor_clip(&self, x: i32, y: i32, width: i32, height: i32) {
-//         unsafe {
-//             ffi::framebuffer_push_scissor_clip(
-//                 self.as_ref().to_glib_none().0,
-//                 x,
-//                 y,
-//                 width,
-//                 height,
-//             );
-//         }
-//     }
+    fn push_scissor_clip(&self, x: i32, y: i32, width: i32, height: i32) {
+        // unsafe {
+        //     ffi::framebuffer_push_scissor_clip(self.as_ref().to_glib_none().0, x, y, width, height);
+        // }
+        unimplemented!()
+    }
 
-//     fn read_pixels(
-//         &self,
-//         x: i32,
-//         y: i32,
-//         width: i32,
-//         height: i32,
-//         format: PixelFormat,
-//         pixels: &[u8],
-//     ) -> bool {
-//         unsafe {
-//             ffi::framebuffer_read_pixels(
-//                 self.as_ref().to_glib_none().0,
-//                 x,
-//                 y,
-//                 width,
-//                 height,
-//                 format.to_glib(),
-//                 pixels.to_glib_none().0,
-//             ) == crate::TRUE
-//         }
-//     }
+    fn read_pixels(
+        &self,
+        x: i32,
+        y: i32,
+        width: i32,
+        height: i32,
+        format: PixelFormat,
+        pixels: &[u8],
+    ) -> bool {
+        // unsafe {
+        //     ffi::framebuffer_read_pixels(
+        //         self.as_ref().to_glib_none().0,
+        //         x,
+        //         y,
+        //         width,
+        //         height,
+        //         format.to_glib(),
+        //         pixels.to_glib_none().0,
+        //     ) == crate::TRUE
+        // }
+        unimplemented!()
+    }
 
-//     fn read_pixels_into_bitmap(
-//         &self,
-//         x: i32,
-//         y: i32,
-//         source: ReadPixelsFlags,
-//         bitmap: &Bitmap,
-//     ) -> bool {
-//         unsafe {
-//             ffi::framebuffer_read_pixels_into_bitmap(
-//                 self.as_ref().to_glib_none().0,
-//                 x,
-//                 y,
-//                 source.to_glib(),
-//                 bitmap.to_glib_none().0,
-//             ) == crate::TRUE
-//         }
-//     }
+    fn read_pixels_into_bitmap(
+        &self,
+        x: i32,
+        y: i32,
+        source: ReadPixelsFlags,
+        bitmap: &Bitmap,
+    ) -> bool {
+        // unsafe {
+        //     ffi::framebuffer_read_pixels_into_bitmap(
+        //         self.as_ref().to_glib_none().0,
+        //         x,
+        //         y,
+        //         source.to_glib(),
+        //         bitmap.to_glib_none().0,
+        //     ) == crate::TRUE
+        // }
+        unimplemented!()
+    }
 
-//     fn resolve_samples(&self) {
-//         unsafe {
-//             ffi::framebuffer_resolve_samples(self.as_ref().to_glib_none().0);
-//         }
-//     }
+    fn resolve_samples(&self) {
+        // unsafe {
+        //     ffi::framebuffer_resolve_samples(self.as_ref().to_glib_none().0);
+        // }
+        unimplemented!()
+    }
 
-//     fn resolve_samples_region(&self, x: i32, y: i32, width: i32, height: i32) {
-//         unsafe {
-//             ffi::framebuffer_resolve_samples_region(
-//                 self.as_ref().to_glib_none().0,
-//                 x,
-//                 y,
-//                 width,
-//                 height,
-//             );
-//         }
-//     }
+    fn resolve_samples_region(&self, x: i32, y: i32, width: i32, height: i32) {
+        // unsafe {
+        //     ffi::framebuffer_resolve_samples_region(
+        //         self.as_ref().to_glib_none().0,
+        //         x,
+        //         y,
+        //         width,
+        //         height,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn rotate(&self, angle: f32, x: f32, y: f32, z: f32) {
-//         unsafe {
-//             ffi::framebuffer_rotate(self.as_ref().to_glib_none().0, angle, x, y, z);
-//         }
-//     }
+    fn rotate(&self, angle: f32, x: f32, y: f32, z: f32) {
+        // unsafe {
+        //     ffi::framebuffer_rotate(self.as_ref().to_glib_none().0, angle, x, y, z);
+        // }
+        unimplemented!()
+    }
 
-//     fn rotate_euler(&self, euler: &Euler) {
-//         unsafe {
-//             ffi::framebuffer_rotate_euler(
-//                 self.as_ref().to_glib_none().0,
-//                 euler.to_glib_none().0,
-//             );
-//         }
-//     }
+    fn rotate_euler(&self, euler: &Euler) {
+        // unsafe {
+        //     ffi::framebuffer_rotate_euler(self.as_ref().to_glib_none().0, euler.to_glib_none().0);
+        // }
+        unimplemented!()
+    }
 
-//     fn rotate_quaternion(&self, quaternion: &Quaternion) {
-//         unsafe {
-//             ffi::framebuffer_rotate_quaternion(
-//                 self.as_ref().to_glib_none().0,
-//                 quaternion.to_glib_none().0,
-//             );
-//         }
-//     }
+    fn rotate_quaternion(&self, quaternion: &Quaternion) {
+        // unsafe {
+        //     ffi::framebuffer_rotate_quaternion(
+        //         self.as_ref().to_glib_none().0,
+        //         quaternion.to_glib_none().0,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn scale(&self, x: f32, y: f32, z: f32) {
-//         unsafe {
-//             ffi::framebuffer_scale(self.as_ref().to_glib_none().0, x, y, z);
-//         }
-//     }
+    fn scale(&self, x: f32, y: f32, z: f32) {
+        // unsafe {
+        //     ffi::framebuffer_scale(self.as_ref().to_glib_none().0, x, y, z);
+        // }
+        unimplemented!()
+    }
 
-//     fn set_color_mask(&self, color_mask: ColorMask) {
-//         unsafe {
-//             ffi::framebuffer_set_color_mask(
-//                 self.as_ref().to_glib_none().0,
-//                 color_mask.to_glib(),
-//             );
-//         }
-//     }
+    fn set_color_mask(&self, color_mask: ColorMask) {
+        // unsafe {
+        //     ffi::framebuffer_set_color_mask(self.as_ref().to_glib_none().0, color_mask.to_glib());
+        // }
+        unimplemented!()
+    }
 
-//     fn set_depth_texture_enabled(&self, enabled: bool) {
-//         unsafe {
-//             ffi::framebuffer_set_depth_texture_enabled(
-//                 self.as_ref().to_glib_none().0,
-//                 enabled as i32,
-//             );
-//         }
-//     }
+    fn set_depth_texture_enabled(&self, enabled: bool) {
+        // unsafe {
+        //     ffi::framebuffer_set_depth_texture_enabled(
+        //         self.as_ref().to_glib_none().0,
+        //         enabled as i32,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn set_depth_write_enabled(&self, depth_write_enabled: bool) {
-//         unsafe {
-//             ffi::framebuffer_set_depth_write_enabled(
-//                 self.as_ref().to_glib_none().0,
-//                 depth_write_enabled as i32,
-//             );
-//         }
-//     }
+    fn set_depth_write_enabled(&self, depth_write_enabled: bool) {
+        // unsafe {
+        //     ffi::framebuffer_set_depth_write_enabled(
+        //         self.as_ref().to_glib_none().0,
+        //         depth_write_enabled as i32,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn set_dither_enabled(&self, dither_enabled: bool) {
-//         unsafe {
-//             ffi::framebuffer_set_dither_enabled(
-//                 self.as_ref().to_glib_none().0,
-//                 dither_enabled as i32,
-//             );
-//         }
-//     }
+    fn set_dither_enabled(&self, dither_enabled: bool) {
+        // unsafe {
+        //     ffi::framebuffer_set_dither_enabled(
+        //         self.as_ref().to_glib_none().0,
+        //         dither_enabled as i32,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn set_modelview_matrix(&self, matrix: &Matrix) {
-//         unsafe {
-//             ffi::framebuffer_set_modelview_matrix(
-//                 self.as_ref().to_glib_none().0,
-//                 matrix.to_glib_none().0,
-//             );
-//         }
-//     }
+    fn set_modelview_matrix(&self, matrix: &Matrix) {
+        // unsafe {
+        //     ffi::framebuffer_set_modelview_matrix(
+        //         self.as_ref().to_glib_none().0,
+        //         matrix.to_glib_none().0,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn set_projection_matrix(&self, matrix: &Matrix) {
-//         unsafe {
-//             ffi::framebuffer_set_projection_matrix(
-//                 self.as_ref().to_glib_none().0,
-//                 matrix.to_glib_none().0,
-//             );
-//         }
-//     }
+    fn set_projection_matrix(&self, matrix: &Matrix) {
+        // unsafe {
+        //     ffi::framebuffer_set_projection_matrix(
+        //         self.as_ref().to_glib_none().0,
+        //         matrix.to_glib_none().0,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn set_samples_per_pixel(&self, samples_per_pixel: i32) {
-//         unsafe {
-//             ffi::framebuffer_set_samples_per_pixel(
-//                 self.as_ref().to_glib_none().0,
-//                 samples_per_pixel,
-//             );
-//         }
-//     }
+    fn set_samples_per_pixel(&self, samples_per_pixel: i32) {
+        // unsafe {
+        //     ffi::framebuffer_set_samples_per_pixel(
+        //         self.as_ref().to_glib_none().0,
+        //         samples_per_pixel,
+        //     );
+        // }
+        unimplemented!()
+    }
 
-//     fn set_stereo_mode(&self, stereo_mode: StereoMode) {
-//         unsafe {
-//             ffi::framebuffer_set_stereo_mode(
-//                 self.as_ref().to_glib_none().0,
-//                 stereo_mode.to_glib(),
-//             );
-//         }
-//     }
+    fn set_stereo_mode(&self, stereo_mode: StereoMode) {
+        // unsafe {
+        //     ffi::framebuffer_set_stereo_mode(self.as_ref().to_glib_none().0, stereo_mode.to_glib());
+        // }
+        unimplemented!()
+    }
 
-//     fn set_viewport(&self, x: f32, y: f32, width: f32, height: f32) {
-//         unsafe {
-//             ffi::framebuffer_set_viewport(self.as_ref().to_glib_none().0, x, y, width, height);
-//         }
-//     }
+    fn set_viewport(&self, x: f32, y: f32, width: f32, height: f32) {
+        // unsafe {
+        //     ffi::framebuffer_set_viewport(self.as_ref().to_glib_none().0, x, y, width, height);
+        // }
+        unimplemented!()
+    }
 
-//     fn transform(&self, matrix: &Matrix) {
-//         unsafe {
-//             ffi::framebuffer_transform(
-//                 self.as_ref().to_glib_none().0,
-//                 matrix.to_glib_none().0,
-//             );
-//         }
-//     }
+    fn transform(&self, matrix: &Matrix) {
+        // unsafe {
+        //     ffi::framebuffer_transform(self.as_ref().to_glib_none().0, matrix.to_glib_none().0);
+        // }
+        unimplemented!()
+    }
 
-//     fn translate(&self, x: f32, y: f32, z: f32) {
-//         unsafe {
-//             ffi::framebuffer_translate(self.as_ref().to_glib_none().0, x, y, z);
-//         }
-//     }
-// }
+    fn translate(&self, x: f32, y: f32, z: f32) {
+        // unsafe {
+        //     ffi::framebuffer_translate(self.as_ref().to_glib_none().0, x, y, z);
+        // }
+        unimplemented!()
+    }
+}
 
 impl fmt::Display for Framebuffer {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
