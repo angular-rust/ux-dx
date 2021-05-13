@@ -38,118 +38,94 @@ use super::{
     Primitive, Quaternion, ReadPixelsFlags, StereoMode, Texture,
 };
 use crate::prelude::*;
+use super::SwapChain;
 use std::boxed::Box as Box_;
 use std::{fmt, ptr};
 
-// typedef enum _FramebufferType {
-//     COGL_FRAMEBUFFER_TYPE_ONSCREEN,
-//     COGL_FRAMEBUFFER_TYPE_OFFSCREEN
-// } FramebufferType;
+pub enum FramebufferType {
+    OnScreen,
+    OffScreen,
+}
 
-// typedef struct
-// {
-//     SwapChain *swap_chain;
-//     Bool need_stencil;
-//     int samples_per_pixel;
-//     Bool swap_throttled;
-//     Bool depth_texture_enabled;
-//     Bool stereo_enabled;
-// } FramebufferConfig;
+pub struct FramebufferConfig {
+    swap_chain: Option<SwapChain>,
+    need_stencil: bool,
+    samples_per_pixel: i32,
+    swap_throttled: bool,
+    depth_texture_enabled: bool,
+    stereo_enabled: bool,
+}
 
-// /* Flags to pass to _offscreen_new_with_texture_full */
-// typedef enum
-// {
-//     COGL_OFFSCREEN_DISABLE_DEPTH_AND_STENCIL = 1
-// } OffscreenFlags;
+// Flags to pass to _offscreen_new_with_texture_full
+pub enum OffscreenFlags {
+    None = 0,
+    DisableDepthAndStencil = 1,
+}
 
-// /* XXX: The order of these indices determines the order they are
-// * flushed.
-// *
-// * Flushing clip state may trash the modelview and projection matrices
-// * so we must do it before flushing the matrices.
-// */
-// typedef enum _FramebufferStateIndex
-// {
-//     COGL_FRAMEBUFFER_STATE_INDEX_BIND               = 0,
-//     COGL_FRAMEBUFFER_STATE_INDEX_VIEWPORT           = 1,
-//     COGL_FRAMEBUFFER_STATE_INDEX_CLIP               = 2,
-//     COGL_FRAMEBUFFER_STATE_INDEX_DITHER             = 3,
-//     COGL_FRAMEBUFFER_STATE_INDEX_MODELVIEW          = 4,
-//     COGL_FRAMEBUFFER_STATE_INDEX_PROJECTION         = 5,
-//     COGL_FRAMEBUFFER_STATE_INDEX_COLOR_MASK         = 6,
-//     COGL_FRAMEBUFFER_STATE_INDEX_FRONT_FACE_WINDING = 7,
-//     COGL_FRAMEBUFFER_STATE_INDEX_DEPTH_WRITE        = 8,
-//     COGL_FRAMEBUFFER_STATE_INDEX_STEREO_MODE        = 9,
-//     COGL_FRAMEBUFFER_STATE_INDEX_MAX                = 10
-// } FramebufferStateIndex;
+// XXX: The order of these indices determines the order they are
+// flushed.
+//
+// Flushing clip state may trash the modelview and projection matrices
+// so we must do it before flushing the matrices.
+//
+pub enum FramebufferStateIndex {
+    Bind               = 0,
+    ViewPort           = 1,
+    Clip               = 2,
+    Dither             = 3,
+    ModelView          = 4,
+    Projection         = 5,
+    ColorMask          = 6,
+    FrontFaceWinding   = 7,
+    DepthWrite         = 8,
+    StereoMode         = 9,
+    Max                = 10
+}
 
-// typedef enum _FramebufferState
-// {
-//     COGL_FRAMEBUFFER_STATE_BIND               = 1<<0,
-//     COGL_FRAMEBUFFER_STATE_VIEWPORT           = 1<<1,
-//     COGL_FRAMEBUFFER_STATE_CLIP               = 1<<2,
-//     COGL_FRAMEBUFFER_STATE_DITHER             = 1<<3,
-//     COGL_FRAMEBUFFER_STATE_MODELVIEW          = 1<<4,
-//     COGL_FRAMEBUFFER_STATE_PROJECTION         = 1<<5,
-//     COGL_FRAMEBUFFER_STATE_COLOR_MASK         = 1<<6,
-//     COGL_FRAMEBUFFER_STATE_FRONT_FACE_WINDING = 1<<7,
-//     COGL_FRAMEBUFFER_STATE_DEPTH_WRITE        = 1<<8,
-//     COGL_FRAMEBUFFER_STATE_STEREO_MODE        = 1<<9
-// } FramebufferState;
+pub enum FramebufferState {
+    Bind               = 1<<0,
+    ViewPort           = 1<<1,
+    Clip               = 1<<2,
+    Dither             = 1<<3,
+    ModelView          = 1<<4,
+    Projection         = 1<<5,
+    ColorMask          = 1<<6,
+    FrontFaceWinding   = 1<<7,
+    DepthWrite         = 1<<8,
+    StereoMode         = 1<<9
+}
 
 // #define COGL_FRAMEBUFFER_STATE_ALL ((1<<COGL_FRAMEBUFFER_STATE_INDEX_MAX) - 1)
 
-// /* Private flags that can internally be added to ReadPixelsFlags */
-// typedef enum
-// {
-//     /* If this is set then the data will not be flipped to compensate
-//         for GL's upside-down coordinate system but instead will be left
-//         in whatever order GL gives us (which will depend on whether the
-//         framebuffer is offscreen or not) */
-//     COGL_READ_PIXELS_NO_FLIP = 1L << 30
-// } PrivateReadPixelsFlags;
+// Private flags that can internally be added to ReadPixelsFlags
+pub enum PrivateReadPixelsFlags {
+    // If this is set then the data will not be flipped to compensate
+    // for GL's upside-down coordinate system but instead will be left
+    // in whatever order GL gives us (which will depend on whether the
+    // framebuffer is offscreen or not)
+    NoFlip   = 1 << 30
+}
 
-// typedef struct
-// {
-//     int red;
-//     int blue;
-//     int green;
-//     int alpha;
-//     int depth;
-//     int stencil;
-// } FramebufferBits;
+pub struct FramebufferBits {
+    red: i32,
+    blue: i32,
+    green: i32,
+    alpha: i32,
+    depth: i32,
+    stencil: i32,
+}
 
-// typedef enum {
-//     COGL_OFFSCREEN_ALLOCATE_FLAG_DEPTH_STENCIL    = 1L<<0,
-//     COGL_OFFSCREEN_ALLOCATE_FLAG_DEPTH            = 1L<<1,
-//     COGL_OFFSCREEN_ALLOCATE_FLAG_STENCIL          = 1L<<2
-// } OffscreenAllocateFlags;
+pub enum OffscreenAllocateFlags {
+    DepthStencil     = 1<<0,
+    Depth            = 1<<1,
+    Stencil          = 1<<2
+}
 
-// typedef struct _GLFramebuffer
-// {
-//     GLuint fbo_handle;
-//     GList *renderbuffers;
-//     int samples_per_pixel;
-// } GLFramebuffer;
-
-// struct _Offscreen
-// {
-//     Framebuffer  _parent;
-
-//     GLFramebuffer gl_framebuffer;
-
-//     Texture    *texture;
-//     int             texture_level;
-
-//     Texture *depth_texture;
-
-//     OffscreenAllocateFlags allocation_flags;
-
-//     /* FIXME: _offscreen_new_with_texture_full should be made to use
-//         * fb->config to configure if we want a depth or stencil buffer so
-//         * we can get rid of these flags */
-//     OffscreenFlags create_flags;
-// };
+pub struct GLFramebuffer {
+    // GLuint fbo_handle;
+    // GList *renderbuffers;
+    samples_per_pixel: i32,
+}
 
 #[derive(Default, Debug, Clone)]
 pub struct Framebuffer {
@@ -568,7 +544,7 @@ pub trait FramebufferExt: 'static {
     fn get_depth_bits(&self) -> i32;
 
     /// Retrieves the depth buffer of `self` as a `Texture`. You need to
-    /// call framebuffer_get_depth_texture(fb, TRUE); before using this
+    /// call framebuffer_get_depth_texture(fb, true); before using this
     /// function.
     ///
     /// `<note>`Calling this function implicitely allocates the framebuffer.`</note>`
@@ -1030,7 +1006,7 @@ pub trait FramebufferExt: 'static {
     /// allocated as the creation of the depth texture is done at allocation time.
     /// `</note>`
     /// ## `enabled`
-    /// TRUE or FALSE
+    /// true or false
     fn set_depth_texture_enabled(&self, enabled: bool);
 
     /// Enables or disables depth buffer writing when rendering to `self`.
@@ -1189,7 +1165,7 @@ impl<O: Is<Framebuffer>> FramebufferExt for O {
         //     let mut error = ptr::null_mut();
         //     let ret = ffi::framebuffer_allocate(self.as_ref().to_glib_none().0, &mut error);
         //     if error.is_null() {
-        //         Ok(ret == crate::TRUE)
+        //         Ok(ret == crate::true)
         //     } else {
         //         Err(from_glib_full(error))
         //     }
@@ -1378,21 +1354,21 @@ impl<O: Is<Framebuffer>> FramebufferExt for O {
     fn get_depth_texture_enabled(&self) -> bool {
         // unsafe {
         //     ffi::framebuffer_get_depth_texture_enabled(self.as_ref().to_glib_none().0)
-        //         == crate::TRUE
+        //         == crate::true
         // }
         unimplemented!()
     }
 
     fn get_depth_write_enabled(&self) -> bool {
         // unsafe {
-        //     ffi::framebuffer_get_depth_write_enabled(self.as_ref().to_glib_none().0) == crate::TRUE
+        //     ffi::framebuffer_get_depth_write_enabled(self.as_ref().to_glib_none().0) == crate::true
         // }
         unimplemented!()
     }
 
     fn get_dither_enabled(&self) -> bool {
         // unsafe {
-        //     ffi::framebuffer_get_dither_enabled(self.as_ref().to_glib_none().0) == crate::TRUE
+        //     ffi::framebuffer_get_dither_enabled(self.as_ref().to_glib_none().0) == crate::true
         // }
         unimplemented!()
     }
@@ -1408,7 +1384,7 @@ impl<O: Is<Framebuffer>> FramebufferExt for O {
     }
 
     fn get_is_stereo(&self) -> bool {
-        // unsafe { ffi::framebuffer_get_is_stereo(self.as_ref().to_glib_none().0) == crate::TRUE }
+        // unsafe { ffi::framebuffer_get_is_stereo(self.as_ref().to_glib_none().0) == crate::true }
         unimplemented!()
     }
 
@@ -1599,7 +1575,7 @@ impl<O: Is<Framebuffer>> FramebufferExt for O {
         //         height,
         //         format.to_glib(),
         //         pixels.to_glib_none().0,
-        //     ) == crate::TRUE
+        //     ) == crate::true
         // }
         unimplemented!()
     }
@@ -1618,7 +1594,7 @@ impl<O: Is<Framebuffer>> FramebufferExt for O {
         //         y,
         //         source.to_glib(),
         //         bitmap.to_glib_none().0,
-        //     ) == crate::TRUE
+        //     ) == crate::true
         // }
         unimplemented!()
     }

@@ -177,7 +177,7 @@ impl Attribute {
         // Buffer *buffer = COGL_BUFFER (attribute_buffer);
         // Context *ctx = buffer->context;
 
-        // attribute->is_buffered = TRUE;
+        // attribute->is_buffered = true;
 
         // attribute->name_state =
         //     g_hash_table_lookup (ctx->attribute_name_states_hash, name);
@@ -206,7 +206,7 @@ impl Attribute {
         //         attribute->name_state->normalized_default;
         //     }
         // else
-        //     attribute->normalized = FALSE;
+        //     attribute->normalized = false;
 
         // return _attribute_object_new (attribute);
 
@@ -246,7 +246,7 @@ impl Attribute {
         //     name,
         //     1, /* n_components */
         //     1, /* 1 column vector */
-        //     FALSE, /* no transpose */
+        //     false, /* no transpose */
         //     &value);
         unimplemented!()
     }
@@ -286,7 +286,7 @@ impl Attribute {
         //                                   name,
         //                                   2, /* n_components */
         //                                   1, /* 1 column vector */
-        //                                   FALSE, /* no transpose */
+        //                                   false, /* no transpose */
         //                                   vec2);
         unimplemented!()
     }
@@ -318,7 +318,7 @@ impl Attribute {
         //     name,
         //     2, /* n_components */
         //     1, /* 1 column vector */
-        //     FALSE, /* no transpose */
+        //     false, /* no transpose */
         //     value);
         unimplemented!()
     }
@@ -363,7 +363,7 @@ impl Attribute {
         //     name,
         //     2, /* n_components */
         //     2, /* 2 column vector */
-        //     FALSE, /* no transpose */
+        //     false, /* no transpose */
         //     matrix2x2);
         unimplemented!()
     }
@@ -409,7 +409,7 @@ impl Attribute {
         //                                   name,
         //                                   3, /* n_components */
         //                                   1, /* 1 column vector */
-        //                                   FALSE, /* no transpose */
+        //                                   false, /* no transpose */
         //                                   vec3);
         unimplemented!()
     }
@@ -444,7 +444,7 @@ impl Attribute {
         //     name,
         //     3, /* n_components */
         //     1, /* 1 column vector */
-        //     FALSE, /* no transpose */
+        //     false, /* no transpose */
         //     value);
         unimplemented!()
     }
@@ -490,7 +490,7 @@ impl Attribute {
         //     name,
         //     3, /* n_components */
         //     3, /* 3 column vector */
-        //     FALSE, /* no transpose */
+        //     false, /* no transpose */
         //     matrix3x3);
         unimplemented!()
     }
@@ -540,7 +540,7 @@ impl Attribute {
         //                                   name,
         //                                   4, /* n_components */
         //                                   1, /* 1 column vector */
-        //                                   FALSE, /* no transpose */
+        //                                   false, /* no transpose */
         //                                   vec4);
         unimplemented!()
     }
@@ -576,7 +576,7 @@ impl Attribute {
         //     name,
         //     4, /* n_components */
         //     1, /* 1 column vector */
-        //     FALSE, /* no transpose */
+        //     false, /* no transpose */
         //     value);
         unimplemented!()
     }
@@ -622,7 +622,7 @@ impl Attribute {
         //     name,
         //     4, /* n_components */
         //     4, /* 4 column vector */
-        //     FALSE, /* no transpose */
+        //     false, /* no transpose */
         //     matrix4x4);
         unimplemented!()
     }
@@ -646,7 +646,7 @@ impl Attribute {
     /// the value of the normalized property set with
     /// `Attribute::set_normalized`.
     pub fn get_normalized(&self) -> bool {
-        // _COGL_RETURN_VAL_IF_FAIL (is_attribute (attribute), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_attribute (attribute), false);
 
         // return attribute->normalized;
         unimplemented!()
@@ -670,14 +670,14 @@ impl Attribute {
     }
 
     /// Sets whether fixed point attribute types are mapped to the range
-    /// 0→1. For example when this property is TRUE and a
+    /// 0→1. For example when this property is true and a
     /// `AttributeType::UnsignedByte` type is used then the value 255
     /// will be mapped to 1.0.
     ///
     /// The default value of this property depends on the name of the
     /// attribute. For the builtin properties color_in and
-    /// normal_in it will default to TRUE and for all other names it
-    /// will default to FALSE.
+    /// normal_in it will default to true and for all other names it
+    /// will default to false.
     /// ## `normalized`
     /// The new value for the normalized property.
     pub fn set_normalized(&self, normalized: bool) {

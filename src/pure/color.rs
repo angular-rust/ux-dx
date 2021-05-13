@@ -429,11 +429,11 @@ impl Color {
     fn equal(v1: &Self, v2: &Self) -> bool {
         // const uint32_t *c1 = v1, *c2 = v2;
 
-        // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, FALSE);
-        // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, false);
+        // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, false);
 
         // /* XXX: We don't compare the padding */
-        // return *c1 == *c2 ? TRUE : FALSE;
+        // return *c1 == *c2 ? true : false;
         unimplemented!()
     }
 

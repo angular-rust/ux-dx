@@ -151,23 +151,23 @@ impl Renderer {
 
         // _init ();
 
-        // renderer->connected = FALSE;
+        // renderer->connected = false;
         // renderer->event_filters = NULL;
 
-        // renderer->poll_fds = g_array_new (FALSE, TRUE, sizeof (PollFD));
+        // renderer->poll_fds = g_array_new (false, true, sizeof (PollFD));
 
         // _list_init (&renderer->idle_closures);
 
         // #ifdef COGL_HAS_XLIB_SUPPORT
-        // renderer->xlib_enable_event_retrieval = TRUE;
+        // renderer->xlib_enable_event_retrieval = true;
         // #endif
 
         // #ifdef COGL_HAS_WIN32_SUPPORT
-        // renderer->win32_enable_event_retrieval = TRUE;
+        // renderer->win32_enable_event_retrieval = true;
         // #endif
 
         // #ifdef COGL_HAS_EGL_PLATFORM_WAYLAND_SUPPORT
-        // renderer->wayland_enable_event_dispatch = TRUE;
+        // renderer->wayland_enable_event_dispatch = true;
         // #endif
 
         // #ifdef COGL_HAS_EGL_PLATFORM_KMS_SUPPORT
@@ -204,18 +204,18 @@ impl Renderer {
         // Display *display;
 
         // if (!renderer_connect (renderer, error))
-        //     return FALSE;
+        //     return false;
 
         // display = display_new (renderer, onscreen_template);
         // if (!display_setup (display, error))
         //     {
         //     object_unref (display);
-        //     return FALSE;
+        //     return false;
         //     }
 
         // object_unref (display);
 
-        // return TRUE;
+        // return true;
         unimplemented!()
     }
 
@@ -231,95 +231,86 @@ impl Renderer {
     pub fn connect(&self) -> bool {
         // int i;
         // GString *error_message;
-        // Bool constraints_failed = FALSE;
+        // Bool constraints_failed = false;
 
-        // if (renderer->connected)
-        //     return TRUE;
+        // if renderer->connected {
+        //     return true;
+        // }
 
         // /* The driver needs to be chosen before connecting the renderer
         //     because eglInitialize requires the library containing the GL API
         //     to be loaded before its called */
-        // if (!_renderer_choose_driver (renderer, error))
-        //     return FALSE;
+        // if !_renderer_choose_driver(renderer, error) {
+        //     return false;
+        // }
 
         // error_message = g_string_new ("");
-        // for (i = 0; i < G_N_ELEMENTS (_winsys_vtable_getters); i++)
-        //     {
+        // for (i = 0; i < G_N_ELEMENTS (_winsys_vtable_getters); i++) {
         //     const WinsysVtable *winsys = _winsys_vtable_getters[i]();
         //     Error *tmp_error = NULL;
         //     GList *l;
-        //     Bool skip_due_to_constraints = FALSE;
+        //     Bool skip_due_to_constraints = false;
 
-        //     if (renderer->winsys_id_override != COGL_WINSYS_ID_ANY)
-        //         {
+        //     if renderer->winsys_id_override != COGL_WINSYS_ID_ANY {
         //         if (renderer->winsys_id_override != winsys->id)
         //             continue;
-        //         }
-        //     else
-        //         {
+        //     } else {
         //         char *user_choice = getenv ("COGL_RENDERER");
-        //         if (!user_choice)
+        //         if !user_choice {
         //             user_choice = _config_renderer;
-        //         if (user_choice &&
-        //             g_ascii_strcasecmp (winsys->name, user_choice) != 0)
+        //         }
+        //         if user_choice &&
+        //             g_ascii_strcasecmp (winsys->name, user_choice) != 0 {
         //             continue;
         //         }
+        //     }
 
-        //     for (l = renderer->constraints; l; l = l->next)
-        //         {
+        //     for (l = renderer->constraints; l; l = l->next) {
         //         RendererConstraint constraint = GPOINTER_TO_UINT (l->data);
-        //         if (!(winsys->constraints & constraint))
-        //             {
-        //             skip_due_to_constraints = TRUE;
+        //         if !(winsys->constraints & constraint) {
+        //             skip_due_to_constraints = true;
         //             break;
-        //             }
         //         }
-        //     if (skip_due_to_constraints)
-        //         {
-        //         constraints_failed |= TRUE;
+        //     }
+        //     if skip_due_to_constraints {
+        //         constraints_failed |= true;
         //         continue;
-        //         }
+        //     }
 
         //     /* At least temporarily we will associate this winsys with
         //     * the renderer in-case ->renderer_connect calls API that
         //     * wants to query the current winsys... */
         //     renderer->winsys_vtable = winsys;
 
-        //     if (!winsys->renderer_connect (renderer, &tmp_error))
-        //         {
+        //     if !winsys->renderer_connect (renderer, &tmp_error) {
         //         g_string_append_c (error_message, '\n');
         //         g_string_append (error_message, tmp_error->message);
         //         error_free (tmp_error);
-        //         }
-        //     else
-        //         {
-        //         renderer->connected = TRUE;
-        //         g_string_free (error_message, TRUE);
-        //         return TRUE;
-        //         }
+        //     } else {
+        //         renderer->connected = true;
+        //         g_string_free (error_message, true);
+        //         return true;
         //     }
+        // }
 
-        // if (!renderer->connected)
-        //     {
-        //     if (constraints_failed)
-        //         {
+        // if !renderer->connected {
+        //     if constraints_failed {
         //         _set_error (error, COGL_RENDERER_ERROR,
         //                     COGL_RENDERER_ERROR_BAD_CONSTRAINT,
         //                     "Failed to connected to any renderer due to constraints");
-        //         return FALSE;
-        //         }
+        //         return false;
+        //     }
 
         //     renderer->winsys_vtable = NULL;
         //     _set_error (error, COGL_WINSYS_ERROR,
         //                 COGL_WINSYS_ERROR_INIT,
         //                 "Failed to connected to any renderer: %s",
         //                 error_message->str);
-        //     g_string_free (error_message, TRUE);
-        //     return FALSE;
-        //     }
+        //     g_string_free (error_message, true);
+        //     return false;
+        // }
 
-        // return TRUE;
-        unimplemented!()
+        true
     }
 
     /// Iterates all known display outputs for the given `self` and

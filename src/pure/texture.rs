@@ -327,7 +327,7 @@ pub trait TextureExt: 'static {
 impl<O: Is<Texture>> TextureExt for O {
     fn allocate(&self) -> bool {
         // if (texture->allocated)
-        //     return TRUE;
+        //     return true;
 
         // if (texture->components == COGL_TEXTURE_COMPONENTS_RG &&
         //     !has_feature (texture->context, COGL_FEATURE_ID_TEXTURE_RG))
@@ -454,7 +454,7 @@ impl<O: Is<Texture>> TextureExt for O {
         //     tg_data.orig_height = tex_height;
         //     tg_data.target_bmp = target_bmp;
         //     tg_data.error = NULL;
-        //     tg_data.success = TRUE;
+        //     tg_data.success = true;
 
         //     /* If there are any dependent framebuffers on the texture then we
         //         need to flush their journals so the texture contents will be
@@ -477,7 +477,7 @@ impl<O: Is<Texture>> TextureExt for O {
         // else
         //     {
         //     error_free (ignore_error);
-        //     tg_data.success = FALSE;
+        //     tg_data.success = false;
         //     }
 
         // /* XXX: In some cases _texture_2d_download_from_gl may fail

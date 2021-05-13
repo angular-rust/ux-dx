@@ -45,8 +45,8 @@ impl DepthState {
         // state->magic = COGL_DEPTH_STATE_MAGIC;
 
         // /* The same as the GL defaults */
-        // state->test_enabled = FALSE;
-        // state->write_enabled = TRUE;
+        // state->test_enabled = false;
+        // state->write_enabled = true;
         // state->test_function = COGL_DEPTH_TEST_FUNCTION_LESS;
         // state->range_near = 0;
         // state->range_far = 1;
@@ -90,7 +90,7 @@ impl DepthState {
     // * Since: 2.0
     // * Stability: Unstable
     pub fn get_test_enabled(&self) -> bool {
-        // _COGL_RETURN_VAL_IF_FAIL (state->magic == COGL_DEPTH_STATE_MAGIC, FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (state->magic == COGL_DEPTH_STATE_MAGIC, false);
         // return state->test_enabled;
         unimplemented!()
     }
@@ -129,7 +129,7 @@ impl DepthState {
     // * Since: 2.0
     // * Stability: Unstable
     pub fn get_write_enabled(&self) -> bool {
-        // _COGL_RETURN_VAL_IF_FAIL (state->magic == COGL_DEPTH_STATE_MAGIC, FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (state->magic == COGL_DEPTH_STATE_MAGIC, false);
         // return state->write_enabled;
         unimplemented!()
     }

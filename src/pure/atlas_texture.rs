@@ -213,7 +213,7 @@ impl AtlasTexture {
         //     return NULL;
 
         // atlas_tex = _atlas_texture_new_from_bitmap (bmp,
-        //                                                 TRUE); /* convert in-place */
+        //                                                 true); /* convert in-place */
         // object_unref (bmp);
 
         // return atlas_tex;

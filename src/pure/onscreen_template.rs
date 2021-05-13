@@ -20,26 +20,26 @@ impl OnscreenTemplate {
     // * Return value: (transfer full): A newly instantiated #Onscreen framebuffer
     // * Since: 1.8
     // * Stability: unstable
-    pub fn new(swap_chain: &SwapChain) -> OnscreenTemplate {
+    pub fn new(swap_chain: Option<SwapChain>) -> OnscreenTemplate {
         // OnscreenTemplate *onscreen_template = g_slice_new0 (OnscreenTemplate);
         // char *user_config;
 
-        // onscreen_template->config.swap_chain = swap_chain;
+        // onscreen_template.config.swap_chain = swap_chain;
         // if (swap_chain)
         //     object_ref (swap_chain);
         // else
-        //     onscreen_template->config.swap_chain = swap_chain_new ();
+        //     onscreen_template.config.swap_chain = swap_chain_new ();
 
-        // onscreen_template->config.swap_throttled = TRUE;
-        // onscreen_template->config.need_stencil = TRUE;
-        // onscreen_template->config.samples_per_pixel = 0;
+        // onscreen_template.config.swap_throttled = true;
+        // onscreen_template.config.need_stencil = true;
+        // onscreen_template.config.samples_per_pixel = 0;
 
         // user_config = getenv ("COGL_POINT_SAMPLES_PER_PIXEL");
         // if (user_config)
         //     {
         //     unsigned long samples_per_pixel = strtoul (user_config, NULL, 10);
         //     if (samples_per_pixel != ULONG_MAX)
-        //         onscreen_template->config.samples_per_pixel =
+        //         onscreen_template.config.samples_per_pixel =
         //         samples_per_pixel;
         //     }
 
@@ -64,7 +64,7 @@ impl OnscreenTemplate {
     /// ## `n`
     /// The minimum number of samples per pixel
     pub fn set_samples_per_pixel(&self, n: i32) {
-        // onscreen_template->config.samples_per_pixel = samples_per_pixel;
+        // onscreen_template.config.samples_per_pixel = samples_per_pixel;
         unimplemented!()
     }
 
@@ -76,7 +76,7 @@ impl OnscreenTemplate {
     /// ## `enabled`
     /// Whether framebuffers are created with stereo buffers
     pub fn set_stereo_enabled(&self, enabled: bool) {
-        // onscreen_template->config.stereo_enabled = enabled;
+        // onscreen_template.config.stereo_enabled = enabled;
         unimplemented!()
     }
 
@@ -86,7 +86,7 @@ impl OnscreenTemplate {
     /// ## `throttled`
     /// Whether throttling should be enabled
     pub fn set_swap_throttled(&self, throttled: bool) {
-        // onscreen_template->config.swap_throttled = throttled;
+        // onscreen_template.config.swap_throttled = throttled;
         unimplemented!()
     }
 }

@@ -387,7 +387,7 @@ impl MatrixStack {
 
         // entry = _matrix_stack_push_operation (stack, COGL_MATRIX_OP_SAVE);
 
-        // entry->cache_valid = FALSE;
+        // entry->cache_valid = false;
     }
 
     /// Multiplies the current matrix by one that rotates the around the

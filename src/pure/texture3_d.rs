@@ -76,7 +76,7 @@ impl Texture3D {
         // loader->src.bitmap.bitmap = object_ref (bmp);
         // loader->src.bitmap.height = height;
         // loader->src.bitmap.depth = depth;
-        // loader->src.bitmap.can_convert_in_place = FALSE; /* TODO add api for this */
+        // loader->src.bitmap.can_convert_in_place = false; /* TODO add api for this */
         // return _texture_3d_create_base (_bitmap_get_context (bmp),
         //                                     bitmap_get_width (bmp),
         //                                     height,

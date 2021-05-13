@@ -134,7 +134,7 @@ impl Texture2D {
         //     return NULL;
 
         // tex_2d = _texture_2d_new_from_bitmap (bmp,
-        //                                             TRUE); /* can convert in-place */
+        //                                             true); /* can convert in-place */
         // object_unref (bmp);
 
         // return tex_2d;

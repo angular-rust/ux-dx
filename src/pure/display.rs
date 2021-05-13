@@ -24,9 +24,10 @@ use std::fmt;
 pub struct Display {
     //     Object _parent;
 
-//     Bool setup;
-//     Renderer *renderer;
-//     OnscreenTemplate *onscreen_template;
+    setup: bool,
+    renderer: Option<Renderer>,
+    // Seems should be Rc
+    onscreen_template: Option<OnscreenTemplate>,
 
 //   #ifdef COGL_HAS_WAYLAND_EGL_SERVER_SUPPORT
 //     struct wl_display *wayland_compositor_display;
@@ -78,33 +79,33 @@ impl Display {
     ///
     /// A newly allocated `Display`
     ///  object in a mutable configuration mode.
-    pub fn new(renderer: &Renderer, onscreen_template: &OnscreenTemplate) -> Display {
-        // Display *display = g_slice_new0 (Display);
-        // Error *error = NULL;
+    pub fn new(renderer: Option<Renderer>, onscreen_template: Option<OnscreenTemplate>) -> Self {
+        // dx_init ();
 
-        // _init ();
+        let renderer = match renderer {
+            Some(renderer) => renderer,
+            None => {
+                Renderer::new()
+            }
+        };
 
-        // display->renderer = renderer;
-        // if (renderer)
-        //     object_ref (renderer);
-        // else
-        //     display->renderer = renderer_new ();
-
-        // if (!renderer_connect (display->renderer, &error))
-        //     g_error ("Failed to connect to renderer: %s\n", error->message);
-
-        // display->setup = FALSE;
+        if !renderer.connect() {
+            panic!("Failed to connect to renderer");
+        }
 
         // #ifdef COGL_HAS_EGL_PLATFORM_GDL_SUPPORT
         // display->gdl_plane = GDL_PLANE_ID_UPP_C;
         // #endif
 
-        // display = _display_object_new (display);
+        let mut display = Self {
+            setup: false,
+            renderer: Some(renderer),
+            onscreen_template: None,
+        };
 
-        // display_set_onscreen_template (display, onscreen_template);
-
-        // return display;
-        unimplemented!()
+        display.set_onscreen_template(onscreen_template);
+        
+        display
     }
 
     /// Queries the `Renderer` associated with the given `self`.
@@ -112,9 +113,8 @@ impl Display {
     /// # Returns
     ///
     /// The associated `Renderer`
-    pub fn get_renderer(&self) -> Option<Renderer> {
-        // return display->renderer;
-        unimplemented!()
+    pub fn get_renderer(&self) -> &Option<Renderer> {
+        &self.renderer
     }
 
     /// Specifies a template for creating `Onscreen` framebuffers.
@@ -126,22 +126,18 @@ impl Display {
     /// framebuffers then it can try to make sure to setup the display accordingly.
     /// ## `onscreen_template`
     /// A template for creating `Onscreen` framebuffers
-    pub fn set_onscreen_template(&self, onscreen_template: &OnscreenTemplate) {
-        // _COGL_RETURN_IF_FAIL (display->setup == FALSE);
-
-        // if (onscreen_template)
-        //     object_ref (onscreen_template);
-
-        // if (display->onscreen_template)
-        //     object_unref (display->onscreen_template);
-
-        // display->onscreen_template = onscreen_template;
-
-        // /* NB: we want to maintain the invariable that there is always an
-        // * onscreen template associated with a Display... */
-        // if (!onscreen_template)
-        //     display->onscreen_template = onscreen_template_new (NULL);
-        unimplemented!()
+    pub fn set_onscreen_template(&mut self, onscreen_template: Option<OnscreenTemplate>) {
+        // NB: we want to maintain the invariable that there is always an
+        // onscreen template associated with a Display...
+        let template = match onscreen_template {
+            Some(template) => {
+                template
+            }
+            None => {
+                OnscreenTemplate::new(None)
+            }
+        };
+        self.onscreen_template = Some(template)
     }
 
     /// Explicitly sets up the given `self` object. Use of this api is
@@ -169,20 +165,21 @@ impl Display {
     ///
     /// Returns `true` if there was no error, else it returns
     ///  `false` and returns an exception via `error`.
-    pub fn setup(&self) -> bool {
+    pub fn setup(&mut self) -> bool {
         // const WinsysVtable *winsys;
 
-        // if (display->setup)
-        //     return TRUE;
+        if self.setup {
+            return true;
+        }
 
         // winsys = _display_get_winsys (display);
-        // if (!winsys->display_setup (display, error))
-        //     return FALSE;
+        // if (!winsys->display_setup (display, error)) {
+        //     return false;
+        // }
 
-        // display->setup = TRUE;
+        self.setup = true;
 
-        // return TRUE;
-        unimplemented!()
+        true
     }
 }
 

@@ -725,11 +725,11 @@ impl Quaternion {
         // const Quaternion *a = v1;
         // const Quaternion *b = v2;
 
-        // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, FALSE);
-        // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, false);
+        // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, false);
 
         // if (v1 == v2)
-        //     return TRUE;
+        //     return true;
 
         // return (a->w == b->w &&
         //         a->x == b->x &&

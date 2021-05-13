@@ -185,12 +185,12 @@ impl Matrix {
         // if (_matrix_update_inverse ((Matrix *)matrix))
         // {
         // matrix_init_from_array (inverse, matrix->inv);
-        // return TRUE;
+        // return true;
         // }
         // else
         // {
         // matrix_init_identity (inverse);
-        // return FALSE;
+        // return false;
         // }
         unimplemented!()
     }
@@ -368,7 +368,7 @@ impl Matrix {
     pub fn is_identity(&self) -> bool {
         // if (!(matrix->flags & MAT_DIRTY_TYPE) &&
         //     matrix->type == COGL_MATRIX_TYPE_IDENTITY)
-        // return TRUE;
+        // return true;
         // else
         // return memcmp (matrix, identity, sizeof (float) * 16) == 0;
         unimplemented!()
@@ -627,7 +627,7 @@ impl Matrix {
         // c = cosf (angle * DEG2RAD);
 
         // memcpy (m, identity, 16 * sizeof (float));
-        // optimized = FALSE;
+        // optimized = false;
 
         // #define M(row,col)  m[col*4+row]
 
@@ -637,7 +637,7 @@ impl Matrix {
         //         {
         //         if (z != 0.0f)
         //             {
-        //             optimized = TRUE;
+        //             optimized = true;
         //             /* rotate only around z-axis */
         //             M (0,0) = c;
         //             M (1,1) = c;
@@ -655,7 +655,7 @@ impl Matrix {
         //         }
         //     else if (z == 0.0f)
         //         {
-        //         optimized = TRUE;
+        //         optimized = true;
         //         /* rotate only around y-axis */
         //         M (0,0) = c;
         //         M (2,2) = c;
@@ -675,7 +675,7 @@ impl Matrix {
         //     {
         //     if (z == 0.0f)
         //         {
-        //         optimized = TRUE;
+        //         optimized = true;
         //         /* rotate only around x-axis */
         //         M (1,1) = c;
         //         M (2,2) = c;
@@ -1045,8 +1045,8 @@ impl Matrix {
         // const Matrix *a = v1;
         // const Matrix *b = v2;
 
-        // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, FALSE);
-        // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (v1 != NULL, false);
+        // _COGL_RETURN_VAL_IF_FAIL (v2 != NULL, false);
 
         // /* We want to avoid having a fuzzy _equal() function (e.g. that uses
         // * an arbitrary epsilon value) since this function noteably conforms
@@ -1078,9 +1078,9 @@ impl Matrix {
         //     a->wy == b->wy &&
         //     a->wz == b->wz &&
         //     a->ww == b->ww)
-        //     return TRUE;
+        //     return true;
         // else
-        //     return FALSE;
+        //     return false;
         unimplemented!()
     }
 }

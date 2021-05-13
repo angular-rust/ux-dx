@@ -77,8 +77,8 @@ impl Bitmap {
         // bmp->height = height;
         // bmp->rowstride = rowstride;
         // bmp->data = data;
-        // bmp->mapped = FALSE;
-        // bmp->bound = FALSE;
+        // bmp->mapped = false;
+        // bmp->bound = false;
         // bmp->shared_bmp = NULL;
         // bmp->buffer = NULL;
 

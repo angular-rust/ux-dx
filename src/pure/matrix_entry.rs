@@ -213,7 +213,7 @@ impl MatrixEntry {
         // *    to x, y and z.
         // *
         // * If we come across any non-translation operations during 3) or 4)
-        // * then bail out returning FALSE.
+        // * then bail out returning false.
         // */
         // for (node0 = entry0; node0; node0 = node0->parent)
         //     {
@@ -249,7 +249,7 @@ impl MatrixEntry {
         //     }
 
         // if (head0->data != head1->data)
-        //     return FALSE;
+        //     return false;
 
         // common_ancestor0 = head0;
         // common_ancestor1 = head1;
@@ -277,7 +277,7 @@ impl MatrixEntry {
         //     node0 = head0->data;
 
         //     if (node0->op != COGL_MATRIX_OP_TRANSLATE)
-        //         return FALSE;
+        //         return false;
 
         //     translate = (MatrixEntryTranslate *)node0;
 
@@ -292,7 +292,7 @@ impl MatrixEntry {
         //     node1 = head1->data;
 
         //     if (node1->op != COGL_MATRIX_OP_TRANSLATE)
-        //         return FALSE;
+        //         return false;
 
         //     translate = (MatrixEntryTranslate *)node1;
 
@@ -301,7 +301,7 @@ impl MatrixEntry {
         //     *z = *z + translate->z;
         //     }
 
-        // return TRUE;
+        // return true;
         unimplemented!()
     }
 
@@ -325,15 +325,15 @@ impl MatrixEntry {
         //    entry1 = _matrix_entry_skip_saves (entry1);
 
         //    if (entry0 == entry1)
-        //      return TRUE;
+        //      return true;
 
         //    if (entry0->op != entry1->op)
-        //      return FALSE;
+        //      return false;
 
         //    switch (entry0->op)
         //      {
         //      case COGL_MATRIX_OP_LOAD_IDENTITY:
-        //        return TRUE;
+        //        return true;
         //      case COGL_MATRIX_OP_TRANSLATE:
         //        {
         //          MatrixEntryTranslate *translate0 =
@@ -346,7 +346,7 @@ impl MatrixEntry {
         //          if (translate0->x != translate1->x ||
         //              translate0->y != translate1->y ||
         //              translate0->z != translate1->z)
-        //            return FALSE;
+        //            return false;
         //        }
         //        break;
         //      case COGL_MATRIX_OP_ROTATE:
@@ -359,7 +359,7 @@ impl MatrixEntry {
         //              rotate0->x != rotate1->x ||
         //              rotate0->y != rotate1->y ||
         //              rotate0->z != rotate1->z)
-        //            return FALSE;
+        //            return false;
         //        }
         //        break;
         //      case COGL_MATRIX_OP_ROTATE_QUATERNION:
@@ -371,7 +371,7 @@ impl MatrixEntry {
         //          int i;
         //          for (i = 0; i < 4; i++)
         //            if (rotate0->values[i] != rotate1->values[i])
-        //              return FALSE;
+        //              return false;
         //        }
         //        break;
         //      case COGL_MATRIX_OP_ROTATE_EULER:
@@ -384,7 +384,7 @@ impl MatrixEntry {
         //          if (rotate0->heading != rotate1->heading ||
         //              rotate0->pitch != rotate1->pitch ||
         //              rotate0->roll != rotate1->roll)
-        //            return FALSE;
+        //            return false;
         //        }
         //        break;
         //      case COGL_MATRIX_OP_SCALE:
@@ -394,7 +394,7 @@ impl MatrixEntry {
         //          if (scale0->x != scale1->x ||
         //              scale0->y != scale1->y ||
         //              scale0->z != scale1->z)
-        //            return FALSE;
+        //            return false;
         //        }
         //        break;
         //      case COGL_MATRIX_OP_MULTIPLY:
@@ -402,7 +402,7 @@ impl MatrixEntry {
         //          MatrixEntryMultiply *mult0 = (MatrixEntryMultiply *)entry0;
         //          MatrixEntryMultiply *mult1 = (MatrixEntryMultiply *)entry1;
         //          if (!matrix_equal (mult0->matrix, mult1->matrix))
-        //            return FALSE;
+        //            return false;
         //        }
         //        break;
         //      case COGL_MATRIX_OP_LOAD:
@@ -420,7 +420,7 @@ impl MatrixEntry {
         //      }
         //  }
 
-        // return FALSE;
+        // return false;
         unimplemented!()
     }
 
@@ -480,7 +480,7 @@ impl MatrixEntry {
         //                 matrix_stack_matrices_magazine;
         //                 save->cache = _magazine_chunk_alloc (matrices_magazine);
         //                 matrix_entry_get (current->parent, save->cache);
-        //                 save->cache_valid = TRUE;
+        //                 save->cache_valid = true;
         //             }
         //             _matrix_init_from_matrix_without_inverse (matrix, save->cache);
         //             goto initialized;
@@ -641,7 +641,7 @@ impl MatrixEntry {
     /// `true` if `self` is definitely an identity transform,
     ///  otherwise `false`.
     pub fn is_identity(&self) -> bool {
-        // return entry ? entry->op == COGL_MATRIX_OP_LOAD_IDENTITY : FALSE;
+        // return entry ? entry->op == COGL_MATRIX_OP_LOAD_IDENTITY : false;
         unimplemented!()
     }
 }

@@ -136,6 +136,9 @@ pub use self::primitives::*;
 mod quaternion;
 pub use self::quaternion::Quaternion;
 
+mod rectangle_map;
+pub use self::rectangle_map::*;
+
 mod renderer;
 pub use self::renderer::Renderer;
 

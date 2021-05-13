@@ -22,7 +22,7 @@ impl Texture2DSliced {
     pub fn from_bitmap(bmp: &Bitmap, max_waste: i32) -> Texture2DSliced {
         // return _texture_2d_sliced_new_from_bitmap (bmp,
         //     max_waste,
-        //     FALSE);
+        //     false);
         unimplemented!()
     }
 
@@ -79,7 +79,7 @@ impl Texture2DSliced {
 
         // tex_2ds = _texture_2d_sliced_new_from_bitmap (bmp,
         //                                         max_waste,
-        //                                         TRUE); /* can convert in-place */
+        //                                         true); /* can convert in-place */
         // object_unref (bmp);
 
         // return tex_2ds;

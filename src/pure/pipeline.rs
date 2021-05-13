@@ -36,7 +36,7 @@ use std::{fmt, ptr};
 //      NULL */
 //   const char *return_variable;
 
-//   /* If this is TRUE then it won't allocate a separate variable for
+//   /* If this is true then it won't allocate a separate variable for
 //      the return value. Instead it is expected that the snippet will
 //      modify one of the argument variables directly and that will be
 //      returned */
@@ -166,7 +166,7 @@ use std::{fmt, ptr};
 
 // typedef enum _PipelineBlendEnable
 // {
-//   /* XXX: we want to detect users mistakenly using TRUE or FALSE
+//   /* XXX: we want to detect users mistakenly using true or false
 //    * so start the enum at 2. */
 //   COGL_PIPELINE_BLEND_ENABLE_ENABLED = 2,
 //   COGL_PIPELINE_BLEND_ENABLE_DISABLED,
@@ -888,7 +888,7 @@ impl Pipeline {
 
         // pipeline->differences = 0;
 
-        // pipeline->has_big_state = FALSE;
+        // pipeline->has_big_state = false;
 
         // /* NB: real_blend_enable isn't a sparse property, it's valid for
         // * every pipeline node so we have fast access to it. */
@@ -902,13 +902,13 @@ impl Pipeline {
         // * you wouldn't have to walk up the ancestry to find the authority
         // * because the value would be cached directly in each pipeline.
         // */
-        // pipeline->layers_cache_dirty = TRUE;
+        // pipeline->layers_cache_dirty = true;
         // pipeline->deprecated_get_layers_list = NULL;
-        // pipeline->deprecated_get_layers_list_dirty = TRUE;
+        // pipeline->deprecated_get_layers_list_dirty = true;
 
         // pipeline->progend = src->progend;
 
-        // pipeline->has_static_breadcrumb = FALSE;
+        // pipeline->has_static_breadcrumb = false;
 
         // pipeline->age = 0;
 
@@ -951,7 +951,7 @@ impl Pipeline {
         //                                         append_layer_index_cb,
         //                                         &state);
 
-        // for (i = 0, cont = TRUE; i < authority->n_layers && cont; i++)
+        // for (i = 0, cont = true; i < authority->n_layers && cont; i++)
         //     cont = callback (pipeline, state.indices[i], user_data);
         unimplemented!()
     }
@@ -1203,7 +1203,7 @@ impl Pipeline {
         // PipelineLayer *layer;
         // PipelineLayer *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -1246,7 +1246,7 @@ impl Pipeline {
     pub fn get_layer_wrap_mode_p(&self, layer_index: i32) -> PipelineWrapMode {
         // PipelineLayer *layer;
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -1273,7 +1273,7 @@ impl Pipeline {
     pub fn get_layer_wrap_mode_s(&self, layer_index: i32) -> PipelineWrapMode {
         // PipelineLayer *layer;
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -1300,7 +1300,7 @@ impl Pipeline {
     pub fn get_layer_wrap_mode_t(&self, layer_index: i32) -> PipelineWrapMode {
         // PipelineLayer *layer;
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -1342,7 +1342,7 @@ impl Pipeline {
     pub fn get_per_vertex_point_size(&self) -> bool {
         // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // authority =
         //     _pipeline_get_authority (pipeline,
@@ -1362,7 +1362,7 @@ impl Pipeline {
     pub fn get_point_size(&self) -> f32 {
         // Pipeline *authority;
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // authority =
         //     _pipeline_get_authority (pipeline, COGL_PIPELINE_STATE_POINT_SIZE);
@@ -1484,7 +1484,7 @@ impl Pipeline {
 
         // /* Unlike when we query layer info when adding a layer we must
         // * always have a complete layers_to_shift list... */
-        // layer_info.ignore_shift_layers_if_found = FALSE;
+        // layer_info.ignore_shift_layers_if_found = false;
 
         // _pipeline_get_layer_info (authority, &layer_info);
 
@@ -1502,10 +1502,10 @@ impl Pipeline {
         //     * anything else with this layer. */
         //     }
 
-        // _pipeline_remove_layer_difference (pipeline, layer_info.layer, TRUE);
+        // _pipeline_remove_layer_difference (pipeline, layer_info.layer, true);
         // _pipeline_try_reverting_layers_authority (pipeline, NULL);
 
-        // pipeline->dirty_real_blend_enable = TRUE;
+        // pipeline->dirty_real_blend_enable = true;
         unimplemented!()
     }
 
@@ -1557,7 +1557,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // lighting_state = &pipeline->big_state->lighting_state;
         // lighting_state->ambient[0] = color_get_red_float (ambient);
@@ -1568,7 +1568,7 @@ impl Pipeline {
         // _pipeline_update_authority (pipeline, authority, state,
         //                                 _pipeline_lighting_state_equal);
 
-        // pipeline->dirty_real_blend_enable = TRUE;
+        // pipeline->dirty_real_blend_enable = true;
         unimplemented!()
     }
 
@@ -1670,9 +1670,9 @@ impl Pipeline {
         // int count;
         // PipelineBlendState *blend_state;
 
-        // _COGL_GET_CONTEXT (ctx, FALSE);
+        // _COGL_GET_CONTEXT (ctx, false);
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // count =
         //     _blend_string_compile (blend_description,
@@ -1680,7 +1680,7 @@ impl Pipeline {
         //                                 statements,
         //                                 error);
         // if (!count)
-        //     return FALSE;
+        //     return false;
 
         // if (count == 1)
         //     rgb = a = statements;
@@ -1698,7 +1698,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // blend_state = &pipeline->big_state->blend_state;
 
@@ -1734,9 +1734,9 @@ impl Pipeline {
         //     _pipeline_prune_redundant_ancestry (pipeline);
         //     }
 
-        // pipeline->dirty_real_blend_enable = TRUE;
+        // pipeline->dirty_real_blend_enable = true;
 
-        // return TRUE;
+        // return true;
         unimplemented!()
     }
 
@@ -1770,7 +1770,7 @@ impl Pipeline {
         //     * - If the pipeline isn't currently an authority for the state being
         //     *   changed, then initialize that state from the current authority.
         //     */
-        //     _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        //     _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         //     blend_state = &pipeline->big_state->blend_state;
         //     blend_state->blend_constant = *constant_color;
@@ -1778,7 +1778,7 @@ impl Pipeline {
         //     _pipeline_update_authority (pipeline, authority, state,
         //                                     _pipeline_blend_state_equal);
 
-        //     pipeline->dirty_real_blend_enable = TRUE;
+        //     pipeline->dirty_real_blend_enable = true;
         // }
         // #endif
         unimplemented!()
@@ -1811,14 +1811,14 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, color, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, color, false);
 
         // pipeline->color = *color;
 
         // _pipeline_update_authority (pipeline, authority, state,
         //                                 _pipeline_color_equal);
 
-        // pipeline->dirty_real_blend_enable = TRUE;
+        // pipeline->dirty_real_blend_enable = true;
         unimplemented!()
     }
 
@@ -1884,7 +1884,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // logic_ops_state = &pipeline->big_state->logic_ops_state;
         // logic_ops_state->color_mask = color_mask;
@@ -1930,7 +1930,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // pipeline->big_state->cull_face_state.mode = cull_face_mode;
 
@@ -1952,17 +1952,17 @@ impl Pipeline {
     ///
     /// # Returns
     ///
-    /// TRUE if the GPU supports all the given `state` else `false`
+    /// true if the GPU supports all the given `state` else `false`
     ///  and returns an `error`.
     pub fn set_depth_state(&self, state: &DepthState) -> bool {
         // PipelineState state = COGL_PIPELINE_STATE_DEPTH;
         // Pipeline *authority;
         // DepthState *orig_state;
 
-        // _COGL_GET_CONTEXT (ctx, FALSE);
+        // _COGL_GET_CONTEXT (ctx, false);
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
-        // _COGL_RETURN_VAL_IF_FAIL (depth_state->magic == COGL_DEPTH_STATE_MAGIC, FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
+        // _COGL_RETURN_VAL_IF_FAIL (depth_state->magic == COGL_DEPTH_STATE_MAGIC, false);
 
         // authority = _pipeline_get_authority (pipeline, state);
 
@@ -1972,7 +1972,7 @@ impl Pipeline {
         //     orig_state->test_function == depth_state->test_function &&
         //     orig_state->range_near == depth_state->range_near &&
         //     orig_state->range_far == depth_state->range_far)
-        //     return TRUE;
+        //     return true;
 
         // if (ctx->driver == COGL_DRIVER_GLES1 &&
         //     (depth_state->range_near != 0 ||
@@ -1982,7 +1982,7 @@ impl Pipeline {
         //                     COGL_SYSTEM_ERROR,
         //                     COGL_SYSTEM_ERROR_UNSUPPORTED,
         //                     "glDepthRange not available on GLES 1");
-        //     return FALSE;
+        //     return false;
         //     }
 
         // /* - Flush journal primitives referencing the current state.
@@ -1990,14 +1990,14 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // pipeline->big_state->depth_state = *depth_state;
 
         // _pipeline_update_authority (pipeline, authority, state,
         //                                 _pipeline_depth_state_equal);
 
-        // return TRUE;
+        // return true;
         unimplemented!()
     }
 
@@ -2027,7 +2027,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // lighting_state = &pipeline->big_state->lighting_state;
         // lighting_state->diffuse[0] = color_get_red_float (diffuse);
@@ -2038,7 +2038,7 @@ impl Pipeline {
         // _pipeline_update_authority (pipeline, authority, state,
         //                                 _pipeline_lighting_state_equal);
 
-        // pipeline->dirty_real_blend_enable = TRUE;
+        // pipeline->dirty_real_blend_enable = true;
         unimplemented!()
     }
 
@@ -2068,7 +2068,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // lighting_state = &pipeline->big_state->lighting_state;
         // lighting_state->emission[0] = color_get_red_float (emission);
@@ -2079,7 +2079,7 @@ impl Pipeline {
         // _pipeline_update_authority (pipeline, authority, state,
         //                                 _pipeline_lighting_state_equal);
 
-        // pipeline->dirty_real_blend_enable = TRUE;
+        // pipeline->dirty_real_blend_enable = true;
         unimplemented!()
     }
 
@@ -2114,7 +2114,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // pipeline->big_state->cull_face_state.front_winding = front_winding;
 
@@ -2221,7 +2221,7 @@ impl Pipeline {
         // BlendStringStatement *a;
         // int count;
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // /* Note: this will ensure that the layer exists, creating one if it
         // * doesn't already.
@@ -2241,7 +2241,7 @@ impl Pipeline {
         //                                 statements,
         //                                 error);
         // if (!count)
-        //     return FALSE;
+        //     return false;
 
         // if (statements[0].mask == COGL_BLEND_STRING_CHANNEL_MASK_RGBA)
         //     {
@@ -2305,8 +2305,8 @@ impl Pipeline {
 
         // changed:
 
-        // pipeline->dirty_real_blend_enable = TRUE;
-        // return TRUE;
+        // pipeline->dirty_real_blend_enable = true;
+        // return true;
         unimplemented!()
     }
 
@@ -2395,7 +2395,7 @@ impl Pipeline {
 
         // changed:
 
-        // pipeline->dirty_real_blend_enable = TRUE;
+        // pipeline->dirty_real_blend_enable = true;
         unimplemented!()
     }
 
@@ -2601,9 +2601,9 @@ impl Pipeline {
         // PipelineLayer           *new;
         // PipelineLayer           *authority;
 
-        // _COGL_GET_CONTEXT (ctx, FALSE);
+        // _COGL_GET_CONTEXT (ctx, false);
 
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // /* Don't allow point sprite coordinates to be enabled if the driver
         //     doesn't support it */
@@ -2619,14 +2619,14 @@ impl Pipeline {
         //         }
         //     else
         //         {
-        //         static Bool warning_seen = FALSE;
+        //         static Bool warning_seen = false;
         //         if (!warning_seen)
         //             g_warning ("Point sprite texture coordinates are enabled "
         //                     "for a layer but the GL driver does not support it.");
-        //         warning_seen = TRUE;
+        //         warning_seen = true;
         //         }
 
-        //     return FALSE;
+        //     return false;
         //     }
 
         // /* Note: this will ensure that the layer exists, creating one if it
@@ -2642,7 +2642,7 @@ impl Pipeline {
         // authority = _pipeline_layer_get_authority (layer, change);
 
         // if (authority->big_state->point_sprite_coords == enable)
-        //     return TRUE;
+        //     return true;
 
         // new = _pipeline_layer_pre_change_notify (pipeline, layer, change);
         // if (new != layer)
@@ -2668,7 +2668,7 @@ impl Pipeline {
         //             if (layer->differences == 0)
         //                 _pipeline_prune_empty_layer_difference (pipeline,
         //                                                             layer);
-        //             return TRUE;
+        //             return true;
         //             }
         //         }
         //     }
@@ -2685,7 +2685,7 @@ impl Pipeline {
         //     _pipeline_layer_prune_redundant_ancestry (layer);
         //     }
 
-        // return TRUE;
+        // return true;
         unimplemented!()
     }
 
@@ -2904,15 +2904,15 @@ impl Pipeline {
         // PipelineState state = COGL_PIPELINE_STATE_PER_VERTEX_POINT_SIZE;
         // Pipeline *authority;
 
-        // _COGL_GET_CONTEXT (ctx, FALSE);
-        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), FALSE);
+        // _COGL_GET_CONTEXT (ctx, false);
+        // _COGL_RETURN_VAL_IF_FAIL (is_pipeline (pipeline), false);
 
         // authority = _pipeline_get_authority (pipeline, state);
 
         // enable = !!enable;
 
         // if (authority->big_state->per_vertex_point_size == enable)
-        //     return TRUE;
+        //     return true;
 
         // if (enable && !has_feature (ctx, COGL_FEATURE_ID_PER_VERTEX_POINT_SIZE))
         //     {
@@ -2921,7 +2921,7 @@ impl Pipeline {
         //                     COGL_SYSTEM_ERROR_UNSUPPORTED,
         //                     "Per-vertex point size is not supported");
 
-        //     return FALSE;
+        //     return false;
         //     }
 
         // /* - Flush journal primitives referencing the current state.
@@ -2929,14 +2929,14 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // pipeline->big_state->per_vertex_point_size = enable;
 
         // _pipeline_update_authority (pipeline, authority, state,
         //                                 _pipeline_point_size_equal);
 
-        // return TRUE;
+        // return true;
         unimplemented!()
     }
 
@@ -2976,7 +2976,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // pipeline->big_state->point_size = point_size;
 
@@ -3020,7 +3020,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // lighting_state = &pipeline->big_state->lighting_state;
         // lighting_state->shininess = shininess;
@@ -3056,7 +3056,7 @@ impl Pipeline {
         // * - If the pipeline isn't currently an authority for the state being
         // *   changed, then initialize that state from the current authority.
         // */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // lighting_state = &pipeline->big_state->lighting_state;
         // lighting_state->specular[0] = color_get_red_float (specular);
@@ -3067,7 +3067,7 @@ impl Pipeline {
         // _pipeline_update_authority (pipeline, authority, state,
         //                                 _pipeline_lighting_state_equal);
 
-        // pipeline->dirty_real_blend_enable = TRUE;
+        // pipeline->dirty_real_blend_enable = true;
     }
 
     /// Sets a new value for the uniform at `uniform_location`. If this
@@ -3254,7 +3254,7 @@ impl Pipeline {
         //  * - If the pipeline isn't currently an authority for the state being
         //  *   changed, then initialize that state from the current authority.
         //  */
-        // _pipeline_pre_change_notify (pipeline, state, NULL, FALSE);
+        // _pipeline_pre_change_notify (pipeline, state, NULL, false);
 
         // if (program != COGL_INVALID_HANDLE)
         //   _pipeline_set_progend (pipeline, COGL_PIPELINE_PROGEND_UNDEFINED);
@@ -3288,7 +3288,7 @@ impl Pipeline {
         //   handle_unref (pipeline->big_state->user_program);
         // pipeline->big_state->user_program = program;
 
-        // pipeline->dirty_real_blend_enable = TRUE;
+        // pipeline->dirty_real_blend_enable = true;
         unimplemented!()
     }
 }

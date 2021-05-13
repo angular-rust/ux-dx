@@ -97,7 +97,7 @@ impl TextureRectangle {
         // loader = _texture_create_loader ();
         // loader->src_type = COGL_TEXTURE_SOURCE_TYPE_BITMAP;
         // loader->src.bitmap.bitmap = object_ref (bmp);
-        // loader->src.bitmap.can_convert_in_place = FALSE; /* TODO add api for this */
+        // loader->src.bitmap.can_convert_in_place = false; /* TODO add api for this */
         // return _texture_rectangle_create_base (_bitmap_get_context (bmp),
         //                                             bitmap_get_width (bmp),
         //                                             bitmap_get_height (bmp),

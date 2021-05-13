@@ -291,7 +291,7 @@ pub struct Context {
 //     GLES2Context *current_gles2_context;
 //     GQueue gles2_context_stack;
 
-//     /* This becomes TRUE the first time the context is bound to an
+//     /* This becomes true the first time the context is bound to an
 //      * onscreen buffer. This is used by cogl-framebuffer-gl to determine
 //      * when to initialise the glDrawBuffer state */
 //     Bool was_bound_to_onscreen;
@@ -342,9 +342,9 @@ pub struct Context {
 //     GLenum current_gl_draw_buffer;
 
 //     /* Clipping */
-//     /* TRUE if we have a valid clipping stack flushed. In that case
+//     /* true if we have a valid clipping stack flushed. In that case
 //        current_clip_stack will describe what the current state is. If
-//        this is FALSE then the current clip stack is completely unknown
+//        this is false then the current clip stack is completely unknown
 //        so it will need to be reflushed. In that case current_clip_stack
 //        doesn't need to be a valid pointer. We can't just use NULL in
 //        current_clip_stack to mark a dirty state because NULL is a valid
@@ -358,7 +358,7 @@ pub struct Context {
 //        will hold a reference */
 //     ClipStack    *current_clip_stack;
 //     /* Whether the stencil buffer was used as part of the current clip
-//        state. If TRUE then any further use of the stencil buffer (such
+//        state. If true then any further use of the stencil buffer (such
 //        as for drawing paths) would need to be merged with the existing
 //        stencil buffer */
 //     Bool          current_clip_stack_uses_stencil;
@@ -563,9 +563,9 @@ impl Context {
         // if (context->gpu.driver_package == COGL_GPU_INFO_DRIVER_PACKAGE_MESA &&
         //     context->gpu.architecture == COGL_GPU_INFO_ARCHITECTURE_SANDYBRIDGE &&
         //     !getenv ("COGL_DISABLE_INTEL_VIEWPORT_SCISSORT_WORKAROUND"))
-        //     context->needs_viewport_scissor_workaround = TRUE;
+        //     context->needs_viewport_scissor_workaround = true;
         // else
-        //     context->needs_viewport_scissor_workaround = FALSE;
+        //     context->needs_viewport_scissor_workaround = false;
 
         // context->sampler_cache = _sampler_cache_new (context);
 
@@ -574,10 +574,10 @@ impl Context {
         // _pipeline_init_state_hash_functions ();
         // _pipeline_init_layer_state_hash_functions ();
 
-        // context->current_clip_stack_valid = FALSE;
+        // context->current_clip_stack_valid = false;
         // context->current_clip_stack = NULL;
 
-        // context->legacy_backface_culling_enabled = FALSE;
+        // context->legacy_backface_culling_enabled = false;
 
         // matrix_init_identity (&context->identity_matrix);
         // matrix_init_identity (&context->y_flip_matrix);
@@ -586,7 +586,7 @@ impl Context {
         // context->flushed_matrix_mode = COGL_MATRIX_MODELVIEW;
 
         // context->texture_units =
-        //     g_array_new (FALSE, FALSE, sizeof (TextureUnit));
+        //     g_array_new (false, false, sizeof (TextureUnit));
 
         // if (_has_private_feature (context, COGL_PRIVATE_FEATURE_ANY_GL))
         //     {
@@ -596,7 +596,7 @@ impl Context {
         //     GE (context, glActiveTexture (GL_TEXTURE1));
         //     }
 
-        // context->legacy_fog_state.enabled = FALSE;
+        // context->legacy_fog_state.enabled = false;
 
         // context->opaque_color_pipeline = pipeline_new (context);
         // context->blended_color_pipeline = pipeline_new (context);
@@ -627,14 +627,14 @@ impl Context {
         // g_queue_init (&context->gles2_context_stack);
 
         // context->journal_flush_attributes_array =
-        //     g_array_new (TRUE, FALSE, sizeof (Attribute *));
+        //     g_array_new (true, false, sizeof (Attribute *));
         // context->journal_clip_bounds = NULL;
 
-        // context->polygon_vertices = g_array_new (FALSE, FALSE, sizeof (float));
+        // context->polygon_vertices = g_array_new (false, false, sizeof (float));
 
         // context->current_pipeline = NULL;
         // context->current_pipeline_changes_since_flush = 0;
-        // context->current_pipeline_with_color_attrib = FALSE;
+        // context->current_pipeline_with_color_attrib = false;
 
         // _bitmask_init (&context->enabled_builtin_attributes);
         // _bitmask_init (&context->enable_builtin_attributes_tmp);
@@ -651,18 +651,18 @@ impl Context {
         // context->current_vertex_program_type = COGL_PIPELINE_PROGRAM_TYPE_FIXED;
         // context->current_gl_program = 0;
 
-        // context->current_gl_dither_enabled = TRUE;
+        // context->current_gl_dither_enabled = true;
         // context->current_gl_color_mask = COGL_COLOR_MASK_ALL;
 
-        // context->gl_blend_enable_cache = FALSE;
+        // context->gl_blend_enable_cache = false;
 
-        // context->depth_test_enabled_cache = FALSE;
+        // context->depth_test_enabled_cache = false;
         // context->depth_test_function_cache = COGL_DEPTH_TEST_FUNCTION_LESS;
-        // context->depth_writing_enabled_cache = TRUE;
+        // context->depth_writing_enabled_cache = true;
         // context->depth_range_near_cache = 0;
         // context->depth_range_far_cache = 1;
 
-        // context->legacy_depth_test_enabled = FALSE;
+        // context->legacy_depth_test_enabled = false;
 
         // context->pipeline_cache = _pipeline_cache_new ();
 
@@ -676,17 +676,16 @@ impl Context {
         // * the OpenGL binding API and for creating onscreen framebuffers and
         // * so we have to add a dummy framebuffer to represent the backend
         // * owned window... */
-        // if (_context_get_winsys (context) == _winsys_stub_get_vtable ())
-        //     {
+        // if _context_get_winsys(context) == _winsys_stub_get_vtable () {
         //     Onscreen *window = _onscreen_new ();
         //     set_framebuffer (COGL_FRAMEBUFFER (window));
         //     object_unref (COGL_FRAMEBUFFER (window));
-        //     }
+        // }
 
         // context->current_path = NULL;
         // context->stencil_pipeline = pipeline_new (context);
 
-        // context->in_begin_gl_block = FALSE;
+        // context->in_begin_gl_block = false;
 
         // context->quad_buffer_indices_byte = NULL;
         // context->quad_buffer_indices = NULL;
@@ -781,7 +780,7 @@ impl Context {
         // g_hook_list_init (&context->atlas_reorganize_callbacks, sizeof (GHook));
 
         // context->buffer_map_fallback_array = g_byte_array_new ();
-        // context->buffer_map_fallback_in_use = FALSE;
+        // context->buffer_map_fallback_in_use = false;
 
         // /* As far as I can tell, GL_POINT_SPRITE doesn't have any effect
         //     unless GL_COORD_REPLACE is enabled for an individual layer.

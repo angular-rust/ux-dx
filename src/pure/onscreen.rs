@@ -91,7 +91,7 @@ impl Onscreen {
         // * because otherwise we'll hit input validation assertions!*/
         // _onscreen_init_from_template (onscreen, ctx->display->onscreen_template);
 
-        // COGL_FRAMEBUFFER (onscreen)->allocated = TRUE;
+        // COGL_FRAMEBUFFER (onscreen)->allocated = true;
 
         // /* XXX: Note we don't initialize onscreen->winsys in this case. */
         // return _onscreen_object_new (onscreen);
@@ -337,7 +337,7 @@ impl Onscreen {
         // const WinsysVtable *winsys =
         //     _framebuffer_get_winsys (framebuffer);
         // if (winsys->onscreen_set_visibility)
-        //     winsys->onscreen_set_visibility (onscreen, FALSE);
+        //     winsys->onscreen_set_visibility (onscreen, false);
         // }
         unimplemented!()
     }
@@ -478,7 +478,7 @@ impl Onscreen {
 
         // winsys = _framebuffer_get_winsys (framebuffer);
         // if (winsys->onscreen_set_visibility)
-        //     winsys->onscreen_set_visibility (onscreen, TRUE);
+        //     winsys->onscreen_set_visibility (onscreen, true);
         unimplemented!()
     }
 
@@ -579,7 +579,7 @@ impl Onscreen {
         //     }
 
         // onscreen->frame_counter++;
-        // framebuffer->mid_scene = FALSE;
+        // framebuffer->mid_scene = false;
         unimplemented!()
     }
 
@@ -641,7 +641,7 @@ impl Onscreen {
         //     }
 
         // onscreen->frame_counter++;
-        // framebuffer->mid_scene = FALSE;
+        // framebuffer->mid_scene = false;
         unimplemented!()
     }
 }

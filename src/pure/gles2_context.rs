@@ -92,7 +92,7 @@ pub struct GLES2Context {
 
 // Context *context;
 
-// /* This is set to FALSE until the first time the GLES2 context is
+// /* This is set to false until the first time the GLES2 context is
 //  * bound to something. We need to keep track of this so we can set
 //  * the viewport and scissor the first time it is bound. */
 // Bool has_been_bound;
@@ -212,9 +212,9 @@ impl GLES2Context {
         //     }
 
         // gles2_ctx->current_flip_state = COGL_GLES2_FLIP_STATE_UNKNOWN;
-        // gles2_ctx->viewport_dirty = TRUE;
-        // gles2_ctx->scissor_dirty = TRUE;
-        // gles2_ctx->front_face_dirty = TRUE;
+        // gles2_ctx->viewport_dirty = true;
+        // gles2_ctx->scissor_dirty = true;
+        // gles2_ctx->front_face_dirty = true;
         // gles2_ctx->front_face = GL_CCW;
         // gles2_ctx->pack_alignment = 4;
 
@@ -289,8 +289,8 @@ impl GLES2Context {
         //                         NULL, /* key_destroy */
         //                         (GDestroyNotify) free_texture_object_data);
 
-        // gles2_ctx->texture_units = g_array_new (FALSE, /* not zero terminated */
-        //                                         TRUE, /* clear */
+        // gles2_ctx->texture_units = g_array_new (false, /* not zero terminated */
+        //                                         true, /* clear */
         //                                         sizeof (GLES2TextureUnitData));
         // gles2_ctx->current_texture_unit = 0;
         // g_array_set_size (gles2_ctx->texture_units, 1);

@@ -220,12 +220,12 @@ pub fn rectangles(verts: &[f32]) {
 // * polygon:
 // * @vertices: An array of #TextureVertex structs
 // * @n_vertices: The length of the vertices array
-// * @use_color: %TRUE if the color member of #TextureVertex should be used
+// * @use_color: %true if the color member of #TextureVertex should be used
 // *
 // * Draws a convex polygon using the current source material to fill / texture
 // * with according to the texture coordinates passed.
 // *
-// * If @use_color is %TRUE then the color will be changed for each vertex using
+// * If @use_color is %true then the color will be changed for each vertex using
 // * the value specified in the color member of #TextureVertex. This can be
 // * used for example to make the texture fade out by setting the alpha value of
 // * the color.

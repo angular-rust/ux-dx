@@ -307,7 +307,7 @@ pub struct Snippet {
 
 // SnippetHook hook;
 
-// /* This is set to TRUE the first time the snippet is attached to the
+// /* This is set to true the first time the snippet is attached to the
 //    pipeline. After that any attempts to modify the snippet will be
 //    ignored. */
 // Bool immutable;
