@@ -1,6 +1,6 @@
 [package]
 name = "ux-dx"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Victor Dudochkin <dudochkin.victor@gmail.com>"]
 readme = "README.md"
 homepage = "https://angular-rust.github.io/ux-dx"
@@ -33,3 +33,9 @@ glib-sys = "0.10"
 ffi = { package = "cogl-sys-rs", version="0.1.4" }
 
 [dev-dependencies]
+
+[dependencies]
+bytes = "1.0.1"
+fontdue = "0.5.0"
+ux-primitives = "0.1"
+winit = "0.24.0"

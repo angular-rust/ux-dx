@@ -12,6 +12,12 @@ extern crate bitflags;
 mod legacy;
 pub use legacy::*;
 
+pub mod pure;
+
+pub mod prelude {
+    pub use primitives::prelude::*;
+}
+
 #[cfg(test)]
 mod tests {
     #[test]

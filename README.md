@@ -32,7 +32,7 @@
 **COGL** is a modern 3D graphics API with associated utility APIs designed to expose the features of 3D graphics hardware using a more object oriented design than OpenGL. It is used primarily by Clutter to provide a common rendering API that works transparently across OpenGL >=1.4, OpenGL ES 1.1 and OpenGL ES 2.0.
 It is not tied to any one toolkit or even constrained to developing UI toolkits.
 
-**Angular Rust** is a high productivity, `platform-agnostic` frontend framework for the [Rust language](https://www.rust-lang.org/). It now supports desktop and web development. Angular Rust currently uses GTK for desktop development and WebAssembly for web development. We are planning to add support for mobile development.
+**Angular Rust** is a high productivity, `platform-agnostic` frontend framework for the [Rust language](https://www.rust-lang.org/). It now supports desktop and web development. Angular Rust currently uses Clutter for desktop development and WebAssembly for web development. We are planning to add support for mobile development.
 
 ![Angular Rust structure](https://dudochkin-victor.github.io/assets/angular-rust/structure.svg)
 
