@@ -5,8 +5,6 @@
 )]
 
 use super::{Euler, Quaternion};
-
-use std::boxed::Box as Box_;
 use std::mem;
 
 // * SECTION:cogl-matrix

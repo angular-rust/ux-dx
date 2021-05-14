@@ -2,7 +2,6 @@ use super::{
     Context, FrameClosure, FrameEvent, FrameInfo, Framebuffer, OnscreenDirtyClosure,
     OnscreenDirtyInfo, OnscreenResizeClosure,
 };
-use std::boxed::Box as Box_;
 use std::fmt;
 use winit::window::{Window, WindowBuilder};
 

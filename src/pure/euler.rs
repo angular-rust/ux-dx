@@ -1,6 +1,5 @@
 use super::Matrix;
 // use super::Quaternion;
-use std::boxed::Box as Box_;
 
 // * SECTION:cogl-euler
 // * @short_description: Functions for initializing and manipulating

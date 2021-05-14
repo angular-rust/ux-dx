@@ -41,7 +41,6 @@ use super::{
 };
 use crate::prelude::*;
 use super::SwapChain;
-use std::boxed::Box as Box_;
 use std::{fmt, ptr};
 
 pub enum FramebufferType {
@@ -1141,7 +1140,7 @@ pub trait FramebufferExt: 'static {
 
 impl<O: Is<Framebuffer>> FramebufferExt for O {
     fn add_fence_callback<P: Fn(&Fence) + 'static>(&self, callback: P) -> Option<FenceClosure> {
-        // let callback_data: Box_<P> = Box_::new(callback);
+        // let callback_data: Box<P> = Box::new(callback);
         // unsafe extern "C" fn callback_func<P: Fn(&Fence) + 'static>(
         //     fence: *mut ffi::Fence,
         //     user_data: glib_sys::gpointer,
@@ -1151,12 +1150,12 @@ impl<O: Is<Framebuffer>> FramebufferExt for O {
         //     (*callback)(&fence);
         // }
         // let callback = Some(callback_func::<P> as _);
-        // let super_callback0: Box_<P> = callback_data;
+        // let super_callback0: Box<P> = callback_data;
         // unsafe {
         //     from_glib_none(ffi::framebuffer_add_fence_callback(
         //         self.as_ref().to_glib_none().0,
         //         callback,
-        //         Box_::into_raw(super_callback0) as *mut _,
+        //         Box::into_raw(super_callback0) as *mut _,
         //     ))
         // }
         unimplemented!()

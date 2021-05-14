@@ -5,7 +5,6 @@
 )]
 
 use super::{Euler, Matrix};
-use std::boxed::Box as Box_;
 use std::mem;
 // * SECTION:cogl-quaternion
 // * @short_description: Functions for initializing and manipulating
