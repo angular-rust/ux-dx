@@ -1,5 +1,5 @@
 #![allow(unused_imports)]
-use crate::Color;
+use super::Color;
 use std::mem;
 
 #[repr(C)]
@@ -10,5 +10,5 @@ pub struct TextureVertex {
     pub z: f32,
     pub tx: f32,
     pub ty: f32,
-    pub color: Color, //TODO: fixme Copy
+    pub color: Color,
 }

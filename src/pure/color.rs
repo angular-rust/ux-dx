@@ -17,17 +17,17 @@ use std::mem;
 // * directly.
 // *
 // * Since: 1.0
-#[derive(Debug, PartialOrd, Ord)] // Hash
+#[derive(Debug, PartialOrd, Ord, Clone)] // Hash
 pub struct Color {
-    // /*< private >*/
-// uint8_t COGL_PRIVATE (red);
-// uint8_t COGL_PRIVATE (green);
-// uint8_t COGL_PRIVATE (blue);
+    // < private >
+    red: u8,
+    green: u8,
+    blue: u8,
 
-// uint8_t COGL_PRIVATE (alpha);
+    alpha: u8,
 
-// /* padding in case we want to change to floats at
-// * some point */
+// padding in case we want to change to floats at some point
+
 // uint32_t COGL_PRIVATE (padding0);
 // uint32_t COGL_PRIVATE (padding1);
 // uint32_t COGL_PRIVATE (padding2);

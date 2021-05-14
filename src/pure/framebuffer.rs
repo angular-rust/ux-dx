@@ -1,3 +1,5 @@
+use std::os::raw::c_ulong;
+
 // * SECTION:cogl-framebuffer
 // * @short_description: A common interface for manipulating framebuffers
 // *
@@ -264,7 +266,7 @@ pub trait FramebufferExt: 'static {
     /// ## `color`
     /// The color to clear the color buffer too if specified in
     ///  `buffers`.
-    fn clear(&self, buffers: libc::c_ulong, color: &Color);
+    fn clear(&self, buffers: c_ulong, color: &Color);
 
     /// Clears all the auxiliary buffers identified in the `buffers` mask, and if
     /// that includes the color buffer then the specified `color` is used.
@@ -283,7 +285,7 @@ pub trait FramebufferExt: 'static {
     /// ## `alpha`
     /// The alpha component of color to clear the color buffer too if
     ///  specified in `buffers`.
-    fn clear4f(&self, buffers: libc::c_ulong, red: f32, green: f32, blue: f32, alpha: f32);
+    fn clear4f(&self, buffers: c_ulong, red: f32, green: f32, blue: f32, alpha: f32);
 
     /// Declares that the specified `buffers` no longer need to be referenced
     /// by any further rendering commands. This can be an important
@@ -304,7 +306,7 @@ pub trait FramebufferExt: 'static {
     /// ## `buffers`
     /// A `BufferBit` mask of which ancillary buffers you want
     ///  to discard.
-    fn discard_buffers(&self, buffers: libc::c_ulong);
+    fn discard_buffers(&self, buffers: c_ulong);
 
     /// Draws a textured rectangle to `self` with the given `pipeline`
     /// state with the top left corner positioned at (`x_1`, `y_1`) and the
@@ -1183,7 +1185,7 @@ impl<O: Is<Framebuffer>> FramebufferExt for O {
         unimplemented!()
     }
 
-    fn clear(&self, buffers: libc::c_ulong, color: &Color) {
+    fn clear(&self, buffers: c_ulong, color: &Color) {
         // unsafe {
         //     ffi::framebuffer_clear(
         //         self.as_ref().to_glib_none().0,
@@ -1194,7 +1196,7 @@ impl<O: Is<Framebuffer>> FramebufferExt for O {
         unimplemented!()
     }
 
-    fn clear4f(&self, buffers: libc::c_ulong, red: f32, green: f32, blue: f32, alpha: f32) {
+    fn clear4f(&self, buffers: c_ulong, red: f32, green: f32, blue: f32, alpha: f32) {
         // unsafe {
         //     ffi::framebuffer_clear4f(
         //         self.as_ref().to_glib_none().0,
@@ -1208,7 +1210,7 @@ impl<O: Is<Framebuffer>> FramebufferExt for O {
         unimplemented!()
     }
 
-    fn discard_buffers(&self, buffers: libc::c_ulong) {
+    fn discard_buffers(&self, buffers: c_ulong) {
         // unsafe {
         //     ffi::framebuffer_discard_buffers(self.as_ref().to_glib_none().0, buffers);
         // }

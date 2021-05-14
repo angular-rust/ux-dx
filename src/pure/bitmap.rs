@@ -6,6 +6,7 @@ use std::fmt;
 // *
 // *  allows loading image data into memory as Bitmaps without
 // * loading them immediately into GPU textures.
+#[derive(Debug)]
 pub struct Bitmap {
     // Object _parent;
 
