@@ -1,6 +1,6 @@
 [package]
 name = "ux-dx"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Victor Dudochkin <dudochkin.victor@gmail.com>"]
 readme = "README.md"
 homepage = "https://angular-rust.github.io/ux-dx"
@@ -31,7 +31,7 @@ dox = []
 png = "0.16"
 bytes = "1.0"
 fontdue = "0.5"
-ux-primitives = "0.1"
+ux-primitives = "0.2"
 once_cell = "1.7"
 intmap = "0.7"
 image = "0.23"
