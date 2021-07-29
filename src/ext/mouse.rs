@@ -1,0 +1,169 @@
+mod button;
+mod cursor;
+
+pub use button::MouseButton;
+pub use cursor::CursorIcon;
+
+use crate::ext::{
+    error::{GameError, GameResult},
+    event::{KeyAction, KeyState},
+    math::Vector,
+    window::LogicalPosition,
+};
+use winit::window::Window;
+// use glutin::{ContextWrapper, PossiblyCurrent};
+use std::{collections::HashMap, rc::Rc};
+
+pub struct Mouse {
+    window: Rc<Window>,
+    cursor_icon: CursorIcon,
+    cursor_visible: bool,
+    position: LogicalPosition,
+    inside_window: bool,
+    wheel_scroll_delta: Vector,
+    button_states: HashMap<MouseButton, KeyState>,
+}
+
+impl Mouse {
+    pub(crate) fn new(mouse_config: MouseConfig, window: Rc<Window>) -> GameResult<Self> {
+        window.set_cursor_icon(mouse_config.cursor_icon.into());
+        window.set_cursor_visible(mouse_config.cursor_visible);
+        Ok(Self {
+            window,
+            cursor_icon: mouse_config.cursor_icon,
+            cursor_visible: mouse_config.cursor_visible,
+            position: LogicalPosition::zero(),
+            inside_window: false,
+            wheel_scroll_delta: Vector::zero(),
+            button_states: HashMap::new(),
+        })
+    }
+
+    // fn window(&self) -> &Window {
+    //     self.context_wrapper.window()
+    // }
+
+    pub(crate) fn handle_move_event(&mut self, position: LogicalPosition) {
+        self.position = position;
+    }
+
+    pub(crate) fn handle_enter_window_event(&mut self) {
+        self.inside_window = true;
+    }
+
+    pub(crate) fn handle_leave_window_event(&mut self) {
+        self.inside_window = false;
+    }
+
+    pub(crate) fn handle_wheel_scroll_event(&mut self, delta: Vector) {
+        self.wheel_scroll_delta += delta;
+    }
+
+    pub(crate) fn handle_input_event(&mut self, button: MouseButton, action: KeyAction) {
+        self.button_states.insert(button, action.into());
+    }
+
+    pub(crate) fn clear_states(&mut self) {
+        self.wheel_scroll_delta = Vector::zero();
+        self.button_states.retain(|_, state| match state {
+            KeyState::Down | KeyState::Hold => {
+                *state = KeyState::Hold;
+                true
+            }
+            KeyState::Up | KeyState::Idle => false,
+        });
+    }
+
+    pub fn cursor_icon(&self) -> CursorIcon {
+        self.cursor_icon
+    }
+
+    pub fn set_cursor_icon(&mut self, cursor_icon: CursorIcon) {
+        self.window.set_cursor_icon(cursor_icon.into());
+        self.cursor_icon = cursor_icon;
+    }
+
+    pub fn is_cursor_visible(&self) -> bool {
+        self.cursor_visible
+    }
+
+    pub fn set_cursor_visible(&mut self, cursor_visible: bool) {
+        self.window.set_cursor_visible(cursor_visible);
+        self.cursor_visible = cursor_visible;
+    }
+
+    pub fn position(&self) -> Option<LogicalPosition> {
+        if self.inside_window {
+            Some(self.position)
+        } else {
+            None
+        }
+    }
+
+    pub fn last_position(&self) -> LogicalPosition {
+        self.position
+    }
+
+    pub fn set_position(&mut self, position: impl Into<LogicalPosition>) -> GameResult {
+        let position = position.into();
+        self.window
+            .set_cursor_position(winit::dpi::LogicalPosition::new(position.x, position.y))
+            .map_err(|error| GameError::NotSupportedError(error.into()))?;
+        self.position = position;
+        Ok(())
+    }
+
+    pub fn is_inside_window(&self) -> bool {
+        self.inside_window
+    }
+
+    pub fn wheel_scroll_delta(&self) -> Vector {
+        self.wheel_scroll_delta
+    }
+
+    pub fn is_button_down(&self, button: MouseButton) -> bool {
+        match self.button_states.get(&button).unwrap_or(&KeyState::Idle) {
+            KeyState::Down => true,
+            _ => false,
+        }
+    }
+
+    pub fn is_button_hold(&self, button: MouseButton) -> bool {
+        match self.button_states.get(&button).unwrap_or(&KeyState::Idle) {
+            KeyState::Down | KeyState::Hold => true,
+            _ => false,
+        }
+    }
+
+    pub fn is_button_up(&self, button: MouseButton) -> bool {
+        match self.button_states.get(&button).unwrap_or(&KeyState::Idle) {
+            KeyState::Up => true,
+            _ => false,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct MouseConfig {
+    cursor_icon: CursorIcon,
+    cursor_visible: bool,
+}
+
+impl MouseConfig {
+    pub fn new() -> Self {
+        Self {
+            cursor_icon: CursorIcon::default(),
+            cursor_visible: true,
+        }
+    }
+
+    pub fn cursor_icon(mut self, cursor_icon: CursorIcon) -> Self {
+        self.cursor_icon = cursor_icon;
+        self
+    }
+
+    pub fn cursor_visible(mut self, cursor_visible: bool) -> Self {
+        self.cursor_visible = cursor_visible;
+        self
+    }
+}
