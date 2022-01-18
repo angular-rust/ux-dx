@@ -1,0 +1,21 @@
+[package]
+name = "glow_glyph"
+version = "0.4.0"
+authors = ["Héctor Ramón Jiménez <hector0193@gmail.com>"]
+edition = "2018"
+description = "A fast text renderer for glow, powered by glyph_brush"
+license = "MIT"
+keywords = ["font", "ttf", "truetype", "glow", "text"]
+repository = "https://github.com/hecrj/glow_glyph"
+documentation = "https://docs.rs/glow_glyph"
+readme = "README.md"
+
+[dependencies]
+glow = "0.6"
+glyph_brush = "0.7"
+log = "0.4"
+bytemuck = "1.4"
+
+[dev-dependencies]
+glutin = "0.25"
+env_logger = "0.8"

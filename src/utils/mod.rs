@@ -18,7 +18,7 @@ pub fn elapsed(start_time: &SystemTime) -> String {
     )
 }
 
-pub fn get_time(start_time: &SystemTime) -> f32 {
+pub fn time(start_time: &SystemTime) -> f32 {
     start_time.elapsed().unwrap().as_millis() as f32 / 1000.0
 }
 

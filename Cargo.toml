@@ -22,16 +22,27 @@ name = "dx"
 # features = ["dox"]
 
 [features]
-default = ["image-loading"]
+default = ["image-loading", "decals", "audio", "skin", "batch", "stream", "probes", "terrain", "particles", "deinterleaved"]
 image-loading = [] #["image"]
 dox = []
+decals = []
+audio = []
+skin = []
+batch = []
+stream = []
+probes = []
+terrain = []
+particles = []
+deinterleaved = []
 # "ffi/dox", "glib/dox", "glib-sys/dox", "gobject-sys/dox"
 
 [dependencies]
-png = "0.16"
+png = "0.17"
 bytes = "1.0"
 fontdue = "0.5"
 ux-primitives = "0.2"
+ruex = "0.1"
+ux-vg = "0.2"
 once_cell = "1.7"
 intmap = "0.7"
 image = "0.23"
@@ -46,12 +57,16 @@ warmy = "0.13"
 structopt = "0.3"
 ddsfile = "0.4"
 fbxcel-dom = "0"
+directories = "4.0"
+rand = "0.8"
+# num-traits = "0.2"
+regex = "1.5"
 
 egl = {package = "khronos-egl", version = "4.1", features = ["dynamic"] }
 libloading = "0.7"
 
 bitflags = "1.2"
-wgpu-types = "0.9"
+wgpu-types = "0.10"
 
 #gles
 khronos = "0.1"
@@ -60,24 +75,42 @@ glyph_brush = "0.7"
 twox-hash = "1.6"
 spin_sleep = "1.0"
 approx = "0.5"
+async-trait = "0.1.51"
+tokio = "1.10.0"
 
-#canvas
+#nvg
+slab = "0.4"
+anyhow = "1.0"
+nvg = "0.5.11"
+
+# support/glyph
+bytemuck = "1.7.2"
+
+# support/iced
+iced_native = "0.4.0"
+window_clipboard = "0.2.1"
+iced_graphics = {version = "0.2", features = ["font-fallback", "font-icons", "opengl"]}
+
+# ux-vg
 fnv = "1.0"
 rgb = "0.8"
 imgref = "1.6"
+generational-arena = "0.2"
 owned_ttf_parser = "0.12"
 rustybuzz = "0.4"
 unicode-bidi = "0.3"
 unicode-segmentation = "1.6"
-generational-arena = "0.2"
 lru = { version = "0.6.5", default-features = false }
 
 [dev-dependencies]
+env_logger = "0.9"
 genmesh = "0.6"
 rand = "0.8"
 chrono = "0.4"
 winit = { version = "0.25", default-features = false }
+# vg example
 svg = "0.10"
+# should use 0.15 
 usvg = { version = "0.15", default-features = false }
 xmlwriter = "0.1"
 instant = { version = "0.1", features = [ "now" ] }
