@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: Coverage
+    name: Build and test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -32,6 +32,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - run: rustup component add clippy
+      - name: Install udev
+        run: sudo apt-get install libudev-dev
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
