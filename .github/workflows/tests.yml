@@ -9,8 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install Cogl
-      run: sudo apt-get install libcogl-dev
+    - name: Install udev
+      run: sudo apt-get install libudev-dev
     - name: Build
       run: cargo build --verbose
     - name: Run tests
@@ -23,8 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: rustup component add clippy
-      - name: Install Cogl
-        run: sudo apt-get install libcogl-dev
+      - name: Install udev
+        run: sudo apt-get install libudev-dev
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -27,8 +27,8 @@ jobs:
           profile: minimal
           default: true
 
-      - name: Install Cogl
-        run: sudo apt-get install libcogl-dev
+      - name: Install udev
+        run: sudo apt-get install libudev-dev
 
       - name: Restore cache
         uses: Swatinem/rust-cache@v1
