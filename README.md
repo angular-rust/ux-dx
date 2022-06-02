@@ -27,14 +27,7 @@
 [loc-badge]: https://img.shields.io/tokei/lines/github/angular-rust/ux-dx?style=flat-square
 [loc-url]: https://github.com/angular-rust/ux-dx
 
-**ux-dx** is a 3D abstraction layer for Angular Rust. For now, these are just Rust bindings for the Cogl library. But we plan to implement it in pure Rust for more performance, control and new features.
-
-**COGL** is a modern 3D graphics API with associated utility APIs designed to expose the features of 3D graphics hardware using a more object oriented design than OpenGL. It is used primarily by Clutter to provide a common rendering API that works transparently across OpenGL >=1.4, OpenGL ES 1.1 and OpenGL ES 2.0.
-It is not tied to any one toolkit or even constrained to developing UI toolkits.
-
-**Angular Rust** is a high productivity, `platform-agnostic` frontend framework for the [Rust language](https://www.rust-lang.org/). It now supports desktop and web development. Angular Rust currently uses Clutter for desktop development and WebAssembly for web development. We are planning to add support for mobile development.
-
-![Angular Rust structure](https://dudochkin-victor.github.io/assets/angular-rust/structure.svg)
+**ux-dx** is a 3D abstraction layer for Angular Rust. At the moment it's just a 3D graphics support library on top of OpenGL ES 2.0+ and 2D Game Engine. It is mainly used by **ux components** to create user interface in a declarative manner.
 
 ## Quick Start
 
