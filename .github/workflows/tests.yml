@@ -27,14 +27,23 @@ jobs:
         run: cargo test --verbose
 
   clippy_check:
-
+    name: Clippy check
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - run: rustup component add clippy
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          profile: minimal
+          default: true
+          components: rustfmt, clippy
+
       - name: Install udev
         run: sudo apt-get install libudev-dev
+
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
