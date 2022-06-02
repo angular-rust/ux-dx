@@ -74,7 +74,12 @@ impl Graphics for OverdrawGraphics {
     }
 
     fn draw_texture(&self, texture: &Rc<dyn Texture>, dest_x: f32, dest_y: f32) {
-        self.draw_region(dest_x, dest_y, texture.width() as f32, texture.height() as f32);
+        self.draw_region(
+            dest_x,
+            dest_y,
+            texture.width() as f32,
+            texture.height() as f32,
+        );
     }
 
     fn draw_sub_texture(
@@ -90,7 +95,14 @@ impl Graphics for OverdrawGraphics {
         self.draw_region(dest_x, dest_y, source_w, source_h);
     }
 
-    fn draw_pattern(&self, texture: &Rc<dyn Texture>, dest_x: f32, dest_y: f32, width: f32, height: f32) {
+    fn draw_pattern(
+        &self,
+        texture: &Rc<dyn Texture>,
+        dest_x: f32,
+        dest_y: f32,
+        width: f32,
+        height: f32,
+    ) {
         self.draw_region(dest_x, dest_y, width, height);
     }
 

@@ -3,11 +3,11 @@ use std::ptr;
 
 pub enum FenceType {
     //   FENCE_TYPE_PENDING,
-// #ifdef GL_ARB_sync
-//   FENCE_TYPE_GL_ARB,
-// #endif
-//   FENCE_TYPE_WINSYS,
-//   FENCE_TYPE_ERROR
+    // #ifdef GL_ARB_sync
+    //   FENCE_TYPE_GL_ARB,
+    // #endif
+    //   FENCE_TYPE_WINSYS,
+    //   FENCE_TYPE_ERROR
 }
 
 // FenceClosure:
@@ -21,13 +21,13 @@ pub enum FenceType {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct FenceClosure {
     // List link;
-// Framebuffer *framebuffer;
+    // Framebuffer *framebuffer;
 
-// FenceType type;
-// void *fence_obj;
+    // FenceType type;
+    // void *fence_obj;
 
-// FenceCallback callback;
-// void *user_data;
+    // FenceCallback callback;
+    // void *user_data;
 }
 
 //*

@@ -58,11 +58,11 @@ use std::fmt;
 
 pub struct Indices {
     // IndexBuffer *buffer;
-// size_t offset;
+    // size_t offset;
 
-// IndicesType type;
+    // IndicesType type;
 
-// int immutable_ref;
+    // int immutable_ref;
 }
 
 impl Indices {

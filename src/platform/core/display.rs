@@ -42,10 +42,10 @@ impl Display {
     /// common state of the display pipeline that applies to the whole
     /// application.
     ///
-    /// `<note>`Many applications don't need to explicitly use
+    /// Many applications don't need to explicitly use
     /// `Display::new` and can just jump straight to `Context::new`
     /// and pass a `None` display argument so  will automatically
-    /// connect and setup a renderer and display.`</note>`
+    /// connect and setup a renderer and display.
     ///
     /// A `display` can only be made for a specific choice of renderer which
     /// is why this takes the `renderer` argument.

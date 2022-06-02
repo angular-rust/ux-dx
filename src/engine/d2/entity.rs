@@ -240,11 +240,11 @@ impl Entity {
         // false
     }
 
-    /// Gets a component of a given type from this entity.
-    #[cfg(any(feature = "display", feature = "dox"))]
-    pub fn get<A: Component>(componentClass: Class<A>) -> Option<A> {
-        None
-    }
+    // /// Gets a component of a given type from this entity.
+    // #[cfg(any(feature = "display", feature = "dox"))]
+    // pub fn get<A: Component>(componentClass: Class<A>) -> Option<A> {
+    //     None
+    // }
 
     // #else
     // macro pub fn get<A:Component> (self :Expr, componentClass :ExprOf<Class<A>>) ->ExprOf<A>
@@ -257,11 +257,11 @@ impl Entity {
     // }
     // #end
 
-    /// Checks if this entity has a component of the given type.
-    #[cfg(any(feature = "display", feature = "dox"))]
-    pub fn has<A: Component>(componentClass: Class<A>) -> bool {
-        false
-    }
+    // /// Checks if this entity has a component of the given type.
+    // #[cfg(any(feature = "display", feature = "dox"))]
+    // pub fn has<A: Component>(componentClass: Class<A>) -> bool {
+    //     false
+    // }
 
     // #else
     // macro pub fn has<A> (self :Expr, componentClass :ExprOf<Class<A>>) ->ExprOf<bool>
@@ -270,12 +270,12 @@ impl Entity {
     // }
     // #end
 
-    /// Gets a component of a given type from this entity, or any of its parents. Searches upwards in
-    /// the hierarchy until the component is found, or returns None if not found.
-    #[cfg(any(feature = "display", feature = "dox"))]
-    pub fn get_from_parents<A: Component>(componentClass: Class<A>) -> Option<A> {
-        None
-    }
+    // /// Gets a component of a given type from this entity, or any of its parents. Searches upwards in
+    // /// the hierarchy until the component is found, or returns None if not found.
+    // #[cfg(any(feature = "display", feature = "dox"))]
+    // pub fn get_from_parents<A: Component>(componentClass: Class<A>) -> Option<A> {
+    //     None
+    // }
 
     // #else
     // macro pub fn get_from_parents<A> (self :Expr, componentClass :ExprOf<Class<A>>) ->ExprOf<A>
@@ -288,12 +288,12 @@ impl Entity {
     // }
     // #end
 
-    /// Gets a component of a given type from this entity, or any of its children. Searches downwards
-    /// in a depth-first search until the component is found, or returns None if not found.
-    #[cfg(any(feature = "display", feature = "dox"))]
-    pub fn get_from_children<A: Component>(componentClass: Class<A>) -> Option<A> {
-        None
-    }
+    // /// Gets a component of a given type from this entity, or any of its children. Searches downwards
+    // /// in a depth-first search until the component is found, or returns None if not found.
+    // #[cfg(any(feature = "display", feature = "dox"))]
+    // pub fn get_from_children<A: Component>(componentClass: Class<A>) -> Option<A> {
+    //     None
+    // }
 
     // #else
     // macro pub fn get_from_children<A> (self :Expr, componentClass :ExprOf<Class<A>>) ->ExprOf<A>

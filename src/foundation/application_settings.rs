@@ -3,6 +3,7 @@ use crate::prelude::Renderable;
 
 use super::DefaultPreloader;
 
+/// Application settings
 pub struct ApplicationSettings {
     /// The initial title of the application window.
     pub title: String,

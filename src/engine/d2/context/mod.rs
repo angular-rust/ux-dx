@@ -1,13 +1,15 @@
+//! Context
+
 #![allow(unused_imports)]
 
-use std::{cell::RefCell, rc::Rc};
-use winit::dpi::PhysicalSize;
 use cgmath::prelude::*;
 use cgmath::{Deg, Matrix3, Matrix4, Vector2, Vector3};
+use std::{cell::RefCell, rc::Rc};
+use winit::dpi::PhysicalSize;
 
 use crate::prelude::color;
 
-use crate::{platform::gles::enums::*, foundation::colorspace::Color};
+use crate::{foundation::colorspace::Color, platform::gles::enums::*};
 
 use super::*;
 

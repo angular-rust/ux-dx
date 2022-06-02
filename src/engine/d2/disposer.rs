@@ -1,4 +1,6 @@
-use crate::engine::d2::util::{Disposable, Listener0, Listener1, Listener2, Signal0, Signal1, Signal2};
+use crate::engine::d2::util::{
+    Disposable, Listener0, Listener1, Listener2, Signal0, Signal1, Signal2,
+};
 
 use super::Component;
 

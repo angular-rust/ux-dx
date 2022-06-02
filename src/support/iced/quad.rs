@@ -22,12 +22,10 @@ pub struct Pipeline {
 
 impl Pipeline {
     pub fn new() -> Pipeline {
-        let program = program::create(
-            &[
-                (GL_VERTEX_SHADER, include_str!("shader/quad.vert")),
-                (GL_FRAGMENT_SHADER, include_str!("shader/quad.frag")),
-            ],
-        );
+        let program = program::create(&[
+            (GL_VERTEX_SHADER, include_str!("shader/quad.vert")),
+            (GL_FRAGMENT_SHADER, include_str!("shader/quad.frag")),
+        ]);
 
         let transform_location = gl::get_uniform_location(program, "u_Transform");
 
@@ -129,7 +127,11 @@ fn create_instance_buffer(size: usize) -> (u32, u32) {
 
     gl::bind_vertex_array(vertex_array);
     gl::bind_buffer(GL_ARRAY_BUFFER, buffer);
-    gl::buffer_data_size(GL_ARRAY_BUFFER, size * std::mem::size_of::<layer::Quad>(), GL_DYNAMIC_DRAW);
+    gl::buffer_data_size(
+        GL_ARRAY_BUFFER,
+        size * std::mem::size_of::<layer::Quad>(),
+        GL_DYNAMIC_DRAW,
+    );
 
     let stride = std::mem::size_of::<layer::Quad>() as i32;
 

@@ -19,16 +19,16 @@ impl AttributeBuffer {
     //
     // You should never pass a %NULL data pointer.
     //
-    // <note>This fn does not report out-of-memory errors back to
+    // This fn does not report out-of-memory errors back to
     // the caller by returning %NULL and so you can assume this function
-    // always succeeds.</note>
+    // always succeeds.
     //
-    // <note>In the unlikely case that there is an out of memory problem
+    // In the unlikely case that there is an out of memory problem
     // then  will abort the application with a message. If your
     // application needs to gracefully handle out-of-memory errors then
     // you can use attribute_buffer_new_with_size() and then
     // explicitly catch errors with buffer_set_data() or
-    // buffer_map().</note>
+    // buffer_map().
     //
     // Return value: (transfer full): A newly allocated #AttributeBuffer (never %NULL)
     //

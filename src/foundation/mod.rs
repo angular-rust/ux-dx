@@ -1,4 +1,4 @@
-//! Quickly create ux-dx applications.
+//! Foundation of applications.
 
 #![allow(unused_variables)]
 
@@ -47,15 +47,19 @@ pub mod time;
 
 // RuEx magic
 
+/// Marker for camera activity behavior
 pub trait CameraActivity<R>: Activity<R> {}
 
+/// Marker for layer activity behavior
 pub trait LayerActivity<R>: Activity<R> {}
 
+/// Defines application context
 pub trait Context {
     /// Context carried around with the application.
     type Context;
 }
 
+/// Defines the initialization point of application
 pub trait ActivityHost<R>: Activity<R> + Sized {
     /// Initialize the application with a given store.
     ///
@@ -67,9 +71,10 @@ pub trait ActivityHost<R>: Activity<R> + Sized {
     ) -> Result<Self, Self::Error>;
 }
 
+/// Marker for scene activity behavior
 pub trait SceneActivity<R>: Activity<R> {}
 
-/// Trait of simple applications.
+/// Defines application behavior
 ///
 /// Simple application is basically just a single fn that takes the current time and display something.
 pub trait Activity<R>: Context {
@@ -261,7 +266,7 @@ pub trait Activity<R>: Context {
     /// is pointed to by the `new_inner_size` reference. By default, this will contain the size suggested
     /// by the OS, but it can be changed to any value.
     ///
-    /// For more information about DPI in general, see the [`dpi`](crate::dpi) module.
+    // For more information about DPI in general, see the dpi module.
     fn scale_factor_changed(
         &mut self,
         runner: &mut R,
@@ -317,6 +322,7 @@ pub trait Activity<R>: Context {
     fn after_event(&mut self, runner: &mut R, context: &mut Self::Context, event: &WindowEvent) {}
 }
 
+/// Define the initialization point of asynchronous application
 pub trait AsyncActivityHost<R>: AsyncActivity<R> + Sized {
     /// Initialize the application with a given store.
     ///
@@ -330,9 +336,10 @@ pub trait AsyncActivityHost<R>: AsyncActivity<R> + Sized {
     // fn ready(&self) -> Pin<Box<dyn Future<Output = bool> + Send>>;
 }
 
+/// Marker for asynchronous scene activity behavior
 pub trait AsyncSceneActivity<R>: AsyncActivity<R> {}
 
-/// Trait of simple applications.
+/// Defines asynchronous application behavior.
 ///
 /// Simple application is basically just a single fn that takes the current time and display something.
 pub trait AsyncActivity<R>: Context /*+ Sized*/ {
@@ -614,7 +621,7 @@ pub trait AsyncActivity<R>: Context /*+ Sized*/ {
     /// is pointed to by the `new_inner_size` reference. By default, this will contain the size suggested
     /// by the OS, but it can be changed to any value.
     ///
-    /// For more information about DPI in general, see the [`dpi`](crate::dpi) module.
+    // For more information about DPI in general, see the dpi module.
     fn scale_factor_changed(
         &mut self,
         runner: &mut R,

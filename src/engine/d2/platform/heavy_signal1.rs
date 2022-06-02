@@ -23,20 +23,23 @@ impl<A> HeavySignal1<A> {
     // prioritize :bool = false
     pub fn connect(&mut self, listener: Listener1<A>, prioritize: bool) -> SignalConnection {
         let connection = self.inner.connect(listener, prioritize);
-        self.has_listeners_value.set(self.inner.inner.has_listeners());
+        self.has_listeners_value
+            .set(self.inner.inner.has_listeners());
         return connection;
     }
 
     // override
     fn disconnect(&mut self, conn: SignalConnection) {
         self.inner.inner.disconnect(&conn);
-        self.has_listeners_value.set(self.inner.inner.has_listeners());
+        self.has_listeners_value
+            .set(self.inner.inner.has_listeners());
     }
 
     // override
     fn did_emit(&mut self, head: SignalConnection) {
         self.inner.inner.did_emit(head);
-        self.has_listeners_value.set(self.inner.inner.has_listeners());
+        self.has_listeners_value
+            .set(self.inner.inner.has_listeners());
     }
 }
 

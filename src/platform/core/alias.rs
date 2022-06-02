@@ -19,10 +19,10 @@ pub type MetaTexture = ();
 // need to be first resolved to primitive textures using the
 // #MetaTexture interface.
 //
-// <note>Most developers won't need to use this interface directly but
+// Most developers won't need to use this interface directly but
 // still it is worth understanding the distinction between high-level
 // and primitive textures because you may find other references in the
 // documentation that detail limitations of using
-// primitive textures.</note>
+// primitive textures.
 pub type PrimitiveTexture = ();
 pub type UserDataDestroyCallback = Box<dyn Fn() + 'static>;

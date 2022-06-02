@@ -78,18 +78,18 @@ impl Attribute {
     /// The `name` is used to access the attribute inside a GLSL vertex
     /// shader and there are some special names you should use if they are
     /// applicable:
-    ///  `<itemizedlist>`
-    ///  `<listitem>`"position_in" (used for vertex positions)`</listitem>`
-    ///  `<listitem>`"color_in" (used for vertex colors)`</listitem>`
-    ///  `<listitem>`"tex_coord0_in", "tex_coord1", ...
-    /// (used for vertex texture coordinates)`</listitem>`
-    ///  `<listitem>`"normal_in" (used for vertex normals)`</listitem>`
-    ///  `<listitem>`"point_size_in" (used to set the size of points
+    ///  
+    ///  - "position_in" (used for vertex positions)
+    ///  - "color_in" (used for vertex colors)
+    ///  - "tex_coord0_in", "tex_coord1", ...
+    /// (used for vertex texture coordinates)
+    ///  - "normal_in" (used for vertex normals)
+    ///  - "point_size_in" (used to set the size of points
     ///  per-vertex. Note this can only be used if
     ///  `FEATURE_ID_POINT_SIZE_ATTRIBUTE` is advertised and
     ///  `Pipeline::set_per_vertex_point_size` is called on the pipeline.
-    ///  `</listitem>`
-    ///  `</itemizedlist>`
+    ///  
+    ///  
     ///
     /// The attribute values corresponding to different vertices can either
     /// be tightly packed or interleaved with other attribute values. For
@@ -98,8 +98,8 @@ impl Attribute {
     /// ```text
     /// typedef struct
     /// {
-    ///   float x, y, z; /<!-- -->* position attribute *<!-- -->/
-    ///   float s, t; /<!-- -->* texture coordinate attribute *<!-- -->/
+    ///   float x, y, z; /* position attribute */
+    ///   float s, t; /* texture coordinate attribute */
     /// } MyVertex;
     /// ```
     ///
@@ -293,20 +293,20 @@ impl Attribute {
     /// constant across all the vertices of a primitive without needing to
     /// duplicate the value for each vertex.
     ///
-    /// The constants (value[0], value[1]) represent a 2 component float
-    /// vector which should have a corresponding declaration in GLSL code
-    /// like:
-    ///
-    /// [|
-    /// attribute vec2 name;
-    /// |]
-    /// ## `context`
-    /// A `Context`
-    /// ## `name`
-    /// The name of the attribute (used to reference it from GLSL)
-    /// ## `value`
-    /// A pointer to a 2 component float vector
-    ///
+    // The constants (value[0], value[1]) represent a 2 component float
+    // vector which should have a corresponding declaration in GLSL code
+    // like:
+    //
+    // [|
+    // attribute vec2 name;
+    // |]
+    // ## `context`
+    // A `Context`
+    // ## `name`
+    // The name of the attribute (used to reference it from GLSL)
+    // ## `value`
+    // A pointer to a 2 component float vector
+    //
     /// # Returns
     ///
     /// A newly allocated `Attribute`
@@ -416,23 +416,23 @@ impl Attribute {
     /// constant across all the vertices of a primitive without needing to
     /// duplicate the value for each vertex.
     ///
-    /// The constants (value[0], value[1], value[2]) represent a 3
-    /// component float vector which should have a corresponding
-    /// declaration in GLSL code like:
-    ///
-    /// [|
-    /// attribute vec3 name;
-    /// |]
-    ///
-    /// unless the built in name "normal_in" is being used where no
-    /// explicit GLSL declaration need be made.
-    /// ## `context`
-    /// A `Context`
-    /// ## `name`
-    /// The name of the attribute (used to reference it from GLSL)
-    /// ## `value`
-    /// A pointer to a 3 component float vector
-    ///
+    // The constants (value[0], value[1], value[2]) represent a 3
+    // component float vector which should have a corresponding
+    // declaration in GLSL code like:
+    //
+    // [|
+    // attribute vec3 name;
+    // |]
+    //
+    // unless the built in name "normal_in" is being used where no
+    // explicit GLSL declaration need be made.
+    // ## `context`
+    // A `Context`
+    // ## `name`
+    // The name of the attribute (used to reference it from GLSL)
+    // ## `value`
+    // A pointer to a 3 component float vector
+    //
     /// # Returns
     ///
     /// A newly allocated `Attribute`
@@ -547,24 +547,24 @@ impl Attribute {
     /// constant across all the vertices of a primitive without needing to
     /// duplicate the value for each vertex.
     ///
-    /// The constants (value[0], value[1], value[2], value[3]) represent a
-    /// 4 component float vector which should have a corresponding
-    /// declaration in GLSL code like:
-    ///
-    /// [|
-    /// attribute vec4 name;
-    /// |]
-    ///
-    /// unless one of the built in names "color_in",
-    /// "tex_coord0_in or "tex_coord1_in" etc is being used where
-    /// no explicit GLSL declaration need be made.
-    /// ## `context`
-    /// A `Context`
-    /// ## `name`
-    /// The name of the attribute (used to reference it from GLSL)
-    /// ## `value`
-    /// A pointer to a 4 component float vector
-    ///
+    // The constants (value[0], value[1], value[2], value[3]) represent a
+    // 4 component float vector which should have a corresponding
+    // declaration in GLSL code like:
+    //
+    // [|
+    // attribute vec4 name;
+    // |]
+    //
+    // unless one of the built in names "color_in",
+    // "tex_coord0_in or "tex_coord1_in" etc is being used where
+    // no explicit GLSL declaration need be made.
+    // ## `context`
+    // A `Context`
+    // ## `name`
+    // The name of the attribute (used to reference it from GLSL)
+    // ## `value`
+    // A pointer to a 4 component float vector
+    //
     /// # Returns
     ///
     /// A newly allocated `Attribute`

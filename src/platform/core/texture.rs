@@ -29,10 +29,10 @@ pub trait TextureExt: 'static {
     /// allows you to be sure that there is enough memory for the
     /// texture and if not then the error can be handled gracefully.
     ///
-    /// `<note>`Normally applications don't need to use this api directly
+    /// Normally applications don't need to use this api directly
     /// since the texture will be implicitly allocated when data is set on
     /// the texture, or if the texture is attached to a `Offscreen`
-    /// framebuffer and rendered too.`</note>`
+    /// framebuffer and rendered too.
     ///
     /// # Returns
     ///
@@ -52,10 +52,10 @@ pub trait TextureExt: 'static {
 
     /// Copies the pixel data from a cogl texture to system memory.
     ///
-    /// `<note>`Don't pass the value of `texture_get_rowstride` as the
+    /// Don't pass the value of `texture_get_rowstride` as the
     /// `rowstride` argument, the rowstride should be the rowstride you
     /// want for the destination `data` buffer not the rowstride of the
-    /// source texture`</note>`
+    /// source texture
     /// ## `format`
     /// the `PixelFormat` to store the texture as.
     /// ## `rowstride`
@@ -189,10 +189,10 @@ pub trait TextureExt: 'static {
     /// It is an error to pass a `level` number >= the number of levels that
     /// `self` can have according to the above calculation.
     ///
-    /// `<note>`Since the storage for a `Texture` is allocated lazily then
+    /// Since the storage for a `Texture` is allocated lazily then
     /// if the given `self` has not previously been allocated then this
     /// api can return `false` and throw an exceptional `error` if there is
-    /// not enough memory to allocate storage for `self`.`</note>`
+    /// not enough memory to allocate storage for `self`.
     /// ## `format`
     /// the `PixelFormat` used in the source `data` buffer.
     /// ## `rowstride`
@@ -240,7 +240,7 @@ pub trait TextureExt: 'static {
     /// Sets the pixels in a rectangular subregion of `self` from an in-memory
     /// buffer containing pixel data.
     ///
-    /// `<note>`The region set can't be larger than the source `data``</note>`
+    /// The region set can't be larger than the source `data`
     /// ## `src_x`
     /// upper left coordinate to use from source data.
     /// ## `src_y`
@@ -289,8 +289,8 @@ pub trait TextureExt: 'static {
     /// Copies a specified source region from `bitmap` to the position
     /// (`src_x`, `src_y`) of the given destination texture `handle`.
     ///
-    /// `<note>`The region updated can't be larger than the source
-    /// bitmap`</note>`
+    /// The region updated can't be larger than the source
+    /// bitmap
     /// ## `src_x`
     /// upper left coordinate to use from the source bitmap.
     /// ## `src_y`

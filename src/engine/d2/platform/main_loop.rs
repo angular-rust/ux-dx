@@ -1,5 +1,6 @@
 use crate::engine::d2::{
-    display::Sprite, subsystem::RendererSystem, util::BitSets, Component, Entity, EntityManager, SpeedAdjuster, System,
+    display::Sprite, subsystem::RendererSystem, util::BitSets, Component, Entity, EntityManager,
+    SpeedAdjuster, System,
 };
 
 use super::Tickable;
@@ -11,7 +12,9 @@ pub struct MainLoop {
 
 impl MainLoop {
     pub fn new() -> Self {
-        Self { tickables: Vec::new() }
+        Self {
+            tickables: Vec::new(),
+        }
     }
 
     pub fn update(&mut self, dt: f32) {

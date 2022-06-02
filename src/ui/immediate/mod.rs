@@ -1,10 +1,10 @@
+//! Immediate mode user interface
+
 #![allow(non_snake_case)]
 #![allow(unused_variables)]
 #![allow(unused_assignments)]
 #![allow(dead_code)]
 #![allow(non_upper_case_globals)]
-
-//! Pure Rust Immediate Mode UI - WIP
 
 use cgmath::Vector3;
 use once_cell::sync::OnceCell;
@@ -27,7 +27,7 @@ mod ext;
 pub use self::ext::*;
 
 mod id;
-pub use self::id::*;
+pub use self::id::Id;
 
 mod inspect;
 pub use self::inspect::*;
@@ -697,7 +697,7 @@ impl Ui {
                 .fill_rect(0.0, 0.0, self.window_w, self.window_h);
         }
 
-        if self.window_dirty(&handle, x, y, w, h) {
+        if self.window_dirty(handle, x, y, w, h) {
             match handle.props.write() {
                 Ok(mut props) => {
                     props.redraws = 2;
@@ -708,7 +708,7 @@ impl Ui {
 
         if let Some(ref on_border_hover) = self.on_border_hover {
             if self.input_in_rect(self.window_x - 4.0, self.window_y, 8.0, self.window_h, 1.0) {
-                on_border_hover(&handle, 0);
+                on_border_hover(handle, 0);
             } else if self.input_in_rect(
                 self.window_x + self.window_w - 4.0,
                 self.window_y,
@@ -716,7 +716,7 @@ impl Ui {
                 self.window_h,
                 1.0,
             ) {
-                on_border_hover(&handle, 1);
+                on_border_hover(handle, 1);
             } else if self.input_in_rect(
                 self.window_x,
                 self.window_y - 4.0,
@@ -724,7 +724,7 @@ impl Ui {
                 8.0,
                 1.0,
             ) {
-                on_border_hover(&handle, 2);
+                on_border_hover(handle, 2);
             } else if self.input_in_rect(
                 self.window_x,
                 self.window_y + self.window_h - 4.0,
@@ -732,7 +732,7 @@ impl Ui {
                 8.0,
                 1.0,
             ) {
-                on_border_hover(&handle, 3);
+                on_border_hover(handle, 3);
             }
         }
 
@@ -1344,7 +1344,7 @@ impl Ui {
                 self.painter.set_color(self.theme.label_col); // Title
                 self.painter.set_opacity(1.0);
                 self.draw_string(
-                    text.into(),
+                    text,
                     Some(self.title_offset_x),
                     0.0,
                     Align::Left,
@@ -1825,7 +1825,7 @@ impl Ui {
             );
         }
 
-        // Flash cursor
+        // cursor
         let time = self.scheduler_time();
         if self.is_key_down || time % (self.flash_speed() * 2.0) < self.flash_speed() {
             let str = if align == Align::Left {
@@ -2388,7 +2388,7 @@ impl Ui {
                 Err(e) => panic!("RwLock poisoned"),
             }
 
-            self.start_text_edit(&handle);
+            self.start_text_edit(handle);
 
             match handle.props.write() {
                 Ok(mut props) => {
@@ -3009,7 +3009,7 @@ impl Ui {
             None => self.theme.text_offset as f32,
         };
 
-        x_offset = x_offset * self.scale();
+        x_offset *= self.scale();
         self.painter.set_font(self.ops.font);
         self.painter.set_font_size(self.font_size as f32);
 
@@ -3812,7 +3812,7 @@ impl Ui {
         };
 
         match handle.props.write() {
-            Ok(mut props) => props.color = color.clone(),
+            Ok(mut props) => props.color = color,
             Err(e) => panic!("RwLock poisoned"),
         }
 

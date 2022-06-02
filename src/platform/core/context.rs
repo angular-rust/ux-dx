@@ -8,8 +8,8 @@ use std::{
 
 pub struct TextureGLVertex {
     //   GLfloat v[3];
-//   GLfloat t[2];
-//   GLubyte c[4];
+    //   GLfloat t[2];
+    //   GLubyte c[4];
 }
 
 #[derive(Debug)]
@@ -636,7 +636,8 @@ unsafe impl Send for ContextProps {}
 // that can all access the same GPU without having to worry about
 // what state other components have left you with.
 //
-// <note><para> does not maintain internal references to the context for
+// 
+// does not maintain internal references to the context for
 // resources that depend on the context so applications. This is to
 // help applications control the lifetime a context without us needing to
 // introduce special api to handle the breakup of internal circular
@@ -653,7 +654,8 @@ unsafe impl Send for ContextProps {}
 // times throughout their lifetime (such as Android applications) they
 // should be careful to destroy all context dependant resources, such as
 // framebuffers or textures etc before unrefing and destroying the
-// context.</para></note>
+// context.
+//
 #[derive(Debug)]
 pub struct Context {
     props: Mutex<ContextProps>,

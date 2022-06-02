@@ -15,7 +15,9 @@ pub fn create(shader_sources: &[(u32, &str)]) -> u32 {
             let len = gl::get_shaderiv(shader, GL_INFO_LOG_LENGTH);
 
             match gl::get_shader_info_log(shader, len) {
-                Some(message) => panic!("failed to compile shader: {}: {}", *shader_source, message),
+                Some(message) => {
+                    panic!("failed to compile shader: {}: {}", *shader_source, message)
+                }
                 None => panic!("failed to compile shader: {}", *shader_source),
             }
         }

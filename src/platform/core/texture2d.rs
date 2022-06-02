@@ -5,26 +5,26 @@ use std::{fmt, ptr};
 pub struct Texture2D {
     // Texture _parent;
 
-// The internal format of the GL texture represented as a
-//     PixelFormat */
-// PixelFormat internal_format;
+    // The internal format of the GL texture represented as a
+    //     PixelFormat */
+    // PixelFormat internal_format;
 
-// Bool auto_mipmap;
-// Bool mipmaps_dirty;
-// Bool is_foreign;
+    // Bool auto_mipmap;
+    // Bool mipmaps_dirty;
+    // Bool is_foreign;
 
-// TODO: factor out these OpenGL specific members into some form
-// of driver private state. */
+    // TODO: factor out these OpenGL specific members into some form
+    // of driver private state. */
 
-// The internal format of the GL texture represented as a GL enum */
-// GLenum gl_internal_format;
-// The texture object number */
-// GLuint gl_texture;
-// GLenum gl_legacy_texobj_min_filter;
-// GLenum gl_legacy_texobj_mag_filter;
-// GLint gl_legacy_texobj_wrap_mode_s;
-// GLint gl_legacy_texobj_wrap_mode_t;
-// TexturePixel first_pixel;
+    // The internal format of the GL texture represented as a GL enum */
+    // GLenum gl_internal_format;
+    // The texture object number */
+    // GLuint gl_texture;
+    // GLenum gl_legacy_texobj_min_filter;
+    // GLenum gl_legacy_texobj_mag_filter;
+    // GLint gl_legacy_texobj_wrap_mode_s;
+    // GLint gl_legacy_texobj_wrap_mode_t;
+    // TexturePixel first_pixel;
 }
 
 impl Texture2D {
@@ -36,9 +36,9 @@ impl Texture2D {
     /// for example you can declare whether the texture is premultiplied
     /// with `Texture::set_premultiplied`.
     ///
-    /// `<note>`The results are undefined for passing an invalid `gl_handle`
+    /// The results are undefined for passing an invalid `gl_handle`
     /// or if `width` or `height` don't have the correct texture
-    /// geometry.`</note>`
+    /// geometry.
     ///
     /// ## `ctx`
     /// A `Context`

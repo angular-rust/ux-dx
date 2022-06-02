@@ -1,4 +1,4 @@
-use super::{BufferAddress, VertexStepMode, VertexAttribute};
+use super::{BufferAddress, VertexAttribute, VertexStepMode};
 
 pub use super::FramebufferExt;
 pub use super::TextureExt;

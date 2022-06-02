@@ -1,5 +1,9 @@
 use bytes::Bytes;
-use std::{clone::Clone, fmt, sync::{Arc, RwLock}};
+use std::{
+    clone::Clone,
+    fmt,
+    sync::{Arc, RwLock},
+};
 
 use super::{BufferUpdateHint, Usage, VertexAttribute, VertexFormat};
 

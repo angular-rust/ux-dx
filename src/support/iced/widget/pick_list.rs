@@ -7,4 +7,5 @@ pub use iced_graphics::{
 };
 
 /// A widget allowing the selection of a single value from a list of options.
-pub type PickList<'a, T, Message> = iced_native::PickList<'a, T, Message, crate::support::iced::Renderer>;
+pub type PickList<'a, T, Message> =
+    iced_native::PickList<'a, T, Message, crate::support::iced::Renderer>;

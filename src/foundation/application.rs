@@ -61,6 +61,7 @@ struct Opt {
 }
 
 impl Application {
+    /// Entrypoint for application launcher
     pub fn run<D>(mut context: D::Context, settings: ApplicationSettings)
     where
         D: ActivityHost<Self> + 'static,

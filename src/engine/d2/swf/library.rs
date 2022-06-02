@@ -7,7 +7,9 @@ use crate::engine::d2::{
     swf::Format,
 };
 
-use super::{BitmapSymbol, Flipbook, KeyframeFormat, MovieFormat, MovieSprite, MovieSymbol, Symbol};
+use super::{
+    BitmapSymbol, Flipbook, KeyframeFormat, MovieFormat, MovieSprite, MovieSymbol, Symbol,
+};
 
 /// An exported Flump library containing movies and bitmaps.
 #[derive(Default, Clone, Debug)]

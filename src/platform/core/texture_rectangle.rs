@@ -36,22 +36,22 @@ use std::fmt;
 pub struct TextureRectangle {
     // Texture _parent;
 
-// The internal format of the texture represented as a
-//     PixelFormat */
-// PixelFormat internal_format;
+    // The internal format of the texture represented as a
+    //     PixelFormat */
+    // PixelFormat internal_format;
 
-// TODO: factor out these OpenGL specific members into some form
-// of driver private state. */
+    // TODO: factor out these OpenGL specific members into some form
+    // of driver private state. */
 
-// The internal format of the GL texture represented as a GL enum */
-// GLenum gl_format;
-// The texture object number */
-// GLuint gl_texture;
-// GLenum gl_legacy_texobj_min_filter;
-// GLenum gl_legacy_texobj_mag_filter;
-// GLint gl_legacy_texobj_wrap_mode_s;
-// GLint gl_legacy_texobj_wrap_mode_t;
-// Bool is_foreign;
+    // The internal format of the GL texture represented as a GL enum */
+    // GLenum gl_format;
+    // The texture object number */
+    // GLuint gl_texture;
+    // GLenum gl_legacy_texobj_min_filter;
+    // GLenum gl_legacy_texobj_mag_filter;
+    // GLint gl_legacy_texobj_wrap_mode_s;
+    // GLint gl_legacy_texobj_wrap_mode_t;
+    // Bool is_foreign;
 }
 
 impl TextureRectangle {
@@ -64,18 +64,18 @@ impl TextureRectangle {
     // high-level textures such as #Texture2DSliced and
     // #AtlasTexture.
     //
-    // <note>Unlike for #Texture2D textures, coordinates for
+    // Unlike for #Texture2D textures, coordinates for
     // #TextureRectangle textures should not be normalized. So instead
     // of using the coordinate (1, 1) to sample the bottom right corner of
     // a rectangle texture you would use (@width, @height) where @width
-    // and @height are the width and height of the texture.</note>
+    // and @height are the width and height of the texture.
     //
-    // <note>If you want to sample from a rectangle texture from GLSL you
-    // should use the sampler2DRect sampler type.</note>
+    // If you want to sample from a rectangle texture from GLSL you
+    // should use the sampler2DRect sampler type.
     //
-    // <note>Applications wanting to use #TextureRectangle should
+    // Applications wanting to use #TextureRectangle should
     // first check for the %FEATURE_ID_TEXTURE_RECTANGLE feature
-    // using has_feature().</note>
+    // using has_feature().
     //
     // The storage for the texture is not allocated before this function
     // returns. You can call texture_allocate() to explicitly
@@ -119,22 +119,22 @@ impl TextureRectangle {
     // #TextureRectangle.  This can be used for integrating  with
     // software using OpenGL directly.
     //
-    // <note>Unlike for #Texture2D textures, coordinates for
+    // Unlike for #Texture2D textures, coordinates for
     // #TextureRectangle textures should not be normalized. So instead
     // of using the coordinate (1, 1) to sample the bottom right corner of
     // a rectangle texture you would use (@width, @height) where @width
-    // and @height are the width and height of the texture.</note>
+    // and @height are the width and height of the texture.
     //
-    // <note>The results are undefined for passing an invalid @gl_handle
+    // The results are undefined for passing an invalid @gl_handle
     // or if @width or @height don't have the correct texture
-    // geometry.</note>
+    // geometry.
     //
-    // <note>If you want to sample from a rectangle texture from GLSL you
-    // should use the sampler2DRect sampler type.</note>
+    // If you want to sample from a rectangle texture from GLSL you
+    // should use the sampler2DRect sampler type.
     //
-    // <note>Applications wanting to use #TextureRectangle should
+    // Applications wanting to use #TextureRectangle should
     // first check for the %FEATURE_ID_TEXTURE_RECTANGLE feature
-    // using has_feature().</note>
+    // using has_feature().
     //
     // The texture is still configurable until it has been allocated so
     // for example you can declare whether the texture is premultiplied
@@ -183,18 +183,18 @@ impl TextureRectangle {
     // sample from directly unlike high-level textures such as
     // #Texture2DSliced and #AtlasTexture.
     //
-    // <note>Unlike for #Texture2D textures, coordinates for
+    // Unlike for #Texture2D textures, coordinates for
     // #TextureRectangle textures should not be normalized. So instead
     // of using the coordinate (1, 1) to sample the bottom right corner of
     // a rectangle texture you would use (@width, @height) where @width
-    // and @height are the width and height of the texture.</note>
+    // and @height are the width and height of the texture.
     //
-    // <note>If you want to sample from a rectangle texture from GLSL you
-    // should use the sampler2DRect sampler type.</note>
+    // If you want to sample from a rectangle texture from GLSL you
+    // should use the sampler2DRect sampler type.
     //
-    // <note>Applications wanting to use #TextureRectangle should
+    // Applications wanting to use #TextureRectangle should
     // first check for the %FEATURE_ID_TEXTURE_RECTANGLE feature
-    // using has_feature().</note>
+    // using has_feature().
     //
     // The storage for the texture is not allocated before this function
     // returns. You can call texture_allocate() to explicitly

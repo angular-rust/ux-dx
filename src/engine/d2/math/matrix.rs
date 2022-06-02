@@ -45,7 +45,14 @@ impl Matrix {
     pub fn compose(&mut self, x: f32, y: f32, scale_x: f32, scale_y: f32, rotation: f32) {
         let sin = rotation.sin();
         let cos = rotation.cos();
-        self.set(cos * scale_x, sin * scale_x, -sin * scale_y, cos * scale_y, x, y);
+        self.set(
+            cos * scale_x,
+            sin * scale_x,
+            -sin * scale_y,
+            cos * scale_y,
+            x,
+            y,
+        );
     }
 
     pub fn translate(&mut self, x: f32, y: f32) {
@@ -161,6 +168,10 @@ impl Matrix {
 
 impl fmt::Display for Matrix {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} {} {} \\ {} {} {}", self.m00, self.m01, self.m02, self.m10, self.m11, self.m12)
+        write!(
+            f,
+            "{} {} {} \\ {} {} {}",
+            self.m00, self.m01, self.m02, self.m10, self.m11, self.m12
+        )
     }
 }

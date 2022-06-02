@@ -1,3 +1,5 @@
+//! General utilities
+
 #![allow(unused_imports)]
 use std::{
     env,
@@ -8,6 +10,7 @@ use std::{
 mod clamp;
 pub use self::clamp::*;
 
+/// Return string representation of elapsed time
 pub fn elapsed(start_time: &SystemTime) -> String {
     let elapsed = start_time.elapsed().unwrap();
     format!(
@@ -18,11 +21,12 @@ pub fn elapsed(start_time: &SystemTime) -> String {
     )
 }
 
+/// Return elapsed time in seconds
 pub fn time(start_time: &SystemTime) -> f32 {
     start_time.elapsed().unwrap().as_millis() as f32 / 1000.0
 }
 
-// it should use to detect ux-dx only assets )))
+/// Detect framework assets only
 pub fn assets_library(value: &str) -> PathBuf {
     let path = PathBuf::from(value);
     if path.is_relative() {

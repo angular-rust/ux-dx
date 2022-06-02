@@ -1,3 +1,5 @@
+//! Core abstractions
+
 #![allow(dead_code)]
 #![allow(unused_imports)]
 #![allow(unused_variables)]
@@ -6,8 +8,6 @@
     clippy::let_and_return,
     clippy::from_over_into
 )]
-
-//! Some partially implemented abstractions
 
 mod atlas;
 pub use self::atlas::*;
@@ -210,13 +210,13 @@ pub use wgpu_types::{
     Face,
     FilterMode,
     FrontFace,
-    VertexStepMode,
     ShaderLocation,
     StencilOperation, // StencilAction
     TextureFormat,
     TextureSampleType,
     VertexAttribute,
     VertexFormat,
+    VertexStepMode,
 };
 
 pub(crate) fn init() {

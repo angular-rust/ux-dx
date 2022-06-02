@@ -194,18 +194,16 @@ impl GlTexture {
                 data.buf(),
             ),
             #[cfg(target_arch = "wasm32")]
-            ImageSource::HtmlImageElement(image_element) => {
-                gl::tex_sub_image_2d_with_html_image(
-                    GL_TEXTURE_2D,
-                    0,
-                    x as i32,
-                    y as i32,
-                    GL_RGBA,
-                    GL_UNSIGNED_BYTE,
-                    image_element,
-                )
-            },
-            _=> {}
+            ImageSource::HtmlImageElement(image_element) => gl::tex_sub_image_2d_with_html_image(
+                GL_TEXTURE_2D,
+                0,
+                x as i32,
+                y as i32,
+                GL_RGBA,
+                GL_UNSIGNED_BYTE,
+                image_element,
+            ),
+            _ => {}
         }
 
         if self.info.flags().contains(ImageFlags::GENERATE_MIPMAPS) {

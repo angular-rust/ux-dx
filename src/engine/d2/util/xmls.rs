@@ -5,7 +5,12 @@ pub struct Xmls {}
 
 impl Xmls {
     // static
-    pub fn string_attr(&self, reader: Fast, attr: String, default: Option<String>) -> Option<String> {
+    pub fn string_attr(
+        &self,
+        reader: Fast,
+        attr: String,
+        default: Option<String>,
+    ) -> Option<String> {
         todo!("should implement xml logic");
         // if reader.has.resolve(attr) {
         //     return Some(reader.att.resolve(attr));

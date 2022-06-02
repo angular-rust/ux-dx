@@ -148,19 +148,19 @@ use std::mem;
 // comparison but often these false negatives are unlikely and
 // don't matter anyway so this enables extremely cheap comparisons.
 //
-// <note>#MatrixEntry<!-- -->s are reference counted using
+// #MatrixEntrys are reference counted using
 // matrix_entry_ref() and matrix_entry_unref() not with
-// object_ref() and object_unref().</note>
+// object_ref() and object_unref().
 #[derive(Debug, PartialOrd, Ord)] // Hash
 pub struct MatrixEntry {
     //     MatrixEntry *parent;
-//     MatrixOp op;
-//     unsigned int ref_count;
+    //     MatrixOp op;
+    //     unsigned int ref_count;
 
-//   #ifdef DEBUG_ENABLED
-//     /* used for performance tracing */
-//     int composite_gets;
-//   #endif
+    //   #ifdef DEBUG_ENABLED
+    //     /* used for performance tracing */
+    //     int composite_gets;
+    //   #endif
 }
 
 impl MatrixEntry {
@@ -307,9 +307,9 @@ impl MatrixEntry {
     /// Compares two arbitrary `MatrixEntry` transforms for equality
     /// returning `true` if they are equal or `false` otherwise.
     ///
-    /// `<note>`In many cases it is unnecessary to use this api and instead
+    /// In many cases it is unnecessary to use this api and instead
     /// direct pointer comparisons of entries are good enough and much
-    /// cheaper too.`</note>`
+    /// cheaper too.
     /// ## `other`
     /// A second `MatrixEntry` to compare
     ///
@@ -437,8 +437,8 @@ impl MatrixEntry {
     /// if the fn returns `None` then `matrix` will be initialized
     /// to match the transform of `self`.
     ///
-    /// `<note>``matrix` will be left untouched if a direct pointer is
-    /// returned.`</note>`
+    /// `matrix` will be left untouched if a direct pointer is
+    /// returned.
     /// ## `matrix`
     /// The potential destination for the transform as
     ///  a matrix

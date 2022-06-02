@@ -1,3 +1,5 @@
+//! Input
+
 mod acceleration;
 pub use self::acceleration::*;
 

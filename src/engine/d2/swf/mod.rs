@@ -1,3 +1,5 @@
+//! Swf support
+
 mod bitmap_symbol;
 pub use self::bitmap_symbol::*;
 

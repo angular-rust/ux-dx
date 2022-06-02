@@ -146,7 +146,14 @@ impl Font {
         letter_spacing: f32,
         line_spacing: f32,
     ) -> TextLayout {
-        TextLayout::new(Rc::new(self.clone()), text, align, wrap_width, letter_spacing, line_spacing)
+        TextLayout::new(
+            Rc::new(self.clone()),
+            text,
+            align,
+            wrap_width,
+            letter_spacing,
+            line_spacing,
+        )
     }
 
     /// Get the Glyph for a given character code.

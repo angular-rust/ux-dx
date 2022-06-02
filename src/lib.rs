@@ -1,10 +1,75 @@
+//! Game Engines and 3D Graphics support library
+
 #![doc(html_logo_url = "https://dudochkin-victor.github.io/assets/ux-dx/logo.svg")]
+
 // #![cfg_attr(feature = "cargo-clippy", allow(clippy::cast_ptr_alignment))]
 // #![cfg_attr(feature = "cargo-clippy", allow(clippy::trivially_copy_pass_by_ref))]
 // #[cfg_attr(feature = "cargo-clippy", allow(clippy::type_complexity))]
 // #[cfg_attr(feature = "cargo-clippy", allow(clippy::unreadable_literal))]
+
+#![allow(
+    clippy::enum_variant_names,
+    clippy::comparison_chain,
+    clippy::option_map_unit_fn,
+    clippy::redundant_closure,
+    clippy::if_same_then_else,
+    clippy::new_without_default,
+    clippy::needless_bool,
+    clippy::comparison_to_empty,
+    clippy::manual_swap,
+    clippy::new_ret_no_self,
+    clippy::unnecessary_operation,
+    clippy::single_match,
+    clippy::clone_on_copy,
+    clippy::excessive_precision,
+    clippy::ptr_arg,
+    clippy::search_is_some,
+    clippy::let_and_return,
+    clippy::missing_safety_doc,
+    clippy::let_unit_value,
+    clippy::needless_range_loop,
+    clippy::iter_nth_zero,
+    clippy::len_zero,
+    clippy::assign_op_pattern,
+    clippy::needless_borrow,
+    clippy::too_many_arguments,
+    clippy::single_char_pattern,
+    clippy::map_clone,
+    clippy::needless_return,
+    clippy::useless_format,
+    clippy::match_like_matches_macro,
+    clippy::needless_update,
+    clippy::not_unsafe_ptr_arg_deref,
+    clippy::slow_vector_initialization,
+    clippy::derivable_impls,
+    clippy::redundant_clone,
+    clippy::drop_ref,
+    clippy::should_implement_trait,
+    clippy::wrong_self_convention,
+    clippy::manual_map,
+    clippy::identity_op,
+    clippy::module_inception,
+    clippy::or_fun_call,
+    clippy::map_entry,
+    clippy::while_let_loop,
+    clippy::redundant_clone,
+    clippy::vec_init_then_push,
+    clippy::borrowed_box,
+    clippy::manual_unwrap_or,
+    clippy::collapsible_else_if,
+    clippy::redundant_static_lifetimes,
+    clippy::collapsible_if,
+    clippy::redundant_field_names,
+    clippy::deprecated_cfg_attr,
+    clippy::eq_op,
+    clippy::approx_constant,
+    clippy::len_without_is_empty,
+)]
+
 #![feature(box_syntax)]
 #![feature(async_closure)]
+
+// #![warn(missing_docs)]
 #![allow(dead_code)]
 #![allow(unused_variables)]
 
@@ -24,7 +89,7 @@ pub mod support;
 pub mod ui;
 pub mod utils;
 
-// Detect `assets` folder for Debug/Release modes
+/// Detect `assets` folder for Debug/Release modes
 #[macro_export]
 macro_rules! assets {
     ($path:tt) => {{
@@ -55,7 +120,7 @@ macro_rules! assets {
     }};
 }
 
-// Load asset from `assets` folder as Cow<'a, &[u8]>
+/// Load asset from `assets` folder as Cow<'a, &[u8]>
 #[macro_export]
 macro_rules! assets_source {
     ($path:tt) => {{

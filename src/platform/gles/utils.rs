@@ -1,5 +1,8 @@
-use super::{core20::gl, enums::*, GLenum};
+//! OpenGL ES utilites
+
 use std::{fs::File, io::Read, path::PathBuf, str};
+
+use super::{core20::gl, enums::*, GLenum};
 
 pub fn shader_from_source(source: &str, kind: GLenum) -> Result<u32, String> {
     let id = gl::create_shader(kind);

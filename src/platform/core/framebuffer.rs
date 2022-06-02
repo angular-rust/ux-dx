@@ -49,7 +49,6 @@ use super::{
     Matrix, Pipeline, PixelFormat, Primitive, Quaternion, ReadPixelsFlags, StereoMode, Texture,
 };
 
-
 #[derive(Default, Debug, Clone)]
 pub struct FramebufferConfig {
     pub swap_chain: Option<LegacySwapChain>,
@@ -226,10 +225,11 @@ impl Framebuffer {
     /// corresponds to the window's available area for its child, minus the area
     /// occupied by the window's toolbar, if it's enabled.
     ///
-    /// <note><para>
+    /// <para>
     /// Setting the window size may involve a request to the underlying windowing
     /// system, and may not immediately be reflected.
-    /// </para></note>
+    ///
+    ///
     ///
     pub fn set_window_size(&self, width: i32, height: i32) {
         match &self.frontend {
@@ -282,12 +282,12 @@ pub trait FramebufferExt: 'static {
     /// check and handle any errors that might arise from an unsupported
     /// configuration so that fallback configurations may be tried.
     ///
-    /// `<note>`Many applications don't support any fallback options at least when
+    /// Many applications don't support any fallback options at least when
     /// they are initially developed and in that case the don't need to use this API
     /// since  will automatically allocate a framebuffer when it first gets
     /// used. The disadvantage of relying on automatic allocation is that the
     /// program will abort with an error message if there is an error during
-    /// automatic allocation.`</note>`
+    /// automatic allocation.
     ///
     /// # Returns
     ///
@@ -306,7 +306,7 @@ pub trait FramebufferExt: 'static {
     /// Clears all the auxiliary buffers identified in the `buffers` mask, and if
     /// that includes the color buffer then the specified `color` is used.
     /// ## `buffers`
-    /// A mask of `BufferBit`<!-- -->'s identifying which auxiliary
+    /// A mask of `BufferBit`'s identifying which auxiliary
     ///  buffers to clear
     /// ## `color`
     /// The color to clear the color buffer too if specified in
@@ -316,7 +316,7 @@ pub trait FramebufferExt: 'static {
     /// Clears all the auxiliary buffers identified in the `buffers` mask, and if
     /// that includes the color buffer then the specified `color` is used.
     /// ## `buffers`
-    /// A mask of `BufferBit`<!-- -->'s identifying which auxiliary
+    /// A mask of `BufferBit`'s identifying which auxiliary
     ///  buffers to clear
     /// ## `red`
     /// The red component of color to clear the color buffer too if
@@ -359,9 +359,9 @@ pub trait FramebufferExt: 'static {
     /// contain multiple texture layers this interface lets you supply
     /// texture coordinates for each layer of the pipeline.
     ///
-    /// `<note>`The position is the position before the rectangle has been
+    /// The position is the position before the rectangle has been
     /// transformed by the model-view matrix and the projection
-    /// matrix.`</note>`
+    /// matrix.
     ///
     /// This is a high level drawing api that can handle any kind of
     /// `MetaTexture` texture for the first layer such as
@@ -370,29 +370,29 @@ pub trait FramebufferExt: 'static {
     /// such as `Primitive::draw` which only support low level texture
     /// types that are directly supported by GPUs such as `Texture2D`.
     ///
-    /// `<note>`This api can not currently handle multiple high-level meta
+    /// This api can not currently handle multiple high-level meta
     /// texture layers. The first layer may be a high level meta texture
     /// such as `Texture2DSliced` but all other layers much be low
     /// level textures such as `Texture2D` and additionally they
     /// should be textures that can be sampled using normalized coordinates
-    /// (so not `TextureRectangle` textures).`</note>`
+    /// (so not `TextureRectangle` textures).
     ///
-    /// The top left texture coordinate for layer 0 of any pipeline will be
-    /// (tex_coords[0], tex_coords[1]) and the bottom right coordinate will
-    /// be (tex_coords[2], tex_coords[3]). The coordinates for layer 1
-    /// would be (tex_coords[4], tex_coords[5]) (tex_coords[6],
-    /// tex_coords[7]) and so on...
-    ///
-    /// The given texture coordinates should always be normalized such that
-    /// (0, 0) corresponds to the top left and (1, 1) corresponds to the
-    /// bottom right. To map an entire texture across the rectangle pass
-    /// in tex_coords[0]=0, tex_coords[1]=0, tex_coords[2]=1,
-    /// tex_coords[3]=1.
-    ///
-    /// `<note>`Even if you have associated a `TextureRectangle` texture
+    // The top left texture coordinate for layer 0 of any pipeline will be
+    // (tex_coords[0], tex_coords[1]) and the bottom right coordinate will
+    // be (tex_coords[2], tex_coords[3]). The coordinates for layer 1
+    // would be (tex_coords[4], tex_coords[5]) (tex_coords[6],
+    // tex_coords[7]) and so on...
+    //
+    // The given texture coordinates should always be normalized such that
+    // (0, 0) corresponds to the top left and (1, 1) corresponds to the
+    // bottom right. To map an entire texture across the rectangle pass
+    // in tex_coords[0]=0, tex_coords[1]=0, tex_coords[2]=1,
+    // tex_coords[3]=1.
+    //
+    /// Even if you have associated a `TextureRectangle` texture
     /// which normally implies working with non-normalized texture
     /// coordinates this api should still be passed normalized texture
-    /// coordinates.`</note>`
+    /// coordinates.
     ///
     /// The first pair of coordinates are for the first layer (with the
     /// smallest layer index) and if you supply less texture coordinates
@@ -432,13 +432,13 @@ pub trait FramebufferExt: 'static {
     /// and with the top left corner positioned at (`x_1`, `y_1`) and the
     /// bottom right corner positioned at (`x_2`, `y_2`).
     ///
-    /// `<note>`The position is the position before the rectangle has been
+    /// The position is the position before the rectangle has been
     /// transformed by the model-view matrix and the projection
-    /// matrix.`</note>`
+    /// matrix.
     ///
-    /// `<note>`If you want to describe a rectangle with a texture mapped on
+    /// If you want to describe a rectangle with a texture mapped on
     /// it then you can use
-    /// `Framebuffer::draw_textured_rectangle`.`</note>`
+    /// `Framebuffer::draw_textured_rectangle`.
     /// ## `pipeline`
     /// A `Pipeline` state object
     /// ## `x_1`
@@ -459,9 +459,9 @@ pub trait FramebufferExt: 'static {
     /// left corner will have texture coordinates of (`s_1`, `t_1`) and the
     /// bottom right corner will have texture coordinates of (`s_2`, `t_2`).
     ///
-    /// `<note>`The position is the position before the rectangle has been
+    /// The position is the position before the rectangle has been
     /// transformed by the model-view matrix and the projection
-    /// matrix.`</note>`
+    /// matrix.
     ///
     /// This is a high level drawing api that can handle any kind of
     /// `MetaTexture` texture such as `Texture2DSliced` textures
@@ -470,20 +470,20 @@ pub trait FramebufferExt: 'static {
     /// which only support low level texture types that are directly
     /// supported by GPUs such as `Texture2D`.
     ///
-    /// `<note>`The given texture coordinates will only be used for the first
+    /// The given texture coordinates will only be used for the first
     /// texture layer of the pipeline and if your pipeline has more than
     /// one layer then all other layers will have default texture
-    /// coordinates of `s_1`=0.0 `t_1`=0.0 `s_2`=1.0 `t_2`=1.0 `</note>`
+    /// coordinates of `s_1`=0.0 `t_1`=0.0 `s_2`=1.0 `t_2`=1.0 
     ///
     /// The given texture coordinates should always be normalized such that
     /// (0, 0) corresponds to the top left and (1, 1) corresponds to the
     /// bottom right. To map an entire texture across the rectangle pass
     /// in `s_1`=0, `t_1`=0, `s_2`=1, `t_2`=1.
     ///
-    /// `<note>`Even if you have associated a `TextureRectangle` texture
+    /// Even if you have associated a `TextureRectangle` texture
     /// with one of your `pipeline` layers which normally implies working
     /// with non-normalized texture coordinates this api should still be
-    /// passed normalized texture coordinates.`</note>`
+    /// passed normalized texture coordinates.
     /// ## `pipeline`
     /// A `Pipeline` state object
     /// ## `x_1`
@@ -594,9 +594,9 @@ pub trait FramebufferExt: 'static {
     /// call framebuffer_get_depth_texture(fb, true); before using this
     /// function.
     ///
-    /// `<note>`Calling this fn implicitely allocates the framebuffer.`</note>`
-    /// `<note>`The texture returned stays valid as long as the framebuffer stays
-    /// valid.`</note>`
+    /// Calling this fn implicitely allocates the framebuffer.
+    /// The texture returned stays valid as long as the framebuffer stays
+    /// valid.
     ///
     /// # Returns
     ///
@@ -623,9 +623,9 @@ pub trait FramebufferExt: 'static {
     /// Returns whether dithering has been requested for the given `self`.
     /// See `Framebuffer::set_dither_enabled` for more details about dithering.
     ///
-    /// `<note>`This may return `true` even when the underlying `self`
+    /// This may return `true` even when the underlying `self`
     /// display pipeline does not support dithering. This value only represents
-    /// the user's request for dithering.`</note>`
+    /// the user's request for dithering.
     ///
     /// # Returns
     ///
@@ -748,22 +748,22 @@ pub trait FramebufferExt: 'static {
     /// ## `y_2`
     /// The y coordinate for the second horizontal clipping plane
     /// ## `near`
-    /// The `<emphasis>`distance`</emphasis>` to the near clipping
-    ///  plane (will be `<emphasis>`negative`</emphasis>` if the plane is
+    /// The distance to the near clipping
+    ///  plane (will be negative if the plane is
     ///  behind the viewer)
     /// ## `far`
-    /// The `<emphasis>`distance`</emphasis>` to the far clipping
-    ///  plane (will be `<emphasis>`negative`</emphasis>` if the plane is
+    /// The distance to the far clipping
+    ///  plane (will be negative if the plane is
     ///  behind the viewer)
     fn orthographic(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32, near: f32, far: f32);
 
     /// Replaces the current projection matrix with a perspective matrix
     /// based on the provided values.
     ///
-    /// `<note>`You should be careful not to have to great a `z_far` / `z_near`
+    /// You should be careful not to have to great a `z_far` / `z_near`
     /// ratio since that will reduce the effectiveness of depth testing
     /// since there wont be enough precision to identify the depth of
-    /// objects near to each other.`</note>`
+    /// objects near to each other.
     /// ## `fov_y`
     /// Vertical field of view angle in degrees.
     /// ## `aspect`
@@ -874,7 +874,7 @@ pub trait FramebufferExt: 'static {
     /// bitmap = bitmap_new_for_data (context,
     ///                                    width, height,
     ///                                    format,
-    ///                                    /<!-- -->* rowstride *<!-- -->/
+    ///                                    /* rowstride */
     ///                                    bpp * width,
     ///                                    pixels);
     /// framebuffer_read_pixels_into_bitmap (framebuffer,
@@ -1046,12 +1046,12 @@ pub trait FramebufferExt: 'static {
     /// is available as a texture. You can retrieve the texture with
     /// `Framebuffer::get_depth_texture`.
     ///
-    /// `<note>`It's possible that your GPU does not support depth textures. You
+    /// It's possible that your GPU does not support depth textures. You
     /// should check the `FeatureID::OglFeatureIdDepthTexture` feature before using this
-    /// function.`</note>`
-    /// `<note>`It's not valid to call this fn after the framebuffer has been
+    /// function.
+    /// It's not valid to call this fn after the framebuffer has been
     /// allocated as the creation of the depth texture is done at allocation time.
-    /// `</note>`
+    /// 
     /// ## `enabled`
     /// true or false
     fn set_depth_texture_enabled(&self, enabled: bool);
@@ -1112,19 +1112,19 @@ pub trait FramebufferExt: 'static {
     /// as "single-sample" rendering. A value of 1 or greater is referred
     /// to as "multisample" rendering.
     ///
-    /// `<note>`There are some semantic differences between single-sample
+    /// There are some semantic differences between single-sample
     /// rendering and multisampling with just 1 point sample such as it
     /// being redundant to use the `Framebuffer::resolve_samples` and
     /// `Framebuffer::resolve_samples_region` apis with single-sample
-    /// rendering.`</note>`
+    /// rendering.
     ///
-    /// `<note>`It's recommended that
+    /// It's recommended that
     /// `Framebuffer::resolve_samples_region` be explicitly used at the
     /// end of rendering to a point sample buffer to minimize the number of
     /// samples that get resolved. By default  will implicitly resolve
     /// all framebuffer samples but if only a small region of a
     /// framebuffer has changed this can lead to redundant work being
-    /// done.`</note>`
+    /// done.
     /// ## `samples_per_pixel`
     /// The minimum number of samples per pixel
     fn set_samples_per_pixel(&self, samples_per_pixel: i32);
@@ -1153,9 +1153,9 @@ pub trait FramebufferExt: 'static {
     /// contents down by specify and width and height that's half the real
     /// size of the framebuffer.
     ///
-    /// `<note>`Although the fn takes floating point arguments, existing
+    /// Although the fn takes floating point arguments, existing
     /// drivers only allow the use of integer values. In the future floating
-    /// point values will be exposed via a checkable feature.`</note>`
+    /// point values will be exposed via a checkable feature.
     /// ## `x`
     /// The top-left x coordinate of the viewport origin (only integers
     ///  supported currently)

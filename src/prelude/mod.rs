@@ -1,4 +1,12 @@
-// Prelude provides all the traits of the library in a convenient form
+//! The `dx` prelude.
+//!
+//! The purpose of this module is to alleviate imports of many common dx
+//! traits by adding a glob import to the top of dx heavy modules:
+//!
+//! ```
+//! # #![allow(unused_imports)]
+//! use dx::prelude::*;
+//! ```
 
 pub use crate::platform::core::traits::*;
 

@@ -1,6 +1,6 @@
-use std::fmt;
-use std::str::FromStr;
-use std::time::Instant;
+//! Usable time functionality
+
+use std::{fmt, str::FromStr, time::Instant};
 
 /// Absolute time.
 #[derive(Clone, Copy, Debug, PartialEq)]

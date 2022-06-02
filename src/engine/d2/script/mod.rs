@@ -1,3 +1,5 @@
+//! Scription support
+
 mod action;
 pub use self::action::*;
 

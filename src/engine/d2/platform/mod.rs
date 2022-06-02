@@ -1,3 +1,5 @@
+//! Platform
+
 pub mod shader;
 
 mod basic_asset_pack_loader;

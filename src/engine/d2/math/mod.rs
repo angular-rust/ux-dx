@@ -1,3 +1,5 @@
+//! Math
+
 mod fmath;
 pub use self::fmath::*;
 

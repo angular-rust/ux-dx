@@ -1,3 +1,5 @@
+//! Sound system
+
 mod mixer;
 pub use self::mixer::*;
 

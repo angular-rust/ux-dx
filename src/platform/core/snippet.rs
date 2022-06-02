@@ -9,7 +9,7 @@ use std::fmt;
 
 // @short_description: Functions for creating and manipulating shader snippets
 //
-// #Snippet<!-- -->s are used to modify or replace parts of a
+// #Snippets are used to modify or replace parts of a
 // #Pipeline using GLSL. GLSL is a programming language supported
 // by OpenGL on programmable hardware to provide a more flexible
 // description of what should be rendered. A description of GLSL
@@ -26,38 +26,28 @@ use std::fmt;
 // the pipeline at a particular point. The code is split into four
 // separate strings (all of which are optional):
 //
-// <glosslist>
-//  <glossentry>
-//   <glossterm>declarations</glossterm>
-//   <glossdef><para>
+//   declarations
+//
 // The code in this string will be inserted outside of any fn in
 // the global scope of the shader. This can be used to declare
 // uniforms, attributes, varyings and functions to be used by the
 // snippet.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>pre</glossterm>
-//   <glossdef><para>
+//
+//   pre
+//
 // The code in this string will be inserted before the hook point.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>post</glossterm>
-//   <glossdef><para>
+//
+//   post
+//
 // The code in this string will be inserted after the hook point. This
 // can be used to modify the results of the builtin generated code for
 // that hook point.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>replace</glossterm>
-//   <glossdef><para>
+//
+//   replace
+//
 // If present the code in this string will replace the generated code
 // for the hook point.
-//   </para></glossdef>
-//  </glossentry>
-// </glosslist>
+//
 //
 // All of the strings apart from the declarations string of a pipeline
 // are generated in a single fn so they can share variables
@@ -85,174 +75,130 @@ use std::fmt;
 // names under the * namespace which can be used instead. These
 // are:
 //
-// <glosslist>
-//  <glossentry>
-//   <glossterm>uniform mat4
-//         <emphasis>modelview_matrix</emphasis></glossterm>
-//   <glossdef><para>
+//   uniform mat4
+//         modelview_matrix
+//
 //    The current modelview matrix. This is equivalent to
 //    #gl_ModelViewMatrix.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>uniform mat4
-//         <emphasis>projection_matrix</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   uniform mat4
+//         projection_matrix
+//
 //    The current projection matrix. This is equivalent to
 //    #gl_ProjectionMatrix.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>uniform mat4
-//         <emphasis>modelview_projection_matrix</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   uniform mat4
+//         modelview_projection_matrix
+//
 //    The combined modelview and projection matrix. A vertex shader
 //    would typically use this to transform the incoming vertex
 //    position. The separate modelview and projection matrices are
 //    usually only needed for lighting calculations. This is
 //    equivalent to #gl_ModelViewProjectionMatrix.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>uniform mat4
-//         <emphasis>texture_matrix</emphasis>[]</glossterm>
-//   <glossdef><para>
+//
+//   uniform mat4
+//         texture_matrix[]
+//
 //    An array of matrices for transforming the texture
 //    coordinates. This is equivalent to #gl_TextureMatrix.
-//   </para></glossdef>
-//  </glossentry>
-// </glosslist>
+//
 //
 // In a vertex shader, the following are also available:
 //
-// <glosslist>
-//  <glossentry>
-//   <glossterm>attribute vec4
-//         <emphasis>position_in</emphasis></glossterm>
-//   <glossdef><para>
+//   attribute vec4
+//         position_in
+//
 //    The incoming vertex position. This is equivalent to #gl_Vertex.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>attribute vec4
-//         <emphasis>color_in</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   attribute vec4
+//         color_in
+//
 //    The incoming vertex color. This is equivalent to #gl_Color.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>attribute vec4
-//         <emphasis>tex_coord_in</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   attribute vec4
+//         tex_coord_in
+//
 //    The texture coordinate for layer 0. This is an alternative name
 //    for #tex_coord0_in.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>attribute vec4
-//         <emphasis>tex_coord0_in</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   attribute vec4
+//         tex_coord0_in
+//
 //    The texture coordinate for the layer 0. This is equivalent to
 //    #gl_MultiTexCoord0. There will also be #tex_coord1_in and
 //    so on if more layers are added to the pipeline.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>attribute vec3
-//         <emphasis>normal_in</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   attribute vec3
+//         normal_in
+//
 //    The normal of the vertex. This is equivalent to #gl_Normal.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>vec4
-//         <emphasis>position_out</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   vec4
+//         position_out
+//
 //    The calculated position of the vertex. This must be written to
 //    in all vertex shaders. This is equivalent to #gl_Position.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>float
-//         <emphasis>point_size_in</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   float
+//         point_size_in
+//
 //    The incoming point size from the point_size_in attribute.
 //    This is only available if
 //    pipeline_set_per_vertex_point_size() is set on the
 //    pipeline.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>float
-//         <emphasis>point_size_out</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   float
+//         point_size_out
+//
 //    The calculated size of a point. This is equivalent to #gl_PointSize.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>varying vec4
-//         <emphasis>color_out</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   varying vec4
+//         color_out
+//
 //    The calculated color of a vertex. This is equivalent to #gl_FrontColor.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>varying vec4
-//         <emphasis>tex_coord0_out</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   varying vec4
+//         tex_coord0_out
+//
 //    The calculated texture coordinate for layer 0 of the pipeline.
 //    This is equivalent to #gl_TexCoord[0]. There will also be
 //    #tex_coord1_out and so on if more layers are added to the
 //    pipeline. In the fragment shader, this varying is called
 //    #tex_coord0_in.
-//   </para></glossdef>
-//  </glossentry>
-// </glosslist>
+//
 //
 // In a fragment shader, the following are also available:
 //
-// <glosslist>
-//  <glossentry>
-//   <glossterm>varying vec4 <emphasis>color_in</emphasis></glossterm>
-//   <glossdef><para>
+//   varying vec4 color_in
+//
 //    The calculated color of a vertex. This is equivalent to #gl_FrontColor.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>varying vec4
-//              <emphasis>tex_coord0_in</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   varying vec4
+//              tex_coord0_in
+//
 //    The texture coordinate for layer 0. This is equivalent to
 //    #gl_TexCoord[0]. There will also be #tex_coord1_in and so
 //    on if more layers are added to the pipeline.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>vec4 <emphasis>color_out</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   vec4 color_out
+//
 //    The final calculated color of the fragment. All fragment shaders
 //    must write to this variable. This is equivalent to
 //    #gl_FrontColor.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>float <emphasis>depth_out</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   float depth_out
+//
 //    An optional output variable specifying the depth value to use
 //    for this fragment. This is equivalent to #gl_FragDepth.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>bool <emphasis>front_facing</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   bool front_facing
+//
 //    A readonly variable that will be true if the current primitive
 //    is front facing. This can be used to implement two-sided
 //    coloring algorithms. This is equivalent to #gl_FrontFacing.
-//   </para></glossdef>
-//  </glossentry>
-//  <glossentry>
-//   <glossterm>vec2 <emphasis>point_coord</emphasis></glossterm>
-//   <glossdef><para>
+//
+//   vec2 point_coord
+//
 //    When rendering points, this will contain a vec2 which represents
 //    the position within the point of the current fragment.
 //    vec2(0.0,0.0) will be the topleft of the point and vec2(1.0,1.0)
@@ -261,9 +207,7 @@ use std::fmt;
 //    coordinates will be upside-down. The value is undefined when not
 //    rendering points. This builtin can only be used if the
 //    %FEATURE_ID_POINT_SPRITE feature is available.
-//   </para></glossdef>
-//  </glossentry>
-// </glosslist>
+//
 //
 // Here is an example of using a snippet to add a desaturate effect to the
 // generated color on a pipeline.
@@ -271,12 +215,12 @@ use std::fmt;
 // <programlisting>
 //   Pipeline *pipeline = pipeline_new ();
 //
-//   /<!-- -->* Set up the pipeline here, ie by adding a texture or other
-//      layers *<!-- -->/
+//   /* Set up the pipeline here, ie by adding a texture or other
+//      layers */
 //
-//   /<!-- -->* Create the snippet. The first string is the declarations which
+//   /* Create the snippet. The first string is the declarations which
 //      we will use to add a uniform. The second is the 'post' string which
-//      will contain the code to perform the desaturation. *<!-- -->/
+//      will contain the code to perform the desaturation. */
 //   Snippet *snippet =
 //     snippet_new (SNIPPET_HOOK_FRAGMENT,
 //                       "uniform float factor;",
@@ -286,17 +230,17 @@ use std::fmt;
 //                       "                          color_out.rgb,"
 //                       "                          factor);");
 //
-//   /<!-- -->* Add it to the pipeline *<!-- -->/
+//   /* Add it to the pipeline */
 //   pipeline_add_snippet (pipeline, snippet);
-//   /<!-- -->* The pipeline keeps a reference to the snippet
-//      so we don't need to *<!-- -->/
+//   /* The pipeline keeps a reference to the snippet
+//      so we don't need to */
 //   object_unref (snippet);
 //
-//   /<!-- -->* Update the custom uniform on the pipeline *<!-- -->/
+//   /* Update the custom uniform on the pipeline */
 //   int location = pipeline_get_uniform_location (pipeline, "factor");
 //   pipeline_set_uniform_1f (pipeline, location, 0.5f);
 //
-//   /<!-- -->* Now we can render with the snippet as usual *<!-- -->/
+//   /* Now we can render with the snippet as usual */
 //   push_source (pipeline);
 //   rectangle (0, 0, 10, 10);
 //   pop_source ();

@@ -62,6 +62,7 @@ struct Opt {
 }
 
 impl AsyncApplication {
+    /// Entrypoint for application launcher
     pub fn run<D>(mut context: D::Context, settings: ApplicationSettings)
     where
         D: AsyncActivityHost<Self> + 'static,

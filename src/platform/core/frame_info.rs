@@ -43,10 +43,10 @@ impl FrameInfo {
     /// elapsed since some undefined system event such as when the system
     /// last booted.
     ///
-    /// `<note>`Linux kernel version less that 3.8 can result in
+    /// Linux kernel version less that 3.8 can result in
     /// non-monotonic timestamps being reported when using a drm based
     /// OpenGL driver. Also some buggy Mesa drivers up to 9.0.1 may also
-    /// incorrectly report non-monotonic timestamps.`</note>`
+    /// incorrectly report non-monotonic timestamps.
     ///
     /// # Returns
     ///
@@ -58,11 +58,11 @@ impl FrameInfo {
     /// Gets the refresh rate in Hertz for the output that the frame was on
     /// at the time the frame was presented.
     ///
-    /// `<note>`Some platforms can't associate a `Output` with a
+    /// Some platforms can't associate a `Output` with a
     /// `FrameInfo` object but are able to report a refresh rate via
     /// this api. Therefore if you need this information then this api is
     /// more reliable than using `FrameInfo::get_output` followed by
-    /// `Output::get_refresh_rate`.`</note>`
+    /// `Output::get_refresh_rate`.
     ///
     /// # Returns
     ///

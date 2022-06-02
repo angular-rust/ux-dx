@@ -76,7 +76,10 @@ impl MoviePlayer {
     /// @returns This instance, for chaining.
     // restart :bool = true
     pub fn play(&mut self, name: String, restart: bool) -> &Self {
-        assert!(self.looping_sprite.is_some(), "A loop must be started before the first call to play()");
+        assert!(
+            self.looping_sprite.is_some(),
+            "A loop must be started before the first call to play()"
+        );
 
         let should_update = self
             .oneshot_sprite
@@ -204,7 +207,7 @@ impl MoviePlayer {
 
 impl PartialEq for MoviePlayer {
     fn eq(&self, other: &Self) -> bool {
-        self.root == self.root
+        self.root == other.root
     }
 }
 

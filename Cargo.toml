@@ -1,6 +1,6 @@
 [package]
 name = "ux-dx"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Victor Dudochkin <dudochkin.victor@gmail.com>"]
 readme = "README.md"
 homepage = "https://angular-rust.github.io/ux-dx"
@@ -56,7 +56,7 @@ raw-window-handle = "0.3"
 warmy = "0.13"
 structopt = "0.3"
 ddsfile = "0.4"
-fbxcel-dom = "0"
+# fbxcel-dom = "0"
 directories = "4.0"
 rand = "0.8"
 # num-traits = "0.2"

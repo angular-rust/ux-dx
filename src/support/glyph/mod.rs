@@ -1,7 +1,7 @@
-//! A fast text renderer for [`glow`]. Powered by [`glyph_brush`].
+//! A fast text renderer. Powered by [`glyph_brush`].
 //!
-//! [`glow`]: https://github.com/grovesNL/glow
 //! [`glyph_brush`]: https://github.com/alexheretic/glyph-brush/tree/master/glyph-brush
+
 #![deny(unused_results)]
 mod builder;
 mod pipeline;
@@ -12,10 +12,13 @@ pub use region::Region;
 use pipeline::{Instance, Pipeline};
 
 pub use builder::GlyphBrushBuilder;
+
 pub use glyph_brush::ab_glyph;
+
 pub use glyph_brush::{
-    BuiltInLineBreaker, Extra, FontId, GlyphCruncher, GlyphPositioner, HorizontalAlign, Layout, LineBreak, LineBreaker,
-    Section, SectionGeometry, SectionGlyph, SectionGlyphIter, SectionText, Text, VerticalAlign,
+    BuiltInLineBreaker, Extra, FontId, GlyphCruncher, GlyphPositioner, HorizontalAlign, Layout,
+    LineBreak, LineBreaker, Section, SectionGeometry, SectionGlyph, SectionGlyphIter, SectionText,
+    Text, VerticalAlign,
 };
 
 use ab_glyph::{Font, FontArc, Rect};
@@ -71,7 +74,12 @@ impl<F: Font, H: BuildHasher> GlyphBrush<F, H> {
     /// [`draw_queued`](struct.GlyphBrush.html#method.draw_queued). Can be
     /// called multiple times.
     #[inline]
-    pub fn queue_pre_positioned(&mut self, glyphs: Vec<SectionGlyph>, extra: Vec<Extra>, bounds: Rect) {
+    pub fn queue_pre_positioned(
+        &mut self,
+        glyphs: Vec<SectionGlyph>,
+        extra: Vec<Extra>,
+        bounds: Rect,
+    ) {
         self.glyph_brush.queue_pre_positioned(glyphs, extra, bounds)
     }
 
@@ -86,7 +94,8 @@ impl<F: Font, H: BuildHasher> GlyphBrush<F, H> {
         S: Into<Cow<'a, Section<'a>>>,
         G: GlyphPositioner,
     {
-        self.glyph_brush.keep_cached_custom_layout(section, custom_layout)
+        self.glyph_brush
+            .keep_cached_custom_layout(section, custom_layout)
     }
 
     /// Retains the section in the cache as if it had been used in the last
@@ -240,8 +249,8 @@ impl<F: Font, H: BuildHasher> GlyphBrush<F, H> {
 }
 
 /// Helper function to generate a generate a transform matrix.
+#[rustfmt::skip]
 pub fn orthographic_projection(width: u32, height: u32) -> [f32; 16] {
-    #[cfg_attr(rustfmt, rustfmt_skip)]
     [
         2.0 / width as f32, 0.0, 0.0, 0.0,
         0.0, -2.0 / height as f32, 0.0, 0.0,
@@ -252,21 +261,31 @@ pub fn orthographic_projection(width: u32, height: u32) -> [f32; 16] {
 
 impl<F: Font, H: BuildHasher> GlyphCruncher<F> for GlyphBrush<F, H> {
     #[inline]
-    fn glyphs_custom_layout<'a, 'b, S, L>(&'b mut self, section: S, custom_layout: &L) -> SectionGlyphIter<'b>
+    fn glyphs_custom_layout<'a, 'b, S, L>(
+        &'b mut self,
+        section: S,
+        custom_layout: &L,
+    ) -> SectionGlyphIter<'b>
     where
         L: GlyphPositioner + std::hash::Hash,
         S: Into<Cow<'a, Section<'a>>>,
     {
-        self.glyph_brush.glyphs_custom_layout(section, custom_layout)
+        self.glyph_brush
+            .glyphs_custom_layout(section, custom_layout)
     }
 
     #[inline]
-    fn glyph_bounds_custom_layout<'a, S, L>(&mut self, section: S, custom_layout: &L) -> Option<Rect>
+    fn glyph_bounds_custom_layout<'a, S, L>(
+        &mut self,
+        section: S,
+        custom_layout: &L,
+    ) -> Option<Rect>
     where
         L: GlyphPositioner + std::hash::Hash,
         S: Into<Cow<'a, Section<'a>>>,
     {
-        self.glyph_brush.glyph_bounds_custom_layout(section, custom_layout)
+        self.glyph_brush
+            .glyph_bounds_custom_layout(section, custom_layout)
     }
 
     #[inline]

@@ -66,9 +66,30 @@ impl DrawPatternGL {
 
         const BYTES_PER_ELEMENT: u32 = 4;
         let stride = 5 * BYTES_PER_ELEMENT as i32;
-        gl::vertex_attrib_pointer_offset(self.a_pos as u32, 2, GL_FLOAT, false, stride, 0 * BYTES_PER_ELEMENT);
-        gl::vertex_attrib_pointer_offset(self.a_uv as u32, 2, GL_FLOAT, false, stride, 2 * BYTES_PER_ELEMENT);
-        gl::vertex_attrib_pointer_offset(self.a_alpha as u32, 1, GL_FLOAT, false, stride, 4 * BYTES_PER_ELEMENT);
+        gl::vertex_attrib_pointer_offset(
+            self.a_pos as u32,
+            2,
+            GL_FLOAT,
+            false,
+            stride,
+            0,
+        );
+        gl::vertex_attrib_pointer_offset(
+            self.a_uv as u32,
+            2,
+            GL_FLOAT,
+            false,
+            stride,
+            2 * BYTES_PER_ELEMENT,
+        );
+        gl::vertex_attrib_pointer_offset(
+            self.a_alpha as u32,
+            1,
+            GL_FLOAT,
+            false,
+            stride,
+            4 * BYTES_PER_ELEMENT,
+        );
     }
 }
 

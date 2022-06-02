@@ -1,3 +1,5 @@
+//! OpenGL ES 3.1 Core support
+
 // #![no_std]
 #![allow(
     dead_code,

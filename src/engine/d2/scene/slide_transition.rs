@@ -1,4 +1,6 @@
-use crate::engine::d2::{animation::EaseFunction, display::Sprite, Director, Entity, EntityManager};
+use crate::engine::d2::{
+    animation::EaseFunction, display::Sprite, Director, Entity, EntityManager,
+};
 
 use super::TweenTransition;
 

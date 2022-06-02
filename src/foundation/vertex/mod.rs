@@ -1,3 +1,5 @@
+//! Different vertex structures
+
 mod p2;
 pub use p2::P2;
 

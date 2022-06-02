@@ -1,6 +1,6 @@
 use crate::engine::d2::input::Key;
 
-/// Key codes emitted by Flash and JS.
+/// Key codes.
 pub struct KeyCodes {}
 
 impl KeyCodes {

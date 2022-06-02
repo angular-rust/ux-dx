@@ -6,19 +6,19 @@ use std::f32::consts::PI;
 pub struct Math {}
 
 impl Math {
-    pub const SQRT1_2: f32 = 0.7071067811865476; // FRAC_1_SQRT_2
+    pub const SQRT1_2: f32 = std::f32::consts::FRAC_1_SQRT_2; // 0.7071067811865476; // FRAC_1_SQRT_2
 
     // doesn't specify the size of an int or float, in practice it's 32 bits
-    /// The lowest integer value in Flash and JS.
+    /// The lowest integer value.
     pub const INT_MIN: i32 = -2147483648;
 
-    /// The highest integer value in Flash and JS.
+    /// The highest integer value.
     pub const INT_MAX: i32 = 2147483647;
 
-    /// The lowest float value in Flash and JS.
+    /// The lowest float value.
     pub const FLOAT_MIN: f32 = std::f32::MIN; //-1.79769313486231e+308;
 
-    /// The highest float value in Flash and JS.
+    /// The highest float value.
 
     pub const FLOAT_MAX: f32 = std::f32::MAX; //1.79769313486231e+308;
 

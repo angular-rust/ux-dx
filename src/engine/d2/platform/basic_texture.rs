@@ -114,7 +114,8 @@ impl<R: TextureRoot + fmt::Debug> Texture for BasicTexture<R> {
     }
 
     fn read_pixels(&self, x: i32, y: i32, width: i32, height: i32) -> Bytes {
-        self.root.read_pixels(self.root_x + x, self.root_y + y, width, height)
+        self.root
+            .read_pixels(self.root_x + x, self.root_y + y, width, height)
     }
 
     // tilesHigh: i32 = 1
@@ -124,7 +125,12 @@ impl<R: TextureRoot + fmt::Debug> Texture for BasicTexture<R> {
         let tile_height = (self.height / tiles_high) as i32;
         for y in 0..tiles_high {
             for x in 0..tiles_wide {
-                tiles.push(self.sub_texture(x * tile_width, y * tile_height, tile_width, tile_height));
+                tiles.push(self.sub_texture(
+                    x * tile_width,
+                    y * tile_height,
+                    tile_width,
+                    tile_height,
+                ));
             }
         }
 

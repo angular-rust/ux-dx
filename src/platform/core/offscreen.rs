@@ -32,9 +32,9 @@ impl Offscreen {
     // updates the contents of the given texture. You don't need to
     // destroy the offscreen buffer before you can use the @texture again.
     //
-    // <note>This api only works with low-level #Texture types such as
+    // This api only works with low-level #Texture types such as
     // #Texture2D, #Texture3D and #TextureRectangle, and not
-    // with meta-texture types such as #Texture2DSliced.</note>
+    // with meta-texture types such as #Texture2DSliced.
     //
     // The storage for the framebuffer is actually allocated lazily
     // so this fn will never return %NULL to indicate a runtime

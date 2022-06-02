@@ -11,26 +11,26 @@ use std::{fmt, ptr};
 pub struct Texture3D {
     // Texture _parent;
 
-// The internal format of the texture represented as a
-//     PixelFormat */
-// PixelFormat internal_format;
-// int depth;
-// Bool auto_mipmap;
-// Bool mipmaps_dirty;
+    // The internal format of the texture represented as a
+    //     PixelFormat */
+    // PixelFormat internal_format;
+    // int depth;
+    // Bool auto_mipmap;
+    // Bool mipmaps_dirty;
 
-// TODO: factor out these OpenGL specific members into some form
-// of driver private state. */
+    // TODO: factor out these OpenGL specific members into some form
+    // of driver private state. */
 
-// The internal format of the GL texture represented as a GL enum */
-// GLenum gl_format;
-// The texture object number */
-// GLuint gl_texture;
-// GLenum gl_legacy_texobj_min_filter;
-// GLenum gl_legacy_texobj_mag_filter;
-// GLint gl_legacy_texobj_wrap_mode_s;
-// GLint gl_legacy_texobj_wrap_mode_t;
-// GLint gl_legacy_texobj_wrap_mode_p;
-// TexturePixel first_pixel;
+    // The internal format of the GL texture represented as a GL enum */
+    // GLenum gl_format;
+    // The texture object number */
+    // GLuint gl_texture;
+    // GLenum gl_legacy_texobj_min_filter;
+    // GLenum gl_legacy_texobj_mag_filter;
+    // GLint gl_legacy_texobj_wrap_mode_s;
+    // GLint gl_legacy_texobj_wrap_mode_t;
+    // GLint gl_legacy_texobj_wrap_mode_p;
+    // TexturePixel first_pixel;
 }
 
 impl Texture3D {
@@ -58,10 +58,10 @@ impl Texture3D {
     // using texture_set_components() and
     // texture_set_premultiplied().
     //
-    // <note>This texture will fail to allocate later if
+    // This texture will fail to allocate later if
     // %FEATURE_ID_TEXTURE_3D is not advertised. Allocation can also
     // fail if the requested dimensions are not supported by the
-    // GPU.</note>
+    // GPU.
     //
     // Return value: (transfer full): a newly created #Texture3D
     // Since: 2.0
@@ -106,14 +106,14 @@ impl Texture3D {
     // data is assumed to be packed array of @depth images. There can be
     // padding between the images using @image_stride.
     //
-    // <note>This api will always immediately allocate GPU memory for the
+    // This api will always immediately allocate GPU memory for the
     // texture and upload the given data so that the @data pointer does
     // not need to remain valid once this fn returns. This means it
     // is not possible to configure the texture before it is allocated. If
     // you do need to configure the texture before allocation (to specify
     // constraints on the internal format for example) then you can
     // instead create a #Bitmap for your data and use
-    // texture_3d_new_from_bitmap().</note>
+    // texture_3d_new_from_bitmap().
     //
     // Return value: (transfer full): the newly created #Texture3D or
     //               %NULL if there was an error and an exception will be
@@ -236,10 +236,10 @@ impl Texture3D {
     // using texture_set_components() and
     // texture_set_premultiplied().
     //
-    // <note>This texture will fail to allocate later if
+    // This texture will fail to allocate later if
     // %FEATURE_ID_TEXTURE_3D is not advertised. Allocation can also
     // fail if the requested dimensions are not supported by the
-    // GPU.</note>
+    // GPU.
     //
     // Returns: (transfer full): A new #Texture3D object with no storage yet allocated.
     // Since: 1.10

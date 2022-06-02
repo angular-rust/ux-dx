@@ -7,10 +7,11 @@ mod default_string;
 mod default_u32;
 mod default_usize;
 
-pub use super::*;
+use super::*;
 
-/// Options for using the default rendering style for the element. The options here are a superset
-/// of all other options since "default" could be any of the widgets
+/// Options for using the default rendering style for the element. 
+/// 
+/// The options here are a superset of all other options since "default" could be any of the widgets.
 ///
 /// So, not all elements will necessarily be used/respected. Use the non-default traits for typesafe
 /// changes.
@@ -42,8 +43,6 @@ pub struct InspectArgsDefault {
 pub trait InspectRenderDefault<T> {
     /// Render the element in an immutable way (i.e. static text)
     ///
-    /// (Hopefully in the future this can be better. See
-    /// https://github.com/ocornut/imgui/issues/211)
     fn render(data: &[&T], label: &'static str, ui: &mut Ui, args: &InspectArgsDefault);
 
     /// Render the element in a mutable way. Using this trait, the default widget to use is based

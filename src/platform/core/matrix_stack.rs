@@ -29,12 +29,12 @@ use std::fmt;
 // related transforms, these can be some advantages to using a
 // #MatrixStack:
 // <itemizedlist>
-//   <listitem>Faster equality comparisons of transformations</listitem>
-//   <listitem>Efficient comparisons of the differences between arbitrary
+//   - Faster equality comparisons of transformations</listitem>
+//   - Efficient comparisons of the differences between arbitrary
 //   transformations</listitem>
-//   <listitem>Avoid redundant arithmetic related to common transforms
+//   - Avoid redundant arithmetic related to common transforms
 //   </listitem>
-//   <listitem>Can be more space efficient (not always though)</listitem>
+//   - Can be more space efficient (not always though)</listitem>
 // </itemizedlist>
 //
 // For reference (to give an idea of when a #MatrixStack can
@@ -88,7 +88,7 @@ use std::fmt;
 pub struct MatrixStack {
     // Context *context;
 
-// MatrixEntry *last_entry;
+    // MatrixEntry *last_entry;
 }
 
 impl MatrixStack {
@@ -189,8 +189,8 @@ impl MatrixStack {
     /// if the fn returns `None` then `matrix` will be initialized
     /// to match the current transform of `self`.
     ///
-    /// `<note>``matrix` will be left untouched if a direct pointer is
-    /// returned.`</note>`
+    /// `matrix` will be left untouched if a direct pointer is
+    /// returned.
     /// ## `matrix`
     /// The potential destination for the current matrix
     ///
@@ -207,13 +207,13 @@ impl MatrixStack {
     /// Gets a reference to the current transform represented by a
     /// `MatrixEntry` pointer.
     ///
-    /// `<note>`The transform represented by a `MatrixEntry` is
-    /// immutable.`</note>`
+    /// The transform represented by a `MatrixEntry` is
+    /// immutable.
     ///
-    /// `<note>``MatrixEntry`<!-- -->s are reference counted using
+    /// `MatrixEntry`s are reference counted using
     /// `MatrixEntry::ref` and `MatrixEntry::unref` and you
     /// should call `MatrixEntry::unref` when you are finished with
-    /// and entry you get via `MatrixStack::get_entry`.`</note>`
+    /// and entry you get via `MatrixStack::get_entry`.
     ///
     /// # Returns
     ///
@@ -277,12 +277,12 @@ impl MatrixStack {
     /// ## `y_2`
     /// The y coordinate for the second horizontal clipping plane
     /// ## `near`
-    /// The `<emphasis>`distance`</emphasis>` to the near clipping
-    ///  plane (will be `<emphasis>`negative`</emphasis>` if the plane is
+    /// The distance to the near clipping
+    ///  plane (will be negative if the plane is
     ///  behind the viewer)
     /// ## `far`
-    /// The `<emphasis>`distance`</emphasis>` to the far clipping
-    ///  plane (will be `<emphasis>`negative`</emphasis>` if the plane is
+    /// The distance to the far clipping
+    ///  plane (will be negative if the plane is
     ///  behind the viewer)
     pub fn orthographic(&self, x_1: f32, y_1: f32, x_2: f32, y_2: f32, near: f32, far: f32) {
         // MatrixEntryLoad *entry;
@@ -303,10 +303,10 @@ impl MatrixStack {
     /// Replaces the current matrix with a perspective matrix based on the
     /// provided values.
     ///
-    /// `<note>`You should be careful not to have too great a `z_far` / `z_near`
+    /// You should be careful not to have too great a `z_far` / `z_near`
     /// ratio since that will reduce the effectiveness of depth testing
     /// since there wont be enough precision to identify the depth of
-    /// objects near to each other.`</note>`
+    /// objects near to each other.
     /// ## `fov_y`
     /// Vertical field of view angle in degrees.
     /// ## `aspect`

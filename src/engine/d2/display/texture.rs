@@ -13,10 +13,7 @@ pub trait Texture: Asset + fmt::Debug {
     fn height(&self) -> i32;
 
     /// The Graphics that draws to this texture.
-    ///  *
-    /// NOTE: In Flash/AIR, this API is currently experimental. Stage3D forces render targets to be
-    /// cleared before first rendering, so this may cause the texture to be cleared. If you need to
-    /// support Stage3D, consider keeping a second cache texture and flipping between them.
+    ///
     fn graphics(&self) -> Box<dyn Graphics>;
 
     /// Reads pixels out from the given region. This is potentially a very SLOW operation, avoid
@@ -27,11 +24,7 @@ pub trait Texture: Asset + fmt::Debug {
 
     /// Writes pixels at a given position. sourceW/H is the width and height of the given byte
     /// buffer. This is potentially a very SLOW operation, avoid overusing it.
-    ///  *
-    /// NOTE: In Flash/AIR, this API is currently experimental. Stage3D forces render targets to be
-    /// cleared before first rendering, so this may cause the texture to be cleared. If you need to
-    /// support Stage3D, consider keeping a second cache texture and flipping between them.
-    ///  *
+    /// 
     /// @param pixels A byte buffer in RGBA order.
     fn write_pixels(&self, pixels: Bytes, x: i32, y: i32, source_w: i32, source_h: i32);
 

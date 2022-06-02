@@ -2,8 +2,8 @@ use crate::engine::d2::web::WebView;
 
 /// Functions related to the environment's web browser.
 pub trait WebSystem {
-    /// True if the environment supports WebViews. Note that this will always be false on the browser
-    /// Flash target.
+    /// True if the environment supports WebViews. Note that this will always be false
+    /// 
     fn is_supported(&self) -> bool;
 
     /// Creates a blank WebView with the given viewport bounds, in pixels. Fails with an assertion if

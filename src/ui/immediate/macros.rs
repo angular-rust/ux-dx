@@ -6,7 +6,8 @@ pub(crate) const fn hash(s: &str) -> u32 {
         hash = hash.wrapping_mul(33).wrapping_add(s[i] as u32);
         i += 1;
     }
-    return hash;
+    
+    hash
 }
 
 pub(crate) const fn splitmix(seed: u64) -> u64 {
@@ -14,7 +15,8 @@ pub(crate) const fn splitmix(seed: u64) -> u64 {
     let mut z = next;
     z = (z ^ (z >> 30)).wrapping_mul(0xbf58476d1ce4e5b9);
     z = (z ^ (z >> 27)).wrapping_mul(0x94d049bb133111eb);
-    return z ^ (z >> 31);
+
+    z ^ (z >> 31)
 }
 
 pub(crate) const SEED: u64 = splitmix(hash(env!("CARGO")) as u64); // Pick some other env var...
@@ -27,6 +29,7 @@ pub const fn entropy(file: &str, line: u32, column: u32) -> u64 {
     )
 }
 
+/// Create constant uiid based on the location in sources
 #[macro_export]
 macro_rules! uiid {
     () => {{

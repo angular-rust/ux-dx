@@ -1,3 +1,5 @@
+//! Asynchronous support
+
 // #![feature(async_await)]
 pub mod future;
 
@@ -45,6 +47,7 @@ pub enum EventAsync<E: 'static> {
     Resumed,
 }
 
+/// Defines the behavior for running an application in asynchronous mode.
 pub trait EventLoopAsync {
     type Event: 'static;
     fn run_async<Fn, Fu>(self, event_handler: Fn) -> !

@@ -2,11 +2,7 @@
 
 use winit::event::VirtualKeyCode;
 
-use crate::prelude::Lighten;
-
-use crate::foundation::colorspace::Color;
-
-use crate::uiid;
+use crate::{foundation::colorspace::Color, prelude::Lighten, uiid};
 
 use super::*;
 
@@ -433,9 +429,9 @@ impl Nodes {
 
             let mut toY = if let Some(to) = &to {
                 wy + self.node_y(to)
-                    + self.input_y(&canvas, &to.inputs, link.to_socket.unwrap_or_default())
+                    + self.input_y(canvas, &to.inputs, link.to_socket.unwrap_or_default())
                     + self.outputs_h(&to.outputs, None)
-                    + self.buttons_h(&to)
+                    + self.buttons_h(to)
             } else {
                 ui.input_y
             };
@@ -468,7 +464,7 @@ impl Nodes {
                     for node in canvas.nodes.iter() {
                         let inps = &node.inputs;
                         let outs = &node.outputs;
-                        let nodeh = self.node_h(&canvas, &node);
+                        let nodeh = self.node_h(canvas, node);
                         let rx = wx + self.node_x(node) - self.line_h() / 2.0;
                         let ry = wy + self.node_y(node) - self.line_h() / 2.0;
                         let rw = self.node_w(node) + self.line_h();
@@ -480,7 +476,7 @@ impl Nodes {
                                     for i in 0..outs.len() {
                                         let sx = wx + self.node_x(node) + self.node_w(node);
                                         let sy =
-                                            wy + self.node_y(node) + self.output_y(&outs, i as u32);
+                                            wy + self.node_y(node) + self.output_y(outs, i as u32);
                                         let rx = sx - self.line_h() / 2.0;
                                         let ry = sy - self.line_h() / 2.0;
                                         if ui.input_in_rect(
@@ -505,9 +501,9 @@ impl Nodes {
                                         let sx = wx + self.node_x(node);
                                         let sy = wy
                                             + self.node_y(node)
-                                            + self.input_y(&canvas, &inps, i as u32)
-                                            + self.outputs_h(&outs, None)
-                                            + self.buttons_h(&node);
+                                            + self.input_y(canvas, inps, i as u32)
+                                            + self.outputs_h(outs, None)
+                                            + self.buttons_h(node);
                                         let rx = sx - self.line_h() / 2.0;
                                         let ry = sy - self.line_h() / 2.0;
                                         if ui.input_in_rect(
@@ -547,7 +543,7 @@ impl Nodes {
             if self.node_x(node) > ui.window_w
                 || self.node_x(node) + self.node_w(node) < 0.0
                 || self.node_y(node) > ui.window_h
-                || self.node_y(node) + self.node_h(&canvas, &node) < 0.0
+                || self.node_y(node) + self.node_h(canvas, node) < 0.0
             {
                 if !self.is_selected(node) {
                     continue;
@@ -558,7 +554,7 @@ impl Nodes {
             let outs = &node.outputs;
 
             // Drag node
-            let nodeh = self.node_h(&canvas, &node);
+            let nodeh = self.node_h(canvas, node);
             if ui.input_enabled
                 && ui.input_in_rect(
                     wx + self.node_x(node) - self.line_h() / 2.0,
@@ -591,7 +587,7 @@ impl Nodes {
                     // No drag performed, select single node
                     self.nodesSelected = vec![node.clone()];
                     if let Some(onHeaderReleased) = &self.onHeaderReleased {
-                        onHeaderReleased(&node);
+                        onHeaderReleased(node);
                     }
                 }
             }
@@ -609,7 +605,7 @@ impl Nodes {
                 if self.linkDrag.is_none() {
                     for i in 0..outs.len() {
                         let sx = wx + self.node_x(node) + self.node_w(node);
-                        let sy = wy + self.node_y(node) + self.output_y(&outs, i as u32);
+                        let sy = wy + self.node_y(node) + self.output_y(outs, i as u32);
                         if ui.input_in_rect(
                             sx - self.line_h() / 2.0,
                             sy - self.line_h() / 2.0,
@@ -638,9 +634,9 @@ impl Nodes {
                         let sx = wx + self.node_x(node);
                         let sy = wy
                             + self.node_y(node)
-                            + self.input_y(&canvas, &inps, socket as u32)
-                            + self.outputs_h(&outs, None)
-                            + self.buttons_h(&node);
+                            + self.input_y(canvas, inps, socket as u32)
+                            + self.outputs_h(outs, None)
+                            + self.buttons_h(node);
                         if ui.input_in_rect(
                             sx - self.line_h() / 2.0,
                             sy - self.line_h() / 2.0,
@@ -850,7 +846,7 @@ impl Nodes {
                 for l in pasteCanvas.links.iter_mut() {
                     // Assign unique link id
                     l.id = self.link_id(&canvas.links);
-                    canvas.links.push(l.clone());
+                    canvas.links.push(*l);
                 }
 
                 for n in pasteCanvas.nodes.iter_mut() {
@@ -967,7 +963,7 @@ impl Nodes {
         let uiW = ui.w;
         let w = self.node_w(node);
 
-        let h = self.node_h(&canvas, &node);
+        let h = self.node_h(canvas, node);
         let nx = self.node_x(node);
         let mut ny = self.node_y(node);
         let text = Self::tr(node.name.clone());
@@ -1051,7 +1047,7 @@ impl Nodes {
                         && ui.input_y > wy + ny
                         && ui.input_y < wy + ny + lineh
                     {
-                        onSocketReleased(&out);
+                        onSocketReleased(out);
                         self.socketReleased = true;
                     }
                 }

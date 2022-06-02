@@ -1,6 +1,6 @@
 use std::{f32::consts::PI, marker::Sized, rc::Rc};
 
-/// Receives and returns a number between [0,1].
+/// Receives and returns a number between 0..1.
 pub type EaseFunction = Rc<dyn Fn(f32) -> f32>;
 
 /// Easing functions that can be used to animate values. For a cheat sheet, see <http://easings.net>.
@@ -18,9 +18,6 @@ impl Ease {
     pub const ELASTIC_AMPLITUDE: f32 = 1.0;
     pub const ELASTIC_PERIOD: f32 = 0.4;
 
-    // Adapted from FlashPunk:
-    // https://github.com/Draknek/FlashPunk/blob/master/net/flashpunk/utils/Ease.as
-    //
     // Operation of in/out easers:
     //
     // in(t)
@@ -327,7 +324,8 @@ impl Ease {
         let t = t - 1.0;
         -(Self::ELASTIC_AMPLITUDE
             * 2_f32.powf(10.0 * t)
-            * ((t - (Self::ELASTIC_PERIOD / Self::PI2 * (1.0 / Self::ELASTIC_AMPLITUDE).asin())) * Self::PI2
+            * ((t - (Self::ELASTIC_PERIOD / Self::PI2 * (1.0 / Self::ELASTIC_AMPLITUDE).asin()))
+                * Self::PI2
                 / Self::ELASTIC_PERIOD)
                 .sin())
     }
@@ -336,7 +334,8 @@ impl Ease {
     pub fn elastic_out(t: f32) -> f32 {
         Self::ELASTIC_AMPLITUDE
             * 2_f32.powf(-10.0 * t)
-            * ((t - (Self::ELASTIC_PERIOD / Self::PI2 * (1.0 / Self::ELASTIC_AMPLITUDE).asin())) * Self::PI2
+            * ((t - (Self::ELASTIC_PERIOD / Self::PI2 * (1.0 / Self::ELASTIC_AMPLITUDE).asin()))
+                * Self::PI2
                 / Self::ELASTIC_PERIOD)
                 .sin()
             + 1.0
@@ -350,7 +349,9 @@ impl Ease {
                 * ((t - (Self::ELASTIC_PERIOD / 4.0)) * Self::PI2 / Self::ELASTIC_PERIOD).sin())
         } else {
             let t = t - 0.5;
-            2_f32.powf(-10.0 * t) * ((t - (Self::ELASTIC_PERIOD / 4.0)) * Self::PI2 / Self::ELASTIC_PERIOD).sin() * 0.5
+            2_f32.powf(-10.0 * t)
+                * ((t - (Self::ELASTIC_PERIOD / 4.0)) * Self::PI2 / Self::ELASTIC_PERIOD).sin()
+                * 0.5
                 + 1.0
         }
     }

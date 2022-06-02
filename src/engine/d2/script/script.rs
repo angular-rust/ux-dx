@@ -71,7 +71,9 @@ pub struct Handle {
 
 impl Handle {
     pub fn new(action: Rc<dyn Action>) -> Self {
-        Self { action: Some(action) }
+        Self {
+            action: Some(action),
+        }
     }
 }
 

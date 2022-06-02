@@ -33,10 +33,20 @@ impl MoveBy {
         // let easing_y = easing_y.unwrap_or(easing_x); // TODO: DV this should be correct
         let easing_y = easing_y.unwrap_or(Rc::new(Ease::linear));
 
-        let tween_x = Rc::new(Tween::new(sprite.x.get(), sprite.x.get() + x, seconds, Some(easing_x)));
+        let tween_x = Rc::new(Tween::new(
+            sprite.x.get(),
+            sprite.x.get() + x,
+            seconds,
+            Some(easing_x),
+        ));
         sprite.x.set_behavior(Some(tween_x.clone()));
 
-        let tween_y = Rc::new(Tween::new(sprite.y.get(), sprite.y.get() + y, seconds, Some(easing_y)));
+        let tween_y = Rc::new(Tween::new(
+            sprite.y.get(),
+            sprite.y.get() + y,
+            seconds,
+            Some(easing_y),
+        ));
         sprite.y.set_behavior(Some(tween_y.clone()));
 
         Self {

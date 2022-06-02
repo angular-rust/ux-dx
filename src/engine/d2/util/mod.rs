@@ -1,3 +1,5 @@
+//! General engine utilites
+
 mod bit_sets;
 pub use self::bit_sets::*;
 

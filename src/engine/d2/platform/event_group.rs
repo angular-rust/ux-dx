@@ -11,7 +11,9 @@ pub struct EventGroup {
 
 impl EventGroup {
     pub fn new() -> Self {
-        Self { entries: Vec::new() }
+        Self {
+            entries: Vec::new(),
+        }
     }
 
     /// Register a listener with this group.
@@ -22,7 +24,12 @@ impl EventGroup {
     }
 
     /// Register a listener with this group, all listeners are removed when it's fired.
-    pub fn add_disposing_listener(&self, dispatcher: IEventDispatcher, type_: String, listener: Listener) {
+    pub fn add_disposing_listener(
+        &self,
+        dispatcher: IEventDispatcher,
+        type_: String,
+        listener: Listener,
+    ) {
         // self.add_listener(dispatcher, type_, Box::new(|event: Event| {
         //     self.dispose();
         //     listener(event);

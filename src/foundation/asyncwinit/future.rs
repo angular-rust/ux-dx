@@ -1,3 +1,4 @@
+//! Main futures
 use std::{
     cell::RefCell,
     future::Future,
@@ -100,7 +101,10 @@ impl<E> Future for WaitUntilFuture<'_, E> {
                 })
             }
             Some(Event::RedrawEventsCleared) => {
-                unsafe { *shared_state.control_flow.unwrap().as_mut() = ControlFlow::WaitUntil(self.timeout) };
+                unsafe {
+                    *shared_state.control_flow.unwrap().as_mut() =
+                        ControlFlow::WaitUntil(self.timeout)
+                };
                 shared_state.next_event = None;
                 Poll::Pending
             }
@@ -124,7 +128,9 @@ impl<'el, E> Future for EventReceiverBuilder<'el, E> {
     fn poll(self: Pin<&mut Self>, _: &mut Context) -> Poll<EventReceiver<'el, E>> {
         let mut shared_state = self.shared_state.borrow_mut();
         match shared_state.next_event {
-            Some(Event::RedrawRequested { .. }) | Some(Event::RedrawEventsCleared) | Some(Event::MainEventsCleared) => {
+            Some(Event::RedrawRequested { .. })
+            | Some(Event::RedrawEventsCleared)
+            | Some(Event::MainEventsCleared) => {
                 shared_state.next_event = None;
                 Poll::Pending
             }
@@ -180,7 +186,8 @@ impl<E> Future for PollFuture<'_, E> {
                 self.sealed = true;
                 Poll::Ready(None)
             }
-            event @ Some(Event::RedrawRequested { .. }) | event @ Some(Event::RedrawEventsCleared) => {
+            event @ Some(Event::RedrawRequested { .. })
+            | event @ Some(Event::RedrawEventsCleared) => {
                 shared_state.next_event = event;
                 Poll::Ready(None)
             }

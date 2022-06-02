@@ -54,7 +54,7 @@ impl FillRectGL {
             GL_FLOAT,
             false,
             stride,
-            0 * BYTES_PER_ELEMENT,
+            0,
         );
         gl::vertex_attrib_pointer_offset(
             self.a_rgb as u32,

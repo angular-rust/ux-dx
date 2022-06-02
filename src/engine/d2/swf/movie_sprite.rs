@@ -86,7 +86,9 @@ impl MovieSprite {
 
         for animator in self.animators.iter() {
             if let Some(ref owner) = self.inner.component.owner {
-                owner.entity().add_child(animator.content.clone(), true, None);
+                owner
+                    .entity()
+                    .add_child(animator.content.clone(), true, None);
             }
         }
     }
@@ -305,7 +307,9 @@ impl LayerAnimator {
             return;
         }
 
-        while self.keyframe_idx < final_frame && self.layer.keyframes[self.keyframe_idx + 1].index <= frame {
+        while self.keyframe_idx < final_frame
+            && self.layer.keyframes[self.keyframe_idx + 1].index <= frame
+        {
             self.keyframe_idx += 1;
             self.needs_keyframe_update = true;
         }
@@ -392,7 +396,14 @@ impl LayerAnimator {
             cos_y = skew_y.cos();
         }
 
-        matrix.set(cos_y * scale_x, sin_y * scale_x, -sin_x * scale_y, cos_x * scale_y, x, y);
+        matrix.set(
+            cos_y * scale_x,
+            sin_y * scale_x,
+            -sin_x * scale_y,
+            cos_x * scale_y,
+            x,
+            y,
+        );
 
         // Append the pivot
         matrix.translate(-kf.pivot_x, -kf.pivot_y);

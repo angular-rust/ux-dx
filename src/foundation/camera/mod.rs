@@ -1,3 +1,5 @@
+//! Camera implementations
+
 use cgmath::Point3;
 
 use crate::utils::clamp;

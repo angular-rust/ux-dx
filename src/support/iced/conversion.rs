@@ -2,12 +2,12 @@
 //!
 //! [`winit`]: https://github.com/rust-windowing/winit
 //! [`iced_native`]: https://github.com/hecrj/iced/tree/master/native
+use super::Mode;
 use iced_native::keyboard;
 use iced_native::mouse;
 use iced_native::touch;
 use iced_native::window;
 use iced_native::{Event, Point};
-use super::Mode;
 
 /// Converts a winit window event into an iced event.
 pub fn window_event(
@@ -34,9 +34,7 @@ pub fn window_event(
                 height: logical_size.height,
             }))
         }
-        WindowEvent::CloseRequested => {
-            Some(Event::Window(window::Event::CloseRequested))
-        }
+        WindowEvent::CloseRequested => Some(Event::Window(window::Event::CloseRequested)),
         WindowEvent::CursorMoved { position, .. } => {
             let position = position.to_logical::<f64>(scale_factor);
 
@@ -44,22 +42,14 @@ pub fn window_event(
                 position: Point::new(position.x as f32, position.y as f32),
             }))
         }
-        WindowEvent::CursorEntered { .. } => {
-            Some(Event::Mouse(mouse::Event::CursorEntered))
-        }
-        WindowEvent::CursorLeft { .. } => {
-            Some(Event::Mouse(mouse::Event::CursorLeft))
-        }
+        WindowEvent::CursorEntered { .. } => Some(Event::Mouse(mouse::Event::CursorEntered)),
+        WindowEvent::CursorLeft { .. } => Some(Event::Mouse(mouse::Event::CursorLeft)),
         WindowEvent::MouseInput { button, state, .. } => {
             let button = mouse_button(*button);
 
             Some(Event::Mouse(match state {
-                winit::event::ElementState::Pressed => {
-                    mouse::Event::ButtonPressed(button)
-                }
-                winit::event::ElementState::Released => {
-                    mouse::Event::ButtonReleased(button)
-                }
+                winit::event::ElementState::Pressed => mouse::Event::ButtonPressed(button),
+                winit::event::ElementState::Released => mouse::Event::ButtonReleased(button),
             }))
         }
         WindowEvent::MouseWheel { delta, .. } => match delta {
@@ -96,18 +86,14 @@ pub fn window_event(
             let modifiers = self::modifiers(modifiers);
 
             match state {
-                winit::event::ElementState::Pressed => {
-                    keyboard::Event::KeyPressed {
-                        key_code,
-                        modifiers,
-                    }
-                }
-                winit::event::ElementState::Released => {
-                    keyboard::Event::KeyReleased {
-                        key_code,
-                        modifiers,
-                    }
-                }
+                winit::event::ElementState::Pressed => keyboard::Event::KeyPressed {
+                    key_code,
+                    modifiers,
+                },
+                winit::event::ElementState::Released => keyboard::Event::KeyReleased {
+                    key_code,
+                    modifiers,
+                },
             }
         })),
         WindowEvent::ModifiersChanged(new_modifiers) => Some(Event::Keyboard(
@@ -124,12 +110,8 @@ pub fn window_event(
         WindowEvent::DroppedFile(path) => {
             Some(Event::Window(window::Event::FileDropped(path.clone())))
         }
-        WindowEvent::HoveredFileCancelled => {
-            Some(Event::Window(window::Event::FilesHoveredLeft))
-        }
-        WindowEvent::Touch(touch) => {
-            Some(Event::Touch(touch_event(*touch, scale_factor)))
-        }
+        WindowEvent::HoveredFileCancelled => Some(Event::Window(window::Event::FilesHoveredLeft)),
+        WindowEvent::Touch(touch) => Some(Event::Touch(touch_event(*touch, scale_factor))),
         _ => None,
     }
 }
@@ -143,9 +125,7 @@ pub fn fullscreen(
 ) -> Option<winit::window::Fullscreen> {
     match mode {
         Mode::Windowed => None,
-        Mode::Fullscreen => {
-            Some(winit::window::Fullscreen::Borderless(monitor))
-        }
+        Mode::Fullscreen => Some(winit::window::Fullscreen::Borderless(monitor)),
     }
 }
 
@@ -153,9 +133,7 @@ pub fn fullscreen(
 ///
 /// [`winit`]: https://github.com/rust-windowing/winit
 /// [`iced_native`]: https://github.com/hecrj/iced/tree/master/native
-pub fn mouse_interaction(
-    interaction: mouse::Interaction,
-) -> winit::window::CursorIcon {
+pub fn mouse_interaction(interaction: mouse::Interaction) -> winit::window::CursorIcon {
     use mouse::Interaction;
 
     match interaction {
@@ -166,9 +144,7 @@ pub fn mouse_interaction(
         Interaction::Grabbing => winit::window::CursorIcon::Grabbing,
         Interaction::Crosshair => winit::window::CursorIcon::Crosshair,
         Interaction::Text => winit::window::CursorIcon::Text,
-        Interaction::ResizingHorizontally => {
-            winit::window::CursorIcon::EwResize
-        }
+        Interaction::ResizingHorizontally => winit::window::CursorIcon::EwResize,
         Interaction::ResizingVertically => winit::window::CursorIcon::NsResize,
     }
 }
@@ -182,9 +158,7 @@ pub fn mouse_button(mouse_button: winit::event::MouseButton) -> mouse::Button {
         winit::event::MouseButton::Left => mouse::Button::Left,
         winit::event::MouseButton::Right => mouse::Button::Right,
         winit::event::MouseButton::Middle => mouse::Button::Middle,
-        winit::event::MouseButton::Other(other) => {
-            mouse::Button::Other(other as u8)
-        }
+        winit::event::MouseButton::Other(other) => mouse::Button::Other(other as u8),
     }
 }
 
@@ -193,9 +167,7 @@ pub fn mouse_button(mouse_button: winit::event::MouseButton) -> mouse::Button {
 ///
 /// [`winit`]: https://github.com/rust-windowing/winit
 /// [`iced_native`]: https://github.com/hecrj/iced/tree/master/native
-pub fn modifiers(
-    modifiers: winit::event::ModifiersState,
-) -> keyboard::Modifiers {
+pub fn modifiers(modifiers: winit::event::ModifiersState) -> keyboard::Modifiers {
     keyboard::Modifiers {
         shift: modifiers.shift(),
         control: modifiers.ctrl(),
@@ -205,10 +177,7 @@ pub fn modifiers(
 }
 
 /// Converts a physical cursor position to a logical `Point`.
-pub fn cursor_position(
-    position: winit::dpi::PhysicalPosition<f64>,
-    scale_factor: f64,
-) -> Point {
+pub fn cursor_position(position: winit::dpi::PhysicalPosition<f64>, scale_factor: f64) -> Point {
     let logical_position = position.to_logical(scale_factor);
 
     Point::new(logical_position.x, logical_position.y)
@@ -218,10 +187,7 @@ pub fn cursor_position(
 ///
 /// [`winit`]: https://github.com/rust-windowing/winit
 /// [`iced_native`]: https://github.com/hecrj/iced/tree/master/native
-pub fn touch_event(
-    touch: winit::event::Touch,
-    scale_factor: f64,
-) -> touch::Event {
+pub fn touch_event(touch: winit::event::Touch, scale_factor: f64) -> touch::Event {
     let id = touch::Finger(touch.id);
     let position = {
         let location = touch.location.to_logical::<f64>(scale_factor);
@@ -230,18 +196,10 @@ pub fn touch_event(
     };
 
     match touch.phase {
-        winit::event::TouchPhase::Started => {
-            touch::Event::FingerPressed { id, position }
-        }
-        winit::event::TouchPhase::Moved => {
-            touch::Event::FingerMoved { id, position }
-        }
-        winit::event::TouchPhase::Ended => {
-            touch::Event::FingerLifted { id, position }
-        }
-        winit::event::TouchPhase::Cancelled => {
-            touch::Event::FingerLost { id, position }
-        }
+        winit::event::TouchPhase::Started => touch::Event::FingerPressed { id, position },
+        winit::event::TouchPhase::Moved => touch::Event::FingerMoved { id, position },
+        winit::event::TouchPhase::Ended => touch::Event::FingerLifted { id, position },
+        winit::event::TouchPhase::Cancelled => touch::Event::FingerLost { id, position },
     }
 }
 
@@ -249,9 +207,7 @@ pub fn touch_event(
 ///
 /// [`winit`]: https://github.com/rust-windowing/winit
 /// [`iced_native`]: https://github.com/hecrj/iced/tree/master/native
-pub fn key_code(
-    virtual_keycode: winit::event::VirtualKeyCode,
-) -> keyboard::KeyCode {
+pub fn key_code(virtual_keycode: winit::event::VirtualKeyCode) -> keyboard::KeyCode {
     use keyboard::KeyCode;
 
     match virtual_keycode {
@@ -377,12 +333,8 @@ pub fn key_code(
         winit::event::VirtualKeyCode::NumpadMultiply => KeyCode::NumpadMultiply,
         winit::event::VirtualKeyCode::Mute => KeyCode::Mute,
         winit::event::VirtualKeyCode::MyComputer => KeyCode::MyComputer,
-        winit::event::VirtualKeyCode::NavigateForward => {
-            KeyCode::NavigateForward
-        }
-        winit::event::VirtualKeyCode::NavigateBackward => {
-            KeyCode::NavigateBackward
-        }
+        winit::event::VirtualKeyCode::NavigateForward => KeyCode::NavigateForward,
+        winit::event::VirtualKeyCode::NavigateBackward => KeyCode::NavigateBackward,
         winit::event::VirtualKeyCode::NextTrack => KeyCode::NextTrack,
         winit::event::VirtualKeyCode::NoConvert => KeyCode::NoConvert,
         winit::event::VirtualKeyCode::NumpadComma => KeyCode::NumpadComma,
@@ -428,9 +380,7 @@ pub fn key_code(
 // As defined in: http://www.unicode.org/faq/private_use.html
 pub(crate) fn is_private_use_character(c: char) -> bool {
     match c {
-        '\u{E000}'..='\u{F8FF}'
-        | '\u{F0000}'..='\u{FFFFD}'
-        | '\u{100000}'..='\u{10FFFD}' => true,
+        '\u{E000}'..='\u{F8FF}' | '\u{F0000}'..='\u{FFFFD}' | '\u{100000}'..='\u{10FFFD}' => true,
         _ => false,
     }
 }

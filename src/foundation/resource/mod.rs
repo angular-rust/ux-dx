@@ -1,12 +1,11 @@
-//! Resource management - WIP
+//! Resource management
 
-pub use warmy::{Store, Res, StoreOpt};
+pub use warmy::{Res, Store, StoreOpt};
 
 pub mod error;
 
 mod key;
 pub use self::key::*;
-
 
 // /// Load helper.
 // ///

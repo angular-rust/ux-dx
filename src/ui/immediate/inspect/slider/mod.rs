@@ -2,7 +2,7 @@ use crate::ui::immediate::Ui;
 
 mod slider_f32;
 
-pub use super::*;
+use super::*;
 
 /// Options for rendering a values as a slider.
 ///
@@ -30,8 +30,6 @@ impl From<InspectArgsDefault> for InspectArgsSlider {
 pub trait InspectRenderSlider<T> {
     /// Render the element in an immutable way (i.e. static text)
     ///
-    /// (Hopefully in the future this can be better. See
-    /// https://github.com/ocornut/imgui/issues/211)
     fn render(data: &[&T], label: &'static str, ui: &mut Ui, args: &InspectArgsSlider);
 
     /// Render the element as a mutable slider

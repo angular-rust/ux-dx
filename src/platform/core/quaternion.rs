@@ -60,25 +60,25 @@ use std::mem;
 // learn more here are some external references:
 //
 // <itemizedlist>
-// <listitem>
+// - 
 // <ulink url="http://mathworld.wolfram.com/Quaternion.html"/>
 // </listitem>
-// <listitem>
+// - 
 // <ulink url="http://www.gamedev.net/reference/articles/article1095.asp"/>
 // </listitem>
-// <listitem>
+// - 
 // <ulink url="http://www.cprogramming.com/tutorial/3d/quaternions.html"/>
 // </listitem>
-// <listitem>
+// - 
 // <ulink url="http://www.isner.com/tutorials/quatSpells/quaternion_spells_12.htm"/>
 // </listitem>
-// <listitem>
+// - 
 // 3D Maths Primer for Graphics and Game Development ISBN-10: 1556229119
 // </listitem>
-// <listitem>
+// - 
 // <ulink url="http://www.cs.caltech.edu/courses/cs171/quatut.pdf"/>
 // </listitem>
-// <listitem>
+// - 
 // <ulink url="http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q56"/>
 // </listitem>
 // </itemizedlist>
@@ -201,7 +201,7 @@ impl Quaternion {
     }
 
     /// Initializes a [w (x, y,z)] quaternion directly from an array of 4
-    /// floats: [w,x,y,z].
+    /// floats: w,x,y,z.
     ///
     /// ## `array`
     /// An array of 4 floats w,(x,y,z)
@@ -413,8 +413,8 @@ impl Quaternion {
     /// so the rotations are applied `right` to `left`. This is similar to the
     /// combining of matrices.
     ///
-    /// `<note>`It is possible to multiply the `a` quaternion in-place, so
-    /// `self` can be equal to `a` but can't be equal to `b`.`</note>`
+    /// It is possible to multiply the `a` quaternion in-place, so
+    /// `self` can be equal to `a` but can't be equal to `b`.
     ///
     /// ## `left`
     /// The second `Quaternion` rotation to apply
@@ -448,20 +448,20 @@ impl Quaternion {
     /// if you don't need the constant speed property of the `slerp` function.
     ///
     /// Notable properties:
-    /// `<itemizedlist>`
-    /// `<listitem>`
+    /// 
+    /// - 
     /// commutative: Yes
-    /// `</listitem>`
-    /// `<listitem>`
+    /// 
+    /// - 
     /// constant velocity: No
-    /// `</listitem>`
-    /// `<listitem>`
+    /// 
+    /// - 
     /// torque minimal (travels along the surface of the 4-sphere): Yes
-    /// `</listitem>`
-    /// `<listitem>`
+    /// 
+    /// - 
     /// faster than `Quaternion::slerp`
-    /// `</listitem>`
-    /// `</itemizedlist>`
+    /// 
+    /// 
     /// ## `a`
     /// The first `Quaternion`
     /// ## `b`
@@ -581,20 +581,20 @@ impl Quaternion {
     /// Performs a spherical linear interpolation between two quaternions.
     ///
     /// Noteable properties:
-    /// `<itemizedlist>`
-    /// `<listitem>`
+    /// 
+    /// - 
     /// commutative: No
-    /// `</listitem>`
-    /// `<listitem>`
+    /// 
+    /// - 
     /// constant velocity: Yes
-    /// `</listitem>`
-    /// `<listitem>`
+    /// 
+    /// - 
     /// torque minimal (travels along the surface of the 4-sphere): Yes
-    /// `</listitem>`
-    /// `<listitem>`
+    /// 
+    /// - 
     /// more expensive than `Quaternion::nlerp`
-    /// `</listitem>`
-    /// `</itemizedlist>`
+    /// 
+    /// 
     /// ## `a`
     /// The first `Quaternion`
     /// ## `b`

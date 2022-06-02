@@ -1,3 +1,5 @@
+//! General errors
+
 #![allow(dead_code)]
 
 use std::fmt;

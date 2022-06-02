@@ -28,7 +28,12 @@ pub struct Rectangle {
 
 impl Rectangle {
     pub fn new(x: f32, y: f32, width: f32, height: f32) -> Self {
-        Self { x, y, width, height }
+        Self {
+            x,
+            y,
+            width,
+            height,
+        }
     }
 
     pub fn set(&mut self, x: f32, y: f32, width: f32, height: f32) {
@@ -91,28 +96,28 @@ impl Rectangle {
 
     #[inline]
     fn left(&self) -> f32 {
-        return self.x;
+        self.x
     }
 
     #[inline]
     fn top(&self) -> f32 {
-        return self.y;
+        self.y
     }
 
     fn right(&self) -> f32 {
-        return self.x + self.width;
+        self.x + self.width
     }
 
     fn bottom(&self) -> f32 {
-        return self.y + self.height;
+        self.y + self.height
     }
 
     fn center_x(&self) -> f32 {
-        return self.x + self.width / 2.0;
+        self.x + self.width / 2.0
     }
 
     fn center_y(&self) -> f32 {
-        return self.y + self.height / 2.0;
+        self.y + self.height / 2.0
     }
 
     // static
@@ -127,7 +132,10 @@ impl Rectangle {
 
     // static
     pub fn rect_equal_to_rect(rect1: &Rectangle, rect2: &Rectangle) -> bool {
-        (rect1.x == rect2.x) && (rect1.y == rect2.y) && (rect1.width == rect2.width) && (rect1.height == rect2.height)
+        (rect1.x == rect2.x)
+            && (rect1.y == rect2.y)
+            && (rect1.width == rect2.width)
+            && (rect1.height == rect2.height)
     }
 
     // static
@@ -198,6 +206,9 @@ impl fmt::Display for Rectangle {
 impl PartialEq for Rectangle {
     #[inline]
     fn eq(&self, other: &Self) -> bool {
-        self.x == other.x && self.y == other.y && self.width == other.width && self.height == other.height
+        self.x == other.x
+            && self.y == other.y
+            && self.width == other.width
+            && self.height == other.height
     }
 }

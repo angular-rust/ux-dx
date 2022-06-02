@@ -15,7 +15,7 @@ pub trait RendererSystem {
     /// least 1024.
     fn max_texture_size(&self) -> i32;
 
-    /// Whether the renderer currently has a GPU context. In some renderers (Stage3D and WebGL) the
+    /// Whether the renderer currently has a GPU context. In some renderers the
     /// GPU and all its resources may be destroyed at any time by the system. On renderers that don't
     /// need to worry about reclaiming GPU resources (Canvas) this is always true.
     ///  *
@@ -35,8 +35,7 @@ pub trait RendererSystem {
     // /// `System::loadAssetPack()` to load textures, but this can be useful for working with external
     // /// code that deals with native images.
     // ///  *
-    // /// @param image The platform-specific image data. In Flash, this is a BitmapData. In HTML, this
-    // /// is an ImageElement, CanvasElement, or VideoElement.
+    // /// @param image The platform-specific image data. 
     // ///  *
     // /// @returns The new texture, or None if the GPU context is currently unavailable.
     // fn createTextureFromImage(&self, image: NativeImage) -> Box<dyn Texture>;
@@ -59,7 +58,7 @@ pub trait RendererSystem {
 }
 
 pub enum RendererType {
-    Stage3D,
+    GLES,
     WebGL,
     Canvas,
 }

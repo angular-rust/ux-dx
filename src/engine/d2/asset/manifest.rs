@@ -72,8 +72,16 @@ impl Manifest {
     ///   returned.
     //  static
     // locale :String = None, required :bool = true
-    pub fn from_assets_localized(pack_name: String, locale: Option<String>, required: bool) -> Option<Manifest> {
-        let locale = if locale.is_none() { System::locale() } else { locale };
+    pub fn from_assets_localized(
+        pack_name: String,
+        locale: Option<String>,
+        required: bool,
+    ) -> Option<Manifest> {
+        let locale = if locale.is_none() {
+            System::locale()
+        } else {
+            locale
+        };
 
         if let Some(locale) = locale {
             let mut parts: Vec<String> = locale.split("-").map(String::from).collect();
@@ -104,7 +112,13 @@ impl Manifest {
     /// @param bytes The size in bytes.
     /// @param format Optionally specified content format, by default infer it from the URL.
     //  bytes: i32 = 0, ?format :AssetFormat
-    pub fn add(&mut self, name: String, url: String, bytes: usize, format: Option<AssetFormat>) -> AssetEntry {
+    pub fn add(
+        &mut self,
+        name: String,
+        url: String,
+        bytes: usize,
+        format: Option<AssetFormat>,
+    ) -> AssetEntry {
         let format = format.unwrap_or(Self::infer_format(url.as_str()));
 
         let entry = AssetEntry::new(name, url, format, bytes);

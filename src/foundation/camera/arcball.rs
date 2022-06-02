@@ -43,7 +43,11 @@ impl<F: BaseFloat> ArcballCamera<F> {
 
     /// Get the camera eye position
     pub fn eye_pos(&self) -> Vector3<F> {
-        Vector3::new(self.inv_camera[3].x, self.inv_camera[3].y, self.inv_camera[3].z)
+        Vector3::new(
+            self.inv_camera[3].x,
+            self.inv_camera[3].y,
+            self.inv_camera[3].z,
+        )
     }
 
     /// Get the camera view direction
@@ -82,19 +86,24 @@ impl<F: BaseFloat> ArcballCamera<F> {
     /// Zoom the camera in by some amount. Positive values zoom in, negative zoom out.
     pub fn zoom(&mut self, amount: F, elapsed: F) {
         let motion = Vector3::new(F::zero(), F::zero(), amount);
-        self.translation = Matrix4::from_translation(motion * self.zoom_speed * elapsed) * self.translation;
+        self.translation =
+            Matrix4::from_translation(motion * self.zoom_speed * elapsed) * self.translation;
         self.update_camera();
     }
 
     /// Pan the camera following the motion of the mouse. The mouse delta should be in pixels.
     pub fn pan(&mut self, mouse_delta: Vector2<F>) {
         let zoom_dist = self.translation[3][3].abs();
-        let delta =
-            Vector4::new(mouse_delta.x * self.inv_screen[0], -mouse_delta.y * self.inv_screen[1], F::zero(), F::zero())
-                * zoom_dist;
+        let delta = Vector4::new(
+            mouse_delta.x * self.inv_screen[0],
+            -mouse_delta.y * self.inv_screen[1],
+            F::zero(),
+            F::zero(),
+        ) * zoom_dist;
         let motion = self.inv_camera * delta;
         self.center_translation =
-            Matrix4::from_translation(Vector3::new(motion.x, motion.y, motion.z)) * self.center_translation;
+            Matrix4::from_translation(Vector3::new(motion.x, motion.y, motion.z))
+                * self.center_translation;
         self.update_camera();
     }
 

@@ -55,7 +55,7 @@ impl ShaderGL {
         let name: String = name.into();
         let loc = gl::get_attrib_location(self.program, name.as_str());
         assert!(loc >= 0, "Missing attribute [name: {}]", name);
-        return loc;
+        loc
     }
 
     // UniformLocation
@@ -63,7 +63,7 @@ impl ShaderGL {
         let name: String = name.into();
         let loc = gl::get_uniform_location(self.program, name.as_str());
         assert!(loc >= 0, "Missing uniform [name: {}]", name);
-        return loc;
+        loc
     }
 
     // static Shader

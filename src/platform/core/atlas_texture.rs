@@ -18,9 +18,9 @@ use std::fmt;
 // shared texture atlases using a high-level #AtlasTexture which
 // represents a sub-region of one of these atlases.
 //
-// <note>A #AtlasTexture is a high-level meta texture which has
+// A #AtlasTexture is a high-level meta texture which has
 // some limitations to be aware of. Please see the documentation for
-// #MetaTexture for more details.</note>
+// #MetaTexture for more details.
 pub struct AtlasTexture {
     parent: Texture,
 
@@ -63,13 +63,13 @@ impl AtlasTexture {
     // using texture_set_components() and
     // texture_set_premultiplied().
     //
-    // <note>Allocate call can fail if  considers the internal
+    // Allocate call can fail if  considers the internal
     // format to be incompatible with the format of its internal
-    // atlases.</note>
+    // atlases.
     //
-    // <note>The returned #AtlasTexture is a high-level meta-texture
+    // The returned #AtlasTexture is a high-level meta-texture
     // with some limitations. See the documentation for #MetaTexture
-    // for more details.</note>
+    // for more details.
     //
     // Returns: (transfer full): A new #AtlasTexture object::
     // Since: 1.16
@@ -109,7 +109,7 @@ impl AtlasTexture {
     // memory. A #AtlasTexture represents a sub-region within one of
     // 's shared texture atlases.
     //
-    // <note>This api will always immediately allocate GPU memory for the
+    // This api will always immediately allocate GPU memory for the
     // texture and upload the given data so that the @data pointer does
     // not need to remain valid once this fn returns. This means it
     // is not possible to configure the texture before it is allocated. If
@@ -118,15 +118,15 @@ impl AtlasTexture {
     // instead create a #Bitmap for your data and use
     // atlas_texture_new_from_bitmap() or use
     // atlas_texture_new_with_size() and then upload data using
-    // texture_set_data()</note>
+    // texture_set_data()
     //
-    // <note>Allocate call can fail if  considers the internal
+    // Allocate call can fail if  considers the internal
     // format to be incompatible with the format of its internal
-    // atlases.</note>
+    // atlases.
     //
-    // <note>The returned #AtlasTexture is a high-level
+    // The returned #AtlasTexture is a high-level
     // meta-texture with some limitations. See the documentation for
-    // #MetaTexture for more details.</note>
+    // #MetaTexture for more details.
     //
     // Return value: (transfer full): A new #AtlasTexture object or
     //          %NULL on failure and @error will be updated.
@@ -192,13 +192,13 @@ impl AtlasTexture {
     // using texture_set_components() and
     // texture_set_premultiplied().
     //
-    // <note>Allocate call can fail if  considers the internal
+    // Allocate call can fail if  considers the internal
     // format to be incompatible with the format of its internal
-    // atlases.</note>
+    // atlases.
     //
-    // <note>The returned #AtlasTexture is a high-level meta-texture
+    // The returned #AtlasTexture is a high-level meta-texture
     // with some limitations. See the documentation for #MetaTexture
-    // for more details.</note>
+    // for more details.
     //
     // Return value: (transfer full): A new #AtlasTexture object or
     //          %NULL on failure and @error will be updated.
@@ -240,13 +240,13 @@ impl AtlasTexture {
     // using texture_set_components() and
     // texture_set_premultiplied().
     //
-    // <note>Allocate call can fail if  considers the internal
+    // Allocate call can fail if  considers the internal
     // format to be incompatible with the format of its internal
-    // atlases.</note>
+    // atlases.
     //
-    // <note>The returned #AtlasTexture is a high-level meta-texture
+    // The returned #AtlasTexture is a high-level meta-texture
     // with some limitations. See the documentation for #MetaTexture
-    // for more details.</note>
+    // for more details.
     pub fn with_size(context: &Context, width: u32, height: u32) -> AtlasTexture {
         // We can't atlas zero-sized textures because it breaks the atlas
         // data structure

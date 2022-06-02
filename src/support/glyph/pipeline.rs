@@ -127,7 +127,7 @@ impl Pipeline {
 }
 
 // Helpers
-#[cfg_attr(rustfmt, rustfmt_skip)]
+#[rustfmt::skip]
 const IDENTITY_MATRIX: [f32; 16] = [
     1.0, 0.0, 0.0, 0.0,
     0.0, 1.0, 0.0, 0.0,

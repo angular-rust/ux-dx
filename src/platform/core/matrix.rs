@@ -49,11 +49,11 @@ use std::mem;
 //
 // Where w is normally 1
 //
-// <note>You must consider the members of the Matrix structure read only,
+// You must consider the members of the Matrix structure read only,
 // and all matrix modifications must be done via the matrix API. This
 // allows  to annotate the matrices internally. Violation of this will give
 // undefined results. If you need to initialize a matrix with a constant other
-// than the identity matrix you can use matrix_init_from_array().</note>
+// than the identity matrix you can use matrix_init_from_array().
 #[derive(Default, Debug, Clone, PartialOrd)] // Hash
 pub struct Matrix {
     // column 0
@@ -165,11 +165,11 @@ impl Matrix {
     /// Gets the inverse transform of a given matrix and uses it to initialize
     /// a new `Matrix`.
     ///
-    /// `<note>`Although the first parameter is annotated as const to indicate
+    /// Although the first parameter is annotated as const to indicate
     /// that the transform it represents isn't modified this fn may
     /// technically save a copy of the inverse transform within the given
     /// `Matrix` so that subsequent requests for the inverse transform may
-    /// avoid costly inversion calculations.`</note>`
+    /// avoid costly inversion calculations.
     /// ## `inverse`
     /// The destination for a 4x4 inverse transformation matrix
     ///
@@ -389,14 +389,14 @@ impl Matrix {
     /// position (partly because the man page is somewhat missleading) but
     /// that is not necessary for this function.
     ///
-    /// `<note>`You should never look directly along the world-up
-    /// vector.`</note>`
+    /// You should never look directly along the world-up
+    /// vector.
     ///
-    /// `<note>`It is assumed you are using a typical projection matrix where
-    /// your origin maps to the center of your viewport.`</note>`
+    /// It is assumed you are using a typical projection matrix where
+    /// your origin maps to the center of your viewport.
     ///
-    /// `<note>`Almost always when you use this fn it should be the first
-    /// transform applied to a new modelview transform`</note>`
+    /// Almost always when you use this fn it should be the first
+    /// transform applied to a new modelview transform
     /// ## `eye_position_x`
     /// The X coordinate to look from
     /// ## `eye_position_y`
@@ -481,8 +481,8 @@ impl Matrix {
     /// Multiplies the two supplied matrices together and stores
     /// the resulting matrix inside `self`.
     ///
-    /// `<note>`It is possible to multiply the `a` matrix in-place, so
-    /// `self` can be equal to `a` but can't be equal to `b`.`</note>`
+    /// It is possible to multiply the `a` matrix in-place, so
+    /// `self` can be equal to `a` but can't be equal to `b`.
     /// ## `a`
     /// A 4x4 transformation matrix
     /// ## `b`
@@ -510,12 +510,12 @@ impl Matrix {
     /// ## `y_2`
     /// The y coordinate for the second horizontal clipping plane
     /// ## `near`
-    /// The `<emphasis>`distance`</emphasis>` to the near clipping
-    ///  plane (will be `<emphasis>`negative`</emphasis>` if the plane is
+    /// The distance to the near clipping
+    ///  plane (will be negative if the plane is
     ///  behind the viewer)
     /// ## `far`
-    /// The `<emphasis>`distance`</emphasis>` to the far clipping
-    ///  plane (will be `<emphasis>`negative`</emphasis>` if the plane is
+    /// The distance to the far clipping
+    ///  plane (will be negative if the plane is
     ///  behind the viewer)
     pub fn orthographic(&mut self, x_1: f32, y_1: f32, x_2: f32, y_2: f32, near: f32, far: f32) {
         // float m[16];
@@ -548,10 +548,10 @@ impl Matrix {
 
     /// Multiplies `self` by the described perspective matrix
     ///
-    /// `<note>`You should be careful not to have to great a `z_far` / `z_near`
+    /// You should be careful not to have to great a `z_far` / `z_near`
     /// ratio since that will reduce the effectiveness of depth testing
     /// since there wont be enough precision to identify the depth of
-    /// objects near to each other.`</note>`
+    /// objects near to each other.
     /// ## `fov_y`
     /// Vertical field of view angle in degrees.
     /// ## `aspect`

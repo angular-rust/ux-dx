@@ -23,9 +23,10 @@ impl Flipbook {
         // By default, play the animation for one second
         let duration_per_frame = 1.0 / textures.len() as f32;
         for texture in textures {
-            instance
-                .frames
-                .push(FlipbookFrame::new((texture as Rc<dyn Texture>).clone(), duration_per_frame));
+            instance.frames.push(FlipbookFrame::new(
+                (texture as Rc<dyn Texture>).clone(),
+                duration_per_frame,
+            ));
         }
         instance
     }

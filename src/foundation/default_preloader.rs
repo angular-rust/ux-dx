@@ -3,6 +3,7 @@ use crate::prelude::Renderable;
 
 use super::time;
 
+/// Default dummy preloader implementation
 pub struct DefaultPreloader;
 
 impl Default for DefaultPreloader {
@@ -12,8 +13,5 @@ impl Default for DefaultPreloader {
 }
 
 impl Renderable for DefaultPreloader {
-    fn render(&self, t: time::Time) {
-        // todo!()
-        
-    }
+    fn render(&self, t: time::Time) {}
 }

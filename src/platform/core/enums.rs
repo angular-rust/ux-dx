@@ -42,10 +42,11 @@ impl fmt::Display for AttributeType {
     }
 }
 
-/// Error codes that can be thrown when performing bitmap
-/// operations. Note that `gdk_pixbuf_new_from_file` can also throw
+/// Error codes that can be thrown when performing bitmap operations. 
+/// 
+/// Note that `gdk_pixbuf_new_from_file` can also throw
 /// errors directly from the underlying image loading library. For
-/// example, if `GdkPixbuf` is used then errors ``GdkPixbufError``<!-- -->s
+/// example, if `GdkPixbuf` is used then errors ``GdkPixbufError``s
 /// will be used directly.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -125,7 +126,9 @@ impl fmt::Display for BufferError {
     }
 }
 
-/// The update hint on a buffer allows the user to give some detail on how often
+/// The update hint on a buffer.
+/// 
+/// Allows the user to give some detail on how often
 /// the buffer data is going to be updated.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -159,6 +162,8 @@ impl fmt::Display for BufferUpdateHint {
     }
 }
 
+/// Used to compare the depth of an incoming fragment
+///
 /// When using depth testing one of these functions is used to compare
 /// the depth of an incoming fragment against the depth value currently
 /// stored in the depth buffer. The fn is changed using
@@ -257,8 +262,9 @@ impl fmt::Display for Driver {
     }
 }
 
-/// All the capabilities that can vary between different GPUs supported
-/// by . Applications that depend on any of these features should explicitly
+/// All the capabilities that can vary between different GPUs supported.
+///
+/// Applications that depend on any of these features should explicitly
 /// check for them using `has_feature` or `has_features`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -403,10 +409,11 @@ impl fmt::Display for FilterReturn {
     }
 }
 
-/// The fog mode determines the equation used to calculate the fogging blend
-/// factor while fogging is enabled. The simplest `FogMode::Linear` mode
-/// determines f as:
+/// Determines the equation used to calculate the blend
+/// factor while fogging is enabled.
 ///
+/// The simplest `FogMode::Linear` mode
+/// determines f as:
 ///
 /// ```text
 ///   f = end - eye_distance / end - start
@@ -451,6 +458,8 @@ impl fmt::Display for FogMode {
     }
 }
 
+/// Identifiers that are passed to `FrameCallback` functions.
+///
 /// Identifiers that are passed to `FrameCallback` functions
 /// (registered using `Onscreen::add_frame_callback`) that
 /// mark the progression of a frame in some way which usually
@@ -462,9 +471,9 @@ impl fmt::Display for FogMode {
 /// opportunity to collect statistics about a frame since the
 /// `FrameInfo` should hold the most data at this point.
 ///
-/// `<note>`A frame may not be completed before the next frame can start
+/// A frame may not be completed before the next frame can start
 /// so applications should avoid needing to collect all statistics for
-/// a particular frame before they can start a new frame.`</note>`
+/// a particular frame before they can start a new frame.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum FrameEvent {
@@ -583,6 +592,8 @@ impl fmt::Display for GLES2ContextError {
     }
 }
 
+/// Indices type
+///
 /// You should aim to use the smallest data type that gives you enough
 /// range, since it reduces the size of your index array and can help
 /// reduce the demand on memory bandwidth.
@@ -617,6 +628,8 @@ impl fmt::Display for IndicesType {
     }
 }
 
+/// Material alpha testing function
+///
 /// Alpha testing happens before blending primitives with the framebuffer and
 /// gives an opportunity to discard fragments based on a comparison with the
 /// incoming alpha value and a reference alpha value. The `MaterialAlphaFunc`
@@ -667,6 +680,8 @@ impl fmt::Display for MaterialAlphaFunc {
     }
 }
 
+/// Material texture filtering.
+///
 /// Texture filtering is used whenever the current pixel maps either to more
 /// than one texture element (texel) or less than one. These filter enums
 /// correspond to different strategies used to come up with a pixel color, by
@@ -718,8 +733,10 @@ impl fmt::Display for MaterialFilter {
     }
 }
 
-/// Available types of layers for a `Material`. This enumeration
-/// might be expanded in later versions.
+/// Available types of layers for a Material. 
+/// 
+/// This enumeration might be expanded in later versions.
+/// 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum MaterialLayerType {
@@ -740,6 +757,8 @@ impl fmt::Display for MaterialLayerType {
     }
 }
 
+/// Material texture wrap mode
+///
 /// The wrap mode specifies what happens when texture coordinates
 /// outside the range 0→1 are used. Note that if the filter mode is
 /// anything but `MaterialFilter::Nearest` then texels outside the
@@ -799,6 +818,8 @@ pub enum OffscreenFlags {
     DisableDepthAndStencil = 1,
 }
 
+/// Aplha testing function.
+///
 /// Alpha testing happens before blending primitives with the framebuffer and
 /// gives an opportunity to discard fragments based on a comparison with the
 /// incoming alpha value and a reference alpha value. The `PipelineAlphaFunc`
@@ -849,8 +870,9 @@ impl fmt::Display for PipelineAlphaFunc {
     }
 }
 
-/// Specifies which faces should be culled. This can be set on a
-/// pipeline using `Pipeline::set_cull_face_mode`.
+/// Specifies which faces should be culled.
+///
+/// This can be set on a pipeline using `Pipeline::set_cull_face_mode`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum PipelineCullFaceMode {
@@ -880,6 +902,8 @@ impl fmt::Display for PipelineCullFaceMode {
     }
 }
 
+/// Pipeline texture filtering.
+///
 /// Texture filtering is used whenever the current pixel maps either to more
 /// than one texture element (texel) or less than one. These filter enums
 /// correspond to different strategies used to come up with a pixel color, by
@@ -931,6 +955,8 @@ impl fmt::Display for PipelineFilter {
     }
 }
 
+/// Pipeline texture wrap mode.
+///
 /// The wrap mode specifies what happens when texture coordinates
 /// outside the range 0→1 are used. Note that if the filter mode is
 /// anything but `PipelineFilter::Nearest` then texels outside the
@@ -985,7 +1011,9 @@ const BIT_PREMULT: u32 = 1 << 7;
 const BIT_DEPTH: u32 = 1 << 8;
 const BIT_STENCIL: u32 = 1 << 9;
 
-/// Pixel formats used by . For the formats with a byte per
+/// Pixel formats definitions.
+///
+/// For the formats with a byte per
 /// component, the order of the components specify the order in
 /// increasing memory addresses. So for example
 /// `PixelFormat::Rgb888` would have the red component in the
@@ -1145,7 +1173,9 @@ impl fmt::Display for PixelFormat {
 }
 
 /// A bitmask of events that  may need to wake on for a file
-/// descriptor. Note that these all have the same values as the
+/// descriptor.
+///
+/// Note that these all have the same values as the
 /// corresponding defines for the poll fn call on Unix so they
 /// may be directly passed to poll.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -1273,101 +1303,76 @@ impl fmt::Display for ShaderType {
     }
 }
 
+/// Location within a Pipeline
+/// 
 /// `SnippetHook` is used to specify a location within a
 /// `Pipeline` where the code of the snippet should be used when it
 /// is attached to a pipeline.
 ///
-/// `<glosslist>`
-///  `<glossentry>`
-///  `<glossterm>``SnippetHook::VertexGlobals``</glossterm>`
-///  `<glossdef>`
-/// `<para>`
+///  `SnippetHook::VertexGlobals`
+///
 /// Adds a shader snippet at the beginning of the global section of the
 /// shader for the vertex processing. Any declarations here can be
 /// shared with all other snippets that are attached to a vertex hook.
 /// Only the ‘declarations’ string is used and the other strings are
 /// ignored.
-/// `</para>`
-///  `</glossdef>`
-///  `</glossentry>`
-///  `<glossentry>`
-///  `<glossterm>``SnippetHook::FragmentGlobals``</glossterm>`
-///  `<glossdef>`
-/// `<para>`
+///
+///  `SnippetHook::FragmentGlobals`
+///
 /// Adds a shader snippet at the beginning of the global section of the
 /// shader for the fragment processing. Any declarations here can be
 /// shared with all other snippets that are attached to a fragment
 /// hook. Only the ‘declarations’ string is used and the other strings
 /// are ignored.
-/// `</para>`
-///  `</glossdef>`
-///  `</glossentry>`
-///  `<glossentry>`
-///  `<glossterm>``SnippetHook::Vertex``</glossterm>`
-///  `<glossdef>`
-/// `<para>`
+///
+///  `SnippetHook::Vertex`
+///
 /// Adds a shader snippet that will hook on to the vertex processing
 /// stage of the pipeline. This gives a chance for the application to
 /// modify the vertex attributes generated by the shader. Typically the
 /// snippet will modify color_out or position_out builtins.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘declarations’ string in `snippet` will be inserted in the
 /// global scope of the shader. Use this to declare any uniforms,
 /// attributes or functions that the snippet requires.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘pre’ string in `snippet` will be inserted at the top of the
 /// `main` fn before any vertex processing is done.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘replace’ string in `snippet` will be used instead of the
 /// generated vertex processing if it is present. This can be used if
 /// the application wants to provide a complete vertex shader and
 /// doesn't need the generated output from .
-/// `</para>`
-/// `<para>`
+///
 /// The ‘post’ string in `snippet` will be inserted after all of the
 /// standard vertex processing is done. This can be used to modify the
 /// outputs.
-/// `</para>`
-///  `</glossdef>`
-///  `</glossentry>`
-///  `<glossentry>`
-///  `<glossterm>``SnippetHook::VertexTransform``</glossterm>`
-///  `<glossdef>`
-/// `<para>`
+///
+///  `SnippetHook::VertexTransform`
+///
 /// Adds a shader snippet that will hook on to the vertex transform stage.
 /// Typically the snippet will use the modelview_matrix,
 /// projection_matrix and modelview_projection_matrix matrices and the
 /// position_in attribute. The hook must write to position_out.
 /// The default processing for this hook will multiply position_in by
 /// the combined modelview-projection matrix and store it on position_out.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘declarations’ string in `snippet` will be inserted in the
 /// global scope of the shader. Use this to declare any uniforms,
 /// attributes or functions that the snippet requires.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘pre’ string in `snippet` will be inserted at the top of the
 /// `main` fn before the vertex transform is done.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘replace’ string in `snippet` will be used instead of the
 /// generated vertex transform if it is present.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘post’ string in `snippet` will be inserted after all of the
 /// standard vertex transformation is done. This can be used to modify the
 /// position_out in addition to the default processing.
-/// `</para>`
-///  `</glossdef>`
-///  `</glossentry>`
-///  `<glossentry>`
-///  `<glossterm>``SnippetHook::PointSize``</glossterm>`
-///  `<glossdef>`
-/// `<para>`
+///
+///  `SnippetHook::PointSize`
+///
 /// Adds a shader snippet that will hook on to the point size
 /// calculation step within the vertex shader stage. The snippet should
 /// write to the builtin point_size_out with the new point size.
@@ -1376,69 +1381,52 @@ impl fmt::Display for ShaderType {
 /// that would be set by a previous snippet. Note that this hook is
 /// only used if `Pipeline::set_per_vertex_point_size` is enabled
 /// on the pipeline.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘declarations’ string in `snippet` will be inserted in the
 /// global scope of the shader. Use this to declare any uniforms,
 /// attributes or functions that the snippet requires.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘pre’ string in `snippet` will be inserted just before
 /// calculating the point size.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘replace’ string in `snippet` will be used instead of the
 /// generated point size calculation if it is present.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘post’ string in `snippet` will be inserted after the
 /// standard point size calculation is done. This can be used to modify
 /// point_size_out in addition to the default processing.
-/// `</para>`
-///  `</glossdef>`
-///  `</glossentry>`
-///  `<glossentry>`
-///  `<glossterm>``SnippetHook::Fragment``</glossterm>`
-///  `<glossdef>`
-/// `<para>`
+///
+///  `SnippetHook::Fragment`
+///
 /// Adds a shader snippet that will hook on to the fragment processing
 /// stage of the pipeline. This gives a chance for the application to
 /// modify the fragment color generated by the shader. Typically the
 /// snippet will modify color_out.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘declarations’ string in `snippet` will be inserted in the
 /// global scope of the shader. Use this to declare any uniforms,
 /// attributes or functions that the snippet requires.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘pre’ string in `snippet` will be inserted at the top of the
 /// `main` fn before any fragment processing is done.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘replace’ string in `snippet` will be used instead of the
 /// generated fragment processing if it is present. This can be used if
 /// the application wants to provide a complete fragment shader and
 /// doesn't need the generated output from .
-/// `</para>`
-/// `<para>`
+///
 /// The ‘post’ string in `snippet` will be inserted after all of the
 /// standard fragment processing is done. At this point the generated
 /// value for the rest of the pipeline state will already be in
 /// color_out so the application can modify the result by altering
 /// this variable.
-/// `</para>`
-///  `</glossdef>`
-///  `</glossentry>`
-///  `<glossentry>`
-///  `<glossterm>``SnippetHook::TextureCoordTransform``</glossterm>`
-///  `<glossdef>`
-/// `<para>`
+///
+///  `SnippetHook::TextureCoordTransform`
+///
 /// Adds a shader snippet that will hook on to the texture coordinate
 /// transformation of a particular layer. This can be used to replace
 /// the processing for a layer or to modify the results.
-/// `</para>`
-/// `<para>`
+///
 /// Within the snippet code for this hook there are two extra
 /// variables. The first is a mat4 called matrix which represents
 /// the user matrix for this layer. The second is called tex_coord
@@ -1449,76 +1437,58 @@ impl fmt::Display for ShaderType {
 /// varying to the fragment processing stage. The default code will
 /// just multiply matrix by tex_coord and store the result in
 /// tex_coord.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘declarations’ string in `snippet` will be inserted in the
 /// global scope of the shader. Use this to declare any uniforms,
 /// attributes or functions that the snippet requires.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘pre’ string in `snippet` will be inserted just before the
 /// fragment processing for this layer. At this point tex_coord
 /// still contains the value of the texture coordinate attribute.
-/// `</para>`
-/// `<para>`
+///
 /// If a ‘replace’ string is given then this will be used instead of
 /// the default fragment processing for this layer. The snippet can
 /// modify tex_coord or leave it as is to apply no transformation.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘post’ string in `snippet` will be inserted just after the
 /// transformation. At this point tex_coord will contain the
 /// results of the transformation but it can be further modified by the
 /// snippet.
-/// `</para>`
-///  `</glossdef>`
-///  `</glossentry>`
-///  `<glossentry>`
-///  `<glossterm>``SnippetHook::LayerFragment``</glossterm>`
-///  `<glossdef>`
-/// `<para>`
+///
+///  `SnippetHook::LayerFragment`
+///
 /// Adds a shader snippet that will hook on to the fragment processing
 /// of a particular layer. This can be used to replace the processing
 /// for a layer or to modify the results.
-/// `</para>`
-/// `<para>`
+///
 /// Within the snippet code for this hook there is an extra vec4
 /// variable called ‘layer’. This contains the resulting color
 /// that will be used for the layer. This can be modified in the ‘post’
 /// section or it the default processing can be replaced entirely using
 /// the ‘replace’ section.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘declarations’ string in `snippet` will be inserted in the
 /// global scope of the shader. Use this to declare any uniforms,
 /// attributes or functions that the snippet requires.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘pre’ string in `snippet` will be inserted just before the
 /// fragment processing for this layer.
-/// `</para>`
-/// `<para>`
+///
 /// If a ‘replace’ string is given then this will be used instead of
 /// the default fragment processing for this layer. The snippet must write to
 /// the ‘layer’ variable in that case.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘post’ string in `snippet` will be inserted just after the
 /// fragment processing for the layer. The results can be modified by changing
 /// the value of the ‘layer’ variable.
-/// `</para>`
-///  `</glossdef>`
-///  `</glossentry>`
-///  `<glossentry>`
-///  `<glossterm>``SnippetHook::TextureLookup``</glossterm>`
-///  `<glossdef>`
-/// `<para>`
+///
+///  `SnippetHook::TextureLookup`
+///
 /// Adds a shader snippet that will hook on to the texture lookup part
 /// of a given layer. This gives a chance for the application to modify
 /// the coordinates that will be used for the texture lookup or to
 /// alter the returned texel.
-/// `</para>`
-/// `<para>`
+///
 /// Within the snippet code for this hook there are three extra
 /// variables available. ‘sampler’ is a sampler object
 /// representing the sampler for the layer where the snippet is
@@ -1526,30 +1496,24 @@ impl fmt::Display for ShaderType {
 /// coordinates that will be used for the texture lookup. This can be
 /// modified. ‘texel’ will contain the result of the texture
 /// lookup. This can also be modified.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘declarations’ string in `snippet` will be inserted in the
 /// global scope of the shader. Use this to declare any uniforms,
 /// attributes or functions that the snippet requires.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘pre’ string in `snippet` will be inserted at the top of the
 /// `main` fn before any fragment processing is done. This is a
 /// good place to modify the tex_coord variable.
-/// `</para>`
-/// `<para>`
+///
 /// If a ‘replace’ string is given then this will be used instead of a
 /// the default texture lookup. The snippet would typically use its own
 /// sampler in this case.
-/// `</para>`
-/// `<para>`
+///
 /// The ‘post’ string in `snippet` will be inserted after texture lookup
 /// has been preformed. Here the snippet can modify the texel
 /// variable to alter the returned texel.
-/// `</para>`
-///  `</glossdef>`
-///  `</glossentry>`
-/// `</glosslist>`
+///
+/// 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SnippetHook {
@@ -1606,7 +1570,9 @@ impl fmt::Display for SnippetHook {
 }
 
 /// Represents how draw should affect the two buffers
-/// of a stereo framebuffer. See `Framebuffer::set_stereo_mode`.
+/// of a stereo framebuffer. 
+/// 
+/// See `Framebuffer::set_stereo_mode`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum StereoMode {
@@ -1640,6 +1606,8 @@ impl fmt::Display for StereoMode {
     }
 }
 
+/// SubPixel order for some displays.
+/// 
 /// Some output devices (such as LCD panels) display colors
 /// by making each pixel consist of smaller "subpixels"
 /// that each have a particular color. By using knowledge
@@ -1703,17 +1671,23 @@ impl fmt::Display for SubpixelOrder {
 /// The `SystemError::SystemErrorUnsupported` error can be thrown for a
 /// variety of reasons. For example:
 ///
-/// `<itemizedlist>`
-///  `<listitem>``<para>`You've tried to use a feature that is not
+/// 
+///  - 
+/// You've tried to use a feature that is not
 ///  advertised by `has_feature`. This could happen if you create
 ///  a 2d texture with a non-power-of-two size when
-///  `FeatureID::OglFeatureIdTextureNpot` is not advertised.`</para>``</listitem>`
-///  `<listitem>``<para>`The GPU can not handle the configuration you have
+///  `FeatureID::OglFeatureIdTextureNpot` is not advertised.
+///
+///  - 
+/// The GPU can not handle the configuration you have
 ///  requested. An example might be if you try to use too many texture
-///  layers in a single `Pipeline``</para>``</listitem>`
-///  `<listitem>``<para>`The driver does not support some
-///  configuration.`</para>``</listiem>`
-/// `</itemizedlist>`
+///  layers in a single `Pipeline`
+///
+///  - 
+/// The driver does not support some
+///  configuration.
+///`</listiem>`
+/// 
 ///
 /// Currently this is only used by  API marked as experimental so
 /// this enum should also be considered experimental.
@@ -1917,8 +1891,9 @@ impl fmt::Display for VerticesMode {
     }
 }
 
-/// Enum used to represent the two directions of rotation. This can be
-/// used to set the front face for culling by calling
+/// Represent the two directions of rotation. 
+/// 
+/// This can be used to set the front face for culling by calling
 /// `Pipeline::set_front_face_winding`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]

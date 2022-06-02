@@ -19,7 +19,12 @@ pub struct AnimateBy {
 impl AnimateBy {
     pub fn new(value: AnimatedFloat, by: f32, seconds: f32, easing: Option<EaseFunction>) -> Self {
         let easing = easing.unwrap_or(Rc::new(Ease::linear));
-        let tween = Rc::new(Tween::new(value.get(), value.get() + by, seconds, Some(easing)));
+        let tween = Rc::new(Tween::new(
+            value.get(),
+            value.get() + by,
+            seconds,
+            Some(easing),
+        ));
         value.set_behavior(Some(tween.clone()));
 
         Self {

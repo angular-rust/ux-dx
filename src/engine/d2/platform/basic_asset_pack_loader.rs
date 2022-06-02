@@ -105,7 +105,8 @@ impl BasicAssetPackLoader {
                 self.asset_formats(move |formats: Vec<AssetFormat>| {
                     if formats.iter().position(|&e| e == entry.format).is_some() {
                         // Dummy up a new AssetEntry based on the previous one, and reload it
-                        let entry = AssetEntry::new(entry.name.clone(), url.clone(), entry.format, 0);
+                        let entry =
+                            AssetEntry::new(entry.name.clone(), url.clone(), entry.format, 0);
                         self.load_entry(self.manifest.full_url(entry.clone()), entry);
                     }
                 });
@@ -288,13 +289,20 @@ impl BasicAssetPackLoader {
     }
 
     fn handle_texture_error(&self, entry: &AssetEntry) {
-        self.handle_error(entry, "Failed to create texture. Is the GPU context unavailable?");
+        self.handle_error(
+            entry,
+            "Failed to create texture. Is the GPU context unavailable?",
+        );
     }
 
     // static
     fn is_audio(format: AssetFormat) -> bool {
         match format {
-            AssetFormat::MP3 | AssetFormat::M4A | AssetFormat::OPUS | AssetFormat::OGG | AssetFormat::WAV => true,
+            AssetFormat::MP3
+            | AssetFormat::M4A
+            | AssetFormat::OPUS
+            | AssetFormat::OGG
+            | AssetFormat::WAV => true,
             _ => false,
         }
     }
@@ -338,7 +346,10 @@ impl BasicAssetPack {
 
     #[inline]
     fn assert_not_disposed(&self) {
-        assert!(!self.disposed, "AssetPack cannot be used after being disposed");
+        assert!(
+            !self.disposed,
+            "AssetPack cannot be used after being disposed"
+        );
     }
 
     // static

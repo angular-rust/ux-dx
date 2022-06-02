@@ -21,7 +21,9 @@ impl DebugLogic {
                 if let Some(key) = event.key {
                     if key == Key::O && System::keyboard().is_down(Key::Control) {
                         if instance.toggle_overdraw_graphics() {
-                            log::info!("Enabled overdraw visualizer, press Ctrl-O again to disable");
+                            log::info!(
+                                "Enabled overdraw visualizer, press Ctrl-O again to disable"
+                            );
                         }
                     }
                 }

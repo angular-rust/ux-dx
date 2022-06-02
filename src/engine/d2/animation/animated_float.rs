@@ -86,7 +86,12 @@ impl AnimatedFloat {
     /// @param easing The easing fn to use, defaults to `Ease.linear`.
     pub fn animate_by(&self, by: f32, seconds: f32, easing: Option<EaseFunction>) {
         let mut props = self.props.borrow_mut();
-        props.behavior = Some(Rc::new(Tween::new(*props.value.get(), *props.value.get() + by, seconds, easing)));
+        props.behavior = Some(Rc::new(Tween::new(
+            *props.value.get(),
+            *props.value.get() + by,
+            seconds,
+            easing,
+        )));
     }
 
     #[inline]

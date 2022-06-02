@@ -5,7 +5,7 @@ pub struct Format {
     // to detect modifications
     pub md5: String,
 
-    // The frame rate as exported from Flash
+    // The frame rate
     pub frame_rate: f32,
 
     // All the movies and atlases in the library
@@ -32,7 +32,7 @@ pub struct MovieFormat {
 
 #[derive(Default, Clone, Debug)]
 pub struct LayerFormat {
-    // The name of the layer in Flash
+    // The name of the layer
     pub name: String,
 
     // Optional: Whether this is a flipbook-style animation. Defaults to false
@@ -64,7 +64,7 @@ pub struct KeyframeFormat {
     // Optional: Symbol alpha. Defaults to 1.0
     pub alpha: Option<f32>,
 
-    // Optional: The frame label that was added to this keyframe in Flash
+    // Optional: The frame label that was added to this keyframe
     pub label: Option<String>,
 
     // Optional: Whether this keyframe should be displayed. Defaults to true

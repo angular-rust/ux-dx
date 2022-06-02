@@ -1,3 +1,5 @@
+//! Asset management
+
 mod asset_entry;
 pub use self::asset_entry::*;
 

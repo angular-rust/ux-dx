@@ -18,7 +18,12 @@ pub struct AnimateFrom {
 }
 
 impl AnimateFrom {
-    pub fn new(value: AnimatedFloat, from: f32, seconds: f32, easing: Option<EaseFunction>) -> Self {
+    pub fn new(
+        value: AnimatedFloat,
+        from: f32,
+        seconds: f32,
+        easing: Option<EaseFunction>,
+    ) -> Self {
         let easing = easing.unwrap_or(Rc::new(Ease::linear));
         let to = value.get();
         let tween = Rc::new(Tween::new(from, to, seconds, Some(easing)));

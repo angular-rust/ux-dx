@@ -17,24 +17,24 @@ use std::fmt;
 pub struct SubTexture {
     // Texture _parent;
 
-// This is the texture that was passed in to
-//     _sub_texture_new. If this is also a sub texture then we will
-//     use the full texture from that to render instead of making a
-//     chain. However we want to preserve the next texture in case the
-//     user is expecting us to keep a reference and also so that we can
-//     later add a sub_texture_get_parent_texture() function. */
-// Texture *next_texture;
-// This is the texture that will actually be used to draw. It will
-//     point to the end of the chain if a sub texture of a sub texture
-//     is created */
-// Texture *full_texture;
+    // This is the texture that was passed in to
+    //     _sub_texture_new. If this is also a sub texture then we will
+    //     use the full texture from that to render instead of making a
+    //     chain. However we want to preserve the next texture in case the
+    //     user is expecting us to keep a reference and also so that we can
+    //     later add a sub_texture_get_parent_texture() function. */
+    // Texture *next_texture;
+    // This is the texture that will actually be used to draw. It will
+    //     point to the end of the chain if a sub texture of a sub texture
+    //     is created */
+    // Texture *full_texture;
 
-// The offset of the region represented by this sub-texture. This is
-// the offset in full_texture which won't necessarily be the same as
-// the offset passed to _sub_texture_new if next_texture is
-// actually already a sub texture */
-// int sub_x;
-// int sub_y;
+    // The offset of the region represented by this sub-texture. This is
+    // the offset in full_texture which won't necessarily be the same as
+    // the offset passed to _sub_texture_new if next_texture is
+    // actually already a sub texture */
+    // int sub_x;
+    // int sub_y;
 }
 
 impl SubTexture {
@@ -44,11 +44,11 @@ impl SubTexture {
     /// `MetaTexture` interface because it's not a low level texture
     /// that hardware can understand natively.
     ///
-    /// `<note>`Remember: Unless you are using high level drawing APIs such
+    /// Remember: Unless you are using high level drawing APIs such
     /// as `rectangle` or other APIs documented to understand the
     /// `MetaTexture` interface then you need to use the
     /// `MetaTexture` interface to resolve a `SubTexture` into a
-    /// low-level texture before drawing.`</note>`
+    /// low-level texture before drawing.
     /// ## `ctx`
     /// A `Context` pointer
     /// ## `parent_texture`

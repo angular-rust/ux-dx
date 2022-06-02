@@ -46,11 +46,11 @@ use std::{fmt, ptr};
 // Once you have a configured #Renderer it can be used to create a
 // #Display object using display_new().
 //
-// <note>Many applications don't need to explicitly use
+// Many applications don't need to explicitly use
 // renderer_new() or display_new() and can just jump
 // straight to context_new() and pass a %NULL display argument so
 //  will automatically connect and setup a renderer and
-// display.</note>
+// display.
 #[derive(Default, Debug, Clone)]
 pub struct Renderer {
     connected: bool,
@@ -131,11 +131,11 @@ impl Renderer {
     /// Once you have setup your renderer then the next step is to create a
     /// `Display` using `Display::new`.
     ///
-    /// `<note>`Many applications don't need to explicitly use
+    /// Many applications don't need to explicitly use
     /// `Renderer::new` or `Display::new` and can just jump
     /// straight to `Context::new` and pass a `None` display argument
     /// so  will automatically connect and setup a renderer and
-    /// display.`</note>`
+    /// display.
     ///
     /// # Returns
     ///

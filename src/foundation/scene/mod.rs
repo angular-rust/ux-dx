@@ -1,4 +1,4 @@
-//! Scene management - WIP
+//! Scene management
 
 pub mod light;
 use self::light::*;

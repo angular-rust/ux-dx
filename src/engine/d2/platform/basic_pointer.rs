@@ -152,7 +152,13 @@ impl BasicPointer {
         self.up.emit(self.shared_event.clone());
     }
 
-    fn prepare(&mut self, view_x: f32, view_y: f32, hit: Option<Sprite>, source: Option<EventSource>) {
+    fn prepare(
+        &mut self,
+        view_x: f32,
+        view_y: f32,
+        hit: Option<Sprite>,
+        source: Option<EventSource>,
+    ) {
         self.x = view_x;
         self.y = view_y;
         self.shared_event

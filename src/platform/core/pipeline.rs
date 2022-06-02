@@ -663,143 +663,143 @@ use super::{
 
 pub struct Pipeline {
     //     /* XXX: Please think twice about adding members that *have* be
-//    * initialized during a pipeline_copy. We are aiming to have
-//    * copies be as cheap as possible and copies may be done by the
-//    * primitives APIs which means they may happen in performance
-//    * critical code paths.
-//    *
-//    * XXX: If you are extending the state we track please consider if
-//    * the state is expected to vary frequently across many pipelines or
-//    * if the state can be shared among many derived pipelines instead.
-//    * This will determine if the state should be added directly to this
-//    * structure which will increase the memory overhead for *all*
-//    * pipelines or if instead it can go under ->big_state.
-//    */
+    //    * initialized during a pipeline_copy. We are aiming to have
+    //    * copies be as cheap as possible and copies may be done by the
+    //    * primitives APIs which means they may happen in performance
+    //    * critical code paths.
+    //    *
+    //    * XXX: If you are extending the state we track please consider if
+    //    * the state is expected to vary frequently across many pipelines or
+    //    * if the state can be shared among many derived pipelines instead.
+    //    * This will determine if the state should be added directly to this
+    //    * structure which will increase the memory overhead for *all*
+    //    * pipelines or if instead it can go under ->big_state.
+    //    */
 
-//   /* Layers represent their state in a tree structure where some of
-//    * the state relating to a given pipeline or layer may actually be
-//    * owned by one if is ancestors in the tree. We have a common data
-//    * type to track the tree heirachy so we can share code... */
-//    Node _parent;
+    //   /* Layers represent their state in a tree structure where some of
+    //    * the state relating to a given pipeline or layer may actually be
+    //    * owned by one if is ancestors in the tree. We have a common data
+    //    * type to track the tree heirachy so we can share code... */
+    //    Node _parent;
 
-//    /* When weak pipelines are destroyed the user is notified via this
-//     * callback */
-//    PipelineDestroyCallback destroy_callback;
+    //    /* When weak pipelines are destroyed the user is notified via this
+    //     * callback */
+    //    PipelineDestroyCallback destroy_callback;
 
-//    /* When notifying that a weak pipeline has been destroyed this
-//     * private data is passed to the above callback */
-//    void *destroy_data;
+    //    /* When notifying that a weak pipeline has been destroyed this
+    //     * private data is passed to the above callback */
+    //    void *destroy_data;
 
-//    /* We need to track if a pipeline is referenced in the journal
-//     * because we can't allow modification to these pipelines without
-//     * flushing the journal first */
-//    unsigned int journal_ref_count;
+    //    /* We need to track if a pipeline is referenced in the journal
+    //     * because we can't allow modification to these pipelines without
+    //     * flushing the journal first */
+    //    unsigned int journal_ref_count;
 
-//    /* A mask of which sparse state groups are different in this
-//     * pipeline in comparison to its parent. */
-//    unsigned int differences;
+    //    /* A mask of which sparse state groups are different in this
+    //     * pipeline in comparison to its parent. */
+    //    unsigned int differences;
 
-//    /* Whenever a pipeline is modified we increment the age. There's no
-//     * guarantee that it won't wrap but it can nevertheless be a
-//     * convenient mechanism to determine when a pipeline has been
-//     * changed to you can invalidate some some associated cache that
-//     * depends on the old state. */
-//    unsigned int age;
+    //    /* Whenever a pipeline is modified we increment the age. There's no
+    //     * guarantee that it won't wrap but it can nevertheless be a
+    //     * convenient mechanism to determine when a pipeline has been
+    //     * changed to you can invalidate some some associated cache that
+    //     * depends on the old state. */
+    //    unsigned int age;
 
-//    /* This is the primary color of the pipeline.
-//     *
-//     * This is a sparse property, ref PIPELINE_STATE_COLOR */
-//    Color color;
+    //    /* This is the primary color of the pipeline.
+    //     *
+    //     * This is a sparse property, ref PIPELINE_STATE_COLOR */
+    //    Color color;
 
-//    /* A pipeline may be made up with multiple layers used to combine
-//     * textures together.
-//     *
-//     * This is sparse state, ref PIPELINE_STATE_LAYERS */
-//    unsigned int     n_layers;
-//    GList	          *layer_differences;
+    //    /* A pipeline may be made up with multiple layers used to combine
+    //     * textures together.
+    //     *
+    //     * This is sparse state, ref PIPELINE_STATE_LAYERS */
+    //    unsigned int     n_layers;
+    //    GList	          *layer_differences;
 
-//    /* As a basic way to reduce memory usage we divide the pipeline
-//     * state into two groups; the minimal state modified in 90% of
-//     * all pipelines and the rest, so that the second group can
-//     * be allocated dynamically when required... */
-//    PipelineBigState *big_state;
+    //    /* As a basic way to reduce memory usage we divide the pipeline
+    //     * state into two groups; the minimal state modified in 90% of
+    //     * all pipelines and the rest, so that the second group can
+    //     * be allocated dynamically when required... */
+    //    PipelineBigState *big_state;
 
-//  #ifdef DEBUG_ENABLED
-//    /* For debugging purposes it's possible to associate a static const
-//     * string with a pipeline which can be an aid when trying to trace
-//     * where the pipeline originates from */
-//    const char      *static_breadcrumb;
-//  #endif
+    //  #ifdef DEBUG_ENABLED
+    //    /* For debugging purposes it's possible to associate a static const
+    //     * string with a pipeline which can be an aid when trying to trace
+    //     * where the pipeline originates from */
+    //    const char      *static_breadcrumb;
+    //  #endif
 
-//    /* Cached state... */
+    //    /* Cached state... */
 
-//    /* A cached, complete list of the layers this pipeline depends
-//     * on sorted by layer->unit_index. */
-//    PipelineLayer   **layers_cache;
-//    /* To avoid a separate ->layers_cache allocation for common
-//     * pipelines with only a few layers... */
-//    PipelineLayer    *short_layers_cache[3];
+    //    /* A cached, complete list of the layers this pipeline depends
+    //     * on sorted by layer->unit_index. */
+    //    PipelineLayer   **layers_cache;
+    //    /* To avoid a separate ->layers_cache allocation for common
+    //     * pipelines with only a few layers... */
+    //    PipelineLayer    *short_layers_cache[3];
 
-//    /* The deprecated pipeline_get_layers() API returns a
-//     * const GList of layers, which we track here... */
-//    GList                *deprecated_get_layers_list;
+    //    /* The deprecated pipeline_get_layers() API returns a
+    //     * const GList of layers, which we track here... */
+    //    GList                *deprecated_get_layers_list;
 
-//    /* XXX: consider adding an authorities cache to speed up sparse
-//     * property value lookups:
-//     * Pipeline *authorities_cache[PIPELINE_N_SPARSE_PROPERTIES];
-//     * and corresponding authorities_cache_dirty:1 bitfield
-//     */
+    //    /* XXX: consider adding an authorities cache to speed up sparse
+    //     * property value lookups:
+    //     * Pipeline *authorities_cache[PIPELINE_N_SPARSE_PROPERTIES];
+    //     * and corresponding authorities_cache_dirty:1 bitfield
+    //     */
 
-//    /* bitfields */
+    //    /* bitfields */
 
-//    /* Weak pipelines don't count as dependants on their parents which
-//     * means that the parent pipeline can be modified without
-//     * considering how the modifications may affect the weak pipeline.
-//     */
-//    unsigned int          is_weak:1;
+    //    /* Weak pipelines don't count as dependants on their parents which
+    //     * means that the parent pipeline can be modified without
+    //     * considering how the modifications may affect the weak pipeline.
+    //     */
+    //    unsigned int          is_weak:1;
 
-//    /* Determines if pipeline->big_state is valid */
-//    unsigned int          has_big_state:1;
+    //    /* Determines if pipeline->big_state is valid */
+    //    unsigned int          has_big_state:1;
 
-//    /* By default blending is enabled automatically depending on the
-//     * unlit color, the lighting colors or the texture format. The user
-//     * can override this to explicitly enable or disable blending.
-//     *
-//     * This is a sparse property */
-//    unsigned int          blend_enable:3;
+    //    /* By default blending is enabled automatically depending on the
+    //     * unlit color, the lighting colors or the texture format. The user
+    //     * can override this to explicitly enable or disable blending.
+    //     *
+    //     * This is a sparse property */
+    //    unsigned int          blend_enable:3;
 
-//    /* There are many factors that can determine if we need to enable
-//     * blending, this holds our final decision */
-//    unsigned int          real_blend_enable:1;
+    //    /* There are many factors that can determine if we need to enable
+    //     * blending, this holds our final decision */
+    //    unsigned int          real_blend_enable:1;
 
-//    /* Since the code for deciding if blending really needs to be
-//     * enabled for a particular pipeline is quite expensive we update
-//     * the real_blend_enable flag lazily when flushing a pipeline if
-//     * this dirty flag has been set. */
-//    unsigned int          dirty_real_blend_enable:1;
+    //    /* Since the code for deciding if blending really needs to be
+    //     * enabled for a particular pipeline is quite expensive we update
+    //     * the real_blend_enable flag lazily when flushing a pipeline if
+    //     * this dirty flag has been set. */
+    //    unsigned int          dirty_real_blend_enable:1;
 
-//    /* Whenever a pipeline is flushed we keep track of whether the
-//     * pipeline was used with a color attribute where we don't know
-//     * whether the colors are opaque. The real_blend_enable state
-//     * depends on this, and must be updated whenever this changes (even
-//     * if dirty_real_blend_enable isn't set) */
-//    unsigned int          unknown_color_alpha:1;
+    //    /* Whenever a pipeline is flushed we keep track of whether the
+    //     * pipeline was used with a color attribute where we don't know
+    //     * whether the colors are opaque. The real_blend_enable state
+    //     * depends on this, and must be updated whenever this changes (even
+    //     * if dirty_real_blend_enable isn't set) */
+    //    unsigned int          unknown_color_alpha:1;
 
-//    unsigned int          layers_cache_dirty:1;
-//    unsigned int          deprecated_get_layers_list_dirty:1;
+    //    unsigned int          layers_cache_dirty:1;
+    //    unsigned int          deprecated_get_layers_list_dirty:1;
 
-//  #ifdef DEBUG_ENABLED
-//    /* For debugging purposes it's possible to associate a static const
-//     * string with a pipeline which can be an aid when trying to trace
-//     * where the pipeline originates from */
-//    unsigned int          has_static_breadcrumb:1;
-//  #endif
+    //  #ifdef DEBUG_ENABLED
+    //    /* For debugging purposes it's possible to associate a static const
+    //     * string with a pipeline which can be an aid when trying to trace
+    //     * where the pipeline originates from */
+    //    unsigned int          has_static_breadcrumb:1;
+    //  #endif
 
-//    /* There are multiple fragment and vertex processing backends for
-//     * Pipeline, glsl, arbfp and fixed that are bundled under a
-//     * "progend". This identifies the backend being used for the
-//     * pipeline. */
-//    unsigned int          progend:3;
+    //    /* There are multiple fragment and vertex processing backends for
+    //     * Pipeline, glsl, arbfp and fixed that are bundled under a
+    //     * "progend". This identifies the backend being used for the
+    //     * pipeline. */
+    //    unsigned int          progend:3;
 }
 
 impl Pipeline {
@@ -1597,72 +1597,80 @@ impl Pipeline {
     ///
     /// Currently the only blend fn  exposes is ADD(). So any valid
     /// blend statements will be of the form:
-    ///
-    ///
-    /// ```text
-    ///   &lt;channel-mask&gt;=ADD(SRC_COLOR*(&lt;factor&gt;), DST_COLOR*(&lt;factor&gt;))
-    /// ```
-    ///
-    /// This is the list of source-names usable as blend factors:
-    /// `<itemizedlist>`
-    ///  `<listitem>``<para>`SRC_COLOR: The color of the in comming fragment`</para>``</listitem>`
-    ///  `<listitem>``<para>`DST_COLOR: The color of the framebuffer`</para>``</listitem>`
-    ///  `<listitem>``<para>`CONSTANT: The constant set via `Pipeline::set_blend_constant``</para>``</listitem>`
-    /// `</itemizedlist>`
-    ///
-    /// The source names can be used according to the
-    /// <link linkend="Blend-String-syntax">color-source and factor syntax`</link>`,
-    /// so for example "(1-SRC_COLOR[A])" would be a valid factor, as would
-    /// "(CONSTANT[RGB])"
-    ///
-    /// These can also be used as factors:
-    /// `<itemizedlist>`
-    ///  `<listitem>`0: (0, 0, 0, 0)`</listitem>`
-    ///  `<listitem>`1: (1, 1, 1, 1)`</listitem>`
-    ///  `<listitem>`SRC_ALPHA_SATURATE_FACTOR: (f,f,f,1) where f = MIN(SRC_COLOR[A],1-DST_COLOR[A])`</listitem>`
-    /// `</itemizedlist>`
-    ///
-    /// `<note>`Remember; all color components are normalized to the range [0, 1]
-    /// before computing the result of blending.`</note>`
-    ///
-    /// <example id="Blend-Strings-blend-unpremul">
-    ///  `<title>`Blend Strings/1`</title>`
-    ///  `<para>`Blend a non-premultiplied source over a destination with
-    ///  premultiplied alpha:`</para>`
-    ///  `<programlisting>`
-    /// "RGB = ADD(SRC_COLOR*(SRC_COLOR[A]), DST_COLOR*(1-SRC_COLOR[A]))"
-    /// "A = ADD(SRC_COLOR, DST_COLOR*(1-SRC_COLOR[A]))"
-    ///  `</programlisting>`
-    /// `</example>`
-    ///
-    /// <example id="Blend-Strings-blend-premul">
-    ///  `<title>`Blend Strings/2`</title>`
-    ///  `<para>`Blend a premultiplied source over a destination with
-    ///  premultiplied alpha`</para>`
-    ///  `<programlisting>`
-    /// "RGBA = ADD(SRC_COLOR, DST_COLOR*(1-SRC_COLOR[A]))"
-    ///  `</programlisting>`
-    /// `</example>`
-    ///
-    /// The default blend string is:
-    ///
-    /// ```text
-    ///    RGBA = ADD (SRC_COLOR, DST_COLOR*(1-SRC_COLOR[A]))
-    /// ```
-    ///
-    /// That gives normal alpha-blending when the calculated color for the pipeline
-    /// is in premultiplied form.
-    ///
-    /// ## `blend_string`
-    /// A <link linkend="Blend-Strings"> blend string`</link>`
-    ///  describing the desired blend function.
-    ///
-    /// # Returns
-    ///
-    /// `true` if the blend string was successfully parsed, and the
-    ///  described blending is supported by the underlying driver/hardware. If
-    ///  there was an error, `false` is returned and `error` is set accordingly (if
-    ///  present).
+    //
+    //
+    // ```text
+    //   &lt;channel-mask&gt;=ADD(SRC_COLOR*(&lt;factor&gt;), DST_COLOR*(&lt;factor&gt;))
+    // ```
+    //
+    // This is the list of source-names usable as blend factors:
+    // 
+    //  - 
+    // SRC_COLOR: The color of the in comming fragment
+    //
+    //  - 
+    // DST_COLOR: The color of the framebuffer
+    //
+    //  - 
+    // CONSTANT: The constant set via `Pipeline::set_blend_constant`
+    //
+    // The source names can be used according to the
+    // <link linkend="Blend-String-syntax">color-source and factor syntax`</link>`,
+    // so for example "(1-SRC_COLOR[A])" would be a valid factor, as would
+    // "(CONSTANT[RGB])"
+    //
+    // These can also be used as factors:
+    // 
+    //  - 0: (0, 0, 0, 0)
+    //  - 1: (1, 1, 1, 1)
+    //  - SRC_ALPHA_SATURATE_FACTOR: (f,f,f,1) where f = MIN(SRC_COLOR[A],1-DST_COLOR[A])
+    // 
+    //
+    // Remember; all color components are normalized to the range [0, 1]
+    // before computing the result of blending.
+    //
+    // <example id="Blend-Strings-blend-unpremul">
+    //  Blend Strings/1
+    //  
+    // Blend a non-premultiplied source over a destination with
+    //  premultiplied alpha:
+    //
+    //  
+    // "RGB = ADD(SRC_COLOR*(SRC_COLOR[A]), DST_COLOR*(1-SRC_COLOR[A]))"
+    // "A = ADD(SRC_COLOR, DST_COLOR*(1-SRC_COLOR[A]))"
+    //  
+    // `</example>`
+    //
+    // <example id="Blend-Strings-blend-premul">
+    //  Blend Strings/2
+    //  
+    // Blend a premultiplied source over a destination with
+    //  premultiplied alpha
+    //
+    //  
+    // "RGBA = ADD(SRC_COLOR, DST_COLOR*(1-SRC_COLOR[A]))"
+    //  
+    // `</example>`
+    //
+    // The default blend string is:
+    //
+    // ```text
+    //    RGBA = ADD (SRC_COLOR, DST_COLOR*(1-SRC_COLOR[A]))
+    // ```
+    //
+    // That gives normal alpha-blending when the calculated color for the pipeline
+    // is in premultiplied form.
+    //
+    // ## `blend_string`
+    // A <link linkend="Blend-Strings"> blend string`</link>`
+    //  describing the desired blend function.
+    //
+    // # Returns
+    //
+    // `true` if the blend string was successfully parsed, and the
+    //  described blending is supported by the underlying driver/hardware. If
+    //  there was an error, `false` is returned and `error` is set accordingly (if
+    //  present).
     pub fn set_blend(&self, blend_string: &str) -> bool {
         // PipelineState state = PIPELINE_STATE_BLEND;
         // Pipeline *authority;
@@ -2130,89 +2138,88 @@ impl Pipeline {
     /// strings are and there syntax.
     ///
     /// These are all the functions available for texture combining:
-    /// `<itemizedlist>`
-    ///  `<listitem>`REPLACE(arg0) = arg0`</listitem>`
-    ///  `<listitem>`MODULATE(arg0, arg1) = arg0 x arg1`</listitem>`
-    ///  `<listitem>`ADD(arg0, arg1) = arg0 + arg1`</listitem>`
-    ///  `<listitem>`ADD_SIGNED(arg0, arg1) = arg0 + arg1 - 0.5`</listitem>`
-    ///  `<listitem>`INTERPOLATE(arg0, arg1, arg2) = arg0 x arg2 + arg1 x (1 - arg2)`</listitem>`
-    ///  `<listitem>`SUBTRACT(arg0, arg1) = arg0 - arg1`</listitem>`
-    ///  `<listitem>`
-    ///  `<programlisting>`
-    ///  DOT3_RGB(arg0, arg1) = 4 x ((arg0[R] - 0.5)) * (arg1[R] - 0.5) +
-    ///  (arg0[G] - 0.5)) * (arg1[G] - 0.5) +
-    ///  (arg0[B] - 0.5)) * (arg1[B] - 0.5))
-    ///  `</programlisting>`
-    ///  `</listitem>`
-    ///  `<listitem>`
-    ///  `<programlisting>`
-    ///  DOT3_RGBA(arg0, arg1) = 4 x ((arg0[R] - 0.5)) * (arg1[R] - 0.5) +
-    ///  (arg0[G] - 0.5)) * (arg1[G] - 0.5) +
-    ///  (arg0[B] - 0.5)) * (arg1[B] - 0.5))
-    ///  `</programlisting>`
-    ///  `</listitem>`
-    /// `</itemizedlist>`
-    ///
-    /// Refer to the
-    /// <link linkend="Blend-String-syntax">color-source syntax`</link>` for
-    /// describing the arguments. The valid source names for texture combining
-    /// are:
-    /// `<variablelist>`
-    ///  `<varlistentry>`
-    ///  `<term>`TEXTURE`</term>`
-    ///  `<listitem>`Use the color from the current texture layer`</listitem>`
-    ///  `</varlistentry>`
-    ///  `<varlistentry>`
-    ///  `<term>`TEXTURE_0, TEXTURE_1, etc`</term>`
-    ///  `<listitem>`Use the color from the specified texture layer`</listitem>`
-    ///  `</varlistentry>`
-    ///  `<varlistentry>`
-    ///  `<term>`CONSTANT`</term>`
-    ///  `<listitem>`Use the color from the constant given with
-    ///  `Pipeline::set_layer_combine_constant``</listitem>`
-    ///  `</varlistentry>`
-    ///  `<varlistentry>`
-    ///  `<term>`PRIMARY`</term>`
-    ///  `<listitem>`Use the color of the pipeline as set with
-    ///  `Pipeline::set_color``</listitem>`
-    ///  `</varlistentry>`
-    ///  `<varlistentry>`
-    ///  `<term>`PREVIOUS`</term>`
-    ///  `<listitem>`Either use the texture color from the previous layer, or
-    ///  if this is layer 0, use the color of the pipeline as set with
-    ///  `Pipeline::set_color``</listitem>`
-    ///  `</varlistentry>`
-    /// `</variablelist>`
-    ///
-    /// <refsect2 id="Layer-Combine-Examples">
-    ///  `<title>`Layer Combine Examples`</title>`
-    ///  `<para>`This is effectively what the default blending is:`</para>`
-    ///  `<informalexample>``<programlisting>`
-    ///  RGBA = MODULATE (PREVIOUS, TEXTURE)
-    ///  `</programlisting>``</informalexample>`
-    ///  `<para>`This could be used to cross-fade between two images, using
-    ///  the alpha component of a constant as the interpolator. The constant
-    ///  color is given by calling
-    ///  `Pipeline::set_layer_combine_constant`.`</para>`
-    ///  `<informalexample>``<programlisting>`
-    ///  RGBA = INTERPOLATE (PREVIOUS, TEXTURE, CONSTANT[A])
-    ///  `</programlisting>``</informalexample>`
-    /// `</refsect2>`
-    ///
-    /// `<note>`You can't give a multiplication factor for arguments as you can
-    /// with blending.`</note>`
-    ///
-    /// ## `layer_index`
-    /// Specifies the layer you want define a combine fn for
-    /// ## `blend_string`
-    /// A <link linkend="Blend-Strings"> blend string`</link>`
-    ///  describing the desired texture combine function.
-    ///
-    /// # Returns
-    ///
-    /// `true` if the blend string was successfully parsed, and the
-    ///  described texture combining is supported by the underlying driver and
-    ///  or hardware. On failure, `false` is returned and `error` is set
+    /// 
+    ///  - REPLACE(arg0) = arg0
+    ///  - MODULATE(arg0, arg1) = arg0 x arg1
+    ///  - ADD(arg0, arg1) = arg0 + arg1
+    ///  - ADD_SIGNED(arg0, arg1) = arg0 + arg1 - 0.5
+    ///  - INTERPOLATE(arg0, arg1, arg2) = arg0 x arg2 + arg1 x (1 - arg2)
+    ///  - SUBTRACT(arg0, arg1) = arg0 - arg1
+    //  - 
+    //  
+    //  DOT3_RGB(arg0, arg1) = 4 x ((arg0[R] - 0.5)) * (arg1[R] - 0.5) +
+    //  (arg0[G] - 0.5)) * (arg1[G] - 0.5) +
+    //  (arg0[B] - 0.5)) * (arg1[B] - 0.5))
+    //  
+    //  
+    //  - 
+    //  
+    //  DOT3_RGBA(arg0, arg1) = 4 x ((arg0[R] - 0.5)) * (arg1[R] - 0.5) +
+    //  (arg0[G] - 0.5)) * (arg1[G] - 0.5) +
+    //  (arg0[B] - 0.5)) * (arg1[B] - 0.5))
+    //  
+    //  
+    // 
+    //
+    // Refer to the
+    // <link linkend="Blend-String-syntax">color-source syntax`</link>` for
+    // describing the arguments. The valid source names for texture combining
+    // are:
+    //
+    //  TEXTURE
+    //  - Use the color from the current texture layer
+    //
+    //
+    //  TEXTURE_0, TEXTURE_1, etc
+    //  - Use the color from the specified texture layer
+    //
+    //
+    //  CONSTANT
+    //  - Use the color from the constant given with
+    //  `Pipeline::set_layer_combine_constant`
+    //
+    //
+    //  PRIMARY
+    //  - Use the color of the pipeline as set with
+    //  `Pipeline::set_color`
+    //
+    //
+    //  PREVIOUS
+    //  - Either use the texture color from the previous layer, or
+    //  if this is layer 0, use the color of the pipeline as set with
+    //  `Pipeline::set_color`
+    //  Layer Combine Examples
+    //  
+    // This is effectively what the default blending is:
+    //
+    //  
+    //  RGBA = MODULATE (PREVIOUS, TEXTURE)
+    //  
+    //  
+    // This could be used to cross-fade between two images, using
+    //  the alpha component of a constant as the interpolator. The constant
+    //  color is given by calling
+    //  `Pipeline::set_layer_combine_constant`.
+    //
+    //  
+    //  RGBA = INTERPOLATE (PREVIOUS, TEXTURE, CONSTANT[A])
+    //  
+    // 
+    //
+    // You can't give a multiplication factor for arguments as you can
+    // with blending.
+    //
+    // ## `layer_index`
+    // Specifies the layer you want define a combine fn for
+    // ## `blend_string`
+    // A <link linkend="Blend-Strings"> blend string`</link>`
+    //  describing the desired texture combine function.
+    //
+    // # Returns
+    //
+    // `true` if the blend string was successfully parsed, and the
+    //  described texture combining is supported by the underlying driver and
+    //  or hardware. On failure, `false` is returned and `error` is set
     pub fn set_layer_combine(&self, layer_index: i32, blend_string: &str) -> bool {
         // PipelineLayerState state = PIPELINE_LAYER_STATE_COMBINE;
         // PipelineLayer *authority;
@@ -2404,10 +2411,10 @@ impl Pipeline {
     /// Changes the decimation and interpolation filters used when a texture is
     /// drawn at other scales than 100%.
     ///
-    /// `<note>`It is an error to pass anything other than
+    /// It is an error to pass anything other than
     /// `PipelineFilter::Nearest` or `PipelineFilter::Linear` as
     /// magnification filters since magnification doesn't ever need to
-    /// reference values stored in the mipmap chain.`</note>`
+    /// reference values stored in the mipmap chain.
     /// ## `layer_index`
     /// the layer number to change.
     /// ## `min_filter`

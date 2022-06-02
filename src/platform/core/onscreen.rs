@@ -197,17 +197,17 @@ impl Onscreen {
     /// `Onscreen::remove_resize_callback` passing the returned closure
     /// pointer.
     ///
-    /// `<note>`Since  automatically updates the viewport of an `self`
+    /// Since  automatically updates the viewport of an `self`
     /// framebuffer that is resized, a resize callback can also be used to
     /// track when the viewport has been changed automatically by  in
     /// case your application needs more specialized control over the
-    /// viewport.`</note>`
+    /// viewport.
     ///
-    /// `<note>`A resize callback will only ever be called while dispatching
+    /// A resize callback will only ever be called while dispatching
     ///  events from the system mainloop; so for example during
     /// `poll_renderer_dispatch`. This is so that callbacks shouldn't
     /// occur while an application might have arbitrary locks held for
-    /// example.`</note>`
+    /// example.
     ///
     /// ## `callback`
     /// A `OnscreenResizeCallback` to call when
@@ -248,10 +248,10 @@ impl Onscreen {
     ///
     /// The queried value remains valid until the next buffer swap.
     ///
-    /// `<note>`One caveat is that under X11 the buffer age does not reflect
+    /// One caveat is that under X11 the buffer age does not reflect
     /// changes to buffer contents caused by the window systems. X11
     /// applications must track Expose events to determine what buffer
-    /// regions need to additionally be repaired each frame.`</note>`
+    /// regions need to additionally be repaired each frame.
     ///
     /// The recommended way to take advantage of this buffer age api is to
     /// build up a circular buffer of length 3 for tracking damage regions
@@ -261,14 +261,14 @@ impl Onscreen {
     /// everything that must be redrawn to update the old contents for the
     /// new frame.
     ///
-    /// `<note>`If the system doesn't not support being able to track the age
+    /// If the system doesn't not support being able to track the age
     /// of back buffers then this fn will always return 0 which
-    /// implies that the contents are undefined.`</note>`
+    /// implies that the contents are undefined.
     ///
-    /// `<note>`The `FeatureID::OglFeatureIdBufferAge` feature can optionally be
+    /// The `FeatureID::OglFeatureIdBufferAge` feature can optionally be
     /// explicitly checked to determine if  is currently tracking the
     /// age of `Onscreen` back buffer contents. If this feature is
-    /// missing then this fn will always return 0.`</note>`
+    /// missing then this fn will always return 0.
     ///
     /// # Returns
     ///
@@ -309,13 +309,13 @@ impl Onscreen {
     /// as non resizable, but it is not guaranteed that this is always
     /// possible for all window systems.
     ///
-    /// `<note>`If onscreen_set_resizable(`self`, `true`) has been
+    /// If onscreen_set_resizable(`self`, `true`) has been
     /// previously called then this fn will return `true`, but it's
     /// possible that the current windowing system being used does not
     /// support window resizing (consider fullscreen windows on a phone or
     /// a TV). This fn is not aware of whether resizing is truly
     /// meaningful with your window system, only whether the `self` has
-    /// been marked as resizable.`</note>`
+    /// been marked as resizable.
     ///
     ///
     /// # Returns
@@ -336,11 +336,11 @@ impl Onscreen {
     /// This fn does not implicitly allocate the given `self`
     /// framebuffer before hiding it.
     ///
-    /// `<note>`Since  doesn't explicitly track the visibility status of
+    /// Since  doesn't explicitly track the visibility status of
     /// onscreen framebuffers it wont try to avoid redundant window system
     /// requests e.g. to show an already visible window. This also means
     /// that it's acceptable to alternatively use native APIs to show and
-    /// hide windows without confusing .`</note>`
+    /// hide windows without confusing .
     ///
     pub fn hide(&self) {
         // Framebuffer *framebuffer = FRAMEBUFFER (onscreen);
@@ -413,21 +413,21 @@ impl Onscreen {
     /// as non resizable, but it is not guaranteed that this is always
     /// possible for all window systems.
     ///
-    /// `<note>` does not know whether marking the `self` framebuffer
+    ///  does not know whether marking the `self` framebuffer
     /// is truly meaningful for your current window system (consider
     /// applications being run fullscreen on a phone or TV) so this
     /// fn may not have any useful effect. If you are running on a
     /// multi windowing system such as X11 or Win32 or OSX then  will
     /// request to the window system that users be allowed to resize the
     /// `self`, although it's still possible that some other window
-    /// management policy will block this possibility.`</note>`
+    /// management policy will block this possibility.
     ///
-    /// `<note>`Whenever an `self` framebuffer is resized the viewport
+    /// Whenever an `self` framebuffer is resized the viewport
     /// will be automatically updated to match the new size of the
     /// framebuffer with an origin of (0,0). If your application needs more
     /// specialized control of the viewport it will need to register a
     /// resize handler using `Onscreen::add_resize_callback` so that it
-    /// can track when the viewport has been changed automatically.`</note>`
+    /// can track when the viewport has been changed automatically.
     ///
     pub fn set_resizable(&self, resizable: bool) {
         // Framebuffer *framebuffer;
@@ -492,11 +492,11 @@ impl Onscreen {
     /// `Onscreen::show` and set its own type directly with the Wayland
     /// client API via `wayland_onscreen_get_surface`.
     ///
-    /// `<note>`Since  doesn't explicitly track the visibility status of
+    /// Since  doesn't explicitly track the visibility status of
     /// onscreen framebuffers it wont try to avoid redundant window system
     /// requests e.g. to show an already visible window. This also means
     /// that it's acceptable to alternatively use native APIs to show and
-    /// hide windows without confusing .`</note>`
+    /// hide windows without confusing .
     ///
     pub fn show(&self) {
         // Framebuffer *framebuffer = FRAMEBUFFER (onscreen);
@@ -531,11 +531,11 @@ impl Onscreen {
     /// start a new frame that incrementally builds on the contents of the previous
     /// frame.
     ///
-    /// `<note>`It is highly recommended that applications use
+    /// It is highly recommended that applications use
     /// `Onscreen::swap_buffers_with_damage` instead whenever possible
     /// and also use the `Onscreen::get_buffer_age` api so they can
     /// perform incremental updates to older buffers instead of having to
-    /// render a full buffer for every frame.`</note>`
+    /// render a full buffer for every frame.
     pub fn swap_buffers(&self) {
         // onscreen_swap_buffers_with_damage (onscreen, NULL, 0);
         unimplemented!()
@@ -575,9 +575,9 @@ impl Onscreen {
     /// fn instead of `Onscreen::swap_buffers` to improve
     /// performance when running under a compositor.
     ///
-    /// `<note>`It is highly recommended to use this API in conjunction with
+    /// It is highly recommended to use this API in conjunction with
     /// the `Onscreen::get_buffer_age` api so that your application can
-    /// perform incremental rendering based on old back buffers.`</note>`
+    /// perform incremental rendering based on old back buffers.
     /// ## `rectangles`
     /// An array of integer 4-tuples representing damaged
     ///  rectangles as (x, y, width, height) tuples.

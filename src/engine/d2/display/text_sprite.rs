@@ -77,7 +77,13 @@ impl TextSprite {
         {
             // Draw the bounding boxes for debugging
             g.fill_rect(0xff0000, 0, 0, getNaturalWidth(), getNaturalHeight());
-            g.fill_rect(0x00ff00, layout.bounds.x, layout.bounds.y, layout.bounds.width, layout.bounds.height);
+            g.fill_rect(
+                0x00ff00,
+                layout.bounds.x,
+                layout.bounds.y,
+                layout.bounds.width,
+                layout.bounds.height,
+            );
         }
 
         self.layout.draw(gfx);
@@ -96,7 +102,8 @@ impl TextSprite {
     // override
     pub fn natural_height(&mut self) -> f32 {
         self.update_layout();
-        let padded_height = self.layout.lines as f32 * (self.font.line_height + self.line_spacing.get());
+        let padded_height =
+            self.layout.lines as f32 * (self.font.line_height + self.line_spacing.get());
         let bounds_height = self.layout.bounds.height;
 
         padded_height.max(bounds_height)

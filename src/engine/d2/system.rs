@@ -6,8 +6,8 @@ use crate::engine::d2::{
     asset::{AssetPack, Manifest},
     platform::Platform,
     subsystem::{
-        ExternalSystem, KeyboardSystem, MotionSystem, MouseSystem, PointerSystem, RendererSystem, StageSystem,
-        StorageSystem, TouchSystem, WebSystem,
+        ExternalSystem, KeyboardSystem, MotionSystem, MouseSystem, PointerSystem, RendererSystem,
+        StageSystem, StorageSystem, TouchSystem, WebSystem,
     },
     util::{Promise, Signal1, Value},
 };
@@ -20,7 +20,6 @@ struct SystemProps {
     // SOME IMPLEMENTATION FROM PALTFORM
     // #[cfg(feature = "html")]
     // SOME IMPLEMENTATION FROM PALTFORM
-
     called_init: bool,
 }
 

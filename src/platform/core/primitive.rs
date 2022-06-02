@@ -17,17 +17,17 @@ pub struct PrimitiveTexture(c_void);
 
 pub struct Primitive {
     // Indices *indices;
-// VerticesMode mode;
-// int first_vertex;
-// int n_vertices;
+    // VerticesMode mode;
+    // int first_vertex;
+    // int n_vertices;
 
-// int immutable_ref;
+    // int immutable_ref;
 
-// Attribute **attributes;
-// int n_attributes;
+    // Attribute **attributes;
+    // int n_attributes;
 
-// int n_embedded_attributes;
-// Attribute *embedded_attribute;
+    // int n_embedded_attributes;
+    // Attribute *embedded_attribute;
 }
 
 impl Primitive {
@@ -36,7 +36,7 @@ impl Primitive {
     // @n_vertices: The number of vertices to process when drawing
     // @...: A %NULL terminated list of attributes
     //
-    // Combines a set of #Attribute<!-- -->s with a specific draw @mode
+    // Combines a set of #Attributes with a specific draw @mode
     // and defines a vertex count so a #Primitive object can be retained and
     // drawn later with no addition information required.
     //
@@ -96,14 +96,14 @@ impl Primitive {
     /// `Primitive::set_n_vertices` were called. This property defines
     /// the number of vertices to read when drawing.
     ///
-    /// `<note>`The primitive API doesn't support drawing with sliced
+    /// The primitive API doesn't support drawing with sliced
     /// textures (since switching between slices implies changing state and
     /// so that implies multiple primitives need to be submitted). You
     /// should pass the `TextureFlags::NoSlicing` flag to all textures that
     /// might be used while drawing with this API. If your hardware doesn't
     /// support non-power of two textures (For example you are using GLES
     /// 1.1) then you will need to make sure your assets are resized to a
-    /// power-of-two size (though they don't have to be square)`</note>`
+    /// power-of-two size (though they don't have to be square)
     /// ## `context`
     /// A `Context`
     /// ## `mode`
@@ -142,7 +142,7 @@ impl Primitive {
     /// Provides a convenient way to describe a primitive, such as a single
     /// triangle strip or a triangle fan, that will internally allocate the
     /// necessary `AttributeBuffer` storage, describe the position
-    /// and color attributes with `Attribute`<!-- -->s and upload
+    /// and color attributes with `Attribute`s and upload
     /// your data.
     ///
     /// For example to draw a convex polygon with a linear gradient you
@@ -166,14 +166,14 @@ impl Primitive {
     /// `Primitive::set_n_vertices` were called. This property defines
     /// the number of vertices to read when drawing.
     ///
-    /// `<note>`The primitive API doesn't support drawing with sliced
+    /// The primitive API doesn't support drawing with sliced
     /// textures (since switching between slices implies changing state and
     /// so that implies multiple primitives need to be submitted). You
     /// should pass the `TextureFlags::NoSlicing` flag to all textures that
     /// might be used while drawing with this API. If your hardware doesn't
     /// support non-power of two textures (For example you are using GLES
     /// 1.1) then you will need to make sure your assets are resized to a
-    /// power-of-two size (though they don't have to be square)`</note>`
+    /// power-of-two size (though they don't have to be square)
     /// ## `context`
     /// A `Context`
     /// ## `mode`
@@ -218,7 +218,7 @@ impl Primitive {
     /// Provides a convenient way to describe a primitive, such as a single
     /// triangle strip or a triangle fan, that will internally allocate the
     /// necessary `AttributeBuffer` storage, describe the position and
-    /// texture coordinate attributes with `Attribute`<!-- -->s and
+    /// texture coordinate attributes with `Attribute`s and
     /// upload your data.
     ///
     /// For example to draw a convex polygon with texture mapping you can
@@ -242,14 +242,14 @@ impl Primitive {
     /// `Primitive::set_n_vertices` were called. This property defines
     /// the number of vertices to read when drawing.
     ///
-    /// `<note>`The primitive API doesn't support drawing with sliced
+    /// The primitive API doesn't support drawing with sliced
     /// textures (since switching between slices implies changing state and
     /// so that implies multiple primitives need to be submitted). You
     /// should pass the `TextureFlags::NoSlicing` flag to all textures that
     /// might be used while drawing with this API. If your hardware doesn't
     /// support non-power of two textures (For example you are using GLES
     /// 1.1) then you will need to make sure your assets are resized to a
-    /// power-of-two size (though they don't have to be square)`</note>`
+    /// power-of-two size (though they don't have to be square)
     /// ## `context`
     /// A `Context`
     /// ## `mode`
@@ -294,7 +294,7 @@ impl Primitive {
     /// Provides a convenient way to describe a primitive, such as a single
     /// triangle strip or a triangle fan, that will internally allocate the
     /// necessary `AttributeBuffer` storage, describe the position, texture
-    /// coordinate and color attributes with `Attribute`<!-- -->s and
+    /// coordinate and color attributes with `Attribute`s and
     /// upload your data.
     ///
     /// For example to draw a convex polygon with texture mapping and a
@@ -318,14 +318,14 @@ impl Primitive {
     /// `Primitive::set_n_vertices` were called. This property defines
     /// the number of vertices to read when drawing.
     ///
-    /// `<note>`The primitive API doesn't support drawing with sliced
+    /// The primitive API doesn't support drawing with sliced
     /// textures (since switching between slices implies changing state and
     /// so that implies multiple primitives need to be submitted). You
     /// should pass the `TextureFlags::NoSlicing` flag to all textures that
     /// might be used while drawing with this API. If your hardware doesn't
     /// support non-power of two textures (For example you are using GLES
     /// 1.1) then you will need to make sure your assets are resized to a
-    /// power-of-two size (though they don't have to be square)`</note>`
+    /// power-of-two size (though they don't have to be square)
     /// ## `context`
     /// A `Context`
     /// ## `mode`
@@ -399,14 +399,14 @@ impl Primitive {
     /// `Primitive::set_n_vertices` were called. This property defines
     /// the number of vertices to read when drawing.
     ///
-    /// `<note>`The primitive API doesn't support drawing with sliced
+    /// The primitive API doesn't support drawing with sliced
     /// textures (since switching between slices implies changing state and
     /// so that implies multiple primitives need to be submitted). You
     /// should pass the `TextureFlags::NoSlicing` flag to all textures that
     /// might be used while drawing with this API. If your hardware doesn't
     /// support non-power of two textures (For example you are using GLES
     /// 1.1) then you will need to make sure your assets are resized to a
-    /// power-of-two size (though they don't have to be square)`</note>`
+    /// power-of-two size (though they don't have to be square)
     /// ## `context`
     /// A `Context`
     /// ## `mode`
@@ -445,7 +445,7 @@ impl Primitive {
     /// Provides a convenient way to describe a primitive, such as a single
     /// triangle strip or a triangle fan, that will internally allocate the
     /// necessary `AttributeBuffer` storage, describe the position
-    /// and color attributes with `Attribute`<!-- -->s and upload
+    /// and color attributes with `Attribute`s and upload
     /// your data.
     ///
     /// For example to draw a convex polygon with a linear gradient you
@@ -469,14 +469,14 @@ impl Primitive {
     /// `Primitive::set_n_vertices` were called. This property defines
     /// the number of vertices to read when drawing.
     ///
-    /// `<note>`The primitive API doesn't support drawing with sliced
+    /// The primitive API doesn't support drawing with sliced
     /// textures (since switching between slices implies changing state and
     /// so that implies multiple primitives need to be submitted). You
     /// should pass the `TextureFlags::NoSlicing` flag to all textures that
     /// might be used while drawing with this API. If your hardware doesn't
     /// support non-power of two textures (For example you are using GLES
     /// 1.1) then you will need to make sure your assets are resized to a
-    /// power-of-two size (though they don't have to be square)`</note>`
+    /// power-of-two size (though they don't have to be square)
     /// ## `context`
     /// A `Context`
     /// ## `mode`
@@ -521,7 +521,7 @@ impl Primitive {
     /// Provides a convenient way to describe a primitive, such as a single
     /// triangle strip or a triangle fan, that will internally allocate the
     /// necessary `AttributeBuffer` storage, describe the position and
-    /// texture coordinate attributes with `Attribute`<!-- -->s and
+    /// texture coordinate attributes with `Attribute`s and
     /// upload your data.
     ///
     /// For example to draw a convex polygon with texture mapping you can
@@ -545,14 +545,14 @@ impl Primitive {
     /// `Primitive::set_n_vertices` were called. This property defines
     /// the number of vertices to read when drawing.
     ///
-    /// `<note>`The primitive API doesn't support drawing with sliced
+    /// The primitive API doesn't support drawing with sliced
     /// textures (since switching between slices implies changing state and
     /// so that implies multiple primitives need to be submitted). You
     /// should pass the `TextureFlags::NoSlicing` flag to all textures that
     /// might be used while drawing with this API. If your hardware doesn't
     /// support non-power of two textures (For example you are using GLES
     /// 1.1) then you will need to make sure your assets are resized to a
-    /// power-of-two size (though they don't have to be square)`</note>`
+    /// power-of-two size (though they don't have to be square)
     /// ## `context`
     /// A `Context`
     /// ## `mode`
@@ -597,7 +597,7 @@ impl Primitive {
     /// Provides a convenient way to describe a primitive, such as a single
     /// triangle strip or a triangle fan, that will internally allocate the
     /// necessary `AttributeBuffer` storage, describe the position, texture
-    /// coordinate and color attributes with `Attribute`<!-- -->s and
+    /// coordinate and color attributes with `Attribute`s and
     /// upload your data.
     ///
     /// For example to draw a convex polygon with texture mapping and a
@@ -621,14 +621,14 @@ impl Primitive {
     /// `Primitive::set_n_vertices` were called. This property defines
     /// the number of vertices to read when drawing.
     ///
-    /// `<note>`The primitive API doesn't support drawing with sliced
+    /// The primitive API doesn't support drawing with sliced
     /// textures (since switching between slices implies changing state and
     /// so that implies multiple primitives need to be submitted). You
     /// should pass the `TextureFlags::NoSlicing` flag to all textures that
     /// might be used while drawing with this API. If your hardware doesn't
     /// support non-power of two textures (For example you are using GLES
     /// 1.1) then you will need to make sure your assets are resized to a
-    /// power-of-two size (though they don't have to be square)`</note>`
+    /// power-of-two size (though they don't have to be square)
     /// ## `context`
     /// A `Context`
     /// ## `mode`
@@ -683,7 +683,7 @@ impl Primitive {
     // @attributes: An array of Attribute
     // @n_attributes: The number of attributes
     //
-    // Combines a set of #Attribute<!-- -->s with a specific draw @mode
+    // Combines a set of #Attributes with a specific draw @mode
     // and defines a vertex count so a #Primitive object can be retained and
     // drawn later with no addition information required.
     //
@@ -834,9 +834,9 @@ impl Primitive {
     /// number of vertices to read can also be phrased as the number
     /// of indices to read.
     ///
-    /// `<note>`To be clear; it doesn't refer to the number of vertices - in
+    /// To be clear; it doesn't refer to the number of vertices - in
     /// terms of data - associated with the primitive it's just the number
-    /// of vertices to read and draw.`</note>`
+    /// of vertices to read and draw.
     ///
     /// # Returns
     ///
@@ -930,9 +930,9 @@ impl Primitive {
     /// the number of vertices to draw or, put another way, how many
     /// indices should be read from `indices` when drawing.
     ///
-    /// `<note>`The `Primitive` `<structfield>`first_vertex`</structfield>` property
+    /// The `Primitive` `<structfield>`first_vertex`</structfield>` property
     /// also affects drawing with indices by defining the first entry of the
-    /// indices to start drawing from.`</note>`
+    /// indices to start drawing from.
     /// ## `indices`
     /// A `Indices` array
     /// ## `n_indices`
@@ -974,9 +974,9 @@ impl Primitive {
     /// Usually this value is set implicitly when associating vertex data
     /// or indices with a `Primitive`.
     ///
-    /// `<note>`To be clear; it doesn't refer to the number of vertices - in
+    /// To be clear; it doesn't refer to the number of vertices - in
     /// terms of data - associated with the primitive it's just the number
-    /// of vertices to read and draw.`</note>`
+    /// of vertices to read and draw.
     /// ## `n_vertices`
     /// The number of vertices to read when drawing.
     pub fn set_n_vertices(&self, n_vertices: i32) {

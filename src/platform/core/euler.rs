@@ -22,29 +22,29 @@ use std::f32::consts::FRAC_PI_2;
 //
 // Advantages:
 // <itemizedlist>
-// <listitem>
+// - 
 // Easy to understand and use, compared to quaternions and matrices,
 // so may be a good choice for a user interface.
 // </listitem>
-// <listitem>
+// - 
 // Efficient storage, needing only 3 components any rotation can be
 // represented.
-// <note>Actually the #Euler type isn't optimized for size because
+// Actually the #Euler type isn't optimized for size because
 // we may cache the equivalent #Quaternion along with a euler
 // rotation, but it would be trivial for an application to track the
 // components of euler rotations in a packed float array if optimizing
 // for size was important. The values could be passed to  only when
-// manipulation is necessary.</note>
+// manipulation is necessary.
 // </listitem>
 // </itemizedlist>
 //
 // Disadvantages:
 // <itemizedlist>
-// <listitem>
+// - 
 // Aliasing: it's possible to represent some rotations with multiple
 // different heading, pitch and roll rotations.
 // </listitem>
-// <listitem>
+// - 
 // They can suffer from a problem called Gimbal Lock. A good
 // explanation of this can be seen on wikipedia here:
 // http://en.wikipedia.org/wiki/Gimbal_lock but basically two
@@ -52,13 +52,13 @@ use std::f32::consts::FRAC_PI_2;
 // degree of freedom. For example a pitch of +-90° would mean that
 // heading and bank rotate around the same axis.
 // </listitem>
-// <listitem>
+// - 
 // If you use euler angles to orient something in 3D space and try to
 // transition between orientations by interpolating the component
 // angles you probably wont get the transitions you expect as they may
 // not follow the shortest path between the two orientations.
 // </listitem>
-// <listitem>
+// - 
 // There's no standard to what order the component axis rotations are
 // applied. The most common convention seems to be what we do in
 // with heading (y-axis), pitch (x-axis) and then roll (z-axis), but
@@ -91,9 +91,9 @@ use std::f32::consts::FRAC_PI_2;
 // object's y axis, then @pitch degrees around an object's x axis and
 // finally @roll degrees around an object's z axis.
 //
-// <note>It's important to understand the that axis are associated
+// It's important to understand the that axis are associated
 // with the object being rotated, so the axis also rotate in sequence
-// with the rotations being applied.</note>
+// with the rotations being applied.
 //
 // The members of a #Euler can be initialized, for example, with
 // euler_init() and euler_init_from_quaternion ().

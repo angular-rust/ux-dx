@@ -12,8 +12,8 @@
 
 mod backend;
 mod clipboard;
-mod program;
 mod mode;
+mod program;
 mod quad;
 mod text;
 mod triangle;
@@ -36,8 +36,13 @@ pub(crate) use iced_graphics::Transformation;
 pub use widget::*;
 
 // promote some subject from iced_graphics
-pub use iced_graphics::{Error, Viewport, triangle::{Mesh2D, Vertex2D}, Defaults, Primitive};
-pub use iced_native::{Background, Color, Command, HorizontalAlignment, Length, Vector, VerticalAlignment};
+pub use iced_graphics::{
+    triangle::{Mesh2D, Vertex2D},
+    Defaults, Error, Primitive, Viewport,
+};
+pub use iced_native::{
+    Background, Color, Command, HorizontalAlignment, Length, Vector, VerticalAlignment,
+};
 
 /// A [`ux-dx`] graphics renderer for [`iced`].
 ///

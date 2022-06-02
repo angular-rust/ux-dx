@@ -58,14 +58,16 @@ impl BasicMouse {
 
             // Init the MouseEvent, and let the Pointer system handle it before emitting our signal
             self.prepare(view_x, view_y, Some(MouseCodes::to_button(button_code)));
-            self.pointer.submit_down(view_x, view_y, self.source.clone());
+            self.pointer
+                .submit_down(view_x, view_y, self.source.clone());
             self.down.emit(self.shared_event.clone());
         }
     }
 
     pub fn submit_move(&mut self, view_x: f32, view_y: f32) {
         self.prepare(view_x, view_y, None);
-        self.pointer.submit_move(view_x, view_y, self.source.clone());
+        self.pointer
+            .submit_move(view_x, view_y, self.source.clone());
         self.move_.emit(self.shared_event.clone());
     }
 
@@ -99,7 +101,8 @@ impl BasicMouse {
     fn prepare(&mut self, view_x: f32, view_y: f32, button: Option<MouseButton>) {
         self.x = view_x;
         self.y = view_y;
-        self.shared_event.init(self.shared_event.id + 1, view_x, view_y, button);
+        self.shared_event
+            .init(self.shared_event.id + 1, view_x, view_y, button);
     }
 }
 

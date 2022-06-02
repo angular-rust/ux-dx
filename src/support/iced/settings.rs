@@ -1,9 +1,8 @@
 //! Configure a renderer.
 pub use iced_graphics::Antialiasing;
 
-/// The settings of a [`Backend`].
+/// The settings of a backend.
 ///
-/// [`Backend`]: crate::Backend
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Settings {
     /// The bytes of the font that will be used by default.

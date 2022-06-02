@@ -1,3 +1,5 @@
+//! Display
+
 mod blend_mode;
 pub use self::blend_mode::*;
 

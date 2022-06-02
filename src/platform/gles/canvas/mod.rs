@@ -1,3 +1,4 @@
+//! Canvas support on top of nvg library
 use nvg::renderer::*;
 use slab::Slab;
 

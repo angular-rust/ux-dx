@@ -54,11 +54,11 @@ impl OnscreenTemplate {
     /// as "single-sample" rendering. A value of 1 or greater is referred
     /// to as "multisample" rendering.
     ///
-    /// `<note>`There are some semantic differences between single-sample
+    /// There are some semantic differences between single-sample
     /// rendering and multisampling with just 1 point sample such as it
     /// being redundant to use the `Framebuffer::resolve_samples` and
     /// `Framebuffer::resolve_samples_region` apis with single-sample
-    /// rendering.`</note>`
+    /// rendering.
     /// ## `n`
     /// The minimum number of samples per pixel
     pub fn set_samples_per_pixel(&self, samples: i32) {

@@ -54,7 +54,11 @@ impl Disposable for BasicFile {
 impl fmt::Display for BasicFile {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         self.inner.assert_not_disposed();
-        write!(f, "{}", self.content.clone().unwrap_or(String::from("None")))
+        write!(
+            f,
+            "{}",
+            self.content.clone().unwrap_or(String::from("None"))
+        )
     }
 }
 

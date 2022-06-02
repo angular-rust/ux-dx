@@ -11,11 +11,11 @@ use std::{fmt, ptr};
 pub struct Texture2DSliced {
     // Texture _parent;
 
-// GArray *slice_x_spans;
-// GArray *slice_y_spans;
-// GArray *slice_textures;
-// int max_waste;
-// PixelFormat internal_format;
+    // GArray *slice_x_spans;
+    // GArray *slice_y_spans;
+    // GArray *slice_textures;
+    // int max_waste;
+    // PixelFormat internal_format;
 }
 
 impl Texture2DSliced {

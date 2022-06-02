@@ -33,9 +33,9 @@ use std::mem;
 //
 // A struct for describing the state of a file descriptor that
 // needs to block on. The @events field contains a bitmask of
-// #PollFDEvent<!-- -->s that should cause the application to wake
+// #PollFDEvents that should cause the application to wake
 // up. After the application is woken up from idle it should pass back
-// an array of #PollFD<!-- -->s to  and update the @revents
+// an array of #PollFDs to  and update the @revents
 // mask to the actual events that occurred on the file descriptor.
 //
 // Note that PollFD is deliberately exactly the same as struct

@@ -150,7 +150,7 @@ pub fn rectangle_with_multitexture_coords(x1: f32, y1: f32, x2: f32, y2: f32, te
 // significant performance boost to use this fn rather than
 // calling rectangle_with_texture_coords() separately for each rectangle.
 //
-// @verts should point to an array of #float<!-- -->s with
+// @verts should point to an array of #floats with
 // @n_rects * 8 elements. Each group of 8 values corresponds to the
 // parameters x1, y1, x2, y2, tx1, ty1, tx2 and ty2 and have the same
 // meaning as in rectangle_with_texture_coords().
@@ -186,7 +186,7 @@ pub fn rectangles_with_texture_coords(verts: &[f32]) {
 // significant performance boost to use this fn rather than
 // calling rectangle() separately for each rectangle.
 //
-// @verts should point to an array of #float<!-- -->s with
+// @verts should point to an array of #floats with
 // @n_rects * 4 elements. Each group of 4 values corresponds to the
 // parameters x1, y1, x2, and y2, and have the same
 // meaning as in rectangle().

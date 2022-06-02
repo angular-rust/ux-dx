@@ -1,3 +1,5 @@
+//! Subsystems
+
 mod external;
 pub use self::external::*;
 

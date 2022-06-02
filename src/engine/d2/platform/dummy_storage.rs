@@ -10,7 +10,9 @@ pub struct DummyStorage {
 
 impl DummyStorage {
     pub fn new() -> Self {
-        Self { hash: HashMap::new() }
+        Self {
+            hash: HashMap::new(),
+        }
     }
 }
 

@@ -330,14 +330,21 @@ impl EmitterSprite {
         particle.vel_x = speed * angle.cos();
         particle.vel_y = speed * angle.sin();
 
-        particle.radial_accel = Self::random(self.radial_accel.get(), self.radial_accel_variance.get());
-        particle.tangential_accel = Self::random(self.tangential_accel.get(), self.tangential_accel_variance.get());
+        particle.radial_accel =
+            Self::random(self.radial_accel.get(), self.radial_accel_variance.get());
+        particle.tangential_accel = Self::random(
+            self.tangential_accel.get(),
+            self.tangential_accel_variance.get(),
+        );
 
-        particle.radial_radius = Self::random(self.max_radius.get(), self.max_radius_variance.get());
+        particle.radial_radius =
+            Self::random(self.max_radius.get(), self.max_radius_variance.get());
         particle.vel_radial_radius = -particle.radial_radius / particle.life;
         particle.radial_rotation = angle;
-        particle.vel_radial_rotation =
-            Math::to_radians(Self::random(self.rotate_per_second.get(), self.rotate_per_second_variance.get()));
+        particle.vel_radial_rotation = Math::to_radians(Self::random(
+            self.rotate_per_second.get(),
+            self.rotate_per_second_variance.get(),
+        ));
 
         if self.type_ == EmitterType::Gravity {
             particle.x = Self::random(self.emit_x.get(), self.emit_x_variance.get());
@@ -351,12 +358,16 @@ impl EmitterSprite {
 
         // Assumes that the texture is always square
         let width = self.texture.as_ref().unwrap().width() as f32;
-        let scale_start = Self::random(self.size_start.get(), self.size_start_variance.get()) / width;
+        let scale_start =
+            Self::random(self.size_start.get(), self.size_start_variance.get()) / width;
         let scale_end = Self::random(self.size_end.get(), self.size_end_variance.get()) / width;
         particle.scale = scale_start;
         particle.vel_scale = (scale_end - scale_start) / particle.life;
 
-        let rotation_start = Self::random(self.rotation_start.get(), self.rotation_start_variance.get());
+        let rotation_start = Self::random(
+            self.rotation_start.get(),
+            self.rotation_start_variance.get(),
+        );
         let rotation_end = Self::random(self.rotation_end.get(), self.rotation_end_variance.get());
         particle.rotation = rotation_start;
         particle.vel_rotation = (rotation_end - rotation_start) / particle.life;

@@ -1,3 +1,5 @@
+//! ux-vg support
+
 use fnv::FnvHashMap;
 use imgref::ImgVec;
 use rgb::{ComponentBytes, RGBA8};
@@ -403,7 +405,7 @@ impl OpenGl {
             ImageFilter::GaussianBlur { sigma } => {
                 self.render_gaussian_blur(images, cmd, target_image, sigma)
             }
-            _=>{}
+            _ => {}
         }
     }
 

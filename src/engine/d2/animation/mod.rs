@@ -1,3 +1,5 @@
+//! Animation
+
 mod animated_float;
 pub use self::animated_float::*;
 

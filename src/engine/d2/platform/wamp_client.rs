@@ -7,7 +7,9 @@ pub struct WampClient {
 
 impl WampClient {
     fn new() -> Self {
-        Self { loaders: Vec::new() }
+        Self {
+            loaders: Vec::new(),
+        }
     }
 
     pub fn add(&mut self, loader: BasicAssetPackLoader) {

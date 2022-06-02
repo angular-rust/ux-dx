@@ -7,16 +7,16 @@ pub enum AtlasFlags {
 
 pub struct AtlasRepositionData {
     //   // The current user data for this texture */
-//   void *user_data;
-//   // The old and new positions of the texture */
-//   RectangleMapEntry old_position;
-//   RectangleMapEntry new_position;
+    //   void *user_data;
+    //   // The old and new positions of the texture */
+    //   RectangleMapEntry old_position;
+    //   RectangleMapEntry new_position;
 }
 
 pub struct GetRectanglesData {
     //   AtlasRepositionData *textures;
-//   // Number of textures found so far */
-//   unsigned int n_textures;
+    //   // Number of textures found so far */
+    //   unsigned int n_textures;
 }
 
 pub struct Atlas {

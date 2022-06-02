@@ -61,7 +61,14 @@ pub trait Graphics: fmt::Debug {
     );
 
     /// Draws a repeating texture to the given region.
-    fn draw_pattern(&self, texture: &Rc<dyn Texture>, dest_x: f32, dest_y: f32, width: f32, height: f32);
+    fn draw_pattern(
+        &self,
+        texture: &Rc<dyn Texture>,
+        dest_x: f32,
+        dest_y: f32,
+        width: f32,
+        height: f32,
+    );
 
     /// Draws a colored rectangle at the given region.
     fn fill_rect(&self, color: i32, x: f32, y: f32, width: f32, height: f32);

@@ -151,13 +151,13 @@ impl Bitmap {
     // bitmap_get_buffer(). The #Buffer API can then be
     // used to fill the bitmap with data.
     //
-    // <note> will try its best to provide a hardware array you can
+    //  will try its best to provide a hardware array you can
     // map, write into and effectively do a zero copy upload when creating
     // a texture from it with texture_new_from_bitmap(). For various
     // reasons, such arrays are likely to have a stride larger than width
     // * bytes_per_pixel. The user must take the stride into account when
     // writing into it. The stride can be retrieved with
-    // bitmap_get_rowstride().</note>
+    // bitmap_get_rowstride().
     //
     // Return value: (transfer full): a #PixelBuffer representing the
     //               newly created array or %NULL on failure

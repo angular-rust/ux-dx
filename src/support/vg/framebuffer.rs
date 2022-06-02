@@ -4,16 +4,13 @@ use crate::platform::gles::{core30::gl, enums::*};
 
 use super::GlTexture;
 
-
 pub struct Framebuffer {
     id: u32,
     stencil_rbo: Option<u32>,
 }
 
 impl Framebuffer {
-    pub fn from_external(
-        framebuffer: Framebuffer,
-    ) -> Self {
+    pub fn from_external(framebuffer: Framebuffer) -> Self {
         Self {
             id: framebuffer.id,
             stencil_rbo: None,
@@ -35,7 +32,7 @@ impl Framebuffer {
         );
 
         let stencil_rbo = gl::gen_renderbuffer();
-        
+
         gl::bind_renderbuffer(GL_RENDERBUFFER, stencil_rbo);
         gl::renderbuffer_storage(
             GL_RENDERBUFFER,
@@ -115,7 +112,7 @@ impl Framebuffer {
 
     //     gl::bind_framebuffer(GL_READ_FRAMEBUFFER, 0);
     //     gl::bind_framebuffer(GL_DRAW_FRAMEBUFFER, 0);
-    
+
     // }
 }
 

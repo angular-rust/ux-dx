@@ -42,17 +42,9 @@ impl Pipeline {
 
         gl::bind_vertex_array(vertex_array);
 
-        let vertices = Buffer::new(
-            GL_ARRAY_BUFFER,
-            GL_DYNAMIC_DRAW,
-            VERTEX_BUFFER_SIZE,
-        );
+        let vertices = Buffer::new(GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW, VERTEX_BUFFER_SIZE);
 
-        let indices = Buffer::new(
-            GL_ELEMENT_ARRAY_BUFFER,
-            GL_DYNAMIC_DRAW,
-            INDEX_BUFFER_SIZE,
-        );
+        let indices = Buffer::new(GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW, INDEX_BUFFER_SIZE);
 
         let stride = std::mem::size_of::<Vertex2D>() as i32;
 
@@ -92,7 +84,9 @@ impl Pipeline {
         let (total_vertices, total_indices) = meshes
             .iter()
             .map(|layer::Mesh { buffers, .. }| (buffers.vertices.len(), buffers.indices.len()))
-            .fold((0, 0), |(total_v, total_i), (v, i)| (total_v + v, total_i + i));
+            .fold((0, 0), |(total_v, total_i), (v, i)| {
+                (total_v + v, total_i + i)
+            });
 
         // Then we ensure the current buffers are big enough, resizing if
         // necessary

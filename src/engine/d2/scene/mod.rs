@@ -1,3 +1,5 @@
+//! Scene management
+
 mod fade_transition;
 pub use self::fade_transition::*;
 

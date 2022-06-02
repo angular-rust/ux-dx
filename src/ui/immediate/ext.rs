@@ -48,9 +48,7 @@ impl Ext {
             Ok(mut props) => {
                 for (idx, line) in lines.iter_mut().enumerate() {
                     // Draw lines
-                    if (!selected && ui.hover(-1.0))
-                        || (selected && idx as i32 == props.position)
-                    {
+                    if (!selected && ui.hover(-1.0)) || (selected && idx as i32 == props.position) {
                         props.position = idx as i32; // Set active line
                         props.text = line.clone();
                         ui.text_input(handle, "", align, editable);

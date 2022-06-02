@@ -321,6 +321,7 @@ pub use types::*;
 // // we keep here struct loader for future
 // pub mod structloader;
 
+/// Check opengl errors
 #[macro_export]
 macro_rules! glchk {
     ($message:literal) => {{

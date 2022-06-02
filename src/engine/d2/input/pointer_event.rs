@@ -57,7 +57,14 @@ impl PointerEvent {
         self.stopped = true;
     }
 
-    pub fn init(&mut self, id: i32, view_x: f32, view_y: f32, hit: Option<Sprite>, source: Option<EventSource>) {
+    pub fn init(
+        &mut self,
+        id: i32,
+        view_x: f32,
+        view_y: f32,
+        hit: Option<Sprite>,
+        source: Option<EventSource>,
+    ) {
         self.id = id;
         self.view_x = view_x;
         self.view_y = view_y;
